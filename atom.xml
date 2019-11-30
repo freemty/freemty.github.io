@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://freemty.github.io/"/>
-  <updated>2019-11-30T15:49:52.805Z</updated>
+  <updated>2019-11-30T15:53:22.339Z</updated>
   <id>http://freemty.github.io/</id>
   
   <author>
@@ -17,17 +17,29 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>(Paper-Reading) superAE</title>
+    <title>「Paper-Reading」SuperAE</title>
     <link href="http://freemty.github.io/2019/11/30/superAE/"/>
     <id>http://freemty.github.io/2019/11/30/superAE/</id>
     <published>2019-11-30T15:29:35.000Z</published>
-    <updated>2019-11-30T15:49:52.805Z</updated>
+    <updated>2019-11-30T15:53:22.339Z</updated>
+    
+    <content type="html"><![CDATA[<p><a href="https://arxiv.org/pdf/1805.04869v1.pdf" target="_blank" rel="noopener">Original-version Link</a></p><h3 id="Abstrct"><a href="#Abstrct" class="headerlink" title="Abstrct"></a>Abstrct</h3><p>现今主流的摘要生成都是基于seq2seq，但事实上用于训练的文本大都过于冗杂（即使LCSTS也存在这个问题），导致在在encode时很难真正的“习得”语义（semantic），而reference summary大都短且语义明确。文中提出的模型「SuperAE」正是利用了这一点，在encode时引入了监督。取得了，很好的结果。</p><h3 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h3><p>由于RNN结构的特性，不管作何变种和优化（LSTM，GRU），都难以避免梯度爆炸和消失，因此可以说编码长文本时语义的遗失是一种必然。而对于短文本的编码则可以很好的理解语义。根据这个思路，可以在编码时增加对summary的编码，用它来监督encoder对原文的的“理解”情况。</p>]]></content>
     
     <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;a href=&quot;https://arxiv.org/pdf/1805.04869v1.pdf&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Original-version Link&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&quot;Abstrct&quot;&gt;&lt;a href=&quot;#
+      
     
     </summary>
     
     
+    
+      <category term="NLP" scheme="http://freemty.github.io/tags/NLP/"/>
+    
+      <category term="paper reading" scheme="http://freemty.github.io/tags/paper-reading/"/>
     
   </entry>
   

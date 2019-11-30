@@ -181,7 +181,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2019/11/30/superAE/" class="post-title-link" itemprop="url">(Paper-Reading) superAE</a>
+            <a href="/2019/11/30/superAE/" class="post-title-link" itemprop="url">「Paper-Reading」SuperAE</a>
         </h1>
 
         <div class="post-meta">
@@ -192,7 +192,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2019-11-30 23:29:35 / Modified: 23:49:52" itemprop="dateCreated datePublished" datetime="2019-11-30T23:29:35+08:00">2019-11-30</time>
+              <time title="Created: 2019-11-30 23:29:35 / Modified: 23:53:22" itemprop="dateCreated datePublished" datetime="2019-11-30T23:29:35+08:00">2019-11-30</time>
             </span>
 
           
@@ -206,7 +206,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          
+          <p><a href="https://arxiv.org/pdf/1805.04869v1.pdf" target="_blank" rel="noopener">Original-version Link</a></p>
+<h3 id="Abstrct"><a href="#Abstrct" class="headerlink" title="Abstrct"></a>Abstrct</h3><p>现今主流的摘要生成都是基于seq2seq，但事实上用于训练的文本大都过于冗杂（即使LCSTS也存在这个问题），导致在在encode时很难真正的“习得”语义（semantic），而reference summary大都短且语义明确。文中提出的模型「SuperAE」正是利用了这一点，在encode时引入了监督。取得了，很好的结果。</p>
+<h3 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h3><p>由于RNN结构的特性，不管作何变种和优化（LSTM，GRU），都难以避免梯度爆炸和消失，因此可以说编码长文本时语义的遗失是一种必然。而对于短文本的编码则可以很好的理解语义。根据这个思路，可以在编码时增加对summary的编码，用它来监督encoder对原文的的“理解”情况。</p>
+
       
     </div>
 
@@ -339,6 +342,10 @@
           <span class="site-state-item-count">2</span>
           <span class="site-state-item-name">posts</span>
         </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">tags</span>
       </div>
   </nav>
 </div>
