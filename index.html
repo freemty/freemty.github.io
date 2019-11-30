@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-Hans">
 <head>
-  <meta charset="UTF-8">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 <meta name="generator" content="Hexo 4.0.0">
@@ -98,11 +98,11 @@
   </style>
 </noscript>
 
-<link rel="alternate" href="/atom.xml" title="Sum Tower" type="application/atom+xml">
+<link rel="alternate" href="/atom.xml" title="Sum Tower" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
     <div class="headband"></div>
 
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -198,7 +198,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-12-01 00:04:10" itemprop="dateModified" datetime="2019-12-01T00:04:10+08:00">2019-12-01</time>
+                <time title="Modified: 2019-12-01 00:11:36" itemprop="dateModified" datetime="2019-12-01T00:11:36+08:00">2019-12-01</time>
               </span>
 
           
@@ -236,7 +236,15 @@ L_D(\theta_D) = -logP_{\theta_D}(y  =1|z_t)-logP_{\theta_D}(y = 0|z_s)
 \]</span> 这是监督学习的目标函数 <span class="math display">\[
 L_G(\theta_E) = -logP_{\theta_D}(y  =0|z_t)-logP_{\theta_D}(y = 1|z_s)
 \]</span> 从直觉上理解，监督学习有着使两编码器的输出语义无限接近的动机，而判别器有尽力分别二者的动机，二者都存于损失函数中，如果辨别器可以区分二者，<span class="math inline">\(\lambda\)</span>减小，减轻监督力度，反之<span class="math inline">\(\lambda\)</span>增加，加大力度。</p>
-<p>这里看的有点迷，把原文po上来把 &gt; the supervision, which minimizes the dis-tance of the representations and makes them sim-ilar, tries to prevent the discriminator from mak-ing correct predictions.</p>
+<p>这里看的有点迷，把原文po上来把</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">the supervision, which minimizes the dis-tance of the representations and makes them sim-ilar, tries to prevent the discriminator from mak-ing correct predictions.</span></pre></td></tr></table></figure>
+<h3 id="loss-function-and-training">Loss Function and Training</h3>
+<p>loss-function共由三部分组成，第一部分是原本seq2seq decoder和autoencoder均经过decod后输出的交叉熵的和，第二部分是上文第一节监督项的损失，第三部分是上文第二节判别器的损失。</p>
+<p><span class="math display">\[
+L_1 = L_{seq2seq} + L_{AE} + L_s + L_D + L_G
+\]</span></p>
+<h3 id="results">Results</h3>
+<p><img src="/2019/11/30/superAE/result.png"></p>
 
       
     </div>
@@ -462,6 +470,54 @@ L_G(\theta_E) = -logP_{\theta_D}(y  =0|z_t)-logP_{\theta_D}(y = 1|z_s)
   
 
   
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+    
 
   
 

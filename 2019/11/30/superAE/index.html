@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-Hans">
 <head>
-  <meta charset="UTF-8">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 <meta name="generator" content="Hexo 4.0.0">
@@ -55,7 +55,8 @@
 <meta property="og:description" content="Original-version Link Abstrct 现今主流的摘要生成都是基于seq2seq，但事实上用于训练的文本大都过于冗杂（即使LCSTS也存在这个问题），导致在在encode时很难真正的“习得”语义（semantic），而reference summary大都短且语义明确。文中提出的模型「SuperAE」正是利用了这一点，在encode时引入了监督。取得了，很好的结果。 Intro">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http:&#x2F;&#x2F;freemty.github.io&#x2F;2019&#x2F;11&#x2F;30&#x2F;superAE&#x2F;ae_graph.png">
-<meta property="og:updated_time" content="2019-11-30T16:04:10.992Z">
+<meta property="og:image" content="http:&#x2F;&#x2F;freemty.github.io&#x2F;2019&#x2F;11&#x2F;30&#x2F;superAE&#x2F;result.png">
+<meta property="og:updated_time" content="2019-11-30T16:11:36.358Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http:&#x2F;&#x2F;freemty.github.io&#x2F;2019&#x2F;11&#x2F;30&#x2F;superAE&#x2F;ae_graph.png">
 
@@ -104,11 +105,11 @@
   </style>
 </noscript>
 
-<link rel="alternate" href="/atom.xml" title="Sum Tower" type="application/atom+xml">
+<link rel="alternate" href="/atom.xml" title="Sum Tower" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
     <div class="headband"></div>
 
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -203,7 +204,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-12-01 00:04:10" itemprop="dateModified" datetime="2019-12-01T00:04:10+08:00">2019-12-01</time>
+                <time title="Modified: 2019-12-01 00:11:36" itemprop="dateModified" datetime="2019-12-01T00:11:36+08:00">2019-12-01</time>
               </span>
 
           
@@ -241,7 +242,15 @@ L_D(\theta_D) = -logP_{\theta_D}(y  =1|z_t)-logP_{\theta_D}(y = 0|z_s)
 \]</span> 这是监督学习的目标函数 <span class="math display">\[
 L_G(\theta_E) = -logP_{\theta_D}(y  =0|z_t)-logP_{\theta_D}(y = 1|z_s)
 \]</span> 从直觉上理解，监督学习有着使两编码器的输出语义无限接近的动机，而判别器有尽力分别二者的动机，二者都存于损失函数中，如果辨别器可以区分二者，<span class="math inline">\(\lambda\)</span>减小，减轻监督力度，反之<span class="math inline">\(\lambda\)</span>增加，加大力度。</p>
-<p>这里看的有点迷，把原文po上来把 &gt; the supervision, which minimizes the dis-tance of the representations and makes them sim-ilar, tries to prevent the discriminator from mak-ing correct predictions.</p>
+<p>这里看的有点迷，把原文po上来把</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">the supervision, which minimizes the dis-tance of the representations and makes them sim-ilar, tries to prevent the discriminator from mak-ing correct predictions.</span></pre></td></tr></table></figure>
+<h3 id="loss-function-and-training">Loss Function and Training</h3>
+<p>loss-function共由三部分组成，第一部分是原本seq2seq decoder和autoencoder均经过decod后输出的交叉熵的和，第二部分是上文第一节监督项的损失，第三部分是上文第二节判别器的损失。</p>
+<p><span class="math display">\[
+L_1 = L_{seq2seq} + L_{AE} + L_s + L_D + L_G
+\]</span></p>
+<h3 id="results">Results</h3>
+<p><img src="/2019/11/30/superAE/result.png"></p>
 
     </div>
 
@@ -302,7 +311,7 @@ L_G(\theta_E) = -logP_{\theta_D}(y  =0|z_t)-logP_{\theta_D}(y = 1|z_s)
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#abstrct"><span class="nav-number">1.</span> <span class="nav-text">Abstrct</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#introduction"><span class="nav-number">2.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#proposed-model"><span class="nav-number">3.</span> <span class="nav-text">Proposed Model</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#supervision-with-autoencoder"><span class="nav-number">3.1.</span> <span class="nav-text">Supervision with Autoencoder</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#adversarial-learning"><span class="nav-number">3.2.</span> <span class="nav-text">Adversarial Learning</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#abstrct"><span class="nav-number">1.</span> <span class="nav-text">Abstrct</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#introduction"><span class="nav-number">2.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#proposed-model"><span class="nav-number">3.</span> <span class="nav-text">Proposed Model</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#supervision-with-autoencoder"><span class="nav-number">3.1.</span> <span class="nav-text">Supervision with Autoencoder</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#adversarial-learning"><span class="nav-number">3.2.</span> <span class="nav-text">Adversarial Learning</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#loss-function-and-training"><span class="nav-number">4.</span> <span class="nav-text">Loss Function and Training</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#results"><span class="nav-number">5.</span> <span class="nav-text">Results</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -410,6 +419,54 @@ L_G(\theta_E) = -logP_{\theta_D}(y  =0|z_t)-logP_{\theta_D}(y = 1|z_s)
   
 
   
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+    
 
   
 
