@@ -54,7 +54,7 @@
 <meta property="og:site_name" content="Sum Tower">
 <meta property="og:description" content="Original-version Link Abstrct现今主流的摘要生成都是基于seq2seq，但事实上用于训练的文本大都过于冗杂（即使LCSTS也存在这个问题），导致在在encode时很难真正的“习得”语义（semantic），而reference summary大都短且语义明确。文中提出的模型「SuperAE」正是利用了这一点，在encode时引入了监督。取得了，很好的结果。 Introd">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-30T15:53:22.339Z">
+<meta property="og:updated_time" content="2019-11-30T15:54:52.522Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="http://freemty.github.io/2019/11/30/superAE/">
@@ -195,7 +195,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2019-11-30 23:29:35 / Modified: 23:53:22" itemprop="dateCreated datePublished" datetime="2019-11-30T23:29:35+08:00">2019-11-30</time>
+              <time title="Created: 2019-11-30 23:29:35 / Modified: 23:54:52" itemprop="dateCreated datePublished" datetime="2019-11-30T23:29:35+08:00">2019-11-30</time>
             </span>
 
           
@@ -212,6 +212,8 @@
         <p><a href="https://arxiv.org/pdf/1805.04869v1.pdf" target="_blank" rel="noopener">Original-version Link</a></p>
 <h3 id="Abstrct"><a href="#Abstrct" class="headerlink" title="Abstrct"></a>Abstrct</h3><p>现今主流的摘要生成都是基于seq2seq，但事实上用于训练的文本大都过于冗杂（即使LCSTS也存在这个问题），导致在在encode时很难真正的“习得”语义（semantic），而reference summary大都短且语义明确。文中提出的模型「SuperAE」正是利用了这一点，在encode时引入了监督。取得了，很好的结果。</p>
 <h3 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h3><p>由于RNN结构的特性，不管作何变种和优化（LSTM，GRU），都难以避免梯度爆炸和消失，因此可以说编码长文本时语义的遗失是一种必然。而对于短文本的编码则可以很好的理解语义。根据这个思路，可以在编码时增加对summary的编码，用它来监督encoder对原文的的“理解”情况。</p>
+<h3 id="Proposed-Model"><a href="#Proposed-Model" class="headerlink" title="Proposed Model"></a>Proposed Model</h3><h4 id="Supervision-with-Autoencoder"><a href="#Supervision-with-Autoencoder" class="headerlink" title="Supervision with Autoencoder"></a>Supervision with Autoencoder</h4><p>传统的seq2seq在这就不多赘述，encode层还是主流的双层LSTM，在训练时，加入了新的摘要编码器，输出为$z_s$,引入了新的损失项($\lambda$有经验值0.3作为初始值）<br>$$<br> L_s =\frac{\lambda}{N_h}d(z_t,z_s)<br>$$<br>其中<br>$$<br>d(z_t,z_s) = ||z_t - z_s||_2<br>$$</p>
+<p>显而易见此监督（supervisor）项用以描述二者输出的相似度。按我从直觉上的理解，监督项，可以很好的防止模型不被比较晦涩或者说质量较差的摘要样例带偏。</p>
 
     </div>
 
@@ -272,7 +274,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Abstrct"><span class="nav-number">1.</span> <span class="nav-text">Abstrct</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Introduction"><span class="nav-number">2.</span> <span class="nav-text">Introduction</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Abstrct"><span class="nav-number">1.</span> <span class="nav-text">Abstrct</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Introduction"><span class="nav-number">2.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Proposed-Model"><span class="nav-number">3.</span> <span class="nav-text">Proposed Model</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Supervision-with-Autoencoder"><span class="nav-number">3.1.</span> <span class="nav-text">Supervision with Autoencoder</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
