@@ -46,17 +46,17 @@
   };
 </script>
 
-  <meta name="description" content="原文链接 Abstrct 现今主流的摘要生成都是基于seq2seq,但事实上用于训练的文本大都过于冗杂(即使LCSTS也存在这个问题)导致在在encode时很难真正的“习得”语义(semantic)而reference summary大都短且语义明确。文中提出的模型「SuperAE」正是利用了这一点,在encode时引入了用于监督的Autocoder取得了,很好的结果 Introduction 由">
+  <meta name="description" content="原文链接 Abstrct 现今主流的摘要生成都是基于seq2seq,但事实上用于训练的文本大都过于冗杂(即使LCSTS也存在这个问题)导致在在encode时很难真正的“习得”语义(semantic)而reference summary大都短且语义明确。文中提出的模型「SuperAE」正是利用了这一点,在encode时引入了用于监督的Autocoder取得了,很好的结果">
 <meta name="keywords" content="NLP,paper reading">
 <meta property="og:type" content="article">
 <meta property="og:title" content="「Paper-Reading」Autoencoder as Assistant Supervisor Improving Text Representation for Chinese Social Media Text Summarization">
 <meta property="og:url" content="http:&#x2F;&#x2F;freemty.github.io&#x2F;2019&#x2F;11&#x2F;30&#x2F;superAE&#x2F;index.html">
 <meta property="og:site_name" content="Sum Tower">
-<meta property="og:description" content="原文链接 Abstrct 现今主流的摘要生成都是基于seq2seq,但事实上用于训练的文本大都过于冗杂(即使LCSTS也存在这个问题)导致在在encode时很难真正的“习得”语义(semantic)而reference summary大都短且语义明确。文中提出的模型「SuperAE」正是利用了这一点,在encode时引入了用于监督的Autocoder取得了,很好的结果 Introduction 由">
+<meta property="og:description" content="原文链接 Abstrct 现今主流的摘要生成都是基于seq2seq,但事实上用于训练的文本大都过于冗杂(即使LCSTS也存在这个问题)导致在在encode时很难真正的“习得”语义(semantic)而reference summary大都短且语义明确。文中提出的模型「SuperAE」正是利用了这一点,在encode时引入了用于监督的Autocoder取得了,很好的结果">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http:&#x2F;&#x2F;freemty.github.io&#x2F;2019&#x2F;11&#x2F;30&#x2F;superAE&#x2F;ae_graph.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;freemty.github.io&#x2F;2019&#x2F;11&#x2F;30&#x2F;superAE&#x2F;result.png">
-<meta property="og:updated_time" content="2019-12-01T06:51:20.003Z">
+<meta property="og:updated_time" content="2019-12-01T14:07:59.419Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http:&#x2F;&#x2F;freemty.github.io&#x2F;2019&#x2F;11&#x2F;30&#x2F;superAE&#x2F;ae_graph.png">
 
@@ -210,7 +210,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-12-01 14:51:20" itemprop="dateModified" datetime="2019-12-01T14:51:20+08:00">2019-12-01</time>
+                <time title="Modified: 2019-12-01 22:07:59" itemprop="dateModified" datetime="2019-12-01T22:07:59+08:00">2019-12-01</time>
               </span>
 
           
@@ -234,6 +234,7 @@
         <p><a href="https://arxiv.org/pdf/1805.04869v1.pdf" target="_blank" rel="noopener">原文链接</a></p>
 <h3 id="abstrct">Abstrct</h3>
 <p>现今主流的摘要生成都是基于seq2seq,但事实上用于训练的文本大都过于冗杂(即使LCSTS也存在这个问题)导致在在encode时很难真正的“习得”语义(semantic)而reference summary大都短且语义明确。文中提出的模型「SuperAE」正是利用了这一点,在encode时引入了用于监督的Autocoder取得了,很好的结果</p>
+<a id="more"></a>
 <h3 id="introduction">Introduction</h3>
 <p>由于RNN结构的特性,不管作何变种和优化(LSTM&amp;GRU)都难以避免梯度爆炸和消失,因此可以说编码长文本时语义的遗失是一种必然.而对于短文本的编码则可以很好的理解语义.根据这个思路,可以在编码时增加对summary的编码,用它来监督encoder对原文的的&quot;理解&quot;情况</p>
 <h3 id="proposed-model">Proposed Model</h3>
