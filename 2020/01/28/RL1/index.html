@@ -46,16 +46,16 @@
   };
 </script>
 
-  <meta name="description" content="Notations  \(P(s&amp;#39;, r \vert s, a)\) \(\pi(a \vert s)\) agent的行为策略; \(G_t\)累计回报 \(G_t &#x3D; \sum_{k&#x3D;0}^{\infty} \gamma^k R_{t+k+1}\) \(V^\pi(s)\) 采取策略\(\pi\)时,状态\(s\)下的累计回报;也可写作,\(Q(s)\) \(V^\pi (s) &#x3D; \">
+  <meta name="description" content="前一段时间开始GAN文本，正好寒假时间富裕，补一些强化学习的基础">
 <meta name="keywords" content="强化学习">
 <meta property="og:type" content="article">
 <meta property="og:title" content="sum的RL学习日记1">
 <meta property="og:url" content="http:&#x2F;&#x2F;freemty.github.io&#x2F;2020&#x2F;01&#x2F;28&#x2F;RL1&#x2F;index.html">
 <meta property="og:site_name" content="Sum Stack">
-<meta property="og:description" content="Notations  \(P(s&amp;#39;, r \vert s, a)\) \(\pi(a \vert s)\) agent的行为策略; \(G_t\)累计回报 \(G_t &#x3D; \sum_{k&#x3D;0}^{\infty} \gamma^k R_{t+k+1}\) \(V^\pi(s)\) 采取策略\(\pi\)时,状态\(s\)下的累计回报;也可写作,\(Q(s)\) \(V^\pi (s) &#x3D; \">
+<meta property="og:description" content="前一段时间开始GAN文本，正好寒假时间富裕，补一些强化学习的基础">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http:&#x2F;&#x2F;freemty.github.io&#x2F;2020&#x2F;01&#x2F;28&#x2F;RL1&#x2F;general_form_policy_gradient.png">
-<meta property="og:updated_time" content="2020-01-28T04:07:28.121Z">
+<meta property="og:updated_time" content="2020-01-28T04:17:47.927Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http:&#x2F;&#x2F;freemty.github.io&#x2F;2020&#x2F;01&#x2F;28&#x2F;RL1&#x2F;general_form_policy_gradient.png">
 
@@ -202,7 +202,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-01-28 11:16:50 / Modified: 12:07:28" itemprop="dateCreated datePublished" datetime="2020-01-28T11:16:50+08:00">2020-01-28</time>
+              <time title="Created: 2020-01-28 11:16:50 / Modified: 12:17:47" itemprop="dateCreated datePublished" datetime="2020-01-28T11:16:50+08:00">2020-01-28</time>
             </span>
 
           
@@ -223,7 +223,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="notations">Notations</h3>
+        <p>前一段时间开始GAN文本，正好寒假时间富裕，补一些强化学习的基础 <a id="more"></a></p>
+<h3 id="notations">Notations</h3>
 <ul>
 <li><span class="math inline">\(P(s&#39;, r \vert s, a)\)</span></li>
 <li><span class="math inline">\(\pi(a \vert s)\)</span> agent的行为策略;</li>

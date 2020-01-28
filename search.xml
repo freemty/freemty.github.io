@@ -5,7 +5,8 @@
     <entry>
       <title><![CDATA[sum的RL学习日记1]]></title>
       <url>/2020/01/28/RL1/</url>
-      <content type="html"><![CDATA[<h3 id="notations">Notations</h3>
+      <content type="html"><![CDATA[<p>前一段时间开始GAN文本，正好寒假时间富裕，补一些强化学习的基础 <a id="more"></a></p>
+<h3 id="notations">Notations</h3>
 <ul>
 <li><span class="math inline">\(P(s&#39;, r \vert s, a)\)</span></li>
 <li><span class="math inline">\(\pi(a \vert s)\)</span> agent的行为策略;</li>

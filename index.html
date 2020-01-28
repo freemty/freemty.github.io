@@ -199,7 +199,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-01-28 11:16:50 / Modified: 12:07:28" itemprop="dateCreated datePublished" datetime="2020-01-28T11:16:50+08:00">2020-01-28</time>
+              <time title="Created: 2020-01-28 11:16:50 / Modified: 12:17:47" itemprop="dateCreated datePublished" datetime="2020-01-28T11:16:50+08:00">2020-01-28</time>
             </span>
 
           
@@ -220,114 +220,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="notations">Notations</h3>
-<ul>
-<li><span class="math inline">\(P(s&#39;, r \vert s, a)\)</span></li>
-<li><span class="math inline">\(\pi(a \vert s)\)</span> agent的行为策略;</li>
-<li><span class="math inline">\(G_t\)</span>累计回报 <span class="math inline">\(G_t = \sum_{k=0}^{\infty} \gamma^k R_{t+k+1}\)</span></li>
-<li><span class="math inline">\(V^\pi(s)\)</span> 采取策略<span class="math inline">\(\pi\)</span>时,状态<span class="math inline">\(s\)</span>下的累计回报;也可写作,<span class="math inline">\(Q(s)\)</span> <span class="math inline">\(V^\pi (s) = \mathbb{E}_{a\sim \pi} [G_t \vert S_t = s]\)</span></li>
-<li><span class="math inline">\(Q^\pi(s, a)\)</span> 采取策略<span class="math inline">\(\pi\)</span>时，状态<span class="math inline">\(s\)</span>下，执行<span class="math inline">\(a\)</span>的累计回报 <span class="math display">\[Q^\pi(s, a) = \mathbb{E}_{a\sim \pi} [G_t \vert S_t = s, A_t = a]\]</span></li>
-<li><span class="math inline">\(A(s, a)\)</span> advantage function,定义为<span class="math inline">\(A(s, a) = Q(s, a) - V(s)\)</span></li>
-</ul>
-<h3 id="从一根杠杆开始">从一根杠杆开始</h3>
-<p>google不愧人类之光(暴论)！openAI的gym库里面提供了很多的虚拟环境，用于强化学习的训练和开发，而<a href="http://gym.openai.com/docs/" target="_blank" rel="noopener">CartPole</a>绝对可说是RL界的HelloWorld。它的规则很简单，在一个存在重力的环境下，智能体（agent）在每一时刻做出左移或者右移的action，保持杠杆倾斜不超过15度。我们的目标是让杠杆存活尽可能长的时间。</p>
-<h3 id="policy-gradient">Policy Gradient</h3>
-<h4 id="abstract">Abstract</h4>
-<p>强化学习旨在帮助我们找到能获得最大回报的策略，而作为强化学习的一种重要方法，policy gradient直接对策略进行建模与优化，它的reward function被定义为 <span class="math display">\[
-J(\theta)
-= \sum_{s \in \mathcal{S}} d^\pi(s) V^\pi(s)
-= \sum_{s \in \mathcal{S}} d^\pi(s) \sum_{a \in \mathcal{A}} \pi_\theta(a \vert s) Q^\pi(s, a)
-\]</span> 好吧我承认，上面的话主要的目的在于提升本文逼格，对初学者理解policy gradient并没有太大帮助，下面我来试着用自己的理解来谈谈policy gradient</p>
-<h4 id="我来给翻译翻译">我来给翻译翻译</h4>
-<p>在传统的监督学习中，假使我们有足够多且理想的“正确答案”作为label，那么直接将交叉熵的结果进行反传，就可以拟合出足够好的模型。但在很多决策问题上，我们根本无法得到什么有效的label，就像在CartPole游戏中，我们的训练是没有任何数据集作为参考的。</p>
-<p>其实可以把这类把任务看成像一站到底一样的知识竞赛，答错一定数量的题目即算出局。在我看来，传统的的监督学习就是搜集能到所有有题库和答案的选手，他们可以一遍一遍的背题库，最后的无限接近全对。而policy gradient下的的选手则是一次又一次的参加竞赛，没有答案可供参考，游戏结束后他获得的唯一信息也只是知道自己活了多少轮。</p>
-<p>现在我们再回头，看看开头的的式子，似乎也就有了头绪，正如齐名，policy gradient就是对全局的policy进行建模与优化，具体在CartPole游戏里，它也是在一局游戏结束，才进行一次“复盘”，而它的目标函数也是由两部分相乘得到，第一部分是最大似然的交叉熵，第二部分是所有时刻action的完全回报。</p>
-<p>对于第一部分，我们自不会陌生，它评估的是在特定state下，模型的预测和实际action的偏差程度，在这里体现的就是模型对自己选择的确信程度，在只考虑这部分目标函数的情况下，优化目标函数，即是提供了一个正反馈，这个模型越来越相信自己在最初状态作出的决策（这里说的不是很严谨，只是我自己的理解），越来越“刚愎自用”，这自然是不行的。</p>
-<p>这里就需要引入reward了，在我看来，reward相当于实在给每个action打分，它相当于告诉了模型，那些个特定状态下随机的action中，到底有多少可取的部分。</p>
-<p>根据有针对性的reward进行反传，很快就可以拟合出不错的策略。听起来很理想，但这就引出了下一个问题，也就是policy gradient的核心，到底如何得到reward？</p>
-<p>在<code>CartPoleV1</code>这个环境里，对于单步reward的定义非常简单，游戏中agent每次action的reward都是1，听起来这个单步的reward好像毛用都没有，这就要引出一个很重要的概念discounted future reward（好像可以翻译成完全回报）计作<span class="math inline">\(G_t\)</span></p>
-<h4 id="babymath">babyMath</h4>
-<p>接下来，有一些babyMath，不过也只是符号比较唬人，并没有劝退部分（确信）</p>
-<p>现在，我们重新捡回reward function那个让人嫌弃的定义式</p>
-<p><span class="math display">\[
-J(\theta)
-= \sum_{s \in \mathcal{S}} d^\pi(s) V^\pi(s)
-= \sum_{s \in \mathcal{S}} d^\pi(s) \sum_{a \in \mathcal{A}} \pi_\theta(a \vert s) Q^\pi(s, a)
-\]</span></p>
-<p>数学层面，agent的整个游戏过程自然可以理解为采取<span class="math inline">\(\pi_\theta\)</span>策略时的Markov chain（马尔可夫链），而假使我们沿着Markov chain无限的延伸下去，就可以得到马尔可夫过程的平稳分布（stationary distribution）即：</p>
-<p><span class="math display">\[
-d^\pi(s) = \lim_{t \to \infty} P(s_t = s \vert s_0, \pi_\theta)
-\]</span></p>
-<p>接下来是喜闻乐见的微分环节</p>
-<p><span class="math display">\[
-\begin{aligned}
-\nabla_\theta J(\theta)
-&amp;= \nabla_\theta \sum_{s \in \mathcal{S}} d^\pi(s) \sum_{a \in \mathcal{A}} Q^\pi(s, a) \pi_\theta(a \vert s) \\
-&amp;\propto \sum_{s \in \mathcal{S}} d^\pi(s) \sum_{a \in \mathcal{A}} Q^\pi(s, a) \nabla_\theta \pi_\theta(a \vert s)
-\end{aligned}
-\]</span></p>
-<p>进行化简 <span class="math display">\[
-\begin{aligned}
-&amp; \nabla_\theta V^\pi(s) \\
-=&amp; \nabla_\theta \Big(\sum_{a \in \mathcal{A}} \pi_\theta(a \vert s)Q^\pi(s, a) \Big) &amp; \scriptstyle{\text{根据全概率公式}}\\
-=&amp; \sum_{a \in \mathcal{A}} \Big( \nabla_\theta \pi_\theta(a \vert s)Q^\pi(s, a) + \pi_\theta(a \vert s) \color{red}{\nabla_\theta Q^\pi(s, a)} \Big) &amp; \scriptstyle{\text{乘法法则}} \\
-=&amp; \sum_{a \in \mathcal{A}} \Big( \nabla_\theta \pi_\theta(a \vert s)Q^\pi(s, a) + \pi_\theta(a \vert s) \color{red}{\nabla_\theta \sum_{s&#39;, r} P(s&#39;,r \vert s,a)(r + V^\pi(s&#39;))} \Big) &amp; \scriptstyle{\text{; Extend } Q^\pi \text{ with future state value.}} \\
-=&amp; \sum_{a \in \mathcal{A}} \Big( \nabla_\theta \pi_\theta(a \vert s)Q^\pi(s, a) + \pi_\theta(a \vert s) \color{red}{\sum_{s&#39;, r} P(s&#39;,r \vert s,a) \nabla_\theta V^\pi(s&#39;)} \Big) &amp; \scriptstyle{P(s&#39;,r \vert s,a) \text{ or } r \text{ is not a func of }\theta}\\
-=&amp; \sum_{a \in \mathcal{A}} \Big( \nabla_\theta \pi_\theta(a \vert s)Q^\pi(s, a) + \pi_\theta(a \vert s) \color{red}{\sum_{s&#39;} P(s&#39; \vert s,a) \nabla_\theta V^\pi(s&#39;)} \Big) &amp; \scriptstyle{\text{; Because }  P(s&#39; \vert s, a) = \sum_r P(s&#39;, r \vert s, a)}
-\end{aligned}
-\]</span> 从红色部分可以看出，上式是个套娃 为了理解reward，需要理解agent的状态转移。 <span class="math display">\[
-s \xrightarrow[]{a \sim \pi_\theta(.\vert s)} s&#39; \xrightarrow[]{a \sim \pi_\theta(.\vert s&#39;)} s&#39;&#39; \xrightarrow[]{a \sim \pi_\theta(.\vert s&#39;&#39;)} \dots
-\]</span></p>
-<p>假设一局游戏可以抽象化为agent采取<span class="math inline">\(\pi_\theta\)</span>，经过<span class="math inline">\(k\)</span>步，从状态<span class="math inline">\(s\)</span>转移到状态<span class="math inline">\(x\)</span>,计作<span class="math inline">\(\rho^\pi(s \to x, k)\)</span></p>
-<p><span class="math display">\[
-\rho^\pi(s \to x, k+1) = \sum_{s&#39;} \rho^\pi(s \to s&#39;, k) \rho^\pi(s&#39; \to x, 1)
-\]</span></p>
-<ul>
-<li><span class="math inline">\(k=0\)</span>时，相当于agent什么都没做，自然有：<span class="math inline">\(\rho^\pi(s \to s, k=0) = 1\)</span></li>
-<li><span class="math inline">\(k=1\)</span>时，根据贝叶斯公式：<span class="math inline">\(\rho^\pi(s \to s&#39;, k=1) = \sum_a \pi_\theta(a \vert s) P(s&#39; \vert s, a)\)</span></li>
-<li>推广到普遍情况，套娃出现了：<span class="math inline">\(\rho^\pi(s \to x, k+1) = \sum_{s&#39;} \rho^\pi(s \to s&#39;, k) \rho^\pi(s&#39; \to x, 1)\)</span></li>
-</ul>
-<p>现在我们记<span class="math inline">\(\phi(s) = \sum_{a \in \mathcal{A}} \nabla_\theta \pi_\theta(a \vert s)Q^\pi(s, a)\)</span> 继续化简<span class="math inline">\(\nabla_\theta V^\pi(s)\)</span> <span class="math display">\[
-\begin{aligned}
-=&amp; \phi(s) + \sum_a \pi_\theta(a \vert s) \sum_{s&#39;} P(s&#39; \vert s,a) \color{red}{\nabla_\theta V^\pi(s&#39;)}\\
-=&amp; \phi(s) + \sum_{s&#39;} \sum_a \pi_\theta(a \vert s) P(s&#39; \vert s,a) \color{red}{\nabla_\theta V^\pi(s&#39;)} \\
-=&amp; \phi(s) + \sum_{s&#39;} \rho^\pi(s \to s&#39;, 1) \color{red}{\nabla_\theta V^\pi(s&#39;)} \\
-=&amp; \phi(s) + \sum_{s&#39;} \rho^\pi(s \to s&#39;, 1) \color{red}{[ \phi(s&#39;) + \sum_{s&#39;&#39;} \rho^\pi(s&#39; \to s&#39;&#39;, 1) \nabla_\theta V^\pi(s&#39;&#39;)]} \\
-=&amp; \phi(s) + \sum_{s&#39;} \rho^\pi(s \to s&#39;, 1) \phi(s&#39;) + \sum_{s&#39;&#39;} \rho^\pi(s \to s&#39;&#39;, 2)\color{red}{\nabla_\theta V^\pi(s&#39;&#39;)} \scriptstyle{\text{ ; Consider }s&#39;\text{ as the middle point for }s \to s&#39;&#39;}\\
-=&amp; \sum_{x\in\mathcal{S}}\sum_{k=0}^\infty \rho^\pi(s \to x, k) \phi(x)
-\end{aligned}
-\]</span></p>
-<p><span class="math display">\[
-\begin{aligned}
-\nabla_\theta J(\theta)
-&amp;= \nabla_\theta V^\pi(s_0) &amp; \scriptstyle{\text{; Starting from a random state } s_0} \\
-&amp;= \sum_{s}\color{blue}{\sum_{k=0}^\infty \rho^\pi(s_0 \to s, k)} \phi(s) &amp;\scriptstyle{\text{; Let }\color{blue}{\eta(s) = \sum_{k=0}^\infty \rho^\pi(s_0 \to s, k)}} \\
-&amp;= \sum_{s}\eta(s) \phi(s) &amp; \\
-&amp;= \Big( {\sum_s \eta(s)} \Big)\sum_{s}\frac{\eta(s)}{\sum_s \eta(s)} \phi(s) &amp; \scriptstyle{\text{;  } \eta(s), s\in\mathcal{S} \text{ to be a probability distribution.}}\\
-&amp;= \sum_s d^\pi(s) \sum_a \nabla_\theta \pi_\theta(a \vert s)Q^\pi(s, a)
-&amp; \scriptstyle{d^\pi(s) = \frac{\eta(s)}{\sum_s \eta(s)}\text{ is stationary distribution.}}\\
-&amp;= \sum_{s \in \mathcal{S}} d^\pi(s) \sum_{a \in \mathcal{A}} \pi_\theta(a \vert s) Q^\pi(s, a) \frac{\nabla_\theta \pi_\theta(a \vert s)}{\pi_\theta(a \vert s)} &amp;\\
-&amp;= \mathbb{E}_\pi [Q^\pi(s, a) \nabla_\theta \ln \pi_\theta(a \vert s)] &amp; \scriptstyle{\text{; Because } (\ln x)&#39; = 1/x}
-\end{aligned}
-\]</span></p>
-<p>很多种方法</p>
-<figure>
-<img src="/2020/01/28/RL1/general_form_policy_gradient.png" alt="mathods"><figcaption>mathods</figcaption>
-</figure>
-<h3 id="马尔可夫决策过程">马尔可夫决策过程</h3>
-<p>RL的几乎所有任务都可抽象成马尔可夫过程（Markov Decision Process, MDP）</p>
-<p>马尔可夫性质 看似上式中的<span class="math inline">\(s_{t+1}\)</span>是一个套娃，是由之前所有时刻的状态得到的，但这里有一个关键点，一旦<span class="math inline">\(s_t\)</span>已知，便可由<span class="math inline">\(s_t\)</span>独立推出<span class="math inline">\(s_{t+1}\)</span>，之前的状态都可以扔掉。因此NLP任务并不具备这样的马尔可夫性质(我猜)。</p>
-<p>马尔可夫决策过程由<span class="math inline">\((S,A,P,R,\gamma)\)</span>组成，<span class="math inline">\(S\)</span>为有限的状态集,<span class="math inline">\(A\)</span> 为有限的动作集, <span class="math inline">\(P\)</span> 为状态转移概率, <span class="math inline">\(R\)</span>为回报函数, <span class="math inline">\(\gamma\)</span> 为折扣因子，用来计算累积回报。注意，跟马尔科夫过程不同的是，马尔科夫决策过程的状态转移概率是包含动作。</p>
-<p>下面这个式子就是马尔可夫过程的核心了。值得注意的是状态转移的过程中，假定我们在状态<span class="math inline">\(s\)</span>这个节点上，我们采取行动<span class="math inline">\(a\)</span>，状态转移为<span class="math inline">\(s&#39;\)</span>的概率不是0或1，而是一个随机变量。 <span class="math display">\[
-p_{s\hat s}^a=p(\hat s|s,a)=p(S_{t+1}=\hat s| S_t=s,A_t=a)
-\]</span>接下来就要引出累计回报（Return）<span class="math inline">\(G_t\)</span>了,定义式如下 $$</p>
-<p><span class="math inline">\(\pi_t\)</span></p>
-<p><span class="math display">\[
-G_t=R_{t+1}+\gamma R_{t+2}+...=\sum_{k=0}^{\infty}\gamma^kR_{t+k+1}
-\]</span></p>
-<h3 id="reference">Reference</h3>
-<p><a href="https://morvanzhou.github.io/tutorials/machine-learning/reinforcement-learning/4-4-gym/" target="_blank" rel="noopener">OpenAI gym 环境库 by莫烦</a> <a href="https://tobiaslee.top/2018/03/06/Reinforcement-Learning1/" target="_blank" rel="noopener">Policy Graident 从数学到实现</a> <a href="https://zhuanlan.zhihu.com/p/25743759" target="_blank" rel="noopener">强化学习之蒙特卡罗方法</a> <a href="http://www.foolweel.com/2019/05/02/rl-basic/" target="_blank" rel="noopener">强化学习概述</a> <a href="https://lilianweng.github.io/lil-log/2018/04/08/policy-gradient-algorithms.html" target="_blank" rel="noopener">Policy Gradient Algorithms</a></p>
-
+          <p>前一段时间开始GAN文本，正好寒假时间富裕，补一些强化学习的基础</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/01/28/RL1/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
