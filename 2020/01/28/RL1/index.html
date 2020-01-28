@@ -46,30 +46,34 @@
   };
 </script>
 
-  <meta name="description" content="Hey my friend XD">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Sum Stack">
-<meta property="og:url" content="http:&#x2F;&#x2F;freemty.github.io&#x2F;index.html">
+  <meta name="description" content="Notations  P(s′,r∣s,a)P(s&amp;#x27;, r \vert s, a)P(s′,r∣s,a) π(a∣s)\pi(a \vert s)π(a∣s) agent的行为策略; GtG_tGt​累计回报 Gt&#x3D;∑k&#x3D;0∞γkRt+k+1G_t &#x3D; \sum_{k&#x3D;0}^{\infty} \gamma^k R_{t+k+1}Gt​&#x3D;∑k&#x3D;0∞​γkRt+k+1​ Vπ(s)V^\p">
+<meta name="keywords" content="强化学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="sum的RL学习日记1">
+<meta property="og:url" content="http:&#x2F;&#x2F;freemty.github.io&#x2F;2020&#x2F;01&#x2F;28&#x2F;RL1&#x2F;index.html">
 <meta property="og:site_name" content="Sum Stack">
-<meta property="og:description" content="Hey my friend XD">
+<meta property="og:description" content="Notations  P(s′,r∣s,a)P(s&amp;#x27;, r \vert s, a)P(s′,r∣s,a) π(a∣s)\pi(a \vert s)π(a∣s) agent的行为策略; GtG_tGt​累计回报 Gt&#x3D;∑k&#x3D;0∞γkRt+k+1G_t &#x3D; \sum_{k&#x3D;0}^{\infty} \gamma^k R_{t+k+1}Gt​&#x3D;∑k&#x3D;0∞​γkRt+k+1​ Vπ(s)V^\p">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http:&#x2F;&#x2F;freemty.github.io&#x2F;2020&#x2F;01&#x2F;28&#x2F;RL1&#x2F;general_form_policy_gradient.png">
+<meta property="og:updated_time" content="2020-01-28T03:22:49.087Z">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;freemty.github.io&#x2F;2020&#x2F;01&#x2F;28&#x2F;RL1&#x2F;general_form_policy_gradient.png">
 
-<link rel="canonical" href="http://freemty.github.io/">
+<link rel="canonical" href="http://freemty.github.io/2020/01/28/RL1/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome: true,
-    isPost: false,
+    isHome: false,
+    isPost: true,
     isPage: false,
     isArchive: false
   };
 </script>
 
-  <title>Sum Stack</title>
+  <title>sum的RL学习日记1 | Sum Stack</title>
   
 
 
@@ -170,10 +174,10 @@
             
 
   <div class="posts-expand">
-        
+      
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-Hans">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
     <link itemprop="mainEntityOfPage" href="http://freemty.github.io/2020/01/28/RL1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -187,8 +191,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/28/RL1/" class="post-title-link" itemprop="url">sum的RL学习日记1</a>
+          sum的RL学习日记1
         </h1>
 
         <div class="post-meta">
@@ -220,7 +223,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="notations"><a class="markdownIt-Anchor" href="#notations"></a> Notations</h3>
+        <h3 id="notations"><a class="markdownIt-Anchor" href="#notations"></a> Notations</h3>
 <ul>
 <li><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mo stretchy="false">(</mo><msup><mi>s</mi><mo mathvariant="normal">′</mo></msup><mo separator="true">,</mo><mi>r</mi><mi mathvariant="normal">∣</mi><mi>s</mi><mo separator="true">,</mo><mi>a</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">P(s&#x27;, r \vert s, a)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.001892em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">s</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord">∣</span><span class="mord mathdefault">s</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">a</span><span class="mclose">)</span></span></span></span></li>
 <li><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>π</mi><mo stretchy="false">(</mo><mi>a</mi><mi mathvariant="normal">∣</mi><mi>s</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\pi(a \vert s)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">π</span><span class="mopen">(</span><span class="mord mathdefault">a</span><span class="mord">∣</span><span class="mord mathdefault">s</span><span class="mclose">)</span></span></span></span> agent的行为策略;</li>
@@ -355,178 +358,36 @@ $$接下来就要引出累计回报（Return）$G_t$了,定义式如下
 <a href="http://www.foolweel.com/2019/05/02/rl-basic/" target="_blank" rel="noopener">强化学习概述</a><br>
 <a href="https://lilianweng.github.io/lil-log/2018/04/08/policy-gradient-algorithms.html" target="_blank" rel="noopener">Policy Gradient Algorithms</a></p>
 
-      
     </div>
 
     
     
     
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+          <div class="post-tags">
+              <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" rel="tag"># 强化学习</a>
+          </div>
 
         
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="http://freemty.github.io/2019/12/05/suibi1/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/IMG_0029.jpeg">
-      <meta itemprop="name" content="Sum Young">
-      <meta itemprop="description" content="Hey my friend XD">
-    </span>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sum Stack">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/12/05/suibi1/" class="post-title-link" itemprop="url">谈谈我们的“异化”</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2019-12-05 23:33:24 / Modified: 23:42:29" itemprop="dateCreated datePublished" datetime="2019-12-05T23:33:24+08:00">2019-12-05</time>
-            </span>
-
-          
-            <span id="/2019/12/05/suibi1/" class="post-meta-item leancloud_visitors" data-flag-title="谈谈我们的“异化”" title="Views">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">Views: </span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>些这篇文章的是前段时间的毛概大作业，虽然不长，但也费了不少心力。不得不说，写作过程还是相当痛苦的，不过也难得可以以这种自己“瞧得起”的方式表达真情实感。所以发在博客上，希望以后可以继续写作这个好习惯吧。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/12/05/suibi1/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
-      
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/12/05/suibi1/" rel="prev" title="谈谈我们的“异化”">
+      <i class="fa fa-chevron-left"></i> 谈谈我们的“异化”
+    </a></div>
+      <div class="post-nav-item"></div>
     </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
       </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="http://freemty.github.io/2019/11/30/superAE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/IMG_0029.jpeg">
-      <meta itemprop="name" content="Sum Young">
-      <meta itemprop="description" content="Hey my friend XD">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sum Stack">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/11/30/superAE/" class="post-title-link" itemprop="url">「Paper-Reading」Autoencoder as Assistant Supervisor Improving Text Representation for Chinese Social Media Text Summarization</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2019-11-30 23:29:35" itemprop="dateCreated datePublished" datetime="2019-11-30T23:29:35+08:00">2019-11-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-12-05 23:56:38" itemprop="dateModified" datetime="2019-12-05T23:56:38+08:00">2019-12-05</time>
-              </span>
-
-          
-            <span id="/2019/11/30/superAE/" class="post-meta-item leancloud_visitors" data-flag-title="「Paper-Reading」Autoencoder as Assistant Supervisor Improving Text Representation for Chinese Social Media Text Summarization" title="Views">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">Views: </span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-
-        </div>
-      </header>
-
     
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><a href="https://arxiv.org/pdf/1805.04869v1.pdf" target="_blank" rel="noopener">原文链接</a></p>
-<h3 id="abstrct"><a class="markdownIt-Anchor" href="#abstrct"></a> Abstrct</h3>
-<p>现今主流的摘要生成都是基于seq2seq,但事实上用于训练的文本大都过于冗杂(即使LCSTS也存在这个问题)导致在在encode时很难真正的“习得”语义(semantic)而reference summary大都短且语义明确。文中提出的模型「SuperAE」正是利用了这一点,在encode时引入了用于监督的Autocoder取得了,很好的结果</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/11/30/superAE/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
   </article>
   
   
   
 
   </div>
-
-  
-
 
 
           </div>
@@ -555,6 +416,7 @@ $$接下来就要引出累计回报（Return）$G_t$了,定义式如下
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#notations"><span class="nav-number">1.</span> <span class="nav-text"> Notations</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#从一根杠杆开始"><span class="nav-number">2.</span> <span class="nav-text"> 从一根杠杆开始</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#policy-gradient"><span class="nav-number">3.</span> <span class="nav-text"> Policy Gradient</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#abstract"><span class="nav-number">3.1.</span> <span class="nav-text"> Abstract</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#我来给翻译翻译"><span class="nav-number">3.2.</span> <span class="nav-text"> 我来给翻译翻译</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#babymath"><span class="nav-number">3.3.</span> <span class="nav-text"> babyMath</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#马尔可夫决策过程"><span class="nav-number">4.</span> <span class="nav-text"> 马尔可夫决策过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reference"><span class="nav-number">5.</span> <span class="nav-text"> Reference</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -727,7 +589,7 @@ $$接下来就要引出累计回报（Return）$G_t$了,定义式如下
   <script src="/lib/velocity/velocity.ui.min.js"></script>
 <script src="/js/utils.js"></script><script src="/js/motion.js"></script>
 <script src="/js/schemes/pisces.js"></script>
-<script src="/js/next-boot.js"></script>
+<script src="/js/next-boot.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
 
 
@@ -751,54 +613,6 @@ $$接下来就要引出累计回报（Return）$G_t$了,定义式如下
   
 
   
-      
-<script type="text/x-mathjax-config">
-
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
-      processEscapes: true,
-      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    },
-    TeX: {
-      equationNumbers: {
-        autoNumber: 'AMS'
-      }
-    }
-  });
-
-  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
-    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
-      if (data.display) {
-        var next = data.script.nextSibling;
-        while (next && next.nodeName.toLowerCase() === '#text') {
-          next = next.nextSibling;
-        }
-        if (next && next.nodeName.toLowerCase() === 'br') {
-          next.parentNode.removeChild(next);
-        }
-      }
-    });
-  });
-
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for (i = 0; i < all.length; i += 1) {
-      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
-      if (element.nodeName.toLowerCase() == 'li') {
-        element = element.parentNode;
-      }
-      element.classList.add('has-jax');
-    }
-  });
-</script>
-<script>
-  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
-    MathJax.Hub.Typeset();
-  }, window.MathJax);
-</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
-
-    
 
   
 
