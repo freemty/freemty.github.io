@@ -56,7 +56,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http:&#x2F;&#x2F;freemty.github.io&#x2F;2019&#x2F;11&#x2F;30&#x2F;superAE&#x2F;ae_graph.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;freemty.github.io&#x2F;2019&#x2F;11&#x2F;30&#x2F;superAE&#x2F;result.png">
-<meta property="og:updated_time" content="2020-01-29T18:04:19.946Z">
+<meta property="og:updated_time" content="2020-01-31T13:38:12.731Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http:&#x2F;&#x2F;freemty.github.io&#x2F;2019&#x2F;11&#x2F;30&#x2F;superAE&#x2F;ae_graph.png">
 
@@ -103,9 +103,9 @@
   .use-motion .logo-line-before i { left: initial; }
   .use-motion .logo-line-after i { right: initial; }
   </style>
-</noscript>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
-<link rel="alternate" href="/atom.xml" title="Sum Stack" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+<link rel="alternate" href="/atom.xml" title="Sum Stack" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
@@ -209,7 +209,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-01-30 02:04:19" itemprop="dateModified" datetime="2020-01-30T02:04:19+08:00">2020-01-30</time>
+                <time title="Modified: 2020-01-31 21:38:12" itemprop="dateModified" datetime="2020-01-31T21:38:12+08:00">2020-01-31</time>
               </span>
 
           
@@ -266,7 +266,15 @@
 <h3 id="loss-function-and-training">Loss Function and Training</h3>
 <p>loss-function共由三部分组成,第一部分是原本seq2seq decoder和autoencoder均经过decod后输出的交叉熵的和,第二部分是上文第一节监督项的损失,第三部分是上文第二节判别器的损失</p>
 <p>$ L_1 = L_{seq2seq} + L_{AE} + L_s + L_D + L_G $</p>
-<h3 id="results">Results</h3>
+<h3 id="code">Code</h3>
+<p>寒假回来把superAE的代码好好读一下，复现一下结果，正好也算是入门一下Pytorch，顺便改一下之前文章里的一些错（我TM以前写的都是点啥！）因为也是第一次读torch的代码，我就把模型和训练的每一部分都仔细的读了一遍。</p>
+<h4 id="models">Models</h4>
+<p>不知道是不是因为新鲜，感觉torch的读起来相当舒服，pku的组也确实是良心，把seq2seq，AE和superAE，都规规矩矩的撸了一遍，以后这种seq2seq都可以直接拿来用。</p>
+<h5 id="seq2seq">Seq2seq</h5>
+<h5 id="autoencoder">Autoencoder</h5>
+<h5 id="superae">SuperAE</h5>
+<h4 id="attention">Attention</h4>
+<h4 id="section"></h4>
 <p><img src="/2019/11/30/superAE/result.png"></p>
 
     </div>
@@ -328,7 +336,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#abstrct"><span class="nav-number">1.</span> <span class="nav-text">Abstrct</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#introduction"><span class="nav-number">2.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#proposed-model"><span class="nav-number">3.</span> <span class="nav-text">Proposed Model</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#supervision-with-autoencoder"><span class="nav-number">3.1.</span> <span class="nav-text">Supervision with Autoencoder</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#adversarial-learning"><span class="nav-number">3.2.</span> <span class="nav-text">Adversarial Learning</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#loss-function-and-training"><span class="nav-number">4.</span> <span class="nav-text">Loss Function and Training</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#results"><span class="nav-number">5.</span> <span class="nav-text">Results</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#abstrct"><span class="nav-number">1.</span> <span class="nav-text">Abstrct</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#introduction"><span class="nav-number">2.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#proposed-model"><span class="nav-number">3.</span> <span class="nav-text">Proposed Model</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#supervision-with-autoencoder"><span class="nav-number">3.1.</span> <span class="nav-text">Supervision with Autoencoder</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#adversarial-learning"><span class="nav-number">3.2.</span> <span class="nav-text">Adversarial Learning</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#loss-function-and-training"><span class="nav-number">4.</span> <span class="nav-text">Loss Function and Training</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#code"><span class="nav-number">5.</span> <span class="nav-text">Code</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#models"><span class="nav-number">5.1.</span> <span class="nav-text">Models</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#seq2seq"><span class="nav-number">5.1.1.</span> <span class="nav-text">Seq2seq</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#autoencoder"><span class="nav-number">5.1.2.</span> <span class="nav-text">Autoencoder</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#superae"><span class="nav-number">5.1.3.</span> <span class="nav-text">SuperAE</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#attention"><span class="nav-number">5.2.</span> <span class="nav-text">Attention</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#section"><span class="nav-number">5.3.</span> <span class="nav-text"></span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
