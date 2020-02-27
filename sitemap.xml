@@ -2,9 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://freemty.github.io/2019/11/30/superAE/</loc>
+    
+    <lastmod>2020-02-27T10:36:24.980Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://freemty.github.io/2020/01/28/RL1/</loc>
+    
+    <lastmod>2020-02-27T10:36:19.726Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://freemty.github.io/2020/02/27/HMM/</loc>
     
-    <lastmod>2020-02-27T10:26:08.160Z</lastmod>
+    <lastmod>2020-02-27T10:36:11.028Z</lastmod>
     
   </url>
   
@@ -26,20 +40,6 @@
     <loc>http://freemty.github.io/about/index.html</loc>
     
     <lastmod>2020-02-18T17:29:09.245Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://freemty.github.io/2019/11/30/superAE/</loc>
-    
-    <lastmod>2020-01-31T13:38:12.731Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://freemty.github.io/2020/01/28/RL1/</loc>
-    
-    <lastmod>2020-01-29T18:04:02.492Z</lastmod>
     
   </url>
   
