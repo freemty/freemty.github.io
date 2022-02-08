@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://freemty.github.io/2019/11/30/YOLO/</loc>
+    <lastmod>2022-02-08</lastmod>
+  </url>  <url>
+    <loc>http://freemty.github.io/2020/02/19/twenty/</loc>
+    <lastmod>2022-02-08</lastmod>
+  </url>  <url>
     <loc>http://freemty.github.io/2020/06/02/interestingwords/</loc>
     <lastmod>2020-06-02</lastmod>
   </url>  <url>
@@ -17,9 +23,6 @@
     <lastmod>2020-02-27</lastmod>
   </url>  <url>
     <loc>http://freemty.github.io/2019/12/05/suibi1/</loc>
-    <lastmod>2020-02-18</lastmod>
-  </url>  <url>
-    <loc>http://freemty.github.io/2020/02/19/twenty/</loc>
     <lastmod>2020-02-18</lastmod>
   </url>
 </urlset>
