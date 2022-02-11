@@ -1,8 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://freemty.github.io/2020/02/27/rnn-poem-generator/</loc>
+    <lastmod>2022-02-11</lastmod>
+  </url>  <url>
+    <loc>http://freemty.github.io/2020/02/27/seqGAN-code/</loc>
+    <lastmod>2022-02-11</lastmod>
+  </url>  <url>
     <loc>http://freemty.github.io/2020/02/27/gan-ukiyo-generator/</loc>
-    <lastmod>2022-02-08</lastmod>
+    <lastmod>2022-02-11</lastmod>
+  </url>  <url>
+    <loc>http://freemty.github.io/2019/12/05/figure/seqGAN%20Poem/</loc>
+    <lastmod>2022-02-11</lastmod>
+  </url>  <url>
+    <loc>http://freemty.github.io/2019/12/13/figure/seqGAN/</loc>
+    <lastmod>2022-02-11</lastmod>
+  </url>  <url>
+    <loc>http://freemty.github.io/2020/02/27/seqGAN/</loc>
+    <lastmod>2022-02-11</lastmod>
+  </url>  <url>
+    <loc>http://freemty.github.io/2020/01/28/RL1/</loc>
+    <lastmod>2022-02-11</lastmod>
+  </url>  <url>
+    <loc>http://freemty.github.io/2022/02/11/AlphaGo/</loc>
+    <lastmod>2022-02-11</lastmod>
   </url>  <url>
     <loc>http://freemty.github.io/2021/04/30/YOLO/</loc>
     <lastmod>2022-02-08</lastmod>
@@ -17,9 +38,6 @@
     <lastmod>2020-06-02</lastmod>
   </url>  <url>
     <loc>http://freemty.github.io/2019/11/30/superAE/</loc>
-    <lastmod>2020-02-27</lastmod>
-  </url>  <url>
-    <loc>http://freemty.github.io/2020/01/28/RL1/</loc>
     <lastmod>2020-02-27</lastmod>
   </url>  <url>
     <loc>http://freemty.github.io/2020/02/27/HMM/</loc>
