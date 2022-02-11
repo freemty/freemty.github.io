@@ -169,191 +169,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="http://freemty.github.io/2020/01/28/RL1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/IMG_0029.jpeg">
-      <meta itemprop="name" content="Sum Young">
-      <meta itemprop="description" content="Hey my friend XD">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sum Stack">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/28/RL1/" class="post-title-link" itemprop="url">sum的强化学习(RL)笔记</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-01-28 11:16:50" itemprop="dateCreated datePublished" datetime="2020-01-28T11:16:50+08:00">2020-01-28</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-02-11 20:18:48" itemprop="dateModified" datetime="2022-02-11T20:18:48+08:00">2022-02-11</time>
-              </span>
-
-          
-            <span id="/2020/01/28/RL1/" class="post-meta-item leancloud_visitors" data-flag-title="sum的强化学习(RL)笔记" title="Views">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">Views: </span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>前一段时间开始seqGAN第一次接触到RL，正好寒假时间富裕，补一些强化学习的基础</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/01/28/RL1/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="http://freemty.github.io/2019/12/13/figure/seqGAN/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/IMG_0029.jpeg">
-      <meta itemprop="name" content="Sum Young">
-      <meta itemprop="description" content="Hey my friend XD">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sum Stack">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/12/13/figure/seqGAN/" class="post-title-link" itemprop="url">figure/seqGAN</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2019-12-13 16:53:26" itemprop="dateCreated datePublished" datetime="2019-12-13T16:53:26+08:00">2019-12-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-02-11 20:25:52" itemprop="dateModified" datetime="2022-02-11T20:25:52+08:00">2022-02-11</time>
-              </span>
-
-          
-            <span id="/2019/12/13/figure/seqGAN/" class="post-meta-item leancloud_visitors" data-flag-title="figure/seqGAN" title="Views">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">Views: </span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="abstract">Abstract</h3>
-<h3 id="proposed-model">Proposed Model</h3>
-<p>为了方便阅读，我们先记</p>
-<ul>
-<li>discriminator <span class="math inline">\(D\)</span></li>
-<li>generator <span class="math inline">\(G\)</span></li>
-<li>vocabulary <span class="math inline">\(\gamma\)</span></li>
-<li>a sequence <span class="math inline">\(Y_{1:T} = (y_1,...,y_t,...,y_T),y_t ∈ \gamma\)</span></li>
-<li>current state <span class="math inline">\(s = Y_{1:t-1}\)</span>(当前的状态为之前所有输出tokens的序列)</li>
-<li>next state <span class="math inline">\(s^{,} = Y_{1:t}\)</span></li>
-<li>action <span class="math inline">\(a = y_t\)</span></li>
-</ul>
-<p>在上面的预设下，所有Text-Generation类任务，都可以抽象化为在<span class="math inline">\(t\)</span>时刻，已经生成<span class="math inline">\((y_1,..y_{t-1})\)</span>的基础上，采取什么action（如何选取<span class="math inline">\(y_t\)</span>）。</p>
-<h4 id="seqgan-via-policy-gradient">SeqGAN via Policy Gradient</h4>
-<p>生成器有<span class="math inline">\(G_\theta(y_t|Y_{1:t-1})\)</span> 在对抗学习的情境下，<span class="math inline">\(G\)</span> 目标函数是</p>
-<p>$$</p>
-<p>$$</p>
-<p>那么<span class="math inline">\(D\)</span>是怎么计算每一步的value的呢？</p>
-<p>可这样的话，Discriminator只能对一整个seq进行判别 这里就要Rollout Policy出场了</p>
-<p>在前<span class="math inline">\(T-1\)</span>时刻 <span class="math display">\[
-Q^{G_\theta}_{D_\phi}(a = y_t;s = Y_{1:t-1}) =
-\frac{1}{N}\sum^{N}_{n=1}D_\phi(Y_{1:T}^{n})
-\]</span></p>
-<p>其中 <span class="math display">\[
-Y_{1:T}^{n}
-\]</span></p>
-<p>最后的<span class="math inline">\(T\)</span>时刻，由于，序列已经生成了，就不用</p>
-<p><span class="math display">\[
- Q^{G_\theta}_{D_\phi}(a = y_T;s = Y_{1:T-1}) = D_\phi(Y_{1:T})
-\]</span></p>
-<p>是在看完代码之后，才明白在Rollout里面也保存着一套LSTM，这就是paper中说的<span class="math inline">\(G_\beta\)</span>，</p>
-<h4 id="step">Step</h4>
-<p>先用MLE去预训练<span class="math inline">\(G_\theta\)</span>，再用<span class="math inline">\(G_\theta\)</span>生成的“赝品”和真实数据共同去预训练<span class="math inline">\(D_\phi\)</span></p>
-<p>action value function : <span class="math inline">\(Q^{G_\theta}_{D_\phi}(s,a)\)</span></p>
-<p><img src="/2019/12/13/figure/seqGAN/seqgan.png"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-Hans">
     <link itemprop="mainEntityOfPage" href="http://freemty.github.io/2019/12/05/suibi1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -433,7 +248,7 @@ Y_{1:T}^{n}
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="http://freemty.github.io/2019/12/05/figure/seqGAN%20Poem/">
+    <link itemprop="mainEntityOfPage" href="http://freemty.github.io/2019/11/30/AlphaGo/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/IMG_0029.jpeg">
@@ -447,7 +262,7 @@ Y_{1:T}^{n}
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2019/12/05/figure/seqGAN%20Poem/" class="post-title-link" itemprop="url">figure/seqGAN Poem</a>
+            <a href="/2019/11/30/AlphaGo/" class="post-title-link" itemprop="url">「Paper-Reading」AlphaGo + AlphaGoZero</a>
         </h1>
 
         <div class="post-meta">
@@ -457,18 +272,18 @@ Y_{1:T}^{n}
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2019-12-05 19:40:34" itemprop="dateCreated datePublished" datetime="2019-12-05T19:40:34+08:00">2019-12-05</time>
+              <time title="Created: 2019-11-30 23:29:35" itemprop="dateCreated datePublished" datetime="2019-11-30T23:29:35+08:00">2019-11-30</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-02-11 20:30:32" itemprop="dateModified" datetime="2022-02-11T20:30:32+08:00">2022-02-11</time>
+                <time title="Modified: 2022-02-11 20:51:05" itemprop="dateModified" datetime="2022-02-11T20:51:05+08:00">2022-02-11</time>
               </span>
 
           
-            <span id="/2019/12/05/figure/seqGAN%20Poem/" class="post-meta-item leancloud_visitors" data-flag-title="figure/seqGAN Poem" title="Views">
+            <span id="/2019/11/30/AlphaGo/" class="post-meta-item leancloud_visitors" data-flag-title="「Paper-Reading」AlphaGo + AlphaGoZero" title="Views">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -485,50 +300,7 @@ Y_{1:T}^{n}
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="seqgan-代码详解">seqGAN 代码详解</h1>
-<p>这是上一篇paper-reading的后续。在NLG中，强化学习肯定是相当重要的一种思路，因此GAN的实现还是相当有必要的，而seqGAN可以说是的文本GAN中的baseline了（leakGAN maskGAN etc.）所以这几天半抄半改的复现了seqGAN，并在上面跑了一下全唐诗（相比之下自己以前的LSTM-Generator纯属小玩具orz）。</p>
-<h2 id="code">Code</h2>
-<p>在读了seqGAN的代码的基础上，我也根据自己的习惯小幅重构了一下，也方便加深理解</p>
-<h3 id="build-generator">build Generator</h3>
-<p>说实话我并不理解这里作者为什么要手撸一个LSTM（肯定不是不会用API XD） 我目前的理解是直接用<code>tf.nn.rnn.LSTMcell</code>的话不方便向Rollout中的<span class="math inline">\(G_\beta\)</span>传Variable。不过代码里很多tf函数的用法也还是第一次见到，学到了不少。</p>
-<h4 id="unrolled-rnn-unit">Unrolled RNN unit</h4>
-<p><code>start token</code></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#使用TensorArray便于读写</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">gen_o = tf.TensorArray(dtype=tf.float32, size=self.c,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">                                        dynamic_size=<span class="literal">False</span>, infer_shape=<span class="literal">True</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">gen_x = tf.TensorArray(dtype=tf.int32, size=self.config.seq_maxlen,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">                                        dynamic_size=<span class="literal">False</span>, infer_shape=<span class="literal">True</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#unrolled lstm </span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">_, _, _, self.gen_o, self.gen_x = tf.while_loop(</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    cond=<span class="keyword">lambda</span> i, _1, _2, _3, _4: i &lt; </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    self.sequence_length,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">    body=_g_recurrence, </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">    loop_vars=(tf.constant(<span class="number">0</span>, dtype=tf.int32),</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">            tf.nn.embedding_lookup(self.g_embeddings, self.start_token), self.h0, gen_o, gen_x))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">self.gen_x = self.gen_x.unstack()</span></pre></td></tr></table></figure>
-<p>这里的<code>tf.while_loop</code>还是第一次见到orz,详解见<a href="https://blog.csdn.net/u011509971/article/details/78805727" target="_blank" rel="noopener">这里</a>简单说一下把，<code>tf.while_loop</code>函数中<code>cond</code>和<code>body</code>分别是进行判别和执行操作的函数，他们都会接收<code>loop_vars</code>中的所有参数，所以要注意参数的位置和数量的一致</p>
-<h4 id="pretrain-loss">pretrain loss</h4>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">self.pretrain_loss = -tf.reduce_sum(</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    tf.one_hot(tf.to_int32(tf.reshape(self.x, [<span class="number">-1</span>])), self.num_emb, <span class="number">1.0</span>, <span class="number">0.0</span>) * tf.log(</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">            tf.clip_by_value(tf.reshape(self.g_predictions, [<span class="number">-1</span>, self.num_emb]), <span class="number">1e-20</span>, <span class="number">1.0</span>)</span></pre></td></tr></table></figure>
-<h3 id="build-discriminator">build Discriminator</h3>
-<p>discriminator的任务就是对于生成的文本输出一个介于0和1之间的分值，在本次的seqGAN中Discriminator使用了一个多层CNN用来执行分类任务</p>
-<h4 id="cnn-unit">CNN unit</h4>
-<p>说实话，炼丹这么久了，CNN正经一点了解都没有，真是太丢人了。 就在这里顺道学一下CNN吧</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">pooled_outputs = []</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> filter_size, num_filter <span class="keyword">in</span> zip(filter_sizes, num_filters):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">with</span> tf.name_scope(<span class="string">"conv-maxpool-%s"</span> % filter_size):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">        <span class="comment"># Convolution Layer</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">        filter_shape = [filter_size, embedding_size, <span class="number">1</span>, num_filter]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">        W = tf.Variable(tf.truncated_normal(filter_shape, stddev=<span class="number">0.1</span>), name=<span class="string">"W"</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">        b = tf.Variable(tf.constant(<span class="number">0.1</span>, shape=[num_filter]), name=<span class="string">"b"</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        conv = tf.nn.conv2d(</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">            self.embedded_chars_expanded,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">            W,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">            strides=[<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>],</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">            padding=<span class="string">"VALID"</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">            name=<span class="string">"conv"</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">        <span class="comment"># Apply nonlinearity</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">        h = tf.nn.relu(tf.nn.bias_add(conv, b), name=<span class="string">"relu"</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">        <span class="comment"># Maxpooling over the outputs</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">        pooled = tf.nn.max_pool(</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">            h,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">            ksize=[<span class="number">1</span>, sequence_length - filter_size + <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>],</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">            strides=[<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>],</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">            padding=<span class="string">'VALID'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">            name=<span class="string">"pool"</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">        pooled_outputs.append(pooled)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># Combine all the pooled features</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">num_filters_total = sum(num_filters)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">self.h_pool = tf.concat(pooled_outputs, <span class="number">3</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">self.h_pool_flat = tf.reshape(self.h_pool, [<span class="number">-1</span>, num_filters_total])</span></pre></td></tr></table></figure>
-<p>这里的输入x是sequence已经被展开到一维的embeddings。这里的多层CNN就能将一个长度为<code>embed_size * seq_len</code>的向量降到</p>
-<h4 id="highway-unit">Highway unit</h4>
-<p>highway层为了加快收敛而添加的</p>
-<p>关于highway，我参考了<a href="https://zhuanlan.zhihu.com/p/35019701" target="_blank" rel="noopener">这里</a>，paper原文在<a href="http://arxiv.org/abs/1505.00387" target="_blank" rel="noopener">这里</a></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr></table></figure>
-<h3 id="roll-out">Roll out</h3>
-<p><span class="math inline">\(D\)</span>和<span class="math inline">\(G\)</span>都构建完成，就要开始rollout了，Rollout在初始化时，<span class="math inline">\(G_\beta\)</span>会接受一整套预训练完成的Generator的LSTM，作为初始值。</p>
-<p>在更新时，update-rate就上场了，在update时，rollout中的LSTM并不是原样接收<span class="math inline">\(G_\theta\)</span>中的值，而是部分保留，部分更新</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">G_bate = G_beta * (<span class="number">1</span> - updata_rate) + G_theta * update_rate</span></pre></td></tr></table></figure>
-<h4 id="get-rawards">Get rawards</h4>
-<p>这里可以说是seqGAN的核心function</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_reward</span><span class="params">(self, sess, input_x, rollout_num, discriminator)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    rewards = []</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(rollout_num):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    <span class="comment">#D开始对生成sample中的每个token打分</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">for</span> given_num <span class="keyword">in</span> range(<span class="number">1</span>, self.sequence_length ):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">        <span class="comment"># t &lt; t 时 会使用G_beta生成token补全sequesnce</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">            feed = &#123;self.x: input_x, self.given_num: given_num&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">            samples = sess.run(self.gen_x, feed)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">            feed = &#123;discriminator.input_x: samples, discriminator.dropout_keep_prob: <span class="number">1.0</span>&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">            ypred_for_auc = sess.run(discriminator.ypred_for_auc, feed)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">            ypred = np.array([item[<span class="number">1</span>] <span class="keyword">for</span> item <span class="keyword">in</span> ypred_for_auc])</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">if</span> i == <span class="number">0</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">                rewards.append(ypred)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">                <span class="comment">#第一轮rollout生成打分栏</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">else</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">                rewards[given_num - <span class="number">1</span>] += ypred</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">                <span class="comment">#后面直接往上加</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">        <span class="comment"># the last token reward</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">        feed = &#123;discriminator.input_x: input_x, discriminator.dropout_keep_prob: <span class="number">1.0</span>&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">        ypred_for_auc = sess.run(discriminator.ypred_for_auc, feed)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">        ypred = np.array([item[<span class="number">1</span>] <span class="keyword">for</span> item <span class="keyword">in</span> ypred_for_auc])</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">if</span> i == <span class="number">0</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">            rewards.append(ypred)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">else</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">            <span class="comment"># completed sentence reward</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">            rewards[self.sequence_length - <span class="number">1</span>] += ypred</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">    rewards = np.transpose(np.array(rewards)) / (<span class="number">1.0</span> * rollout_num)  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">    <span class="comment">#batch_size x seq_length</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">return</span> rewards</span></pre></td></tr></table></figure>
-<h3 id="optimize">Optimize</h3>
-<p>获得了reward之后，就要开始优化了</p>
-<p>着重读一下这几个loss吧</p>
-<h3 id="run">RUN</h3>
-<p>基本模块都完成了，现在就开始GAN吧！ 先理一下训练流程</p>
-<h4 id="adversial-train">Adversial Train</h4>
-<p>这是一个epoch的代码</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> it <span class="keyword">in</span> range(<span class="number">1</span>):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    samples = generator.generate(sess)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    <span class="comment">#注意，一次generate生成一整个seqence个而非一个token</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    rewards = rollout.get_reward(sess, samples, <span class="number">16</span>, discriminator)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    feed = &#123;generator.x: samples, generator.rewards: rewards&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    _ = sess.run(generator.g_updates, feed_dict=feed)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># Test</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> total_batch % <span class="number">5</span> == <span class="number">0</span> <span class="keyword">or</span> total_batch == TOTAL_BATCH - <span class="number">1</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">    generate_samples(sess, generator, BATCH_SIZE, generated_num, eval_file)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">    likelihood_data_loader.create_batches(eval_file)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">    test_loss = target_loss(sess, target_lstm, likelihood_data_loader)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># Update roll-out parameters</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">rollout.update_params()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># Train the discriminator</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">5</span>):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">    generate_samples(sess, generator, BATCH_SIZE, generated_num, negative_file)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">    dis_data_loader.load_train_data(positive_file, negative_file)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">3</span>):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">        dis_data_loader.reset_pointer()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">for</span> it <span class="keyword">in</span> xrange(dis_data_loader.num_batch):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">            x_batch, y_batch = dis_data_loader.next_batch()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">            feed = &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">                discriminator.input_x: x_batch,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">                discriminator.input_y: y_batch,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">                discriminator.dropout_keep_prob: dis_dropout_keep_prob</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">            &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">            _ = sess.run(discriminator.train_op, feed)</span></pre></td></tr></table></figure>
-<h3 id="orcal-lstm">Orcal LSTM</h3>
-<p>说实话，刚看代码的时候，一直不明白source里的<code>target_lstm.py</code>是干嘛的，还以为是作者写的LSTM的模版，最后重读了一边论文，才发现这部分的作用。原文在实验的时候引入了orcale-model，说白了就是他们有一个在目标任务上预训练的相当成熟的LSTM可以直接生成正样本相比于从零开始,模型收敛会快上不少，而我在跑Chinese-Poem的时候，这部分肯定就没有了。</p>
-<h3 id="others">others</h3>
-<h4 id="data-until">data until</h4>
-<p>这次用的数据是ChinesePoem<a href="http://homepages.inf.ed.ac.uk/mlap/Data/EMNLP14/rnnpg_data_emnlp-2014.tar.bz2" target="_blank" rel="noopener">下载</a> 有28W首。 数据以40为单位做了切分，并做了mask</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">tf.nn.conv2d()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">tf.nn.max_pool()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">tf.identity()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">tf.TensorArray()</span></pre></td></tr></table></figure>
-
+          
       
     </div>
 
@@ -673,7 +445,7 @@ Y_{1:T}^{n}
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-count">13</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
