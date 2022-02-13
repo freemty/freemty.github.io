@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://freemty.github.io/2020/02/27/seqGAN-code/</loc>
+    <lastmod>2022-02-13</lastmod>
+  </url>  <url>
     <loc>http://freemty.github.io/2020/02/27/gan-ukiyo-generator/gan-ukiyo-generator/</loc>
     <lastmod>2022-02-13</lastmod>
   </url>  <url>
@@ -11,9 +14,6 @@
     <lastmod>2022-02-11</lastmod>
   </url>  <url>
     <loc>http://freemty.github.io/2020/02/27/seqGAN/</loc>
-    <lastmod>2022-02-11</lastmod>
-  </url>  <url>
-    <loc>http://freemty.github.io/2020/02/27/seqGAN-code/</loc>
     <lastmod>2022-02-11</lastmod>
   </url>  <url>
     <loc>http://freemty.github.io/2020/02/27/rnn-poem-generator/</loc>
