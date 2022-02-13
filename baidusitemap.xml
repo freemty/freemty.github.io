@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://freemty.github.io/2020/02/27/gan-ukiyo-generator/</loc>
-    <lastmod>2022-02-11</lastmod>
+    <loc>http://freemty.github.io/2020/02/27/gan-ukiyo-generator/gan-ukiyo-generator/</loc>
+    <lastmod>2022-02-13</lastmod>
+  </url>  <url>
+    <loc>http://freemty.github.io/2021/04/30/YOLO/</loc>
+    <lastmod>2022-02-13</lastmod>
   </url>  <url>
     <loc>http://freemty.github.io/2019/11/30/AlphaGo/</loc>
     <lastmod>2022-02-11</lastmod>
@@ -18,9 +21,6 @@
   </url>  <url>
     <loc>http://freemty.github.io/2020/01/28/RL1/</loc>
     <lastmod>2022-02-11</lastmod>
-  </url>  <url>
-    <loc>http://freemty.github.io/2021/04/30/YOLO/</loc>
-    <lastmod>2022-02-08</lastmod>
   </url>  <url>
     <loc>http://freemty.github.io/2020/03/04/attention/</loc>
     <lastmod>2022-02-08</lastmod>
