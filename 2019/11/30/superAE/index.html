@@ -55,7 +55,8 @@
 <meta property="og:description" content="原文链接 Abstrct 现今主流的摘要生成都是基于seq2seq,但事实上用于训练的文本大都过于冗杂(即使LCSTS也存在这个问题)导致在在encode时很难真正的“习得”语义(semantic)而reference summary大都短且语义明确。文中提出的模型「SuperAE」正是利用了这一点,在encode时引入了用于监督的Autocoder取得了,很好的结果">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http:&#x2F;&#x2F;freemty.github.io&#x2F;2019&#x2F;11&#x2F;30&#x2F;superAE&#x2F;ae_graph.png">
-<meta property="og:updated_time" content="2020-02-27T10:36:24.980Z">
+<meta property="og:image" content="http:&#x2F;&#x2F;freemty.github.io&#x2F;2019&#x2F;11&#x2F;30&#x2F;superAE&#x2F;result.png">
+<meta property="og:updated_time" content="2022-02-15T11:46:30.545Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http:&#x2F;&#x2F;freemty.github.io&#x2F;2019&#x2F;11&#x2F;30&#x2F;superAE&#x2F;ae_graph.png">
 
@@ -203,7 +204,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-27 18:36:24" itemprop="dateModified" datetime="2020-02-27T18:36:24+08:00">2020-02-27</time>
+                <time title="Modified: 2022-02-15 19:46:30" itemprop="dateModified" datetime="2022-02-15T19:46:30+08:00">2022-02-15</time>
               </span>
 
           
@@ -260,7 +261,9 @@
 <h3 id="loss-function-and-training">Loss Function and Training</h3>
 <p>loss-function共由三部分组成,第一部分是原本seq2seq decoder和autoencoder均经过decod后输出的交叉熵的和,第二部分是上文第一节监督项的损失,第三部分是上文第二节判别器的损失</p>
 <p>$ L_1 = L_{seq2seq} + L_{AE} + L_s + L_D + L_G $</p>
-<p>[result](result.png）</p>
+<figure>
+<img src="/2019/11/30/superAE/result.png" alt="result"><figcaption>result</figcaption>
+</figure>
 
     </div>
 
@@ -281,8 +284,8 @@
     <div class="post-nav">
       <div class="post-nav-item"></div>
       <div class="post-nav-item">
-    <a href="/2019/11/30/AlphaGo/" rel="next" title="「Paper-Reading」AlphaGo + AlphaGoZero">
-      「Paper-Reading」AlphaGo + AlphaGoZero <i class="fa fa-chevron-right"></i>
+    <a href="/2019/11/30/rcnn/" rel="next" title="「Paper-Reading」RCNN family —— 目标检测领域的“two step“派">
+      「Paper-Reading」RCNN family —— 目标检测领域的“two step“派 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -336,7 +339,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-count">14</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
