@@ -2,16 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://freemty.github.io/2020/02/27/MCMC/</loc>
+    <loc>http://freemty.github.io/2020/02/27/rnn-poem-generator/</loc>
     
-    <lastmod>2022-02-17T13:14:15.114Z</lastmod>
+    <lastmod>2022-02-17T13:27:22.842Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://freemty.github.io/2020/02/27/HMM/</loc>
     
-    <lastmod>2022-02-17T13:06:32.083Z</lastmod>
+    <lastmod>2022-02-17T13:15:58.583Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://freemty.github.io/2020/02/27/MCMC/</loc>
+    
+    <lastmod>2022-02-17T13:14:15.114Z</lastmod>
     
   </url>
   
@@ -54,13 +61,6 @@
     <loc>http://freemty.github.io/2019/11/30/AlphaGo/</loc>
     
     <lastmod>2022-02-15T11:41:21.443Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://freemty.github.io/2020/02/27/rnn-poem-generator/</loc>
-    
-    <lastmod>2022-02-15T11:30:03.153Z</lastmod>
     
   </url>
   
