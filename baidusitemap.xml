@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://freemty.github.io/2020/02/27/CRF/</loc>
+    <lastmod>2022-02-17</lastmod>
+  </url>  <url>
+    <loc>http://freemty.github.io/2020/02/27/EM/</loc>
+    <lastmod>2022-02-17</lastmod>
+  </url>  <url>
     <loc>http://freemty.github.io/2020/02/27/rnn-poem-generator/</loc>
     <lastmod>2022-02-17</lastmod>
   </url>  <url>
