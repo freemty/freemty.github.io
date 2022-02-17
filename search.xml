@@ -3,8 +3,447 @@
   
     
     <entry>
+      <title><![CDATA[4.DimentionReduction]]></title>
+      <url>/2022/02/17/4.DimentionReduction/</url>
+      <content type="html"><![CDATA[<h1 id="降维">降维</h1>
+<p>解决过拟合的问题除了正则化和添加数据之外，降维就是最好的方法。降维的思路来源于维度灾难的问题，我们知道 <span class="math inline">\(n\)</span> 维球的体积为： <span class="math display">\[
+CR^n
+\]</span> 那么在球体积与边长为 <span class="math inline">\(2R\)</span> 的超立方体比值为： <span class="math display">\[
+\lim\limits_{n\rightarrow0}\frac{CR^n}{2^nR^n}=0
+\]</span></p>
+<p>这就是所谓的维度灾难，在高维数据中，主要样本都分布在立方体的边缘，所以数据集更加稀疏。</p>
+<p>降维的算法分为：</p>
+<ol type="1">
+<li>直接降维，特征选择</li>
+<li>线性降维，PCA，MDS等</li>
+<li>分线性，流形包括 Isomap，LLE 等</li>
+</ol>
+<p>为了方便，我们首先将协方差矩阵（数据集）写成中心化的形式： <span class="math display">\[
+\begin{align}S&amp;=\frac{1}{N}\sum\limits_{i=1}^N(x_i-\overline{x})(x_i-\overline{x})^T\nonumber\\
+&amp;=\frac{1}{N}(x_1-\overline{x},x_2-\overline{x},\cdots,x_N-\overline{x})(x_1-\overline{x},x_2-\overline{x},\cdots,x_N-\overline{x})^T\nonumber\\
+&amp;=\frac{1}{N}(X^T-\frac{1}{N}X^T\mathbb{I}_{N1}\mathbb{I}_{N1}^T)(X^T-\frac{1}{N}X^T\mathbb{I}_{N1}\mathbb{I}_{N1}^T)^T\nonumber\\
+&amp;=\frac{1}{N}X^T(E_N-\frac{1}{N}\mathbb{I}_{N1}\mathbb{I}_{1N})(E_N-\frac{1}{N}\mathbb{I}_{N1}\mathbb{I}_{1N})^TX\nonumber\\
+&amp;=\frac{1}{N}X^TH_NH_N^TX\nonumber\\
+&amp;=\frac{1}{N}X^TH_NH_NX=\frac{1}{N}X^THX
+\end{align}
+\]</span> 这个式子利用了中心矩阵 $ H$的对称性，这也是一个投影矩阵。</p>
+<h2 id="线性降维-主成分分析-pca">线性降维-主成分分析 PCA</h2>
+<h3 id="损失函数">损失函数</h3>
+<p>主成分分析中，我们的基本想法是将所有数据投影到一个字空间中，从而达到降维的目标，为了寻找这个子空间，我们基本想法是：</p>
+<ol type="1">
+<li>所有数据在子空间中更为分散</li>
+<li>损失的信息最小，即：在补空间的分量少</li>
+</ol>
+<p>原来的数据很有可能各个维度之间是相关的，于是我们希望找到一组 <span class="math inline">\(p\)</span> 个新的线性无关的单位基 <span class="math inline">\(u_i\)</span>，降维就是取其中的 <span class="math inline">\(q\)</span> 个基。于是对于一个样本 <span class="math inline">\(x_i\)</span>，经过这个坐标变换后： <span class="math display">\[
+\hat{x_i}=\sum\limits_{i=1}^p(u_i^Tx_i)u_i=\sum\limits_{i=1}^q(u_i^Tx_i)u_i+\sum\limits_{i=q+1}^p(u_i^Tx_i)u_i
+\]</span> 对于数据集来说，我们首先将其中心化然后再去上面的式子的第一项，并使用其系数的平方平均作为损失函数并最大化： <span class="math display">\[
+\begin{align}J&amp;=\frac{1}{N}\sum\limits_{i=1}^N\sum\limits_{j=1}^q((x_i-\overline{x})^Tu_j)^2\nonumber\\
+&amp;=\sum\limits_{j=1}^qu_j^TSu_j\ ,\ s.t.\ u_j^Tu_j=1
+\end{align}
+\]</span> 由于每个基都是线性无关的，于是每一个 <span class="math inline">\(u_j\)</span> 的求解可以分别进行，使用拉格朗日乘子法： <span class="math display">\[
+\mathop{argmax}_{u_j}L(u_j,\lambda)=\mathop{argmax}_{u_j}u_j^TSu_j+\lambda(1-u_j^Tu_j)
+\]</span> 于是： <span class="math display">\[
+Su_j=\lambda u_j
+\]</span> 可见，我们需要的基就是协方差矩阵的本征矢。损失函数最大取在本征值前 <span class="math inline">\(q\)</span> 个最大值。</p>
+<p>下面看其损失的信息最少这个条件，同样适用系数的平方平均作为损失函数，并最小化： <span class="math display">\[
+\begin{align}J&amp;=\frac{1}{N}\sum\limits_{i=1}^N\sum\limits_{j=q+1}^p((x_i-\overline{x})^Tu_j)^2\nonumber\\
+&amp;=\sum\limits_{j=q+1}^pu_j^TSu_j\ ,\ s.t.\ u_j^Tu_j=1
+\end{align}
+\]</span> 同样的： <span class="math display">\[
+\mathop{argmin}_{u_j}L(u_j,\lambda)=\mathop{argmin}_{u_j}u_j^TSu_j+\lambda(1-u_j^Tu_j)
+\]</span> 损失函数最小取在本征值剩下的个最小的几个值。数据集的协方差矩阵可以写成 <span class="math inline">\(S=U\Lambda U^T\)</span>，直接对这个表达式当然可以得到本征矢。</p>
+<h3 id="svd-与-pcoa">SVD 与 PCoA</h3>
+<p>下面使用实际训练时常常使用的 SVD 直接求得这个 <span class="math inline">\(q\)</span> 个本征矢。</p>
+<p>对中心化后的数据集进行奇异值分解： <span class="math display">\[
+HX=U\Sigma V^T,U^TU=E_N,V^TV=E_p,\Sigma:N\times p
+\]</span></p>
+<p>于是： <span class="math display">\[
+S=\frac{1}{N}X^THX=\frac{1}{N}X^TH^THX=\frac{1}{N}V\Sigma^T\Sigma V^T
+\]</span> 因此，我们直接对中心化后的数据集进行 SVD，就可以得到特征值和特征向量 <span class="math inline">\(V\)</span>，在新坐标系中的坐标就是： <span class="math display">\[
+HX\cdot V
+\]</span> 由上面的推导，我们也可以得到另一种方法 PCoA 主坐标分析，定义并进行特征值分解： <span class="math display">\[
+T=HXX^TH=U\Sigma\Sigma^TU^T
+\]</span> 由于： <span class="math display">\[
+TU\Sigma=U\Sigma(\Sigma^T\Sigma)
+\]</span> 于是可以直接得到坐标。这两种方法都可以得到主成分，但是由于方差矩阵是 <span class="math inline">\(p\times p\)</span> 的，而 <span class="math inline">\(T\)</span> 是 <span class="math inline">\(N\times N\)</span> 的，所以对样本量较少的时候可以采用 PCoA的方法。</p>
+<h3 id="p-pca">p-PCA</h3>
+<p>下面从概率的角度对 PCA 进行分析，概率方法也叫 p-PCA。我们使用线性模型，类似之前 LDA，我们选定一个方向，对原数据 <span class="math inline">\(x\in\mathbb{R}^p\)</span> ，降维后的数据为 <span class="math inline">\(z\in\mathbb{R}^q,q&lt;p\)</span>。降维通过一个矩阵变换（投影）进行： <span class="math display">\[
+\begin{align}
+z&amp;\sim\mathcal{N}(\mathbb{O}_{q1},\mathbb{I}_{qq})\\
+x&amp;=Wz+\mu+\varepsilon\\
+\varepsilon&amp;\sim\mathcal{N}(0,\sigma^2\mathbb{I}_{pp})
+\end{align}
+\]</span> 对于这个模型，我么可以使用期望-最大（EM）的算法进行学习，在进行推断的时候需要求得 <span class="math inline">\(p(z|x)\)</span>，推断的求解过程和线性高斯模型类似。 <span class="math display">\[
+\begin{align}
+&amp;p(z|x)=\frac{p(x|z)p(z)}{p(x)}\\
+&amp;\mathbb{E}[x]=\mathbb{E}[Wz+\mu+\varepsilon]=\mu\\
+&amp;Var[x]=WW^T+\sigma^2\mathbb{I}_{pp}\\
+\Longrightarrow p(z|x)=\mathcal{N}(W^T(WW^T+&amp;\sigma^2\mathbb{I})^{-1}(x-\mu),\mathbb{I}-W^T(WW^T+\sigma^2\mathbb{I})^{-1}W)
+\end{align}
+\]</span></p>
+<h2 id="小结">小结</h2>
+<p>降维是解决维度灾难和过拟合的重要方法，除了直接的特征选择外，我们还可以采用算法的途径对特征进行筛选，线性的降维方法以 PCA 为代表，在 PCA 中，我们只要直接对数据矩阵进行中心化然后求奇异值分解或者对数据的协方差矩阵进行分解就可以得到其主要维度。非线性学习的方法如流形学习将投影面从平面改为超曲面。</p>
+]]></content>
+      
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[「Personal Project」用StyleGAN来生成浮世绘]]></title>
+      <url>/2020/12/20/gan-ukiyo-generator/</url>
+      <content type="html"><![CDATA[<p>来玩玩图像生成吧!</p>
+<a id="more"></a>
+<h4 id="前言">前言</h4>
+<p>但在具体了解了之后发现,现在基于GAN的图像生成模型已经相当成熟了,例如Google在2018年已经用BigGAN刷爆了ImageNet上的所有种类图像的生成(如图中BigGAN生成的汉堡)且都已经达到了可以“以假乱真”的水平了。轮子已经造好了,从零开始进行完成一个图像生成方面的模型是几乎不可能也是不必要的,很多原本一厢情愿的“创意”都变得相当的鸡肋。</p>
+<p><img src="/2020/12/20/gan-ukiyo-generator/figure/hambuger.jpeg" alt="hambuger" style="zoom:25%;"></p>
+<p>​ 不过另一方面,这些现成的模型也给了在更精细领域上进行产出成为可能。就例如在Github上的开发者roadrunner01就用动漫头像数据集来微调英伟达训练好的styleGAN人脸生成模型,得到了鼎鼎大名的“二次元老婆生成器”,生成样例如图所示。</p>
+<p><img src="/2020/12/20/gan-ukiyo-generator/figure/sister.png" style="zoom: 25%;"></p>
+<p>​ 受到“小姐姐生成器”的启发,我也开始尝试于通过小数据集来fine-tune已有的生成模型,训练出一个性化领域的图像生成器。最终很幸运从大神Justin Pinkney的博客找到了一个规模在5000张左右的日本浮世绘的人脸数据集,并以此为基础去fine-tune了已有的styleGAN2的人脸生成模型。最终训练得到了“浮世绘”生成器,取得了还算不错的生成结果,部分生成样例如图所示。</p>
+<p><img src="/2020/12/20/gan-ukiyo-generator/figure/baby_result.jpeg" alt="baby_result" style="zoom:50%;"></p>
+<p>​ 当然,这只是第一步,在阅读了styleGAN的论文和相关解读的博客之后,又进一步得到了更有趣的玩法,就是可以通过将两个styleGAN模型中生成器不同风格生成层（style-layer)的参数进行融合中融合,得到混合风格的生成结果。最终通过融合已有的人脸生成模型和浮世绘生成模型,分别得到了浮世绘风格的人脸照片与人脸到对应浮世绘的渐变图,其中部分融合模型生成结果如图。</p>
+<p>​ <img src="/2020/12/20/gan-ukiyo-generator/figure/baby_transfer.jpeg" alt="baby_transfer" style="zoom:30%;"></p>
+<p>以上的所有的训练与生成结果都部署在了谷歌Colab的在线notebook当中,可以通过浏览器直接运行并复现生成结果,notebook链接在 <a href="https://colab.research.google.com/drive/1fQ1VrYlnKjVahuc1G8slotKXD1O6RnWV" target="_blank" rel="noopener">这里</a></p>
+<h4 id="gan的原理补充">GAN的原理补充</h4>
+<p>​ 就我的自身理解,图像生成任务（或更广的讲,深度学习的几乎所有任务)是基于一个基本假设展开的,即一切事物的属性都有着其对应着某种分布特征,就好比与其他的图片相比,所有“猫”的图片在灰度值范围或者分布上是有其独特之处的,虽然那必然是一个极其“晦涩”的且难以从直觉上理解的高纬度特征,但深度学习飞速发展的事实证明,只要数据集样本够多且label正确,这样分布特征总是可以被够深的模型所找到。</p>
+<p>​ 在初次了解GAN的工作机制时,真的可以说是惊为天人,因为这种运作模式是在是太符合人类的直觉了,更难得的是一个如此符合人类直觉的模型竟然可以真的被实现,还取得如此好的效果。</p>
+<p>​ GAN的大致结构如图所示,其主要是由两个神经网络组合而成,分别是生成器Generator(下计为G)和判别器Discriminator（以下计为D)。生成器负责通过根据输入（在图像生成任务中通常是和输出图片等尺寸随机噪音)生成人造样本。之后将生成样本与数据集中的真实样本同时输入到判别器当中。而判别器的本质也就是一个分类器,输出其对于输入样本的判别结果。套用一位博主的比喻,生成器就像是一个假钞的仿造者,而判别器就是一台验钞机,当的生成器仿造的假币可以顺利通过一台足够强大验钞机的时候,我们的生成任务也就达成了。唉,不得不再次感叹GAN这个创意的简洁与强大！</p>
+<p><img src="/2020/12/20/gan-ukiyo-generator/figure/GAN.jpg" alt="GAN" style="zoom:50%;"></p>
+<p>​ 基于以上的工作原理即可以得到GAN的目标函数。</p>
+<p><span class="math display">\[
+V(D, G)=
+        E_{x\sim p_{data}(x)}[\log D(x)]
+        + E_{z\sim p_z(z)}[\log(1 - D(G(z)))]
+\]</span> 从公式不难可以看出中当判别器将所有样本的为真概率都输出为0.5时,目标函数可以达到最小值,也就可以理解为判别器已经完全无法分辨真实样本和生成样本,也就可以理解为生成器样本可以达到“以假乱真”的水平(当让这是在判别器也足够强大的前提下)</p>
+<h4 id="stylegan的特点">StyleGAN的特点</h4>
+<p>StyleGAN是本次实验使用的图像生成模型。它是Nvidia在2018年提出的。在阅读了网上其他博主对论文的解读之后,了解到StyleGAN的整体生成思路实际上是继承于ProGAN(渐进式生成对抗网络)。</p>
+<p>​ 而ProGAN的核心在于是其中的渐进式的生成模型。一张高质量的图像（比如<span class="math inline">\(1024\times1024\)</span>的RGB图像)其中含有个过多的特征,直接生成是相当困难的。因此就可以由小至大,逐级生成。也就是,先使用非常低分辨率的图像（如：4×4)开始训练生成器和判别器,并且逐次开始训练生成器和判别器,增加更高分辨率（8×8、16×16...)的网络层,直到最后能产生一个具有丰富细节的高清图片。而这也正是StyleGAN的生成器<span class="math inline">\(G_s\)</span>所采用的基本结构。但既然名字叫做StyleGAN,它的风格控制也就主要体现在每个分辨率的网络层都有一个独立的噪声输入<span class="math inline">\(B\)</span>,可以通过改变不同层的噪声输入来调整各个层级的风格特征,大如性别,年龄,小到眉毛的粗细。</p>
+<p><img src="/2020/12/20/gan-ukiyo-generator/figure/styleGAN.png" alt="styleGAN" style="zoom:20%;"></p>
+<p>​ 除此之外就是StyleGAN中新增的一个由八个线性层构成的输入映射网络<span class="math inline">\(G_m\)</span>,作者说这里是通过映射使得网络生成的图像风格更为统一。模型结构大概就如图左所示,而右图则给出了在训练速度于生成质量上StyleGAN的优胜之处。</p>
+<h4 id="浮世绘图像生成">浮世绘图像生成</h4>
+<h5 id="ukiyo-e-faces-数据集">Ukiyo-E Faces 数据集</h5>
+<p>​ 这次实验用到的是“Ukiyo-e faces dataset”。也是恰好找到了一个可以用且足够有趣的数据集。这是一个浮世绘数据集,是作者Justin Pinkney是从各大博物馆以及相关网站中爬下来的几千张浮世绘图片。但由于数据来源十分广泛,图片的质量和尺寸是千奇百怪,这里为了方便训练,作者专门使用了基于ESRGAN的分辨率增强模型,将所有图片统一到了1024X1024的分辨率,最终得到了一个5024张的浮世绘数据集,数据集的预览如图</p>
+<p><img src="/2020/12/20/gan-ukiyo-generator/figure/overview.jpeg" alt="数据集预览图" style="zoom: 25%;"></p>
+<p>​ 就直观来看,利用这个浮世绘数据集来微调StyleGAN的可行性还是蛮高的,一来作为艺术作品,它的颜色风格相比于真实世界还是要更为固定一些,数据集中的人像质量都很高,风格也都较为统一,例如男性的发型和面部的朝向大致可以划分为几种常见的风格,面部的颜色也基本相同,此外作为一个微调任务,5000张高质量人像已经算很充足了。</p>
+<h5 id="模型结构">模型结构</h5>
+<p>​ 由于模型比较大,很难直观的输出参数,不过好在使用的这个英伟达在github上的放出的模型是用Tensorflow写成的,因此可以很直观的使用TF中的Tensofboard可视化的输出整个模型结构。使用Tensorboard输出整个模型如图,可以看到模型主题是由输入映射网络<span class="math inline">\(G_m\)</span>,渐进式生成网络<span class="math inline">\(G_s\)</span>和判别器<span class="math inline">\(D\)</span>所构成的。</p>
+<p><img src="/2020/12/20/gan-ukiyo-generator/figure/model.png" style="zoom:25%;"></p>
+<p>​ 生成器<span class="math inline">\(G_s\)</span>的内部结构如图所示,可以看到生成器中所串联的由<span class="math inline">\(4\times4\)</span>一直到<span class="math inline">\(256 \times 256\)</span>的分辨率不断提高的生成层,此外,每个生成层左侧所额外连接的输入即为StyleGAN中控制图像风格的噪音输入。</p>
+<p><img src="/2020/12/20/gan-ukiyo-generator/figure/gs.png" style="zoom: 50%;"></p>
+<p>​ 这里再输出一下StyleGAN中最重要的部分,就是其用来控制生成图像具体生成细节的风格层,这里以<span class="math inline">\(G_s\)</span>中的128*128层为例,其结构如下图,与论文中的结构图类似（上右图为我根据slim模型结构重新绘制的生成层结构图),每个生成层都是由一个两个卷积网络,一个以及噪声输入的样式模块AdaIN和输出前的归一化层构成。</p>
+<p><img src="/2020/12/20/gan-ukiyo-generator/figure/layer.png" alt="layer" style="zoom: 70%;"></p>
+<h5 id="训练过程">训练过程</h5>
+<p>​ 这里参考了其他博主的微调经验之后。我选取了英伟达已经在FFHQ上训练完成的人像生成模型作为基准。在此基础上使用浮世绘数据集进行微调。FFHQ数据如图所示,其中包含了7万张1024分辨率的高清晰度人像。</p>
+<figure>
+<img src="/2020/12/20/gan-ukiyo-generator/figure/ffhq.jpeg" alt="ffhq"><figcaption>ffhq</figcaption>
+</figure>
+<p>​ 这里的模型训练为了方便,就直接在英伟达官方放出的基于FFHQ数据集的训练代码上改了一下模型尺寸,然后就用google的COLAB跑起来了。使用的GPU就是一块google的免费提供的Tesla T4,性能基本等于一张RTX2070,算是很良心了。然后预训练模型的参数就选用的是英伟达在FFHQ数据集上训练好的256分辨率的slim结构的模型。</p>
+<figure>
+<img src="/2020/12/20/gan-ukiyo-generator/figure/process.png" alt="process"><figcaption>process</figcaption>
+</figure>
+<p>不得不说,GAN的训练确实比较耗算力,即使只是低分辩输入,slim结构的styleGAN模型也训练大概断断续了花了九个小时。</p>
+<h5 id="浮世绘风格的现代人像生成">浮世绘风格的现代人像生成</h5>
+<p>​ 使用fine-tune好模型的先随机跑了五十张图出来,效果如图[]所示,可以看到生成结果还是相当可观的,至少大多数图片不论是从画风还是人物神态都是“有那味”的（当然也有一些“不成人形”的存在)。不过还是存在很明显的共性缺陷的,例如相当一部分生成人物都是“斗鸡眼”或者翻白眼。这里我猜测一来是算力有限的缘故,选取的参数比较少的slim的结构的StyleGAN,本身的特征捕捉能力就较弱；此外本身浮世绘中人像的眼睛都较小,特征较为难以捕捉,再加上为了适应slim的模型结构,输入图片都被从1024$<span class="math inline">\(1024压缩到了256\)</span>$256,导致模型可以捕捉到的眼睛部分的特征更加稀缺,所以导致了生成结果的眼神都画风清奇。</p>
+<p><img src="/2020/12/20/gan-ukiyo-generator/figure/results.jpeg" alt="results" style="zoom:50%;"></p>
+<h4 id="modelblending-生成浮世绘风格的现代人像">ModelBlending 生成浮世绘风格的现代人像</h4>
+<h5 id="模型融合的玩法">模型融合的玩法</h5>
+<p>​ 训练完生成模型之后,按理说该做的也就差不多了,可感觉到现在为止自己做的就是找到已有的代码和合适的数据集,然后稍微修改数据集的格式和运行代码,然后就结束了,完全就像是在玩一个黑箱。另一方面费了这么久训练出来的模型,就跑出几个看着还行的生成样例就要吃灰了,也太浪费了！StyleGAN一定还有更有趣的玩法。</p>
+<p>​ 结果确实如此,就在提供数据集的博主那里,就找到了一篇关于生成模型model Bledding的方法。大致就是通过融合StyleGAN不同模型中<span class="math inline">\(G_s\)</span>的stylelaye,得到新的模型,从而生成具有混合风格的图像,博客中就给出了网上有人做的二次元小姐姐和小马宝莉的StyleGAN融合模型如图,别说效果还真不错。</p>
+<p><img src="/2020/12/20/gan-ukiyo-generator/figure/arfa-frames.jpg"></p>
+<p>​ 作为一个非常流行的生成模型,StyleGAN的应用起来的一大优势就是有各种数据集上预训练模型可以直接拿过来用。另一方面本身这个浮世绘生成模型就是在FFHQ模型上上微调得到的,因此就可以直接把原本的FFHQ模型参数作为融合对象,这样就有可以得到浮世绘风格的现代人相。（不知道为什么一看到个玩法在我心里立马就蹦出了下图的画面)</p>
+<p><img src="/2020/12/20/gan-ukiyo-generator/figure/funny.jpeg" alt="funny" style="zoom:30%;"></p>
+<h5 id="model-belnding-的原理">Model Belnding 的原理</h5>
+<p>​ 前面已经提到了StyleGAN的核心就是从ProGAN那里继承的渐进式生成网络,其生成的高清图像是从极低分辨率（<span class="math inline">\(4\times4\)</span>)一层一层提升得到的,而相应的,每一层就对应了不同方面的风格特征,这也正是其在每一层添加噪声能修改其具体风格的原因。</p>
+<p>​ 基于这个特点,也就有博主提出了一种model-bleeding的方法,就是通过将两个模型的不同风格层融合得到新的模型,进而可以生成混合风格的生成图像。具体就是针对选择的生成层,将其中的参数进行融合。 <span class="math display">\[
+w_n = \gamma \cdot w_1 + (1 - \gamma) \cdot w_2
+\]</span> 参数融合有两种方法,一种是软融合,就是将两个模型的参数比例系数<span class="math inline">\(\gamma\)</span>进行加权融合,第二硬融合也就是<span class="math inline">\(\gamma = 1\)</span>的特殊情况,即直接把模型1中一些生成层的参数换成对应模型2中的值得到新的模型,以下的融合均采用的是硬融合的方法。这里就贴一下模型融合部分的代码如图</p>
+<p><img src="/2020/12/20/gan-ukiyo-generator/figure/blendcode.png" alt="blendcode" style="zoom:50%;"></p>
+<h5 id="模型融合的生成结果">模型融合的生成结果</h5>
+<p>既然要生层浮世绘的现代现代人像,那就是希望人像的样貌接近现代,而基于渐进式生成模型的原理,整个图像的画风则近似浮世绘,而图像的风格生成主要是高分辨率层在控制,人物的形象则是在低分辨率是就基本确定。因此这里选择使用ffhq数据集训练的人脸生成模型作为基础模型,然后再将高分辨率的生成层逐步替换为浮世绘模型的参数,使得模型具有浮世绘的图像风格,方法和替换后的结构可以见图</p>
+<p><img src="/2020/12/20/gan-ukiyo-generator/figure/shit.png" alt="shit" style="zoom:48%;"></p>
+<p>​ 这里根据融合程度共新建了5个融合模型,然后对不同模型使用相同的输入即可得到风格渐变的生成结果。最终经过挑选后得到的较为可观的渐变的生成结果如图所示。这里面基本上16X16级别的融合模型就很好的实现了浮世绘风格的现代人人像的目标。而其中也有很多较为有趣的点,比如生成结果中第六列的女性,在ffhq人像模型中,其生成结果有一个抱手的动作,但当浮世绘模型逐渐替换到低分辨率的生成层时,此时人物的风格也开始被浮世绘模型所干涉,因此原本的手掌变成了扇子,真是神奇。</p>
+<p><img src="/2020/12/20/gan-ukiyo-generator/figure/best-transfer.jpeg" alt="best-transfer" style="zoom:50%;"></p>
+<h4 id="一些思考">一些思考</h4>
+<p>​ 融合生成结果中也有一些比较诡异的部分,比如就中等程度（32or64)的融合会出现非常惊悚的结果如图[],这里我就猜测一方面人脸模型的负责生成眼睛的中间层不能完整的工作的同时浮世绘层有没有足够的特征生成丰富的面部表情。导致中等程度的融合（32或64)面部的内容出现了确实,才有了出现比较“少儿不宜”的生成结果。</p>
+<p><img src="/2020/12/20/gan-ukiyo-generator/figure/bled32.jpeg" alt="bled32" style="zoom:33%;"></p>
+<p>​ 此外还做了以浮世绘模型为基础的反向融合,效果也不是太好,我猜测原因也是由于浮世绘模型中的人脸特征不足以给出一个可以在“真实世界”里成型的人脸,导致在以真实世界作为高分辨率层的模型中人脸是扭曲的。</p>
+<p><img src="/2020/12/20/gan-ukiyo-generator/figure/vertransfer.jpeg" alt="vertransfer" style="zoom: 33%;"></p>
+<h4 id="reference">Reference</h4>
+<ul>
+<li><p><a href="https://shartoo.github.io/2019/05/12/edit-stylegan-humanface/" target="_blank" rel="noopener">使用StyleGAN训练自己的数据集</a></p></li>
+<li><p><a href="https://www.justinpinkney.com/ukiyoe-dataset/" target="_blank" rel="noopener">Ukiyo-e faces数据集</a></p></li>
+<li><p><a href="https://www.justinpinkney.com/stylegan-network-blending/" target="_blank" rel="noopener">模型融合方法</a></p></li>
+<li><p>StyleGAN:A Style-Based Generator Architecture for Generative Adversarial Networks</p></li>
+</ul>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> CV </tag>
+            
+            <tag> personal tiny project </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[「Paper-Reading」RCNN family —— 基于Region Proposal的目标检测模型]]></title>
+      <url>/2020/11/30/rcnn/</url>
+      <content type="html"><![CDATA[<p>R-CNN的横空出世标志着“目标检测”被纳入了深度学习的板块之中,RCNN家族是从传统的基于手工特征的目标检测框架逐步迭代而来的,因而其模型也相对复杂,与之后纯粹源于深度学习的YOLO系列模型形成了鲜明对比.</p>
+<a id="more"></a>
+<p>本文将从RCNN入手,记录基于Region Proposal的目标检测模型的基本结构, 并补充其后续版本的改进之处(Fast R-CNN .e.tc.).</p>
+<h4 id="od任务的基本问题-localization-classification">OD任务的基本问题: localization + classification</h4>
+<p>借用知乎上一个博主的总结,OD要解决的问题就是“物体在哪里以及是什么”的流程问题.而其中“是什么?”其实是CV中典型的classification问题,已经有很多成熟的模型可直接调用.因而解决“物体在哪里”的localization任务,就成了OD任务的重点.为了方便即后续讨论,对于localization问题,我们可以记</p>
+<blockquote>
+<p>输入：图片</p>
+<p>输出：方框在图片中的位置（x,y,w,h）</p>
+<p>label: 物体在图片中的实际位置（x,y,w,h）</p>
+<p>评估方法：检测评价函数 intersection-over-union(IOU,也就是俗称的召回率)</p>
+</blockquote>
+<p>简而言之,localization就是输出物体坐标(根据坐标即可得到物体的bonding box),并最大化IOU,即尽量使预测bonding box与实际物体框重合.对于localization,有两种处理思路</p>
+<h5 id="思路一将localization看作回归问题">思路一:将localization看作回归问题</h5>
+<p>当将localization看作回归问题,即使用label数据回归预测（x,y,w,h）四个参数,得到bondingbox.这实际上延续了CV中解决classification问题的思路,只需改变一下输出层的结构(将输出层由类别改为四个坐标),即可使用经过预训练的CNN模型(Vgg,AvexNet e.t.c)来完成localization.</p>
+<p><img src="https://images2015.cnblogs.com/blog/1093303/201705/1093303-20170504112723757-880743532.png"></p>
+<p>直觉上讲,我会觉得regression的思路与机器学习的模型更为契合,不幸的是RCNN的作者提到回归法在目标检测中在实践中并不能取得理想的结果,因此沿用了之前的传统思路(使用selectivesearch 的方法选取候选区域),不过这并不代表regression不可行,之后的YOLO就是基于回归的思路进行物体location的,并大放异彩.</p>
+<h5 id="思路二从图中取出若干候选区域并选出最优">思路二:从图中取出若干候选区域,并选出最优</h5>
+<p>候选区域（Region Proposal</p>
+<h4 id="r-cnn-selective-search-cnn-svm-结构">R-CNN （Selective Search + CNN + SVM 结构）</h4>
+<p>R-CNN算是卷积神经网络在目标检测领域的开山之作,整体结构上R-CNN继承了已经较为成熟的Selective Search + DPM/HoG + SVM的目标检测框架.在其最大的突破点在于使用CNN作为特征提取器,代替传统了的已经到瓶颈的手工特征(DPM/HoG);并且经过预训练的CNN特征提取器(如在ImageNet上预训练的Vgg)在应用时只需在目标数据集上进行fine-tuning,降低了对数据集的要求,可以解决数据集不足的问题.</p>
+<h5 id="工作流程与总体结构">工作流程与总体结构</h5>
+<p>RCNN的运行可分为四个步骤,我把它简化为“找框,喂框,认框,修框”,具体来说就是</p>
+<blockquote>
+<p>找框(生成候选区域)： 采用Selective Search 方法,对每张输入图片生成1-2K个候选区域</p>
+<p>喂框(CNN特征提取)： 对每个候选区域，使用CNN提取特征,得到其特征向量</p>
+<p>认框(类别判断)： 将候选区域的特征向量特征送入每一个类(人、马、狗 e.t.c.)的SVM 分类器，判别是否属于该类</p>
+<p>修框(位置精修)： 使用回归器精细修正候选框位置</p>
+</blockquote>
+<p><img src="/2020/11/30/rcnn/figure/rcnn-process.png" alt="rcnn-process" style="zoom:50%;"></p>
+<p>相应地,RCNN由三部分构成,第一部分是生成候选区域的Selective Search算法;第二部分是用来提取特征的CNN(文中选取了Vgg16),第三部分是用以分类的SVM(如果是现在,一定也会用CNN做分类)</p>
+<h5 id="selective-search">Selective Search</h5>
+<p>前面提到,RCNN是在之前的传统目标检测框架上迭代得到的,因此生成候选区域时仍然沿用了之前已经较为成熟的Selective Search方法.Selective Search主要是根据图像的色彩与纹理特征,先得到若干个较小的同类区域,再根据一定规则将较小的同类区域合,并得到物体的候选区域,其具体的算法流程如下</p>
+<blockquote>
+<ol type="1">
+<li>根据图像的色彩纹理特征,使用过分割手段，将图像分割成小区域 (1k~2k 个)</li>
+<li>查看现有小区域，按照合并规则合并可能性最高的相邻两个区域。重复直到整张图像合并成一个区域位置</li>
+<li>输出所有曾经存在过的区域，即得到了RCNN所需的候选区域</li>
+</ol>
+</blockquote>
+<p>并且合并规则保证优先合并以下四种区域：</p>
+<blockquote>
+<p>1.颜色（颜色直方图）相近的</p>
+<p>2.纹理（梯度直方图）相近的</p>
+<p>3.合并后总面积小的： 保证合并操作的尺度较为均匀，避免一个大区域陆续“吃掉”其他小区域</p>
+<p>4.合并后，总面积在其BBOX中所占比例大的： 保证合并后形状规则。</p>
+</blockquote>
+<p><img src="/2020/11/30/rcnn/figure/selectivesearch.png"></p>
+<h4 id="spp-netroi-pooling-的引入">SPP-net（ROI Pooling 的引入）</h4>
+<p>要优化得到RCNN的后续改进型,就要先看看RCNN有哪些缺点,之前RCNN在选出Selective Search上千个bondingbox之后,需要将每个物体框resize后依次通过CNN特征提取器,这是相当耗时的一个环节.如果可以先得到整张图片的特征,在每次选取bondingbox时取整体特征的一部分直接得到物体的特征值,效率必然会大大提升</p>
+<p><img src="https://bloglunit.files.wordpress.com/2017/05/20170525-research-seminar-google-slides-2017-05-26-17-14-03.png"></p>
+<p>SSP-Net就通过引入空间金字塔池化(Spatial Pyramid Pooling),在输入和特征提取方面对RCNN进行了两处改进</p>
+<blockquote>
+<p>1.结合空间金字塔方法实现CNNs的对尺度输入。 一般CNN后接全连接层或者分类器，他们都需要固定的输入尺寸，因此不得不对输入数据进行crop或者warp，这些预处理会造成数据的丢失或几何的失真。SPP Net的第一个贡献就是将金字塔思想加入到CNN，实现了数据的多尺度输入。</p>
+<p>2.只对原图提取一次卷积特征 在R-CNN中，每个候选框先resize到统一大小，然后分别作为CNN的输入，这样是很低效的。 所以SPP Net根据这个缺点做了优化：只对原图进行一次卷积得到整张图的feature map，然后找到每个候选框zaifeature map上的映射patch，将此patch作为每个候选框的卷积特征输入到SPP layer和之后的层。节省了大量的计算时间，比R-CNN有一百倍左右的提速。</p>
+</blockquote>
+<h4 id="fast-r-cnnselective-search-cnn-roi-结构">Fast R-CNN（Selective Search + CNN + ROI 结构）</h4>
+<p>如果说SSP方法给出了RCNN改进的方向,那Fast R-CNN就是在SPP Net的基础上,引入了ROI Pooling层，对RCNN作了进一步改进，使得性能进一步提高。</p>
+<p><img src="/2020/11/30/rcnn/figure/fastrcnn.png" alt="fastrcnn" style="zoom:30%;"></p>
+<h5 id="roi-pooling-层">ROI Pooling 层</h5>
+<p>FastRCNN作者提出了一个可以看做单层sppnet的网络层，叫做ROI Pooling，这个网络层可以把不同大小的输入映射到一个固定尺度的特征向量，而我们知道，conv、pooling、relu等操作都不需要固定size的输入，因此，在原始图片上执行这些操作后，虽然输入图片size不同导致得到的feature map尺寸也不同，不能直接接到一个全连接层进行分类，但是可以加入这个神奇的ROI Pooling层，对每个region都提取一个固定维度的特征表示，再通过正常的softmax进行类型识别。另外，之前RCNN的处理流程是先提proposal，然后CNN提取特征，之后用SVM分类器，最后再做bbox regression，而在Fast-RCNN中，作者巧妙的把bbox regression放进了神经网络内部，与region分类和并成为了一个multi-task模型，实际实验也证明，这两个任务能够共享卷积特征，并相互促进。Fast-RCNN很重要的一个贡献是成功的让人们看到了Region Proposal+CNN这一框架实时检测的希望，原来多类检测真的可以在保证准确率的同时提升处理速度，也为后来的Faster-RCNN做下了铺垫。</p>
+<p><img src="https://bloglunit.files.wordpress.com/2017/05/20170525-research-seminar-google-slides-2017-05-29-19-06-26.png"></p>
+<h4 id="faster-r-cnnrpn-cnn-roi-结构">Faster R-CNN（RPN + CNN + ROI 结构）</h4>
+<p>Fast R-CNN与SSPNe已经t针对RCNN特征提取与输入尺寸方面的不足做了优化,为了进一步提升效率,就要对RCNN候选区域生成环节进行优化了</p>
+<blockquote>
+<p>问题: RCNN的选择性搜索算法要一次找出上千个候选框，非常耗时且低效 解决：加入一个提取边缘的神经网络Region Proposal Network(RPN),将深度学习引入候选框生成环节</p>
+</blockquote>
+<p>基于以上优化整个Faster R-CNN可以分为三部分：</p>
+<blockquote>
+<ol type="1">
+<li>backbone：<strong>共享基础卷积层，用于提取整张图片的特征</strong>。例如VGG16，或Resnet101，去除其中的全连接层，只留下卷基层，输出下采样后的特征图。</li>
+<li>RPN：候选检测框生成网络（Region Proposal Networks）。</li>
+<li>Roi pooling与分类网络：对候选检测框进行分类，并且再次微调候选框坐标（在RPN中，网络会根据先前人为设置的anchor框进行坐标调整，所以这里是第二次调整）。输出检测结果。</li>
+</ol>
+</blockquote>
+<p><img src="https://pic4.zhimg.com/80/v2-e64a99b38f411c337f538eb5f093bdf3_1440w.jpg" style="zoom:73%;"></p>
+<h5 id="rpn网络">RPN网络</h5>
+<p>总的来说，从R-CNN, SPP-NET, Fast R-CNN, Faster R-CNN一路走来，基于深度学习目标检测的流程变得越来越精简，精度越来越高，速度也越来越快。可以说基于Region Proposal的R-CNN系列目标检测方法是当前目标检测技术领域最主要的一个分支,不过也由于RCNN家族是从传统的基于手工特征的目标检测框架逐步迭代而来的,因而其模型也相对复杂,,用金庸小说中对武功的分类来讲,RCNN家族模型兼有的复杂结构与高精度,可以说是目标检测中的“气宗”,而与之后纯粹源于深度学习的YOLO系列模型形成了鲜明对比</p>
+<h4 id="reference">Reference</h4>
+<ul>
+<li>https://www.cnblogs.com/skyfsm/p/6806246.html</li>
+<li>https://www.cnblogs.com/yhyue/p/9247962.html</li>
+<li>https://towardsdatascience.com/r-cnn-fast-r-cnn-faster-r-cnn-yolo-object-detection-algorithms-36d53571365e?gi=ca4fe493ba3e</li>
+</ul>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> paper reading </tag>
+            
+            <tag> CV </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[seqGAN后续——代码阅读+重构新版PoemGenerator]]></title>
+      <url>/2020/10/30/seqGAN-code/</url>
+      <content type="html"><![CDATA[<p>aaa</p>
+<a id="more"></a>
+<p>这是上一篇paper-reading的后续。在NLG中，强化学习肯定是相当重要的一种思路，因此GAN的实现还是相当有必要的，而seqGAN可以说是的文本GAN中的baseline了（leakGAN maskGAN etc.）所以这几天半抄半改的复现了seqGAN，并在上面跑了一下全唐诗（相比之下自己以前的LSTM-Generator纯属小玩具orz）。</p>
+<h2 id="code">Code</h2>
+<p>在读了seqGAN的代码的基础上，我也根据自己的习惯小幅重构了一下，也方便加深理解</p>
+<h3 id="build-generator">build Generator</h3>
+<p>说实话我并不理解这里作者为什么要手撸一个LSTM（肯定不是不会用API XD） 我目前的理解是直接用<code>tf.nn.rnn.LSTMcell</code>的话不方便向Rollout中的<span class="math inline">\(G_\beta\)</span>传Variable。不过代码里很多tf函数的用法也还是第一次见到，学到了不少。</p>
+<h4 id="unrolled-rnn-unit">Unrolled RNN unit</h4>
+<p><code>start token</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#使用TensorArray便于读写</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">gen_o = tf.TensorArray(dtype=tf.float32, size=self.c,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">                                        dynamic_size=<span class="literal">False</span>, infer_shape=<span class="literal">True</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">gen_x = tf.TensorArray(dtype=tf.int32, size=self.config.seq_maxlen,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">                                        dynamic_size=<span class="literal">False</span>, infer_shape=<span class="literal">True</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#unrolled lstm </span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">_, _, _, self.gen_o, self.gen_x = tf.while_loop(</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    cond=<span class="keyword">lambda</span> i, _1, _2, _3, _4: i &lt; </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    self.sequence_length,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">    body=_g_recurrence, </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">    loop_vars=(tf.constant(<span class="number">0</span>, dtype=tf.int32),</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">            tf.nn.embedding_lookup(self.g_embeddings, self.start_token), self.h0, gen_o, gen_x))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">self.gen_x = self.gen_x.unstack()</span></pre></td></tr></table></figure>
+<p>这里的<code>tf.while_loop</code>还是第一次见到orz,详解见<a href="https://blog.csdn.net/u011509971/article/details/78805727" target="_blank" rel="noopener">这里</a>简单说一下把，<code>tf.while_loop</code>函数中<code>cond</code>和<code>body</code>分别是进行判别和执行操作的函数，他们都会接收<code>loop_vars</code>中的所有参数，所以要注意参数的位置和数量的一致</p>
+<h4 id="pretrain-loss">pretrain loss</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">self.pretrain_loss = -tf.reduce_sum(</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    tf.one_hot(tf.to_int32(tf.reshape(self.x, [<span class="number">-1</span>])), self.num_emb, <span class="number">1.0</span>, <span class="number">0.0</span>) * tf.log(</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">            tf.clip_by_value(tf.reshape(self.g_predictions, [<span class="number">-1</span>, self.num_emb]), <span class="number">1e-20</span>, <span class="number">1.0</span>)</span></pre></td></tr></table></figure>
+<h3 id="build-discriminator">build Discriminator</h3>
+<p>discriminator的任务就是对于生成的文本输出一个介于0和1之间的分值，在本次的seqGAN中Discriminator使用了一个多层CNN用来执行分类任务</p>
+<h4 id="cnn-unit">CNN unit</h4>
+<p>说实话，炼丹这么久了，CNN正经一点了解都没有，真是太丢人了。 就在这里顺道学一下CNN吧</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">pooled_outputs = []</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> filter_size, num_filter <span class="keyword">in</span> zip(filter_sizes, num_filters):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">with</span> tf.name_scope(<span class="string">"conv-maxpool-%s"</span> % filter_size):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">        <span class="comment"># Convolution Layer</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">        filter_shape = [filter_size, embedding_size, <span class="number">1</span>, num_filter]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">        W = tf.Variable(tf.truncated_normal(filter_shape, stddev=<span class="number">0.1</span>), name=<span class="string">"W"</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">        b = tf.Variable(tf.constant(<span class="number">0.1</span>, shape=[num_filter]), name=<span class="string">"b"</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        conv = tf.nn.conv2d(</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">            self.embedded_chars_expanded,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">            W,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">            strides=[<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>],</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">            padding=<span class="string">"VALID"</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">            name=<span class="string">"conv"</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">        <span class="comment"># Apply nonlinearity</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">        h = tf.nn.relu(tf.nn.bias_add(conv, b), name=<span class="string">"relu"</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">        <span class="comment"># Maxpooling over the outputs</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">        pooled = tf.nn.max_pool(</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">            h,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">            ksize=[<span class="number">1</span>, sequence_length - filter_size + <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>],</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">            strides=[<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>],</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">            padding=<span class="string">'VALID'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">            name=<span class="string">"pool"</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">        pooled_outputs.append(pooled)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># Combine all the pooled features</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">num_filters_total = sum(num_filters)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">self.h_pool = tf.concat(pooled_outputs, <span class="number">3</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">self.h_pool_flat = tf.reshape(self.h_pool, [<span class="number">-1</span>, num_filters_total])</span></pre></td></tr></table></figure>
+<p>这里的输入x是sequence已经被展开到一维的embeddings。这里的多层CNN就能将一个长度为<code>embed_size * seq_len</code>的向量降到</p>
+<h4 id="highway-unit">Highway unit</h4>
+<p>highway层为了加快收敛而添加的</p>
+<p>关于highway，我参考了<a href="https://zhuanlan.zhihu.com/p/35019701" target="_blank" rel="noopener">这里</a>，paper原文在<a href="http://arxiv.org/abs/1505.00387" target="_blank" rel="noopener">这里</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr></table></figure>
+<h3 id="roll-out">Roll out</h3>
+<p><span class="math inline">\(D\)</span>和<span class="math inline">\(G\)</span>都构建完成，就要开始rollout了，Rollout在初始化时，<span class="math inline">\(G_\beta\)</span>会接受一整套预训练完成的Generator的LSTM，作为初始值。</p>
+<p>在更新时，update-rate就上场了，在update时，rollout中的LSTM并不是原样接收<span class="math inline">\(G_\theta\)</span>中的值，而是部分保留，部分更新</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">G_bate = G_beta * (<span class="number">1</span> - updata_rate) + G_theta * update_rate</span></pre></td></tr></table></figure>
+<h4 id="get-rawards">Get rawards</h4>
+<p>这里可以说是seqGAN的核心function</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_reward</span><span class="params">(self, sess, input_x, rollout_num, discriminator)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    rewards = []</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(rollout_num):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    <span class="comment">#D开始对生成sample中的每个token打分</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">for</span> given_num <span class="keyword">in</span> range(<span class="number">1</span>, self.sequence_length ):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">        <span class="comment"># t &lt; t 时 会使用G_beta生成token补全sequesnce</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">            feed = &#123;self.x: input_x, self.given_num: given_num&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">            samples = sess.run(self.gen_x, feed)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">            feed = &#123;discriminator.input_x: samples, discriminator.dropout_keep_prob: <span class="number">1.0</span>&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">            ypred_for_auc = sess.run(discriminator.ypred_for_auc, feed)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">            ypred = np.array([item[<span class="number">1</span>] <span class="keyword">for</span> item <span class="keyword">in</span> ypred_for_auc])</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">if</span> i == <span class="number">0</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">                rewards.append(ypred)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">                <span class="comment">#第一轮rollout生成打分栏</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">else</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">                rewards[given_num - <span class="number">1</span>] += ypred</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">                <span class="comment">#后面直接往上加</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">        <span class="comment"># the last token reward</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">        feed = &#123;discriminator.input_x: input_x, discriminator.dropout_keep_prob: <span class="number">1.0</span>&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">        ypred_for_auc = sess.run(discriminator.ypred_for_auc, feed)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">        ypred = np.array([item[<span class="number">1</span>] <span class="keyword">for</span> item <span class="keyword">in</span> ypred_for_auc])</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">if</span> i == <span class="number">0</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">            rewards.append(ypred)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">else</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">            <span class="comment"># completed sentence reward</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">            rewards[self.sequence_length - <span class="number">1</span>] += ypred</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">    rewards = np.transpose(np.array(rewards)) / (<span class="number">1.0</span> * rollout_num)  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">    <span class="comment">#batch_size x seq_length</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">return</span> rewards</span></pre></td></tr></table></figure>
+<h3 id="optimize">Optimize</h3>
+<p>获得了reward之后，就要开始优化了</p>
+<p>着重读一下这几个loss吧</p>
+<h3 id="run">RUN</h3>
+<p>基本模块都完成了，现在就开始GAN吧！ 先理一下训练流程</p>
+<h4 id="adversial-train">Adversial Train</h4>
+<p>这是一个epoch的代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> it <span class="keyword">in</span> range(<span class="number">1</span>):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    samples = generator.generate(sess)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    <span class="comment">#注意，一次generate生成一整个seqence个而非一个token</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    rewards = rollout.get_reward(sess, samples, <span class="number">16</span>, discriminator)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    feed = &#123;generator.x: samples, generator.rewards: rewards&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    _ = sess.run(generator.g_updates, feed_dict=feed)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># Test</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> total_batch % <span class="number">5</span> == <span class="number">0</span> <span class="keyword">or</span> total_batch == TOTAL_BATCH - <span class="number">1</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">    generate_samples(sess, generator, BATCH_SIZE, generated_num, eval_file)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">    likelihood_data_loader.create_batches(eval_file)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">    test_loss = target_loss(sess, target_lstm, likelihood_data_loader)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># Update roll-out parameters</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">rollout.update_params()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># Train the discriminator</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">5</span>):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">    generate_samples(sess, generator, BATCH_SIZE, generated_num, negative_file)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">    dis_data_loader.load_train_data(positive_file, negative_file)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">3</span>):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">        dis_data_loader.reset_pointer()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">for</span> it <span class="keyword">in</span> xrange(dis_data_loader.num_batch):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">            x_batch, y_batch = dis_data_loader.next_batch()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">            feed = &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">                discriminator.input_x: x_batch,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">                discriminator.input_y: y_batch,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">                discriminator.dropout_keep_prob: dis_dropout_keep_prob</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">            &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">            _ = sess.run(discriminator.train_op, feed)</span></pre></td></tr></table></figure>
+<h3 id="orcal-lstm">Orcal LSTM</h3>
+<p>说实话，刚看代码的时候，一直不明白source里的<code>target_lstm.py</code>是干嘛的，还以为是作者写的LSTM的模版，最后重读了一边论文，才发现这部分的作用。原文在实验的时候引入了orcale-model，说白了就是他们有一个在目标任务上预训练的相当成熟的LSTM可以直接生成正样本相比于从零开始,模型收敛会快上不少，而我在跑Chinese-Poem的时候，这部分肯定就没有了。</p>
+<h3 id="others">others</h3>
+<h4 id="data-until">data until</h4>
+<p>这次用的数据是ChinesePoem<a href="http://homepages.inf.ed.ac.uk/mlap/Data/EMNLP14/rnnpg_data_emnlp-2014.tar.bz2" target="_blank" rel="noopener">下载</a> 有28W首。 数据以40为单位做了切分，并做了mask</p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> RL </tag>
+            
+            <tag> paper reading </tag>
+            
+            <tag> NLP </tag>
+            
+            <tag> personal tiny project </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[「Paper-Reading」seqGAN——将GAN与Policy Gradient带入NLP领域]]></title>
+      <url>/2020/10/27/seqGAN/</url>
+      <content type="html"><![CDATA[<p>前段时间使用上交开源的seqGAN重新实现了Poem Generator,这几天回头细读一下文章</p>
+<a id="more"></a>
+<h3 id="abstract">Abstract</h3>
+<h3 id="proposed-model">Proposed Model</h3>
+<p>为了方便阅读，我们先记</p>
+<ul>
+<li>discriminator <span class="math inline">\(D\)</span></li>
+<li>generator <span class="math inline">\(G\)</span></li>
+<li>vocabulary <span class="math inline">\(\gamma\)</span></li>
+<li>a sequence <span class="math inline">\(Y_{1:T} = (y_1,...,y_t,...,y_T),y_t ∈ \gamma\)</span></li>
+<li>current state <span class="math inline">\(s = Y_{1:t-1}\)</span>(当前的状态为之前所有输出tokens的序列)</li>
+<li>next state <span class="math inline">\(s^{,} = Y_{1:t}\)</span></li>
+<li>action <span class="math inline">\(a = y_t\)</span></li>
+</ul>
+<p>在上面的预设下，所有Text-Generation类任务，都可以抽象化为在<span class="math inline">\(t\)</span>时刻，已经生成<span class="math inline">\((y_1,..y_{t-1})\)</span>的基础上，采取什么action（如何选取<span class="math inline">\(y_t\)</span>）。</p>
+<h4 id="seqgan-via-policy-gradient">SeqGAN via Policy Gradient</h4>
+<p>生成器有<span class="math inline">\(G_\theta(y_t|Y_{1:t-1})\)</span> 在对抗学习的情境下，<span class="math inline">\(G\)</span> 目标函数是</p>
+<p><span class="math display">\[
+&lt;Empty \space Math \space Block&gt;
+\]</span></p>
+<p>那么<span class="math inline">\(D\)</span>是怎么计算每一步的value的呢？</p>
+<p>可这样的话，Discriminator只能对一整个seq进行判别 这里就要Rollout Policy出场了</p>
+<p>在前<span class="math inline">\(T-1\)</span>时刻 <span class="math display">\[
+Q^{G_\theta}_{D_\phi}(a = y_t;s = Y_{1:t-1}) =
+\frac{1}{N}\sum^{N}_{n=1}D_\phi(Y_{1:T}^{n})
+\]</span></p>
+<p>其中 <span class="math display">\[
+Y_{1:T}^{n}
+\]</span></p>
+<p>最后的<span class="math inline">\(T\)</span>时刻，由于，序列已经生成了，就不用</p>
+<p><span class="math display">\[
+ Q^{G_\theta}_{D_\phi}(a = y_T;s = Y_{1:T-1}) = D_\phi(Y_{1:T})
+\]</span></p>
+<p>是在看完代码之后，才明白在Rollout里面也保存着一套LSTM，这就是paper中说的<span class="math inline">\(G_\beta\)</span>，</p>
+<h4 id="step">Step</h4>
+<p>先用MLE去预训练<span class="math inline">\(G_\theta\)</span>，再用<span class="math inline">\(G_\theta\)</span>生成的“赝品”和真实数据共同去预训练<span class="math inline">\(D_\phi\)</span></p>
+<p>action value function : <span class="math inline">\(Q^{G_\theta}_{D_\phi}(s,a)\)</span></p>
+<p><img src="/2020/10/27/seqGAN/figure/seqgan.png" style="zoom:30%;"></p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> RL </tag>
+            
+            <tag> paper reading </tag>
+            
+            <tag> NLP </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[「Personal Project」用LSTM实现唐诗生成]]></title>
+      <url>/2020/08/27/rnn-poem-generator/</url>
+      <content type="html"><![CDATA[<p>Aaa</p>
+<a id="more"></a>
+<h4 id="生成样例">生成样例</h4>
+<blockquote>
+<p>春日不能来处苦。</p>
+<p>今岁不应同梦泪，</p>
+<p>却笑花中一千载？</p>
+<p>今年春尽是何由？</p>
+<p>天子龙城万丈春，黄河万国五年风。</p>
+<p>九衢无路何时日，犹得三春作帝王。</p>
+<p>欙阳宫殿里。</p>
+<p>金炉上殿，凤箫相对花中扇。</p>
+<p>春花落叶花枝里，绿叶落。</p>
+<p>春来月夜，红草斜。</p>
+<p>沙场不觉有新声，</p>
+<p>万古犹能不自伤。</p>
+<p>若到江城花满夜。</p>
+<p>莫教心绪谁同事？</p>
+<p>西山有心心断处。</p>
+</blockquote>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> NLP </tag>
+            
+            <tag> personal tiny project </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[「Paper-Reading」YOLO Family]]></title>
-      <url>/2021/04/30/YOLO/</url>
+      <url>/2020/07/01/YOLO/</url>
       <content type="html"><![CDATA[<p>YOLO,You Only Look Once!</p>
 <a id="more"></a>
 <p>站在2021年这个时间点上,目标检测领域的模型已经百花齐放,其中各个版本的YOLO几乎是最快捷的默认选项.尽管能跑通训练样例,但对我而言,YOLO的内在原理仍然是黑盒,那就从精读YOLOV1开始吧!</p>
@@ -15,7 +454,7 @@
 <p>具体来说，Yolo的CNN网络将输入的图片分割成 <img src="https://www.zhihu.com/equation?tex=S%5Ctimes+S" alt="[公式]"> 网格，然后每个单元格负责去检测那些中心点落在该格子内的目标，如图6所示，可以看到狗这个目标的中心落在左下角一个单元格内，那么该单元格负责预测这个狗。每个单元格会预测 <img src="https://www.zhihu.com/equation?tex=B" alt="[公式]"> 个边界框（bounding box）以及边界框的置信度（confidence score）。所谓置信度其实包含两个方面，一是这个边界框含有目标的可能性大小，二是这个边界框的准确度。前者记为 <img src="https://www.zhihu.com/equation?tex=Pr%28object%29" alt="[公式]"> ，当该边界框是背景时（即不包含目标），此时 <img src="https://www.zhihu.com/equation?tex=Pr%28object%29%3D0" alt="[公式]"> 。而当该边界框包含目标时， <img src="https://www.zhihu.com/equation?tex=Pr%28object%29%3D1" alt="[公式]"> 。边界框的准确度可以用预测框与实际框（ground truth）的IOU（intersection over union，交并比）来表征，记为 <img src="https://www.zhihu.com/equation?tex=%5Ctext%7BIOU%7D%5E%7Btruth%7D_%7Bpred%7D" alt="[公式]"> 。因此置信度可以定义为 <img src="https://www.zhihu.com/equation?tex=Pr%28object%29%2A%5Ctext%7BIOU%7D%5E%7Btruth%7D_%7Bpred%7D" alt="[公式]"> 。很多人可能将Yolo的置信度看成边界框是否含有目标的概率，但是其实它是两个因子的乘积，预测框的准确度也反映在里面。边界框的大小与位置可以用4个值来表征： <img src="https://www.zhihu.com/equation?tex=%28x%2C+y%2Cw%2Ch%29" alt="[公式]"> ，其中 <img src="https://www.zhihu.com/equation?tex=%28x%2Cy%29" alt="[公式]"> 是边界框的中心坐标，而 <img src="https://www.zhihu.com/equation?tex=w" alt="[公式]"> 和 <img src="https://www.zhihu.com/equation?tex=h" alt="[公式]"> 是边界框的宽与高。还有一点要注意，中心坐标的预测值 <img src="https://www.zhihu.com/equation?tex=%28x%2Cy%29" alt="[公式]"> 是相对于每个单元格左上角坐标点的偏移值，并且单位是相对于单元格大小的，单元格的坐标定义如图6所示。而边界框的 <img src="https://www.zhihu.com/equation?tex=w" alt="[公式]"> 和 <img src="https://www.zhihu.com/equation?tex=h" alt="[公式]"> 预测值是相对于整个图片的宽与高的比例，这样理论上4个元素的大小应该在 <img src="https://www.zhihu.com/equation?tex=%5B0%2C1%5D" alt="[公式]"> 范围。这样，每个边界框的预测值实际上包含5个元素： <img src="https://www.zhihu.com/equation?tex=%28x%2Cy%2Cw%2Ch%2Cc%29" alt="[公式]"> ，其中前4个表征边界框的大小与位置，而最后一个值是置信度。</p>
 <h4 id="architecture">Architecture</h4>
 <p>相比于 YOLO-V1的模型结构不算复杂</p>
-<p><img src="/2021/04/30/YOLO/Users/sum_young/private_code/blog/source/_posts/YOLO/architect.png" alt="architect" style="zoom:50%;"></p>
+<p><img src="/2020/07/01/YOLO/Users/sum_young/private_code/blog/source/_posts/YOLO/architect.png" alt="architect" style="zoom:50%;"></p>
 <h4 id="reference">Reference</h4>
 <ul>
 <li><a href="https://arxiv.org/pdf/1506.02640.pdf" target="_blank" rel="noopener">You Only Look Once: Unified, Real-Time Object Detection</a></li>
@@ -159,8 +598,412 @@
     </entry>
     
     <entry>
+      <title><![CDATA[「Paper-Reading」Transformer——NLP界大魔王的诞生]]></title>
+      <url>/2020/04/10/attention/</url>
+      <content type="html"><![CDATA[<p>Attention is all you need !!!</p>
+<a id="more"></a>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> paper reading </tag>
+            
+            <tag> NLP </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[「Study Notes」SVM支持向量机]]></title>
+      <url>/2020/04/03/SVM/</url>
+      <content type="html"><![CDATA[<p>不能再当调参侠了,回头补一下SVM的数学基础,</p>
+<p>本文主要整理自shuhuai008大佬的<a href="https://space.bilibili.com/97068901" target="_blank" rel="noopener">白班推导</a>的版书和《统计学习方法》SVM章节</p>
+<a id="more"></a>
+<p>支撑向量机（SVM）算法在分类问题中有着重要地位，其主要思想是最大化两类之间的间隔。按照数据集的特点：</p>
+<ol type="1">
+<li>线性可分问题，如之前的感知机算法处理的问题</li>
+<li>线性可分，只有一点点错误点，如感知机算法发展出来的 Pocket 算法处理的问题</li>
+<li>非线性问题，完全不可分，如在感知机问题发展出来的多层感知机和深度学习</li>
+</ol>
+<p>这三种情况对于 SVM 分别有下面三种处理手段：</p>
+<ol type="1">
+<li>hard-margin SVM</li>
+<li>soft-margin SVM</li>
+<li>kernel Method</li>
+</ol>
+<p>SVM 的求解中，大量用到了 Lagrange 乘子法，首先对这种方法进行介绍。</p>
+<h4 id="约束优化问题">约束优化问题</h4>
+<p>一般地，约束优化问题（原问题）可以写成： $$ <span class="math display">\[\begin{align}
+
+&amp;\min_{x\in\mathbb{R^p}}f(x)\\
+&amp;s.t.\ m_i(x)\le0,i=1,2,\cdots,M\\
+&amp;\ \ \ \ \ \ \ \ n_j(x)=0,j=1,2,\cdots,N
+
+\end{align}\]</span> <span class="math display">\[
+定义 Lagrange 函数：
+\]</span> L(x,,)=f(x)+<em>{i=1}<sup>M<em>im_i(x)+</em>{i=1}</sup>N<em>in_i(x) <span class="math display">\[
+那么原问题可以等价于无约束形式：
+\]</span> </em>{x^p}</em>{,}L(x,,) s.t. _i0 $$ 这是由于，当满足原问题的不等式约束的时候，<span class="math inline">\(\lambda_i=0\)</span> 才能取得最大值，直接等价于原问题，如果不满足原问题的不等式约束，那么最大值就为 <span class="math inline">\(+\infin\)</span>，由于需要取最小值，于是不会取到这个情况。</p>
+<p>这个问题的对偶形式： <span class="math display">\[
+\max_{\lambda,\eta}\min_{x\in\mathbb{R}^p}L(x,\lambda,\eta)\ s.t.\ \lambda_i\ge0
+\]</span> 对偶问题是关于 $ , $ 的最大化问题。</p>
+<p>由于： <span class="math display">\[
+\max_{\lambda_i,\eta_j}\min_{x}L(x,\lambda_i,\eta_j)\le\min_{x}\max_{\lambda_i,\eta_j}L(x,\lambda_i,\eta_j)
+\]</span></p>
+<blockquote>
+<p>证明：显然有 <span class="math inline">\(\min\limits_{x}L\le L\le\max\limits_{\lambda,\eta}L\)</span>，于是显然有 <span class="math inline">\(\max\limits_{\lambda,\eta}\min\limits_{x}L\le L\)</span>，且 <span class="math inline">\(\min\limits_{x}\max\limits_{\lambda,\eta}L\ge L\)</span>。</p>
+</blockquote>
+<p>对偶问题的解小于原问题，有两种情况：</p>
+<ol type="1">
+<li>强对偶：可以取等于号</li>
+<li>弱对偶：不可以取等于号</li>
+</ol>
+<p>对于一个凸优化问题，有如下定理：</p>
+<blockquote>
+<p>如果凸优化问题满足某些条件如 Slater 条件，那么它和其对偶问题满足强对偶关系。记问题的定义域为：<span class="math inline">\(\mathcal{D}=domf(x)\cap dom m_i(x)\cap domn_j(x)\)</span>。于是 Slater 条件为： <span class="math display">\[
+  \exist\hat{x}\in Relint\mathcal{D}\ s.t.\ \forall i=1,2,\cdots,M,m_i(x)\lt0
+  \]</span> 其中 Relint 表示相对内部（不包含边界的内部）。</p>
+</blockquote>
+<ol type="1">
+<li>对于大多数凸优化问题，Slater 条件成立。</li>
+<li>松弛 Slater 条件，如果 M 个不等式约束中，有 K 个函数为仿射函数，那么只要其余的函数满足 Slater 条件即可。</li>
+</ol>
+<p>上面介绍了原问题和对偶问题的对偶关系，但是实际还需要对参数进行求解，求解方法使用 KKT 条件进行：</p>
+<blockquote>
+<p>KKT 条件和强对偶关系是等价关系。KKT 条件对最优解的条件为：</p>
+<ol type="1">
+<li><p>可行域： <span class="math display">\[
+\begin{align}
+m_i(x^*)\le0\\
+n_j(x^*)=0\\
+\lambda^*\ge0
+\end{align}
+\]</span></p></li>
+<li><p>互补松弛 <span class="math inline">\(\lambda^*m_i(x^*)=0,\forall m_i\)</span>，对偶问题的最佳值为 <span class="math inline">\(d^*\)</span>，原问题为 <span class="math inline">\(p^*\)</span> <span class="math display">\[
+\begin{align}
+d^*&amp;=\max_{\lambda,\eta}g(\lambda,\eta)=g(\lambda^*,\eta^*)\nonumber\\
+&amp;=\min_{x}L(x,\lambda^*,\eta^*)\nonumber\\
+&amp;\le L(x^*,\lambda^*,\eta^*)\nonumber\\
+&amp;=f(x^*)+\sum\limits_{i=1}^M\lambda^*m_i(x^*)\nonumber\\
+&amp;\le f(x^*)=p^*
+\end{align}
+\]</span> 为了满足相等，两个不等式必须成立，于是，对于第一个不等于号，需要有梯度为0条件，对于第二个不等于号需要满足互补松弛条件。</p></li>
+<li><p>梯度为0：<span class="math inline">\(\frac{\partial L(x,\lambda^*,\eta^*)}{\partial x}|_{x=x^*}=0\)</span></p></li>
+</ol>
+</blockquote>
+<h4 id="hard-margin-svm">Hard-margin SVM</h4>
+<p>支撑向量机也是一种硬分类模型，在之前的感知机模型中，我们在线性模型的基础上叠加了符号函数，在几何直观上，可以看到，如果两类分的很开的话，那么其实会存在无穷多条线可以将两类分开。在 SVM 中，我们引入最大化间隔这个概念，间隔指的是数据和直线的距离的最小值，因此最大化这个值反映了我们的模型倾向。</p>
+<p>分割的超平面可以写为： <span class="math display">\[
+0=w^Tx+b
+\]</span> 那么最大化间隔（约束为分类任务的要求）： <span class="math display">\[
+\mathop{argmax}_{w,b}[\min_i\frac{|w^Tx_i+b|}{||w||}]\ s.t.\ y_i(w^Tx_i+b)&gt;0\\
+\Longrightarrow\mathop{argmax}_{w,b}[\min_i\frac{y_i(w^Tx_i+b)}{||w||}]\ s.t.\ y_i(w^Tx_i+b)&gt;0
+\]</span> 对于这个约束 <span class="math inline">\(y_i(w^Tx_i+b)&gt;0\)</span>，不妨固定 <span class="math inline">\(\min y_i(w^Tx_i+b)=1&gt;0\)</span>，这是由于分开两类的超平面的系数经过比例放缩不会改变这个平面，这也相当于给超平面的系数作出了约束。化简后的式子可以表示为： <span class="math display">\[
+\mathop{argmin}_{w,b}\frac{1}{2}w^Tw\ s.t.\ \min_iy_i(w^Tx_i+b)=1\\
+\Rightarrow\mathop{argmin}_{w,b}\frac{1}{2}w^Tw\ s.t.\ y_i(w^Tx_i+b)\ge1,i=1,2,\cdots,N
+\]</span> 这就是一个包含 <span class="math inline">\(N\)</span> 个约束的凸优化问题，有很多求解这种问题的软件。</p>
+<p>但是，如果样本数量或维度非常高，直接求解困难甚至不可解，于是需要对这个问题进一步处理。引入 Lagrange 函数： <span class="math display">\[
+L(w,b,\lambda)=\frac{1}{2}w^Tw+\sum\limits_{i=1}^N\lambda_i(1-y_i(w^Tx_i+b))
+\]</span> 我们有原问题就等价于： <span class="math display">\[
+\mathop{argmin}_{w,b}\max_{\lambda}L(w,b,\lambda_i)\ s.t.\ \lambda_i\ge0
+\]</span> 我们交换最小和最大值的符号得到对偶问题： <span class="math display">\[
+\max_{\lambda_i}\min_{w,b}L(w,b,\lambda_i)\ s.t.\ \lambda_i\ge0
+\]</span> 由于不等式约束是仿射函数，对偶问题和原问题等价：</p>
+<ul>
+<li><p><span class="math inline">\(b\)</span>：<span class="math inline">\(\frac{\partial}{\partial b}L=0\Rightarrow\sum\limits_{i=1}^N\lambda_iy_i=0\)</span></p></li>
+<li><p><span class="math inline">\(w\)</span>：首先将 <span class="math inline">\(b\)</span> 代入： <span class="math display">\[
+L(w,b,\lambda_i)=\frac{1}{2}w^Tw+\sum\limits_{i=1}^N\lambda_i(1-y_iw^Tx_i-y_ib)=\frac{1}{2}w^Tw+\sum\limits_{i=1}^N\lambda_i-\sum\limits_{i=1}^N\lambda_iy_iw^Tx_i
+\]</span> 所以： <span class="math display">\[
+\frac{\partial}{\partial w}L=0\Rightarrow w=\sum\limits_{i=1}^N\lambda_iy_ix_i
+\]</span></p></li>
+<li><p>将上面两个参数代入： <span class="math display">\[
+L(w,b,\lambda_i)=-\frac{1}{2}\sum\limits_{i=1}^N\sum\limits_{j=1}^N\lambda_i\lambda_jy_iy_jx_i^Tx_j+\sum\limits_{i=1}^N\lambda_i
+\]</span></p></li>
+</ul>
+<p>因此，对偶问题就是： <span class="math display">\[
+\max_{\lambda}-\frac{1}{2}\sum\limits_{i=1}^N\sum\limits_{j=1}^N\lambda_i\lambda_jy_iy_jx_i^Tx_j+\sum\limits_{i=1}^N\lambda_i,\ s.t.\ \lambda_i\ge0
+\]</span> 从 KKT 条件得到超平面的参数：</p>
+<blockquote>
+<p>原问题和对偶问题满足强对偶关系的充要条件为其满足 KKT 条件： <span class="math display">\[
+  \begin{align}
+  &amp;\frac{\partial L}{\partial w}=0,\frac{\partial L}{\partial b}=0
+  \\&amp;\lambda_k(1-y_k(w^Tx_k+b))=0(slackness\ complementary)\\
+  &amp;\lambda_i\ge0\\
+  &amp;1-y_i(w^Tx_i+b)\le0
+  \end{align}
+  \]</span></p>
+</blockquote>
+<p>根据这个条件就得到了对应的最佳参数： <span class="math display">\[
+\hat{w}=\sum\limits_{i=1}^N\lambda_iy_ix_i\\
+\hat{b}=y_k-w^Tx_k=y_k-\sum\limits_{i=1}^N\lambda_iy_ix_i^Tx_k,\exist k,1-y_k(w^Tx_k+b)=0
+\]</span> 于是这个超平面的参数 <span class="math inline">\(w\)</span> 就是数据点的线性组合，最终的参数值就是部分满足 <span class="math inline">\(y_i(w^Tx_i+b)=1\)</span>向量的线性组合（互补松弛条件给出），这些向量也叫支撑向量。</p>
+<h4 id="soft-margin-svm">Soft-margin SVM</h4>
+<p>Hard-margin 的 SVM 只对可分数据可解，如果不可分的情况，我们的基本想法是在损失函数中加入错误分类的可能性。错误分类的个数可以写成： <span class="math display">\[
+error=\sum\limits_{i=1}^N\mathbb{I}\{y_i(w^Tx_i+b)\lt1\}
+\]</span> 这个函数不连续，可以将其改写为： <span class="math display">\[
+error=\sum\limits_{i=1}^N\max\{0,1-y_i(w^Tx_i+b)\}
+\]</span> 求和符号中的式子又叫做 Hinge Function。</p>
+<p>将这个错误加入 Hard-margin SVM 中，于是： <span class="math display">\[
+\mathop{argmin}_{w,b}\frac{1}{2}w^Tw+C\sum\limits_{i=1}^N\max\{0,1-y_i(w^Tx_i+b)\}\ s.t.\ y_i(w^Tx_i+b)\ge1-\xi_i,i=1,2,\cdots,N
+\]</span> 这个式子中，常数 <span class="math inline">\(C\)</span> 可以看作允许的错误水平，同时上式为了进一步消除 <span class="math inline">\(\max\)</span> 符号，对数据集中的每一个观测，我们可以认为其大部分满足约束，但是其中部分违反约束，因此这部分约束变成 <span class="math inline">\(y_i(w^Tx+b)\ge1-\xi_i\)</span>，其中 <span class="math inline">\(\xi_i=1-y_i(w^Tx_i+b)\)</span>，进一步的化简： <span class="math display">\[
+\mathop{argmin}_{w,b}\frac{1}{2}w^Tw+C\sum\limits_{i=1}^N\xi_i\ s.t.\ y_i(w^Tx_i+b)\ge1-\xi_i,\xi_i\ge0,i=1,2,\cdots,N
+\]</span></p>
+<h4 id="kernel-method">Kernel Method</h4>
+<p>核方法可以应用在很多问题上，在分类问题中，对于严格不可分问题，我们引入一个特征转换函数将原来的不可分的数据集变为可分的数据集，然后再来应用已有的模型。往往将低维空间的数据集变为高维空间的数据集后，数据会变得可分（数据变得更为稀疏）：</p>
+<blockquote>
+<p>Cover TH：高维空间比低维空间更易线性可分。</p>
+</blockquote>
+<p>应用在 SVM 中时，观察上面的 SVM 对偶问题： <span class="math display">\[
+\max_{\lambda}-\frac{1}{2}\sum\limits_{i=1}^N\sum\limits_{j=1}^N\lambda_i\lambda_jy_iy_jx_i^Tx_j+\sum\limits_{i=1}^N\lambda_i,\ s.t.\ \lambda_i\ge0
+\]</span> 在求解的时候需要求得内积，于是不可分数据在通过特征变换后，需要求得变换后的内积。我们常常很难求得变换函数的内积。于是直接引入内积的变换函数： <span class="math display">\[
+\forall x,x&#39;\in\mathcal{X},\exist\phi\in\mathcal{H}:x\rightarrow z\ s.t.\ k(x,x&#39;)=\phi(x)^T\phi(x)
+\]</span> 称 <span class="math inline">\(k(x,x&#39;)\)</span> 为一个正定核函数，其中<span class="math inline">\(\mathcal{H}\)</span> 是 Hilbert 空间（完备的线性内积空间），如果去掉内积这个条件我们简单地称为核函数。</p>
+<blockquote>
+<p><span class="math inline">\(k(x,x&#39;)=\exp(-\frac{(x-x&#39;)^2}{2\sigma^2})\)</span> 是一个核函数。</p>
+<p>证明： <span class="math display">\[
+  \begin{align}
+  \exp(-\frac{(x-x&#39;)^2}{2\sigma^2})&amp;=\exp(-\frac{x^2}{2\sigma^2})\exp(\frac{xx&#39;}{\sigma^2})\exp(-\frac{x&#39;^2}{2\sigma^2})\nonumber\\
+  &amp;=\exp(-\frac{x^2}{2\sigma^2})\sum\limits_{n=0}^{+\infin}\frac{x^nx&#39;^n}{\sigma^{2n}n!}\exp(-\frac{x&#39;^2}{2\sigma^2})\nonumber\\
+  &amp;=\exp(-\frac{x^2}{2\sigma^2})\varphi(x)\varphi(x&#39;)\exp(-\frac{x&#39;^2}{2\sigma^2})\nonumber\\
+  &amp;=\phi(x)\phi(x&#39;)
+  \end{align}
+  \]</span></p>
+</blockquote>
+<p>正定核函数有下面的等价定义：</p>
+<blockquote>
+<p>如果核函数满足：</p>
+<ol type="1">
+<li>对称性</li>
+<li>正定性</li>
+</ol>
+<p>那么这个核函数时正定核函数。</p>
+<p>证明：</p>
+<ol type="1">
+<li>对称性 <span class="math inline">\(\Leftrightarrow\)</span> <span class="math inline">\(k(x,z)=k(z,x)\)</span>，显然满足内积的定义</li>
+<li>正定性 <span class="math inline">\(\Leftrightarrow\)</span> <span class="math inline">\(\forall N,x_1,x_2,\cdots,x_N\in\mathcal{X}\)</span>，对应的 Gram Matrix <span class="math inline">\(K=[k(x_i,x_j)]\)</span> 是半正定的。</li>
+</ol>
+<p>要证：<span class="math inline">\(k(x,z)=\phi(x)^T\phi(z)\Leftrightarrow K\)</span> 半正定+对称性。</p>
+<ol type="1">
+<li><p><span class="math inline">\(\Rightarrow\)</span>：首先，对称性是显然的，对于正定性： <span class="math display">\[
+K=\begin{pmatrix}k(x_1,x_2)&amp;\cdots&amp;k(x_1,x_N)\\\vdots&amp;\vdots&amp;\vdots\\k(x_N,x_1)&amp;\cdots&amp;k(x_N,x_N)\end{pmatrix}
+\]</span> 任意取 <span class="math inline">\(\alpha\in\mathbb{R}^N\)</span>，即需要证明 <span class="math inline">\(\alpha^TK\alpha\ge0\)</span>： <span class="math display">\[
+\alpha^TK\alpha=\sum\limits_{i,j}\alpha_i\alpha_jK_{ij}=\sum\limits_{i,j}\alpha_i\phi^T(x_i)\phi(x_j)\alpha_j=\sum\limits_{i}\alpha_i\phi^T(x_i)\sum\limits_{j}\alpha_j\phi(x_j)
+\]</span> 这个式子就是内积的形式，Hilbert 空间满足线性性，于是正定性的证。</p></li>
+<li><p><span class="math inline">\(\Leftarrow\)</span>：对于 <span class="math inline">\(K\)</span> 进行分解，对于对称矩阵 <span class="math inline">\(K=V\Lambda V^T\)</span>，那么令 <span class="math inline">\(\phi(x_i)=\sqrt{\lambda_i}V_i\)</span>，其中 <span class="math inline">\(V_i\)</span>是特征向量，于是就构造了 <span class="math inline">\(k(x,z)=\sqrt{\lambda_i\lambda_j}V_i^TV_j\)</span></p></li>
+</ol>
+</blockquote>
+<h4 id="小结">小结</h4>
+<p>分类问题在很长一段时间都依赖 SVM，对于严格可分的数据集，Hard-margin SVM 选定一个超平面，保证所有数据到这个超平面的距离最大，对这个平面施加约束，固定 <span class="math inline">\(y_i(w^Tx_i+b)=1\)</span>，得到了一个凸优化问题并且所有的约束条件都是仿射函数，于是满足 Slater 条件，将这个问题变换成为对偶的问题，可以得到等价的解，并求出约束参数： <span class="math display">\[
+\max_{\lambda}-\frac{1}{2}\sum\limits_{i=1}^N\sum\limits_{j=1}^N\lambda_i\lambda_jy_iy_jx_i^Tx_j+\sum\limits_{i=1}^N\lambda_i,\ s.t.\ \lambda_i\ge0
+\]</span> 对需要的超平面参数的求解采用强对偶问题的 KKT 条件进行。 <span class="math display">\[
+\begin{align}
+&amp;\frac{\partial L}{\partial w}=0,\frac{\partial L}{\partial b}=0
+\\&amp;\lambda_k(1-y_k(w^Tx_k+b))=0(slackness\ complementary)\\
+&amp;\lambda_i\ge0\\
+&amp;1-y_i(w^Tx_i+b)\le0
+\end{align}
+\]</span> 解就是： <span class="math display">\[
+\hat{w}=\sum\limits_{i=1}^N\lambda_iy_ix_i\\
+\hat{b}=y_k-w^Tx_k=y_k-\sum\limits_{i=1}^N\lambda_iy_ix_i^Tx_k,\exist k,1-y_k(w^Tx_k+b)=0
+\]</span> 当允许一点错误的时候，可以在 Hard-margin SVM 中加入错误项。用 Hinge Function 表示错误项的大小，得到： <span class="math display">\[
+\mathop{argmin}_{w,b}\frac{1}{2}w^Tw+C\sum\limits_{i=1}^N\xi_i\ s.t.\ y_i(w^Tx_i+b)\ge1-\xi_i,\xi_i\ge0,i=1,2,\cdots,N
+\]</span> 对于完全不可分的问题，我们采用特征转换的方式，在 SVM 中，我们引入正定核函数来直接对内积进行变换，只要这个变换满足对称性和正定性，那么就可以用做核函数。</p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> NLP </tag>
+            
+            <tag> Machine Learning </tag>
+            
+            <tag> study notes </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[「Study Notes」马尔可夫链蒙特卡罗方法]]></title>
+      <url>/2020/04/01/MCMC/</url>
+      <content type="html"><![CDATA[<p>本文主要整理自shuhuai008大佬的<a href="https://space.bilibili.com/97068901" target="_blank" rel="noopener">白班推导</a>的MCMC版书</p>
+<a id="more"></a>
+<p>MCMC 是一种随机的近似推断，其核心就是基于采样的随机近似方法蒙特卡洛方法。对于采样任务来说，有下面一些常用的场景：</p>
+<ol type="1">
+<li>采样作为任务，用于生成新的样本</li>
+<li>求和/求积分</li>
+</ol>
+<p>采样结束后，我们需要评价采样出来的样本点是不是好的样本集：</p>
+<ol type="1">
+<li>样本趋向于高概率的区域</li>
+<li>样本之间必须独立</li>
+</ol>
+<p>具体采样中，采样是一个困难的过程：</p>
+<ol type="1">
+<li>无法采样得到归一化因子，即无法直接对概率 $ p(x)=(x)$ 采样，常常需要对 CDF 采样，但复杂的情况不行</li>
+<li>如果归一化因子可以求得，但是对高维数据依然不能均匀采样（维度灾难），这是由于对 <span class="math inline">\(p\)</span> 维空间，总的状态空间是 <span class="math inline">\(K^p\)</span> 这么大，于是在这种情况下，直接采样也不行</li>
+</ol>
+<p>因此需要借助其他手段，如蒙特卡洛方法中的拒绝采样，重要性采样和 MCMC。</p>
+<p>#### 蒙特卡洛方法</p>
+<p>蒙特卡洛方法旨在求得复杂概率分布下的期望值：<span class="math inline">\(\mathbb{E}_{z|x}[f(z)]=\int p(z|x)f(z)dz\simeq\frac{1}{N}\sum\limits_{i=1}^Nf(z_i)\)</span>，也就是说，从概率分布中取 <span class="math inline">\(N\)</span> 个点，从而近似计算这个积分。采样方法有：</p>
+<ol type="1">
+<li><p>概率分布采样，首先求得概率密度的累积密度函数 CDF，然后求得 CDF 的反函数，在0到1之间均匀采样，代入反函数，就得到了采样点。但是实际大部分概率分布不能得到 CDF。</p></li>
+<li><p>Rejection Sampling 拒绝采样：对于概率分布 <span class="math inline">\(p(z)\)</span>，引入简单的提议分布 <span class="math inline">\(q(z)\)</span>，使得 <span class="math inline">\(\forall z_i,Mq(z_i)\ge p(z_i)\)</span>。我们先在 $ q(z)$ 中采样，定义接受率：<span class="math inline">\(\alpha=\frac{p(z^i)}{Mq(z^i)}\le1\)</span>。算法描述为：</p>
+<ol type="1">
+<li>取 <span class="math inline">\(z^i\sim q(z)\)</span>。</li>
+<li>在均匀分布中选取 <span class="math inline">\(u\)</span>。</li>
+<li>如果 <span class="math inline">\(u\le\alpha\)</span>，则接受 <span class="math inline">\(z^i\)</span>，否则，拒绝这个值。</li>
+</ol></li>
+<li><p>Importance Sampling：直接对期望：<span class="math inline">\(\mathbb{E}_{p(z)}[f(z)]\)</span> 进行采样。 <span class="math display">\[
+\mathbb{E}_{p(z)}[f(z)]=\int p(z)f(z)dz=\int \frac{p(z)}{q(z)}f(z)q(z)dz\simeq\frac{1}{N}\sum\limits_{i=1}^Nf(z_i)\frac{p(z_i)}{q(z_i)}
+\]</span> 于是采样在 $ q(z)$ 中采样，并通过权重计算和。重要值采样对于权重非常小的时候，效率非常低。重要性采样有一个变种 Sampling-Importance-Resampling，这种方法，首先和上面一样进行采样，然后在采样出来的 <span class="math inline">\(N\)</span> 个样本中，重新采样，这个重新采样，使用每个样本点的权重作为概率分布进行采样。</p></li>
+</ol>
+<h4 id="mcmc">MCMC</h4>
+<p>马尔可夫链式一种时间状态都是离散的随机变量序列。我们关注的主要是齐次的一阶马尔可夫链。马尔可夫链满足：<span class="math inline">\(p(X_{t+1}|X_1,X_2,\cdots,X_t)=p(X_{t+1}|X_t)\)</span>。这个式子可以写成转移矩阵的形式 <span class="math inline">\(p_{ij}=p(X_{t+1}=j|X_t=i)\)</span>。我们有： <span class="math display">\[
+\pi_{t+1}(x^*)=\int\pi_i(x)p_{x\to x^*}dx
+\]</span> 如果存在 <span class="math inline">\(\pi=(\pi(1),\pi(2),\cdots),\sum\limits_{i=1}^{+\infin}\pi(i)=1\)</span>，有上式成立，这个序列就叫马尔可夫链 <span class="math inline">\(X_t\)</span> 的平稳分布，平稳分布就是表示在某一个时刻后，分布不再改变。MCMC 就是通过构建马尔可夫链概率序列，使其收敛到平稳分布 <span class="math inline">\(p(z)\)</span>。引入细致平衡：<span class="math inline">\(\pi(x)p_{x\to x^*}=\pi(x^*)p_{x^*\to x}\)</span>。如果一个分布满足细致平衡，那么一定满足平稳分布（反之不成立）： <span class="math display">\[
+\int\pi(x)p_{x\to x^*}dx=\int\pi(x^*)p_{x^*\to x}dx=\pi(x^*)
+\]</span> 细致平衡条件将平稳分布的序列和马尔可夫链的转移矩阵联系在一起了，通过转移矩阵可以不断生成样本点。假定随机取一个转移矩阵 <span class="math inline">\((Q=Q_{ij})\)</span>，作为一个提议矩阵。我们有： <span class="math display">\[
+p(z)\cdot Q_{z\to z^*}\alpha(z,z^*)=p(z^*)\cdot Q_{z^*\to z}\alpha(z^*,z)
+\]</span> 取 ： <span class="math display">\[
+\alpha(z,z^*)=\min\{1,\frac{p(z^*)Q_{z^*\to z}}{p(z)Q_{z\to z^*}}\}
+\]</span> 则 <span class="math display">\[
+p(z)\cdot Q_{z\to z^*}\alpha(z,z^*)=\min\{p(z)Q_{z\to z^*},p(z^*)Q_{z^*\to z}\}=p(z^*)\cdot Q_{z^*\to z}\alpha(z^*,z)
+\]</span> 于是，迭代就得到了序列，这个算法叫做 Metropolis-Hastings 算法：</p>
+<ol type="1">
+<li>通过在0，1之间均匀分布取点 <span class="math inline">\(u\)</span></li>
+<li>生成 <span class="math inline">\(z^*\sim Q(z^*|z^{i-1})\)</span></li>
+<li>计算 <span class="math inline">\(\alpha\)</span> 值</li>
+<li>如果 <span class="math inline">\(\alpha\ge u\)</span>，则 <span class="math inline">\(z^i=z^*\)</span>，否则 <span class="math inline">\(z^{i}=z^{i-1}\)</span></li>
+</ol>
+<p>这样取的样本就服从 <span class="math inline">\(p(z)=\frac{\hat{p}(z)}{z_p}\sim \hat{p}(z)\)</span>。</p>
+<p>下面介绍另一种采样方式 Gibbs 采样，如果 <span class="math inline">\(z\)</span> 的维度非常高，那么通过固定被采样的维度其余的维度来简化采样过程：<span class="math inline">\(z_i\sim p(z_i|z_{-i})\)</span>：</p>
+<ol type="1">
+<li>给定初始值 <span class="math inline">\(z_1^0,z_2^0,\cdots\)</span></li>
+<li>在 <span class="math inline">\(t+1\)</span> 时刻，采样 <span class="math inline">\(z_i^{t+1}\sim p(z_i|z_{-i})\)</span>，从第一个维度一个个采样。</li>
+</ol>
+<p>Gibbs 采样方法是一种特殊的 MH 采样，可以计算 Gibbs 采样的接受率： <span class="math display">\[
+\frac{p(z^*)Q_{z^*\to z}}{p(z)Q_{z\to z^*}}=\frac{p(z_i^*|z^*_{-i})p(z^*_{-i})p(z_i|z_{-i}^*)}{p(z_i|z_{-i})p(z_{-i})p(z_i^*|z_{-i})}
+\]</span> 对于每个 Gibbs 采样步骤，<span class="math inline">\(z_{-i}=z_{-i}^*\)</span>，这是由于每个维度 <span class="math inline">\(i\)</span> 采样的时候，其余的参量保持不变。所以上式为1。于是 Gibbs 采样过程中，相当于找到了一个步骤，使得所有的接受率为 1。</p>
+<h4 id="平稳分布">平稳分布</h4>
+<p>定义随机矩阵： <span class="math display">\[
+Q=\begin{pmatrix}Q_{11}&amp;Q_{12}&amp;\cdots&amp;Q_{1K}\\\vdots&amp;\vdots&amp;\vdots&amp;\vdots\\Q_{k1}&amp;Q_{k2}&amp;\cdots&amp;Q_{KK}\end{pmatrix}
+\]</span> 这个矩阵每一行或者每一列的和都是1。随机矩阵的特征值都小于等于1。假设只有一个特征值为 <span class="math inline">\(\lambda_i=1\)</span>。于是在马尔可夫过程中： <span class="math display">\[
+q^{t+1}(x=j)=\sum\limits_{i=1}^Kq^t(x=i)Q_{ij}\\
+\Rightarrow q^{t+1}=q^t\cdot Q=q^1Q^t
+\]</span> 于是有： <span class="math display">\[
+q^{t+1}=q^1A\Lambda^t A^{-1}
+\]</span> 如果 <span class="math inline">\(m\)</span> 足够大，那么，<span class="math inline">\(\Lambda^m=diag(0,0,\cdots,1,\cdots,0)\)</span>，则：<span class="math inline">\(q^{m+1}=q^{m}\)</span> ，则趋于平稳分布了。马尔可夫链可能具有平稳分布的性质，所以我们可以构建马尔可夫链使其平稳分布收敛于需要的概率分布（设计转移矩阵）。</p>
+<p>在采样过程中，需要经历一定的时间（燃烧期/混合时间）才能达到平稳分布。但是 MCMC 方法有一些问题：</p>
+<ol type="1">
+<li>无法判断是否已经收敛</li>
+<li>燃烧期过长（维度太高，并且维度之间有关，可能无法采样到某些维度），例如在 GMM 中，可能无法采样到某些峰。于是在一些模型中，需要对隐变量之间的关系作出约束，如 RBM 假设隐变量之间无关。</li>
+<li>样本之间一定是有相关性的，如果每个时刻都取一个点，那么每个样本一定和前一个相关，这可以通过间隔一段时间采样。</li>
+</ol>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> RL </tag>
+            
+            <tag> Machine Learning </tag>
+            
+            <tag> study notes </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[「Study Notes」EM算法]]></title>
+      <url>/2020/03/09/EM/</url>
+      <content type="html"><![CDATA[<p>本文主要整理自shuhuai008大佬的<a href="https://space.bilibili.com/97068901" target="_blank" rel="noopener">白班推导</a>的版书和《统计学习方法》EM算法部分</p>
+<a id="more"></a>
+<p>期望最大算法的目的是解决具有隐变量的混合模型的参数估计（极大似然估计）。MLE 对 <span class="math inline">\(p(x|\theta)\)</span> 参数的估计记为：<span class="math inline">\(\theta_{MLE}=\mathop{argmax}\limits_\theta\log p(x|\theta)\)</span>。EM 算法对这个问题的解决方法是采用迭代的方法： <span class="math display">\[
+\theta^{t+1}=\mathop{argmax}\limits_{\theta}\int_z\log [p(x,z|\theta)]p(z|x,\theta^t)dz=\mathbb{E}_{z|x,\theta^t}[\log p(x,z|\theta)]
+\]</span> 这个公式包含了迭代的两步：</p>
+<ol type="1">
+<li>E step：计算 <span class="math inline">\(\log p(x,z|\theta)\)</span> 在概率分布 <span class="math inline">\(p(z|x,\theta^t)\)</span> 下的期望</li>
+<li>M step：计算使这个期望最大化的参数得到下一个 EM 步骤的输入</li>
+</ol>
+<blockquote>
+<p>求证：<span class="math inline">\(\log p(x|\theta^t)\le\log p(x|\theta^{t+1})\)</span></p>
+<p>证明：<span class="math inline">\(\log p(x|\theta)=\log p(z,x|\theta)-\log p(z|x,\theta)\)</span>，对左右两边求积分： <span class="math display">\[
+  Left:\int_zp(z|x,\theta^t)\log p(x|\theta)dz=\log p(x|\theta)
+  \]</span></p>
+<p><span class="math display">\[
+  Right:\int_zp(z|x,\theta^t)\log p(x,z|\theta)dz-\int_zp(z|x,\theta^t)\log p(z|x,\theta)dz=Q(\theta,\theta^t)-H(\theta,\theta^t)
+  \]</span></p>
+<p>所以： <span class="math display">\[
+  \log p(x|\theta)=Q(\theta,\theta^t)-H(\theta,\theta^t)
+  \]</span> 由于 <span class="math inline">\(Q(\theta,\theta^t)=\int_zp(z|x,\theta^t)\log p(x,z|\theta)dz\)</span>，而 <span class="math inline">\(\theta^{t+1}=\mathop{argmax}\limits_{\theta}\int_z\log [p(x,z|\theta)]p(z|x,\theta^t)dz\)</span>，所以 <span class="math inline">\(Q(\theta^{t+1},\theta^t)\ge Q(\theta^t,\theta^t)\)</span>。要证 <span class="math inline">\(\log p(x|\theta^t)\le\log p(x|\theta^{t+1})\)</span>，需证：<span class="math inline">\(H(\theta^t,\theta^t)\ge H(\theta^{t+1},\theta^t)\)</span>： <span class="math display">\[
+  \begin{align}H(\theta^{t+1},\theta^t)-H(\theta^{t},\theta^t)&amp;=\int_zp(z|x,\theta^{t})\log p(z|x,\theta^{t+1})dz-\int_zp(z|x,\theta^t)\log p(z|x,\theta^{t})dz\nonumber\\
+  &amp;=\int_zp(z|x,\theta^t)\log\frac{p(z|x,\theta^{t+1})}{p(z|x,\theta^t)}=-KL(p(z|x,\theta^t),p(z|x,\theta^{t+1}))\le0
+  \end{align}
+  \]</span> 综合上面的结果： <span class="math display">\[
+  \log p(x|\theta^t)\le\log p(x|\theta^{t+1})
+  \]</span></p>
+</blockquote>
+<p>根据上面的证明，我们看到，似然函数在每一步都会增大。进一步的，我们看 EM 迭代过程中的式子是怎么来的： <span class="math display">\[
+\log p(x|\theta)=\log p(z,x|\theta)-\log p(z|x,\theta)=\log \frac{p(z,x|\theta)}{q(z)}-\log \frac{p(z|x,\theta)}{q(z)}
+\]</span> 分别对两边求期望 <span class="math inline">\(\mathbb{E}_{q(z)}\)</span>： <span class="math display">\[
+\begin{align}
+&amp;Left:\int_zq(z)\log p(x|\theta)dz=\log p(x|\theta)\\
+&amp;Right:\int_zq(z)\log \frac{p(z,x|\theta)}{q(z)}dz-\int_zq(z)\log \frac{p(z|x,\theta)}{q(z)}dz=ELBO+KL(q(z),p(z|x,\theta))
+\end{align}
+\]</span> 上式中，Evidence Lower Bound(ELBO)，是一个下界，所以 <span class="math inline">\(\log p(x|\theta)\ge ELBO\)</span>，等于号取在 KL 散度为0是，即：<span class="math inline">\(q(z)=p(z|x,\theta)\)</span>，EM 算法的目的是将 ELBO 最大化，根据上面的证明过程，在每一步 EM 后，求得了最大的ELBO，并根据这个使 ELBO 最大的参数代入下一步中： <span class="math display">\[
+\hat{\theta}=\mathop{argmax}_{\theta}ELBO=\mathop{argmax}_\theta\int_zq(z)\log\frac{p(x,z|\theta)}{q(z)}dz
+\]</span> 由于 $ q(z)=p(z|x,^t)$ 的时候，这一步的最大值才能取等号，所以： <span class="math display">\[
+\hat{\theta}=\mathop{argmax}_{\theta}ELBO=\mathop{argmax}_\theta\int_zq(z)\log\frac{p(x,z|\theta)}{q(z)}dz=\mathop{argmax}_\theta\int_zp(z|x,\theta^t)\log\frac{p(x,z|\theta)}{p(z|x,\theta^t)}d z\\
+=\mathop{argmax}_\theta\int_z p(z|x,\theta^t)\log p(x,z|\theta)
+\]</span> 这个式子就是上面 EM 迭代过程中的式子。</p>
+<p>从 Jensen 不等式出发，也可以导出这个式子： <span class="math display">\[
+\log p(x|\theta)=\log\int_zp(x,z|\theta)dz=\log\int_z\frac{p(x,z|\theta)q(z)}{q(z)}dz\\
+=\log \mathbb{E}_{q(z)}[\frac{p(x,z|\theta)}{q(z)}]\ge \mathbb{E}_{q(z)}[\log\frac{p(x,z|\theta)}{q(z)}]
+\]</span> 其中，右边的式子就是 ELBO，等号在 $ p(x,z|)=Cq(z)$ 时成立。于是： <span class="math display">\[
+\int_zq(z)dz=\frac{1}{C}\int_zp(x,z|\theta)dz=\frac{1}{C}p(x|\theta)=1\\
+\Rightarrow q(z)=\frac{1}{p(x|\theta)}p(x,z|\theta)=p(z|x,\theta)
+\]</span> 我们发现，这个过程就是上面的最大值取等号的条件。</p>
+<h4 id="广义-em">广义 EM</h4>
+<p>EM 模型解决了概率生成模型的参数估计的问题，通过引入隐变量 <span class="math inline">\(z\)</span>，来学习 <span class="math inline">\(\theta\)</span>，具体的模型对 <span class="math inline">\(z\)</span> 有不同的假设。对学习任务 <span class="math inline">\(p(x|\theta)\)</span>，就是学习任务 <span class="math inline">\(\frac{p(x,z|\theta)}{p(z|x,\theta)}\)</span>。在这个式子中，我们假定了在 E 步骤中，<span class="math inline">\(q(z)=p(z|x,\theta)\)</span>，但是这个<span class="math inline">\(p(z|x,\theta)\)</span> 如果无法求解，那么必须使用采样（MCMC）或者变分推断等方法来近似推断这个后验。我们观察 KL 散度的表达式，为了最大化 ELBO，在固定的 <span class="math inline">\(\theta\)</span> 时，我们需要最小化 KL 散度，于是： <span class="math display">\[
+\hat{q}(z)=\mathop{argmin}_qKL(p,q)=\mathop{argmax}_qELBO
+\]</span> 这就是广义 EM 的基本思路：</p>
+<ol type="1">
+<li><p>E step： <span class="math display">\[
+\hat{q}^{t+1}(z)=\mathop{argmax}_q\int_zq^t(z)\log\frac{p(x,z|\theta)}{q^t(z)}dz,fixed\ \theta
+\]</span></p></li>
+<li><p>M step： <span class="math display">\[
+\hat{\theta}=\mathop{argmax}_\theta \int_zq^{t+1}(z)\log\frac{p(x,z|\theta)}{q^{t+1}(z)}dz,fixed\ \hat{q}
+\]</span></p></li>
+</ol>
+<p>对于上面的积分： <span class="math display">\[
+ELBO=\int_zq(z)\log\frac{p(x,z|\theta)}{q(z)}dz=\mathbb{E}_{q(z)}[p(x,z|\theta)]+Entropy(q(z))
+\]</span> 因此，我们看到，广义 EM 相当于在原来的式子中加入熵这一项。</p>
+<h4 id="em-的推广">EM 的推广</h4>
+<p>EM 算法类似于坐标上升法，固定部分坐标，优化其他坐标，再一遍一遍的迭代。如果在 EM 框架中，无法求解 <span class="math inline">\(z\)</span> 后验概率，那么需要采用一些变种的 EM 来估算这个后验。</p>
+<ol type="1">
+<li>基于平均场的变分推断，VBEM/VEM</li>
+<li>基于蒙特卡洛的EM，MCEM</li>
+</ol>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> Machine Learning </tag>
+            
+            <tag> study notes </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[「Study Notes」CRF条件随机场]]></title>
-      <url>/2020/02/27/CRF/</url>
+      <url>/2020/03/05/CRF/</url>
       <content type="html"><![CDATA[<p>本文主要整理自shuhuai008大佬的<a href="https://space.bilibili.com/97068901" target="_blank" rel="noopener">白班推导</a>的版书和《统计学习方法》条件随机场部分</p>
 <a id="more"></a>
 <p>我们知道，分类问题可以分为硬分类和软分类两种，其中硬分类有 SVM，PLA，LDA 等。软分类问题大体上可以分为概率生成和概率判别模型，其中较为有名的概率判别模型有 Logistic 回归，生成模型有朴素贝叶斯模型。Logistic 回归模型的损失函数为交叉熵，这类模型也叫对数线性模型，一般地，又叫做最大熵模型，这类模型和指数族分布的概率假设是一致的。对朴素贝叶斯假设，如果将其中的单元素的条件独立性做推广到一系列的隐变量，那么，由此得到的模型又被称为动态模型，比较有代表性的如 HMM，从概率意义上，HMM也可以看成是 GMM 在时序上面的推广。</p>
@@ -238,90 +1081,6 @@ p(y_t=i|x)=\sum\limits_{y_{1:t-1},y_{t+1:T}}p(y|x)=\sum\limits_{y_{1:t-1}}\sum\l
 \nabla_\lambda L=\sum\limits_{i=1}^N\sum\limits_{t=1}^T[f(y_{t-1},y_t,x^i)-\sum\limits_{y_{t-1}}\sum\limits_{y_t}p(y_{t-1},y_t|x^i)f(y_{t-1},y_t,x^i)]
 \]</span> 利用梯度上升算法可以求解。对于 <span class="math inline">\(\eta\)</span> 也是类似的过程。</p>
 <h2 id="section"></h2>
-]]></content>
-      
-        
-        <tags>
-            
-            <tag> Machine Learning </tag>
-            
-            <tag> study notes </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[「Study Notes」EM算法]]></title>
-      <url>/2020/02/27/EM/</url>
-      <content type="html"><![CDATA[<p>本文主要整理自shuhuai008大佬的<a href="https://space.bilibili.com/97068901" target="_blank" rel="noopener">白班推导</a>的版书和《统计学习方法》EM算法部分</p>
-<a id="more"></a>
-<p>期望最大算法的目的是解决具有隐变量的混合模型的参数估计（极大似然估计）。MLE 对 <span class="math inline">\(p(x|\theta)\)</span> 参数的估计记为：<span class="math inline">\(\theta_{MLE}=\mathop{argmax}\limits_\theta\log p(x|\theta)\)</span>。EM 算法对这个问题的解决方法是采用迭代的方法： <span class="math display">\[
-\theta^{t+1}=\mathop{argmax}\limits_{\theta}\int_z\log [p(x,z|\theta)]p(z|x,\theta^t)dz=\mathbb{E}_{z|x,\theta^t}[\log p(x,z|\theta)]
-\]</span> 这个公式包含了迭代的两步：</p>
-<ol type="1">
-<li>E step：计算 <span class="math inline">\(\log p(x,z|\theta)\)</span> 在概率分布 <span class="math inline">\(p(z|x,\theta^t)\)</span> 下的期望</li>
-<li>M step：计算使这个期望最大化的参数得到下一个 EM 步骤的输入</li>
-</ol>
-<blockquote>
-<p>求证：<span class="math inline">\(\log p(x|\theta^t)\le\log p(x|\theta^{t+1})\)</span></p>
-<p>证明：<span class="math inline">\(\log p(x|\theta)=\log p(z,x|\theta)-\log p(z|x,\theta)\)</span>，对左右两边求积分： <span class="math display">\[
-  Left:\int_zp(z|x,\theta^t)\log p(x|\theta)dz=\log p(x|\theta)
-  \]</span></p>
-<p><span class="math display">\[
-  Right:\int_zp(z|x,\theta^t)\log p(x,z|\theta)dz-\int_zp(z|x,\theta^t)\log p(z|x,\theta)dz=Q(\theta,\theta^t)-H(\theta,\theta^t)
-  \]</span></p>
-<p>所以： <span class="math display">\[
-  \log p(x|\theta)=Q(\theta,\theta^t)-H(\theta,\theta^t)
-  \]</span> 由于 <span class="math inline">\(Q(\theta,\theta^t)=\int_zp(z|x,\theta^t)\log p(x,z|\theta)dz\)</span>，而 <span class="math inline">\(\theta^{t+1}=\mathop{argmax}\limits_{\theta}\int_z\log [p(x,z|\theta)]p(z|x,\theta^t)dz\)</span>，所以 <span class="math inline">\(Q(\theta^{t+1},\theta^t)\ge Q(\theta^t,\theta^t)\)</span>。要证 <span class="math inline">\(\log p(x|\theta^t)\le\log p(x|\theta^{t+1})\)</span>，需证：<span class="math inline">\(H(\theta^t,\theta^t)\ge H(\theta^{t+1},\theta^t)\)</span>： <span class="math display">\[
-  \begin{align}H(\theta^{t+1},\theta^t)-H(\theta^{t},\theta^t)&amp;=\int_zp(z|x,\theta^{t})\log p(z|x,\theta^{t+1})dz-\int_zp(z|x,\theta^t)\log p(z|x,\theta^{t})dz\nonumber\\
-  &amp;=\int_zp(z|x,\theta^t)\log\frac{p(z|x,\theta^{t+1})}{p(z|x,\theta^t)}=-KL(p(z|x,\theta^t),p(z|x,\theta^{t+1}))\le0
-  \end{align}
-  \]</span> 综合上面的结果： <span class="math display">\[
-  \log p(x|\theta^t)\le\log p(x|\theta^{t+1})
-  \]</span></p>
-</blockquote>
-<p>根据上面的证明，我们看到，似然函数在每一步都会增大。进一步的，我们看 EM 迭代过程中的式子是怎么来的： <span class="math display">\[
-\log p(x|\theta)=\log p(z,x|\theta)-\log p(z|x,\theta)=\log \frac{p(z,x|\theta)}{q(z)}-\log \frac{p(z|x,\theta)}{q(z)}
-\]</span> 分别对两边求期望 <span class="math inline">\(\mathbb{E}_{q(z)}\)</span>： <span class="math display">\[
-\begin{align}
-&amp;Left:\int_zq(z)\log p(x|\theta)dz=\log p(x|\theta)\\
-&amp;Right:\int_zq(z)\log \frac{p(z,x|\theta)}{q(z)}dz-\int_zq(z)\log \frac{p(z|x,\theta)}{q(z)}dz=ELBO+KL(q(z),p(z|x,\theta))
-\end{align}
-\]</span> 上式中，Evidence Lower Bound(ELBO)，是一个下界，所以 <span class="math inline">\(\log p(x|\theta)\ge ELBO\)</span>，等于号取在 KL 散度为0是，即：<span class="math inline">\(q(z)=p(z|x,\theta)\)</span>，EM 算法的目的是将 ELBO 最大化，根据上面的证明过程，在每一步 EM 后，求得了最大的ELBO，并根据这个使 ELBO 最大的参数代入下一步中： <span class="math display">\[
-\hat{\theta}=\mathop{argmax}_{\theta}ELBO=\mathop{argmax}_\theta\int_zq(z)\log\frac{p(x,z|\theta)}{q(z)}dz
-\]</span> 由于 $ q(z)=p(z|x,^t)$ 的时候，这一步的最大值才能取等号，所以： <span class="math display">\[
-\hat{\theta}=\mathop{argmax}_{\theta}ELBO=\mathop{argmax}_\theta\int_zq(z)\log\frac{p(x,z|\theta)}{q(z)}dz=\mathop{argmax}_\theta\int_zp(z|x,\theta^t)\log\frac{p(x,z|\theta)}{p(z|x,\theta^t)}d z\\
-=\mathop{argmax}_\theta\int_z p(z|x,\theta^t)\log p(x,z|\theta)
-\]</span> 这个式子就是上面 EM 迭代过程中的式子。</p>
-<p>从 Jensen 不等式出发，也可以导出这个式子： <span class="math display">\[
-\log p(x|\theta)=\log\int_zp(x,z|\theta)dz=\log\int_z\frac{p(x,z|\theta)q(z)}{q(z)}dz\\
-=\log \mathbb{E}_{q(z)}[\frac{p(x,z|\theta)}{q(z)}]\ge \mathbb{E}_{q(z)}[\log\frac{p(x,z|\theta)}{q(z)}]
-\]</span> 其中，右边的式子就是 ELBO，等号在 $ p(x,z|)=Cq(z)$ 时成立。于是： <span class="math display">\[
-\int_zq(z)dz=\frac{1}{C}\int_zp(x,z|\theta)dz=\frac{1}{C}p(x|\theta)=1\\
-\Rightarrow q(z)=\frac{1}{p(x|\theta)}p(x,z|\theta)=p(z|x,\theta)
-\]</span> 我们发现，这个过程就是上面的最大值取等号的条件。</p>
-<h4 id="广义-em">广义 EM</h4>
-<p>EM 模型解决了概率生成模型的参数估计的问题，通过引入隐变量 <span class="math inline">\(z\)</span>，来学习 <span class="math inline">\(\theta\)</span>，具体的模型对 <span class="math inline">\(z\)</span> 有不同的假设。对学习任务 <span class="math inline">\(p(x|\theta)\)</span>，就是学习任务 <span class="math inline">\(\frac{p(x,z|\theta)}{p(z|x,\theta)}\)</span>。在这个式子中，我们假定了在 E 步骤中，<span class="math inline">\(q(z)=p(z|x,\theta)\)</span>，但是这个<span class="math inline">\(p(z|x,\theta)\)</span> 如果无法求解，那么必须使用采样（MCMC）或者变分推断等方法来近似推断这个后验。我们观察 KL 散度的表达式，为了最大化 ELBO，在固定的 <span class="math inline">\(\theta\)</span> 时，我们需要最小化 KL 散度，于是： <span class="math display">\[
-\hat{q}(z)=\mathop{argmin}_qKL(p,q)=\mathop{argmax}_qELBO
-\]</span> 这就是广义 EM 的基本思路：</p>
-<ol type="1">
-<li><p>E step： <span class="math display">\[
-\hat{q}^{t+1}(z)=\mathop{argmax}_q\int_zq^t(z)\log\frac{p(x,z|\theta)}{q^t(z)}dz,fixed\ \theta
-\]</span></p></li>
-<li><p>M step： <span class="math display">\[
-\hat{\theta}=\mathop{argmax}_\theta \int_zq^{t+1}(z)\log\frac{p(x,z|\theta)}{q^{t+1}(z)}dz,fixed\ \hat{q}
-\]</span></p></li>
-</ol>
-<p>对于上面的积分： <span class="math display">\[
-ELBO=\int_zq(z)\log\frac{p(x,z|\theta)}{q(z)}dz=\mathbb{E}_{q(z)}[p(x,z|\theta)]+Entropy(q(z))
-\]</span> 因此，我们看到，广义 EM 相当于在原来的式子中加入熵这一项。</p>
-<h4 id="em-的推广">EM 的推广</h4>
-<p>EM 算法类似于坐标上升法，固定部分坐标，优化其他坐标，再一遍一遍的迭代。如果在 EM 框架中，无法求解 <span class="math inline">\(z\)</span> 后验概率，那么需要采用一些变种的 EM 来估算这个后验。</p>
-<ol type="1">
-<li>基于平均场的变分推断，VBEM/VEM</li>
-<li>基于蒙特卡洛的EM，MCEM</li>
-</ol>
 ]]></content>
       
         
@@ -463,382 +1222,18 @@ I=\mathop{argmax}\limits_{I}P(I|O,\lambda)
         
         <tags>
             
-            <tag> Machine Learning </tag>
-            
-            <tag> study notes </tag>
-            
             <tag> NLP </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[「Study Notes」马尔可夫链蒙特卡罗方法]]></title>
-      <url>/2020/02/27/MCMC/</url>
-      <content type="html"><![CDATA[<p>本文主要整理自shuhuai008大佬的<a href="https://space.bilibili.com/97068901" target="_blank" rel="noopener">白班推导</a>的MCMC版书</p>
-<a id="more"></a>
-<p>MCMC 是一种随机的近似推断，其核心就是基于采样的随机近似方法蒙特卡洛方法。对于采样任务来说，有下面一些常用的场景：</p>
-<ol type="1">
-<li>采样作为任务，用于生成新的样本</li>
-<li>求和/求积分</li>
-</ol>
-<p>采样结束后，我们需要评价采样出来的样本点是不是好的样本集：</p>
-<ol type="1">
-<li>样本趋向于高概率的区域</li>
-<li>样本之间必须独立</li>
-</ol>
-<p>具体采样中，采样是一个困难的过程：</p>
-<ol type="1">
-<li>无法采样得到归一化因子，即无法直接对概率 $ p(x)=(x)$ 采样，常常需要对 CDF 采样，但复杂的情况不行</li>
-<li>如果归一化因子可以求得，但是对高维数据依然不能均匀采样（维度灾难），这是由于对 <span class="math inline">\(p\)</span> 维空间，总的状态空间是 <span class="math inline">\(K^p\)</span> 这么大，于是在这种情况下，直接采样也不行</li>
-</ol>
-<p>因此需要借助其他手段，如蒙特卡洛方法中的拒绝采样，重要性采样和 MCMC。</p>
-<p>#### 蒙特卡洛方法</p>
-<p>蒙特卡洛方法旨在求得复杂概率分布下的期望值：<span class="math inline">\(\mathbb{E}_{z|x}[f(z)]=\int p(z|x)f(z)dz\simeq\frac{1}{N}\sum\limits_{i=1}^Nf(z_i)\)</span>，也就是说，从概率分布中取 <span class="math inline">\(N\)</span> 个点，从而近似计算这个积分。采样方法有：</p>
-<ol type="1">
-<li><p>概率分布采样，首先求得概率密度的累积密度函数 CDF，然后求得 CDF 的反函数，在0到1之间均匀采样，代入反函数，就得到了采样点。但是实际大部分概率分布不能得到 CDF。</p></li>
-<li><p>Rejection Sampling 拒绝采样：对于概率分布 <span class="math inline">\(p(z)\)</span>，引入简单的提议分布 <span class="math inline">\(q(z)\)</span>，使得 <span class="math inline">\(\forall z_i,Mq(z_i)\ge p(z_i)\)</span>。我们先在 $ q(z)$ 中采样，定义接受率：<span class="math inline">\(\alpha=\frac{p(z^i)}{Mq(z^i)}\le1\)</span>。算法描述为：</p>
-<ol type="1">
-<li>取 <span class="math inline">\(z^i\sim q(z)\)</span>。</li>
-<li>在均匀分布中选取 <span class="math inline">\(u\)</span>。</li>
-<li>如果 <span class="math inline">\(u\le\alpha\)</span>，则接受 <span class="math inline">\(z^i\)</span>，否则，拒绝这个值。</li>
-</ol></li>
-<li><p>Importance Sampling：直接对期望：<span class="math inline">\(\mathbb{E}_{p(z)}[f(z)]\)</span> 进行采样。 <span class="math display">\[
-\mathbb{E}_{p(z)}[f(z)]=\int p(z)f(z)dz=\int \frac{p(z)}{q(z)}f(z)q(z)dz\simeq\frac{1}{N}\sum\limits_{i=1}^Nf(z_i)\frac{p(z_i)}{q(z_i)}
-\]</span> 于是采样在 $ q(z)$ 中采样，并通过权重计算和。重要值采样对于权重非常小的时候，效率非常低。重要性采样有一个变种 Sampling-Importance-Resampling，这种方法，首先和上面一样进行采样，然后在采样出来的 <span class="math inline">\(N\)</span> 个样本中，重新采样，这个重新采样，使用每个样本点的权重作为概率分布进行采样。</p></li>
-</ol>
-<h4 id="mcmc">MCMC</h4>
-<p>马尔可夫链式一种时间状态都是离散的随机变量序列。我们关注的主要是齐次的一阶马尔可夫链。马尔可夫链满足：<span class="math inline">\(p(X_{t+1}|X_1,X_2,\cdots,X_t)=p(X_{t+1}|X_t)\)</span>。这个式子可以写成转移矩阵的形式 <span class="math inline">\(p_{ij}=p(X_{t+1}=j|X_t=i)\)</span>。我们有： <span class="math display">\[
-\pi_{t+1}(x^*)=\int\pi_i(x)p_{x\to x^*}dx
-\]</span> 如果存在 <span class="math inline">\(\pi=(\pi(1),\pi(2),\cdots),\sum\limits_{i=1}^{+\infin}\pi(i)=1\)</span>，有上式成立，这个序列就叫马尔可夫链 <span class="math inline">\(X_t\)</span> 的平稳分布，平稳分布就是表示在某一个时刻后，分布不再改变。MCMC 就是通过构建马尔可夫链概率序列，使其收敛到平稳分布 <span class="math inline">\(p(z)\)</span>。引入细致平衡：<span class="math inline">\(\pi(x)p_{x\to x^*}=\pi(x^*)p_{x^*\to x}\)</span>。如果一个分布满足细致平衡，那么一定满足平稳分布（反之不成立）： <span class="math display">\[
-\int\pi(x)p_{x\to x^*}dx=\int\pi(x^*)p_{x^*\to x}dx=\pi(x^*)
-\]</span> 细致平衡条件将平稳分布的序列和马尔可夫链的转移矩阵联系在一起了，通过转移矩阵可以不断生成样本点。假定随机取一个转移矩阵 <span class="math inline">\((Q=Q_{ij})\)</span>，作为一个提议矩阵。我们有： <span class="math display">\[
-p(z)\cdot Q_{z\to z^*}\alpha(z,z^*)=p(z^*)\cdot Q_{z^*\to z}\alpha(z^*,z)
-\]</span> 取 ： <span class="math display">\[
-\alpha(z,z^*)=\min\{1,\frac{p(z^*)Q_{z^*\to z}}{p(z)Q_{z\to z^*}}\}
-\]</span> 则 <span class="math display">\[
-p(z)\cdot Q_{z\to z^*}\alpha(z,z^*)=\min\{p(z)Q_{z\to z^*},p(z^*)Q_{z^*\to z}\}=p(z^*)\cdot Q_{z^*\to z}\alpha(z^*,z)
-\]</span> 于是，迭代就得到了序列，这个算法叫做 Metropolis-Hastings 算法：</p>
-<ol type="1">
-<li>通过在0，1之间均匀分布取点 <span class="math inline">\(u\)</span></li>
-<li>生成 <span class="math inline">\(z^*\sim Q(z^*|z^{i-1})\)</span></li>
-<li>计算 <span class="math inline">\(\alpha\)</span> 值</li>
-<li>如果 <span class="math inline">\(\alpha\ge u\)</span>，则 <span class="math inline">\(z^i=z^*\)</span>，否则 <span class="math inline">\(z^{i}=z^{i-1}\)</span></li>
-</ol>
-<p>这样取的样本就服从 <span class="math inline">\(p(z)=\frac{\hat{p}(z)}{z_p}\sim \hat{p}(z)\)</span>。</p>
-<p>下面介绍另一种采样方式 Gibbs 采样，如果 <span class="math inline">\(z\)</span> 的维度非常高，那么通过固定被采样的维度其余的维度来简化采样过程：<span class="math inline">\(z_i\sim p(z_i|z_{-i})\)</span>：</p>
-<ol type="1">
-<li>给定初始值 <span class="math inline">\(z_1^0,z_2^0,\cdots\)</span></li>
-<li>在 <span class="math inline">\(t+1\)</span> 时刻，采样 <span class="math inline">\(z_i^{t+1}\sim p(z_i|z_{-i})\)</span>，从第一个维度一个个采样。</li>
-</ol>
-<p>Gibbs 采样方法是一种特殊的 MH 采样，可以计算 Gibbs 采样的接受率： <span class="math display">\[
-\frac{p(z^*)Q_{z^*\to z}}{p(z)Q_{z\to z^*}}=\frac{p(z_i^*|z^*_{-i})p(z^*_{-i})p(z_i|z_{-i}^*)}{p(z_i|z_{-i})p(z_{-i})p(z_i^*|z_{-i})}
-\]</span> 对于每个 Gibbs 采样步骤，<span class="math inline">\(z_{-i}=z_{-i}^*\)</span>，这是由于每个维度 <span class="math inline">\(i\)</span> 采样的时候，其余的参量保持不变。所以上式为1。于是 Gibbs 采样过程中，相当于找到了一个步骤，使得所有的接受率为 1。</p>
-<h4 id="平稳分布">平稳分布</h4>
-<p>定义随机矩阵： <span class="math display">\[
-Q=\begin{pmatrix}Q_{11}&amp;Q_{12}&amp;\cdots&amp;Q_{1K}\\\vdots&amp;\vdots&amp;\vdots&amp;\vdots\\Q_{k1}&amp;Q_{k2}&amp;\cdots&amp;Q_{KK}\end{pmatrix}
-\]</span> 这个矩阵每一行或者每一列的和都是1。随机矩阵的特征值都小于等于1。假设只有一个特征值为 <span class="math inline">\(\lambda_i=1\)</span>。于是在马尔可夫过程中： <span class="math display">\[
-q^{t+1}(x=j)=\sum\limits_{i=1}^Kq^t(x=i)Q_{ij}\\
-\Rightarrow q^{t+1}=q^t\cdot Q=q^1Q^t
-\]</span> 于是有： <span class="math display">\[
-q^{t+1}=q^1A\Lambda^t A^{-1}
-\]</span> 如果 <span class="math inline">\(m\)</span> 足够大，那么，<span class="math inline">\(\Lambda^m=diag(0,0,\cdots,1,\cdots,0)\)</span>，则：<span class="math inline">\(q^{m+1}=q^{m}\)</span> ，则趋于平稳分布了。马尔可夫链可能具有平稳分布的性质，所以我们可以构建马尔可夫链使其平稳分布收敛于需要的概率分布（设计转移矩阵）。</p>
-<p>在采样过程中，需要经历一定的时间（燃烧期/混合时间）才能达到平稳分布。但是 MCMC 方法有一些问题：</p>
-<ol type="1">
-<li>无法判断是否已经收敛</li>
-<li>燃烧期过长（维度太高，并且维度之间有关，可能无法采样到某些维度），例如在 GMM 中，可能无法采样到某些峰。于是在一些模型中，需要对隐变量之间的关系作出约束，如 RBM 假设隐变量之间无关。</li>
-<li>样本之间一定是有相关性的，如果每个时刻都取一个点，那么每个样本一定和前一个相关，这可以通过间隔一段时间采样。</li>
-</ol>
-]]></content>
-      
-        
-        <tags>
             
             <tag> Machine Learning </tag>
             
             <tag> study notes </tag>
             
-            <tag> RL </tag>
-            
         </tags>
         
     </entry>
     
     <entry>
-      <title><![CDATA[「Paper-Reading」Transformer——NLP界大魔王的诞生]]></title>
-      <url>/2020/02/27/attention/</url>
-      <content type="html"><![CDATA[<p>Attention is all you need !!!</p>
-<a id="more"></a>
-]]></content>
-      
-        
-        <tags>
-            
-            <tag> paper reading </tag>
-            
-            <tag> NLP </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[「Personal Project」用StyleGAN来生成浮世绘]]></title>
-      <url>/2020/02/27/gan-ukiyo-generator/</url>
-      <content type="html"><![CDATA[<p>来玩玩图像生成吧!</p>
-<a id="more"></a>
-<h4 id="前言">前言</h4>
-<p>但在具体了解了之后发现,现在基于GAN的图像生成模型已经相当成熟了,例如Google在2018年已经用BigGAN刷爆了ImageNet上的所有种类图像的生成(如图中BigGAN生成的汉堡)且都已经达到了可以“以假乱真”的水平了。轮子已经造好了,从零开始进行完成一个图像生成方面的模型是几乎不可能也是不必要的,很多原本一厢情愿的“创意”都变得相当的鸡肋。</p>
-<p><img src="/2020/02/27/gan-ukiyo-generator/figure/hambuger.jpeg" alt="hambuger" style="zoom:25%;"></p>
-<p>​ 不过另一方面,这些现成的模型也给了在更精细领域上进行产出成为可能。就例如在Github上的开发者roadrunner01就用动漫头像数据集来微调英伟达训练好的styleGAN人脸生成模型,得到了鼎鼎大名的“二次元老婆生成器”,生成样例如图所示。</p>
-<p><img src="/2020/02/27/gan-ukiyo-generator/figure/sister.png" style="zoom: 25%;"></p>
-<p>​ 受到“小姐姐生成器”的启发,我也开始尝试于通过小数据集来fine-tune已有的生成模型,训练出一个性化领域的图像生成器。最终很幸运从大神Justin Pinkney的博客找到了一个规模在5000张左右的日本浮世绘的人脸数据集,并以此为基础去fine-tune了已有的styleGAN2的人脸生成模型。最终训练得到了“浮世绘”生成器,取得了还算不错的生成结果,部分生成样例如图所示。</p>
-<p><img src="/2020/02/27/gan-ukiyo-generator/figure/baby_result.jpeg" alt="baby_result" style="zoom:50%;"></p>
-<p>​ 当然,这只是第一步,在阅读了styleGAN的论文和相关解读的博客之后,又进一步得到了更有趣的玩法,就是可以通过将两个styleGAN模型中生成器不同风格生成层（style-layer)的参数进行融合中融合,得到混合风格的生成结果。最终通过融合已有的人脸生成模型和浮世绘生成模型,分别得到了浮世绘风格的人脸照片与人脸到对应浮世绘的渐变图,其中部分融合模型生成结果如图。</p>
-<p>​ <img src="/2020/02/27/gan-ukiyo-generator/figure/baby_transfer.jpeg" alt="baby_transfer" style="zoom:30%;"></p>
-<p>以上的所有的训练与生成结果都部署在了谷歌Colab的在线notebook当中,可以通过浏览器直接运行并复现生成结果,notebook链接在 <a href="https://colab.research.google.com/drive/1fQ1VrYlnKjVahuc1G8slotKXD1O6RnWV" target="_blank" rel="noopener">这里</a></p>
-<h4 id="gan的原理补充">GAN的原理补充</h4>
-<p>​ 就我的自身理解,图像生成任务（或更广的讲,深度学习的几乎所有任务)是基于一个基本假设展开的,即一切事物的属性都有着其对应着某种分布特征,就好比与其他的图片相比,所有“猫”的图片在灰度值范围或者分布上是有其独特之处的,虽然那必然是一个极其“晦涩”的且难以从直觉上理解的高纬度特征,但深度学习飞速发展的事实证明,只要数据集样本够多且label正确,这样分布特征总是可以被够深的模型所找到。</p>
-<p>​ 在初次了解GAN的工作机制时,真的可以说是惊为天人,因为这种运作模式是在是太符合人类的直觉了,更难得的是一个如此符合人类直觉的模型竟然可以真的被实现,还取得如此好的效果。</p>
-<p>​ GAN的大致结构如图所示,其主要是由两个神经网络组合而成,分别是生成器Generator(下计为G)和判别器Discriminator（以下计为D)。生成器负责通过根据输入（在图像生成任务中通常是和输出图片等尺寸随机噪音)生成人造样本。之后将生成样本与数据集中的真实样本同时输入到判别器当中。而判别器的本质也就是一个分类器,输出其对于输入样本的判别结果。套用一位博主的比喻,生成器就像是一个假钞的仿造者,而判别器就是一台验钞机,当的生成器仿造的假币可以顺利通过一台足够强大验钞机的时候,我们的生成任务也就达成了。唉,不得不再次感叹GAN这个创意的简洁与强大！</p>
-<p><img src="/2020/02/27/gan-ukiyo-generator/figure/GAN.jpg" alt="GAN" style="zoom:50%;"></p>
-<p>​ 基于以上的工作原理即可以得到GAN的目标函数。</p>
-<p><span class="math display">\[
-V(D, G)=
-        E_{x\sim p_{data}(x)}[\log D(x)]
-        + E_{z\sim p_z(z)}[\log(1 - D(G(z)))]
-\]</span> 从公式不难可以看出中当判别器将所有样本的为真概率都输出为0.5时,目标函数可以达到最小值,也就可以理解为判别器已经完全无法分辨真实样本和生成样本,也就可以理解为生成器样本可以达到“以假乱真”的水平(当让这是在判别器也足够强大的前提下)</p>
-<h4 id="stylegan的特点">StyleGAN的特点</h4>
-<p>StyleGAN是本次实验使用的图像生成模型。它是Nvidia在2018年提出的。在阅读了网上其他博主对论文的解读之后,了解到StyleGAN的整体生成思路实际上是继承于ProGAN(渐进式生成对抗网络)。</p>
-<p>​ 而ProGAN的核心在于是其中的渐进式的生成模型。一张高质量的图像（比如<span class="math inline">\(1024\times1024\)</span>的RGB图像)其中含有个过多的特征,直接生成是相当困难的。因此就可以由小至大,逐级生成。也就是,先使用非常低分辨率的图像（如：4×4)开始训练生成器和判别器,并且逐次开始训练生成器和判别器,增加更高分辨率（8×8、16×16...)的网络层,直到最后能产生一个具有丰富细节的高清图片。而这也正是StyleGAN的生成器<span class="math inline">\(G_s\)</span>所采用的基本结构。但既然名字叫做StyleGAN,它的风格控制也就主要体现在每个分辨率的网络层都有一个独立的噪声输入<span class="math inline">\(B\)</span>,可以通过改变不同层的噪声输入来调整各个层级的风格特征,大如性别,年龄,小到眉毛的粗细。</p>
-<p><img src="/2020/02/27/gan-ukiyo-generator/figure/styleGAN.png" alt="styleGAN" style="zoom:20%;"></p>
-<p>​ 除此之外就是StyleGAN中新增的一个由八个线性层构成的输入映射网络<span class="math inline">\(G_m\)</span>,作者说这里是通过映射使得网络生成的图像风格更为统一。模型结构大概就如图左所示,而右图则给出了在训练速度于生成质量上StyleGAN的优胜之处。</p>
-<h4 id="浮世绘图像生成">浮世绘图像生成</h4>
-<h5 id="ukiyo-e-faces-数据集">Ukiyo-E Faces 数据集</h5>
-<p>​ 这次实验用到的是“Ukiyo-e faces dataset”。也是恰好找到了一个可以用且足够有趣的数据集。这是一个浮世绘数据集,是作者Justin Pinkney是从各大博物馆以及相关网站中爬下来的几千张浮世绘图片。但由于数据来源十分广泛,图片的质量和尺寸是千奇百怪,这里为了方便训练,作者专门使用了基于ESRGAN的分辨率增强模型,将所有图片统一到了1024X1024的分辨率,最终得到了一个5024张的浮世绘数据集,数据集的预览如图</p>
-<p><img src="/2020/02/27/gan-ukiyo-generator/figure/overview.jpeg" alt="数据集预览图" style="zoom: 25%;"></p>
-<p>​ 就直观来看,利用这个浮世绘数据集来微调StyleGAN的可行性还是蛮高的,一来作为艺术作品,它的颜色风格相比于真实世界还是要更为固定一些,数据集中的人像质量都很高,风格也都较为统一,例如男性的发型和面部的朝向大致可以划分为几种常见的风格,面部的颜色也基本相同,此外作为一个微调任务,5000张高质量人像已经算很充足了。</p>
-<h5 id="模型结构">模型结构</h5>
-<p>​ 由于模型比较大,很难直观的输出参数,不过好在使用的这个英伟达在github上的放出的模型是用Tensorflow写成的,因此可以很直观的使用TF中的Tensofboard可视化的输出整个模型结构。使用Tensorboard输出整个模型如图,可以看到模型主题是由输入映射网络<span class="math inline">\(G_m\)</span>,渐进式生成网络<span class="math inline">\(G_s\)</span>和判别器<span class="math inline">\(D\)</span>所构成的。</p>
-<p><img src="/2020/02/27/gan-ukiyo-generator/figure/model.png" style="zoom:25%;"></p>
-<p>​ 生成器<span class="math inline">\(G_s\)</span>的内部结构如图所示,可以看到生成器中所串联的由<span class="math inline">\(4\times4\)</span>一直到<span class="math inline">\(256 \times 256\)</span>的分辨率不断提高的生成层,此外,每个生成层左侧所额外连接的输入即为StyleGAN中控制图像风格的噪音输入。</p>
-<p><img src="/2020/02/27/gan-ukiyo-generator/figure/gs.png" style="zoom: 50%;"></p>
-<p>​ 这里再输出一下StyleGAN中最重要的部分,就是其用来控制生成图像具体生成细节的风格层,这里以<span class="math inline">\(G_s\)</span>中的128*128层为例,其结构如下图,与论文中的结构图类似（上右图为我根据slim模型结构重新绘制的生成层结构图),每个生成层都是由一个两个卷积网络,一个以及噪声输入的样式模块AdaIN和输出前的归一化层构成。</p>
-<p><img src="/2020/02/27/gan-ukiyo-generator/figure/layer.png" alt="layer" style="zoom: 70%;"></p>
-<h5 id="训练过程">训练过程</h5>
-<p>​ 这里参考了其他博主的微调经验之后。我选取了英伟达已经在FFHQ上训练完成的人像生成模型作为基准。在此基础上使用浮世绘数据集进行微调。FFHQ数据如图所示,其中包含了7万张1024分辨率的高清晰度人像。</p>
-<figure>
-<img src="/2020/02/27/gan-ukiyo-generator/figure/ffhq.jpeg" alt="ffhq"><figcaption>ffhq</figcaption>
-</figure>
-<p>​ 这里的模型训练为了方便,就直接在英伟达官方放出的基于FFHQ数据集的训练代码上改了一下模型尺寸,然后就用google的COLAB跑起来了。使用的GPU就是一块google的免费提供的Tesla T4,性能基本等于一张RTX2070,算是很良心了。然后预训练模型的参数就选用的是英伟达在FFHQ数据集上训练好的256分辨率的slim结构的模型。</p>
-<figure>
-<img src="/2020/02/27/gan-ukiyo-generator/figure/process.png" alt="process"><figcaption>process</figcaption>
-</figure>
-<p>不得不说,GAN的训练确实比较耗算力,即使只是低分辩输入,slim结构的styleGAN模型也训练大概断断续了花了九个小时。</p>
-<h5 id="浮世绘风格的现代人像生成">浮世绘风格的现代人像生成</h5>
-<p>​ 使用fine-tune好模型的先随机跑了五十张图出来,效果如图[]所示,可以看到生成结果还是相当可观的,至少大多数图片不论是从画风还是人物神态都是“有那味”的（当然也有一些“不成人形”的存在)。不过还是存在很明显的共性缺陷的,例如相当一部分生成人物都是“斗鸡眼”或者翻白眼。这里我猜测一来是算力有限的缘故,选取的参数比较少的slim的结构的StyleGAN,本身的特征捕捉能力就较弱；此外本身浮世绘中人像的眼睛都较小,特征较为难以捕捉,再加上为了适应slim的模型结构,输入图片都被从1024$<span class="math inline">\(1024压缩到了256\)</span>$256,导致模型可以捕捉到的眼睛部分的特征更加稀缺,所以导致了生成结果的眼神都画风清奇。</p>
-<p><img src="/2020/02/27/gan-ukiyo-generator/figure/results.jpeg" alt="results" style="zoom:50%;"></p>
-<h4 id="modelblending-生成浮世绘风格的现代人像">ModelBlending 生成浮世绘风格的现代人像</h4>
-<h5 id="模型融合的玩法">模型融合的玩法</h5>
-<p>​ 训练完生成模型之后,按理说该做的也就差不多了,可感觉到现在为止自己做的就是找到已有的代码和合适的数据集,然后稍微修改数据集的格式和运行代码,然后就结束了,完全就像是在玩一个黑箱。另一方面费了这么久训练出来的模型,就跑出几个看着还行的生成样例就要吃灰了,也太浪费了！StyleGAN一定还有更有趣的玩法。</p>
-<p>​ 结果确实如此,就在提供数据集的博主那里,就找到了一篇关于生成模型model Bledding的方法。大致就是通过融合StyleGAN不同模型中<span class="math inline">\(G_s\)</span>的stylelaye,得到新的模型,从而生成具有混合风格的图像,博客中就给出了网上有人做的二次元小姐姐和小马宝莉的StyleGAN融合模型如图,别说效果还真不错。</p>
-<p><img src="/2020/02/27/gan-ukiyo-generator/figure/arfa-frames.jpg"></p>
-<p>​ 作为一个非常流行的生成模型,StyleGAN的应用起来的一大优势就是有各种数据集上预训练模型可以直接拿过来用。另一方面本身这个浮世绘生成模型就是在FFHQ模型上上微调得到的,因此就可以直接把原本的FFHQ模型参数作为融合对象,这样就有可以得到浮世绘风格的现代人相。（不知道为什么一看到个玩法在我心里立马就蹦出了下图的画面)</p>
-<p><img src="/2020/02/27/gan-ukiyo-generator/figure/funny.jpeg" alt="funny" style="zoom:30%;"></p>
-<h5 id="model-belnding-的原理">Model Belnding 的原理</h5>
-<p>​ 前面已经提到了StyleGAN的核心就是从ProGAN那里继承的渐进式生成网络,其生成的高清图像是从极低分辨率（<span class="math inline">\(4\times4\)</span>)一层一层提升得到的,而相应的,每一层就对应了不同方面的风格特征,这也正是其在每一层添加噪声能修改其具体风格的原因。</p>
-<p>​ 基于这个特点,也就有博主提出了一种model-bleeding的方法,就是通过将两个模型的不同风格层融合得到新的模型,进而可以生成混合风格的生成图像。具体就是针对选择的生成层,将其中的参数进行融合。 <span class="math display">\[
-w_n = \gamma \cdot w_1 + (1 - \gamma) \cdot w_2
-\]</span> 参数融合有两种方法,一种是软融合,就是将两个模型的参数比例系数<span class="math inline">\(\gamma\)</span>进行加权融合,第二硬融合也就是<span class="math inline">\(\gamma = 1\)</span>的特殊情况,即直接把模型1中一些生成层的参数换成对应模型2中的值得到新的模型,以下的融合均采用的是硬融合的方法。这里就贴一下模型融合部分的代码如图</p>
-<p><img src="/2020/02/27/gan-ukiyo-generator/figure/blendcode.png" alt="blendcode" style="zoom:50%;"></p>
-<h5 id="模型融合的生成结果">模型融合的生成结果</h5>
-<p>既然要生层浮世绘的现代现代人像,那就是希望人像的样貌接近现代,而基于渐进式生成模型的原理,整个图像的画风则近似浮世绘,而图像的风格生成主要是高分辨率层在控制,人物的形象则是在低分辨率是就基本确定。因此这里选择使用ffhq数据集训练的人脸生成模型作为基础模型,然后再将高分辨率的生成层逐步替换为浮世绘模型的参数,使得模型具有浮世绘的图像风格,方法和替换后的结构可以见图</p>
-<p><img src="/2020/02/27/gan-ukiyo-generator/figure/shit.png" alt="shit" style="zoom:48%;"></p>
-<p>​ 这里根据融合程度共新建了5个融合模型,然后对不同模型使用相同的输入即可得到风格渐变的生成结果。最终经过挑选后得到的较为可观的渐变的生成结果如图所示。这里面基本上16X16级别的融合模型就很好的实现了浮世绘风格的现代人人像的目标。而其中也有很多较为有趣的点,比如生成结果中第六列的女性,在ffhq人像模型中,其生成结果有一个抱手的动作,但当浮世绘模型逐渐替换到低分辨率的生成层时,此时人物的风格也开始被浮世绘模型所干涉,因此原本的手掌变成了扇子,真是神奇。</p>
-<p><img src="/2020/02/27/gan-ukiyo-generator/figure/best-transfer.jpeg" alt="best-transfer" style="zoom:50%;"></p>
-<h4 id="一些思考">一些思考</h4>
-<p>​ 融合生成结果中也有一些比较诡异的部分,比如就中等程度（32or64)的融合会出现非常惊悚的结果如图[],这里我就猜测一方面人脸模型的负责生成眼睛的中间层不能完整的工作的同时浮世绘层有没有足够的特征生成丰富的面部表情。导致中等程度的融合（32或64)面部的内容出现了确实,才有了出现比较“少儿不宜”的生成结果。</p>
-<p><img src="/2020/02/27/gan-ukiyo-generator/figure/bled32.jpeg" alt="bled32" style="zoom:33%;"></p>
-<p>​ 此外还做了以浮世绘模型为基础的反向融合,效果也不是太好,我猜测原因也是由于浮世绘模型中的人脸特征不足以给出一个可以在“真实世界”里成型的人脸,导致在以真实世界作为高分辨率层的模型中人脸是扭曲的。</p>
-<p><img src="/2020/02/27/gan-ukiyo-generator/figure/vertransfer.jpeg" alt="vertransfer" style="zoom: 33%;"></p>
-<h4 id="reference">Reference</h4>
-<ul>
-<li><p><a href="https://shartoo.github.io/2019/05/12/edit-stylegan-humanface/" target="_blank" rel="noopener">使用StyleGAN训练自己的数据集</a></p></li>
-<li><p><a href="https://www.justinpinkney.com/ukiyoe-dataset/" target="_blank" rel="noopener">Ukiyo-e faces数据集</a></p></li>
-<li><p><a href="https://www.justinpinkney.com/stylegan-network-blending/" target="_blank" rel="noopener">模型融合方法</a></p></li>
-<li><p>StyleGAN:A Style-Based Generator Architecture for Generative Adversarial Networks</p></li>
-</ul>
-]]></content>
-      
-        
-        <tags>
-            
-            <tag> CV </tag>
-            
-            <tag> personal tiny project </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[「Personal Project」用LSTM实现唐诗生成]]></title>
-      <url>/2020/02/27/rnn-poem-generator/</url>
-      <content type="html"><![CDATA[<p>Aaa</p>
-<h4 id="生成样例">生成样例</h4>
-<blockquote>
-<p>春日不能来处苦。</p>
-<p>今岁不应同梦泪，</p>
-<p>却笑花中一千载？</p>
-<p>今年春尽是何由？</p>
-<p>天子龙城万丈春，黄河万国五年风。</p>
-<p>九衢无路何时日，犹得三春作帝王。</p>
-<p>欙阳宫殿里。</p>
-<p>金炉上殿，凤箫相对花中扇。</p>
-<p>春花落叶花枝里，绿叶落。</p>
-<p>春来月夜，红草斜。</p>
-<p>沙场不觉有新声，</p>
-<p>万古犹能不自伤。</p>
-<p>若到江城花满夜。</p>
-<p>莫教心绪谁同事？</p>
-<p>西山有心心断处。</p>
-</blockquote>
-<a id="more"></a>
-]]></content>
-      
-        
-        <tags>
-            
-            <tag> NLP </tag>
-            
-            <tag> personal tiny project </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[「Paper-Reading」seqGAN——将GAN与Policy Gradient带入NLP领域]]></title>
-      <url>/2020/02/27/seqGAN/</url>
-      <content type="html"><![CDATA[<p>前段时间使用上交开源的seqGAN重新实现了Poem Generator,这几天回头细读一下文章</p>
-<a id="more"></a>
-<h3 id="abstract">Abstract</h3>
-<h3 id="proposed-model">Proposed Model</h3>
-<p>为了方便阅读，我们先记</p>
-<ul>
-<li>discriminator <span class="math inline">\(D\)</span></li>
-<li>generator <span class="math inline">\(G\)</span></li>
-<li>vocabulary <span class="math inline">\(\gamma\)</span></li>
-<li>a sequence <span class="math inline">\(Y_{1:T} = (y_1,...,y_t,...,y_T),y_t ∈ \gamma\)</span></li>
-<li>current state <span class="math inline">\(s = Y_{1:t-1}\)</span>(当前的状态为之前所有输出tokens的序列)</li>
-<li>next state <span class="math inline">\(s^{,} = Y_{1:t}\)</span></li>
-<li>action <span class="math inline">\(a = y_t\)</span></li>
-</ul>
-<p>在上面的预设下，所有Text-Generation类任务，都可以抽象化为在<span class="math inline">\(t\)</span>时刻，已经生成<span class="math inline">\((y_1,..y_{t-1})\)</span>的基础上，采取什么action（如何选取<span class="math inline">\(y_t\)</span>）。</p>
-<h4 id="seqgan-via-policy-gradient">SeqGAN via Policy Gradient</h4>
-<p>生成器有<span class="math inline">\(G_\theta(y_t|Y_{1:t-1})\)</span> 在对抗学习的情境下，<span class="math inline">\(G\)</span> 目标函数是</p>
-<p><span class="math display">\[
-&lt;Empty \space Math \space Block&gt;
-\]</span></p>
-<p>那么<span class="math inline">\(D\)</span>是怎么计算每一步的value的呢？</p>
-<p>可这样的话，Discriminator只能对一整个seq进行判别 这里就要Rollout Policy出场了</p>
-<p>在前<span class="math inline">\(T-1\)</span>时刻 <span class="math display">\[
-Q^{G_\theta}_{D_\phi}(a = y_t;s = Y_{1:t-1}) =
-\frac{1}{N}\sum^{N}_{n=1}D_\phi(Y_{1:T}^{n})
-\]</span></p>
-<p>其中 <span class="math display">\[
-Y_{1:T}^{n}
-\]</span></p>
-<p>最后的<span class="math inline">\(T\)</span>时刻，由于，序列已经生成了，就不用</p>
-<p><span class="math display">\[
- Q^{G_\theta}_{D_\phi}(a = y_T;s = Y_{1:T-1}) = D_\phi(Y_{1:T})
-\]</span></p>
-<p>是在看完代码之后，才明白在Rollout里面也保存着一套LSTM，这就是paper中说的<span class="math inline">\(G_\beta\)</span>，</p>
-<h4 id="step">Step</h4>
-<p>先用MLE去预训练<span class="math inline">\(G_\theta\)</span>，再用<span class="math inline">\(G_\theta\)</span>生成的“赝品”和真实数据共同去预训练<span class="math inline">\(D_\phi\)</span></p>
-<p>action value function : <span class="math inline">\(Q^{G_\theta}_{D_\phi}(s,a)\)</span></p>
-<p><img src="/2020/02/27/seqGAN/figure/seqgan.png" style="zoom:30%;"></p>
-]]></content>
-      
-        
-        <tags>
-            
-            <tag> RL </tag>
-            
-            <tag> paper reading </tag>
-            
-            <tag> NLP </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[seqGAN后续——代码阅读+重构新版PoemGenerator]]></title>
-      <url>/2020/02/27/seqGAN-code/</url>
-      <content type="html"><![CDATA[<p>aaa</p>
-<a id="more"></a>
-<p>这是上一篇paper-reading的后续。在NLG中，强化学习肯定是相当重要的一种思路，因此GAN的实现还是相当有必要的，而seqGAN可以说是的文本GAN中的baseline了（leakGAN maskGAN etc.）所以这几天半抄半改的复现了seqGAN，并在上面跑了一下全唐诗（相比之下自己以前的LSTM-Generator纯属小玩具orz）。</p>
-<h2 id="code">Code</h2>
-<p>在读了seqGAN的代码的基础上，我也根据自己的习惯小幅重构了一下，也方便加深理解</p>
-<h3 id="build-generator">build Generator</h3>
-<p>说实话我并不理解这里作者为什么要手撸一个LSTM（肯定不是不会用API XD） 我目前的理解是直接用<code>tf.nn.rnn.LSTMcell</code>的话不方便向Rollout中的<span class="math inline">\(G_\beta\)</span>传Variable。不过代码里很多tf函数的用法也还是第一次见到，学到了不少。</p>
-<h4 id="unrolled-rnn-unit">Unrolled RNN unit</h4>
-<p><code>start token</code></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#使用TensorArray便于读写</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">gen_o = tf.TensorArray(dtype=tf.float32, size=self.c,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">                                        dynamic_size=<span class="literal">False</span>, infer_shape=<span class="literal">True</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">gen_x = tf.TensorArray(dtype=tf.int32, size=self.config.seq_maxlen,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">                                        dynamic_size=<span class="literal">False</span>, infer_shape=<span class="literal">True</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#unrolled lstm </span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">_, _, _, self.gen_o, self.gen_x = tf.while_loop(</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    cond=<span class="keyword">lambda</span> i, _1, _2, _3, _4: i &lt; </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    self.sequence_length,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">    body=_g_recurrence, </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">    loop_vars=(tf.constant(<span class="number">0</span>, dtype=tf.int32),</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">            tf.nn.embedding_lookup(self.g_embeddings, self.start_token), self.h0, gen_o, gen_x))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">self.gen_x = self.gen_x.unstack()</span></pre></td></tr></table></figure>
-<p>这里的<code>tf.while_loop</code>还是第一次见到orz,详解见<a href="https://blog.csdn.net/u011509971/article/details/78805727" target="_blank" rel="noopener">这里</a>简单说一下把，<code>tf.while_loop</code>函数中<code>cond</code>和<code>body</code>分别是进行判别和执行操作的函数，他们都会接收<code>loop_vars</code>中的所有参数，所以要注意参数的位置和数量的一致</p>
-<h4 id="pretrain-loss">pretrain loss</h4>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">self.pretrain_loss = -tf.reduce_sum(</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    tf.one_hot(tf.to_int32(tf.reshape(self.x, [<span class="number">-1</span>])), self.num_emb, <span class="number">1.0</span>, <span class="number">0.0</span>) * tf.log(</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">            tf.clip_by_value(tf.reshape(self.g_predictions, [<span class="number">-1</span>, self.num_emb]), <span class="number">1e-20</span>, <span class="number">1.0</span>)</span></pre></td></tr></table></figure>
-<h3 id="build-discriminator">build Discriminator</h3>
-<p>discriminator的任务就是对于生成的文本输出一个介于0和1之间的分值，在本次的seqGAN中Discriminator使用了一个多层CNN用来执行分类任务</p>
-<h4 id="cnn-unit">CNN unit</h4>
-<p>说实话，炼丹这么久了，CNN正经一点了解都没有，真是太丢人了。 就在这里顺道学一下CNN吧</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">pooled_outputs = []</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> filter_size, num_filter <span class="keyword">in</span> zip(filter_sizes, num_filters):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">with</span> tf.name_scope(<span class="string">"conv-maxpool-%s"</span> % filter_size):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">        <span class="comment"># Convolution Layer</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">        filter_shape = [filter_size, embedding_size, <span class="number">1</span>, num_filter]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">        W = tf.Variable(tf.truncated_normal(filter_shape, stddev=<span class="number">0.1</span>), name=<span class="string">"W"</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">        b = tf.Variable(tf.constant(<span class="number">0.1</span>, shape=[num_filter]), name=<span class="string">"b"</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        conv = tf.nn.conv2d(</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">            self.embedded_chars_expanded,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">            W,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">            strides=[<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>],</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">            padding=<span class="string">"VALID"</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">            name=<span class="string">"conv"</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">        <span class="comment"># Apply nonlinearity</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">        h = tf.nn.relu(tf.nn.bias_add(conv, b), name=<span class="string">"relu"</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">        <span class="comment"># Maxpooling over the outputs</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">        pooled = tf.nn.max_pool(</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">            h,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">            ksize=[<span class="number">1</span>, sequence_length - filter_size + <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>],</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">            strides=[<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>],</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">            padding=<span class="string">'VALID'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">            name=<span class="string">"pool"</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">        pooled_outputs.append(pooled)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># Combine all the pooled features</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">num_filters_total = sum(num_filters)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">self.h_pool = tf.concat(pooled_outputs, <span class="number">3</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">self.h_pool_flat = tf.reshape(self.h_pool, [<span class="number">-1</span>, num_filters_total])</span></pre></td></tr></table></figure>
-<p>这里的输入x是sequence已经被展开到一维的embeddings。这里的多层CNN就能将一个长度为<code>embed_size * seq_len</code>的向量降到</p>
-<h4 id="highway-unit">Highway unit</h4>
-<p>highway层为了加快收敛而添加的</p>
-<p>关于highway，我参考了<a href="https://zhuanlan.zhihu.com/p/35019701" target="_blank" rel="noopener">这里</a>，paper原文在<a href="http://arxiv.org/abs/1505.00387" target="_blank" rel="noopener">这里</a></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr></table></figure>
-<h3 id="roll-out">Roll out</h3>
-<p><span class="math inline">\(D\)</span>和<span class="math inline">\(G\)</span>都构建完成，就要开始rollout了，Rollout在初始化时，<span class="math inline">\(G_\beta\)</span>会接受一整套预训练完成的Generator的LSTM，作为初始值。</p>
-<p>在更新时，update-rate就上场了，在update时，rollout中的LSTM并不是原样接收<span class="math inline">\(G_\theta\)</span>中的值，而是部分保留，部分更新</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">G_bate = G_beta * (<span class="number">1</span> - updata_rate) + G_theta * update_rate</span></pre></td></tr></table></figure>
-<h4 id="get-rawards">Get rawards</h4>
-<p>这里可以说是seqGAN的核心function</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_reward</span><span class="params">(self, sess, input_x, rollout_num, discriminator)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    rewards = []</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(rollout_num):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    <span class="comment">#D开始对生成sample中的每个token打分</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">for</span> given_num <span class="keyword">in</span> range(<span class="number">1</span>, self.sequence_length ):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">        <span class="comment"># t &lt; t 时 会使用G_beta生成token补全sequesnce</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">            feed = &#123;self.x: input_x, self.given_num: given_num&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">            samples = sess.run(self.gen_x, feed)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">            feed = &#123;discriminator.input_x: samples, discriminator.dropout_keep_prob: <span class="number">1.0</span>&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">            ypred_for_auc = sess.run(discriminator.ypred_for_auc, feed)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">            ypred = np.array([item[<span class="number">1</span>] <span class="keyword">for</span> item <span class="keyword">in</span> ypred_for_auc])</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">if</span> i == <span class="number">0</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">                rewards.append(ypred)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">                <span class="comment">#第一轮rollout生成打分栏</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">else</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">                rewards[given_num - <span class="number">1</span>] += ypred</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">                <span class="comment">#后面直接往上加</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">        <span class="comment"># the last token reward</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">        feed = &#123;discriminator.input_x: input_x, discriminator.dropout_keep_prob: <span class="number">1.0</span>&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">        ypred_for_auc = sess.run(discriminator.ypred_for_auc, feed)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">        ypred = np.array([item[<span class="number">1</span>] <span class="keyword">for</span> item <span class="keyword">in</span> ypred_for_auc])</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">if</span> i == <span class="number">0</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">            rewards.append(ypred)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">else</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">            <span class="comment"># completed sentence reward</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">            rewards[self.sequence_length - <span class="number">1</span>] += ypred</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">    rewards = np.transpose(np.array(rewards)) / (<span class="number">1.0</span> * rollout_num)  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">    <span class="comment">#batch_size x seq_length</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">return</span> rewards</span></pre></td></tr></table></figure>
-<h3 id="optimize">Optimize</h3>
-<p>获得了reward之后，就要开始优化了</p>
-<p>着重读一下这几个loss吧</p>
-<h3 id="run">RUN</h3>
-<p>基本模块都完成了，现在就开始GAN吧！ 先理一下训练流程</p>
-<h4 id="adversial-train">Adversial Train</h4>
-<p>这是一个epoch的代码</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> it <span class="keyword">in</span> range(<span class="number">1</span>):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    samples = generator.generate(sess)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    <span class="comment">#注意，一次generate生成一整个seqence个而非一个token</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    rewards = rollout.get_reward(sess, samples, <span class="number">16</span>, discriminator)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    feed = &#123;generator.x: samples, generator.rewards: rewards&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    _ = sess.run(generator.g_updates, feed_dict=feed)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># Test</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> total_batch % <span class="number">5</span> == <span class="number">0</span> <span class="keyword">or</span> total_batch == TOTAL_BATCH - <span class="number">1</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">    generate_samples(sess, generator, BATCH_SIZE, generated_num, eval_file)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">    likelihood_data_loader.create_batches(eval_file)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">    test_loss = target_loss(sess, target_lstm, likelihood_data_loader)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># Update roll-out parameters</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">rollout.update_params()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># Train the discriminator</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">5</span>):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">    generate_samples(sess, generator, BATCH_SIZE, generated_num, negative_file)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">    dis_data_loader.load_train_data(positive_file, negative_file)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">3</span>):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">        dis_data_loader.reset_pointer()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">for</span> it <span class="keyword">in</span> xrange(dis_data_loader.num_batch):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">            x_batch, y_batch = dis_data_loader.next_batch()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">            feed = &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">                discriminator.input_x: x_batch,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">                discriminator.input_y: y_batch,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">                discriminator.dropout_keep_prob: dis_dropout_keep_prob</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">            &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">            _ = sess.run(discriminator.train_op, feed)</span></pre></td></tr></table></figure>
-<h3 id="orcal-lstm">Orcal LSTM</h3>
-<p>说实话，刚看代码的时候，一直不明白source里的<code>target_lstm.py</code>是干嘛的，还以为是作者写的LSTM的模版，最后重读了一边论文，才发现这部分的作用。原文在实验的时候引入了orcale-model，说白了就是他们有一个在目标任务上预训练的相当成熟的LSTM可以直接生成正样本相比于从零开始,模型收敛会快上不少，而我在跑Chinese-Poem的时候，这部分肯定就没有了。</p>
-<h3 id="others">others</h3>
-<h4 id="data-until">data until</h4>
-<p>这次用的数据是ChinesePoem<a href="http://homepages.inf.ed.ac.uk/mlap/Data/EMNLP14/rnnpg_data_emnlp-2014.tar.bz2" target="_blank" rel="noopener">下载</a> 有28W首。 数据以40为单位做了切分，并做了mask</p>
-]]></content>
-      
-        
-        <tags>
-            
-            <tag> RL </tag>
-            
-            <tag> paper reading </tag>
-            
-            <tag> NLP </tag>
-            
-            <tag> personal tiny project </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[兜兜转转又一年]]></title>
+      <title><![CDATA[「随笔」19年终总结]]></title>
       <url>/2020/02/19/twenty/</url>
       <content type="html"><![CDATA[<p>  敲字儿这会儿，已经过了零点了，20岁了</p>
 <a id="more"></a>
@@ -1039,13 +1434,13 @@ s \xrightarrow[]{a \sim \pi_\theta(.\vert s)} s&#39; \xrightarrow[]{a \sim \pi_\
     </entry>
     
     <entry>
-      <title><![CDATA[谈谈我们的“异化”]]></title>
+      <title><![CDATA[「随笔」谈谈社交网络对我们的“异化”]]></title>
       <url>/2019/12/05/suibi1/</url>
-      <content type="html"><![CDATA[<p>  些这篇文章的是前段时间的毛概大作业，虽然不长，但也费了不少心力。不得不说，写作过程还是相当痛苦的，不过也难得可以以这种自己“瞧得起”的方式表达真情实感。所以发在博客上，希望以后可以继续写作这个好习惯吧。</p>
+      <content type="html"><![CDATA[<p>  些这篇文章的是前段时间的思政课大作业，虽然不长，但也费了不少心力。不得不说，写作过程还是相当痛苦的，不过也难得可以以这种自己“瞧得起”的方式表达真情实感。所以发在博客上，希望以后可以继续写作这个好习惯吧。</p>
 <a id="more"></a>
 <h3 id="这个时代的异化">这个时代的异化</h3>
 <p>  异化，代表着人对自己的劳动与外部世界丧失控制，甚至反被操纵的过程，在马克思的笔下，它是“人的受难”，而在现今的网络空间中，我们的情绪与表达也在越来越多的呈现着这样的异化。</p>
-<h4 id="清醒的哲人王们">清醒的“哲人王”们</h4>
+<h4 id="清醒的哲人们">清醒的哲人们</h4>
 <p>  格雷塔·桑伯格，瑞典的环保少女，因她极端反现代化的环保诉求与乖张的事迹而为人所知。2018年，15岁的她每个周五都会独自在瑞典国会前举着“为气候变化而罢课”抗议静坐。并参加了今年九月的联合国气候峰会，并因演讲中那张表情夸张的“How Dear You”而红遍中国的社交网络(这里的“红”纯粹是指其激发的情绪之剧烈)。活脱一个完美的“妄人”范式。与“疯姑娘”一同被推到风口的是，是“普京一语戳破西方环保阴谋”，“中国的绿化成就震撼世界，为英雄们点赞”。。。 「说来戏谑，每当我们被西方白左气到时，总是要抬出那些“最可爱的人们”给我们撑腰」</p>
 <p>  说老实话，让我们用自己的直觉判断，也大概可以明白这位“疯姑娘”的诉求并不现实，许多乖张的事迹也确实逃不开炒作的嫌疑。可“不实际”，“不纯粹”难道就真的能作为我们情绪如此高亢的理由吗?如果“非蠢即坏”的咒骂真的源于我们的道德自觉，那么在网络上，我们对大屠杀，纳粹，红色高棉，又何曾有过如此纯粹的愤怒呢? 「主观的认为，在当今的网络中不管是大屠杀的恶，还是雷锋式的善都沦为了虚无的，关于善恶的“道理”;而网络中的高亢表达，根本上源于一种“恶感”」</p>
 <p>  在这里，人人都是了不起的智者，一眼就戳穿了反智的本质与西方的阴谋，用尽工整精致的语言，向人们证明着“我什么都不做”比“反智”高明多了，再顺带对那些真正真诚的实践者施以崇高的敬意。熟练的运用着自己的理性，歌颂着“伟大”，唾弃着“虚伪”，何其高明的“哲人王”们!</p>
@@ -1102,105 +1497,6 @@ s \xrightarrow[]{a \sim \pi_\theta(.\vert s)} s&#39; \xrightarrow[]{a \sim \pi_\
             <tag> RL </tag>
             
             <tag> paper reading </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[「Paper-Reading」RCNN family —— 基于Region Proposal的目标检测模型]]></title>
-      <url>/2019/11/30/rcnn/</url>
-      <content type="html"><![CDATA[<p>R-CNN的横空出世标志着“目标检测”被纳入了深度学习的板块之中,RCNN家族是从传统的基于手工特征的目标检测框架逐步迭代而来的,因而其模型也相对复杂,与之后纯粹源于深度学习的YOLO系列模型形成了鲜明对比.</p>
-<a id="more"></a>
-<p>本文将从RCNN入手,记录基于Region Proposal的目标检测模型的基本结构, 并补充其后续版本的改进之处(Fast R-CNN .e.tc.).</p>
-<h4 id="od任务的基本问题-localization-classification">OD任务的基本问题: localization + classification</h4>
-<p>借用知乎上一个博主的总结,OD要解决的问题就是“物体在哪里以及是什么”的流程问题.而其中“是什么?”其实是CV中典型的classification问题,已经有很多成熟的模型可直接调用.因而解决“物体在哪里”的localization任务,就成了OD任务的重点.为了方便即后续讨论,对于localization问题,我们可以记</p>
-<blockquote>
-<p>输入：图片</p>
-<p>输出：方框在图片中的位置（x,y,w,h）</p>
-<p>label: 物体在图片中的实际位置（x,y,w,h）</p>
-<p>评估方法：检测评价函数 intersection-over-union(IOU,也就是俗称的召回率)</p>
-</blockquote>
-<p>简而言之,localization就是输出物体坐标(根据坐标即可得到物体的bonding box),并最大化IOU,即尽量使预测bonding box与实际物体框重合.对于localization,有两种处理思路</p>
-<h5 id="思路一将localization看作回归问题">思路一:将localization看作回归问题</h5>
-<p>当将localization看作回归问题,即使用label数据回归预测（x,y,w,h）四个参数,得到bondingbox.这实际上延续了CV中解决classification问题的思路,只需改变一下输出层的结构(将输出层由类别改为四个坐标),即可使用经过预训练的CNN模型(Vgg,AvexNet e.t.c)来完成localization.</p>
-<p><img src="https://images2015.cnblogs.com/blog/1093303/201705/1093303-20170504112723757-880743532.png"></p>
-<p>直觉上讲,我会觉得regression的思路与机器学习的模型更为契合,不幸的是RCNN的作者提到回归法在目标检测中在实践中并不能取得理想的结果,因此沿用了之前的传统思路(使用selectivesearch 的方法选取候选区域),不过这并不代表regression不可行,之后的YOLO就是基于回归的思路进行物体location的,并大放异彩.</p>
-<h5 id="思路二从图中取出若干候选区域并选出最优">思路二:从图中取出若干候选区域,并选出最优</h5>
-<p>候选区域（Region Proposal</p>
-<h4 id="r-cnn-selective-search-cnn-svm-结构">R-CNN （Selective Search + CNN + SVM 结构）</h4>
-<p>R-CNN算是卷积神经网络在目标检测领域的开山之作,整体结构上R-CNN继承了已经较为成熟的Selective Search + DPM/HoG + SVM的目标检测框架.在其最大的突破点在于使用CNN作为特征提取器,代替传统了的已经到瓶颈的手工特征(DPM/HoG);并且经过预训练的CNN特征提取器(如在ImageNet上预训练的Vgg)在应用时只需在目标数据集上进行fine-tuning,降低了对数据集的要求,可以解决数据集不足的问题.</p>
-<h5 id="工作流程与总体结构">工作流程与总体结构</h5>
-<p>RCNN的运行可分为四个步骤,我把它简化为“找框,喂框,认框,修框”,具体来说就是</p>
-<blockquote>
-<p>找框(生成候选区域)： 采用Selective Search 方法,对每张输入图片生成1-2K个候选区域</p>
-<p>喂框(CNN特征提取)： 对每个候选区域，使用CNN提取特征,得到其特征向量</p>
-<p>认框(类别判断)： 将候选区域的特征向量特征送入每一个类(人、马、狗 e.t.c.)的SVM 分类器，判别是否属于该类</p>
-<p>修框(位置精修)： 使用回归器精细修正候选框位置</p>
-</blockquote>
-<p><img src="/2019/11/30/rcnn/figure/rcnn-process.png" alt="rcnn-process" style="zoom:50%;"></p>
-<p>相应地,RCNN由三部分构成,第一部分是生成候选区域的Selective Search算法;第二部分是用来提取特征的CNN(文中选取了Vgg16),第三部分是用以分类的SVM(如果是现在,一定也会用CNN做分类)</p>
-<h5 id="selective-search">Selective Search</h5>
-<p>前面提到,RCNN是在之前的传统目标检测框架上迭代得到的,因此生成候选区域时仍然沿用了之前已经较为成熟的Selective Search方法.Selective Search主要是根据图像的色彩与纹理特征,先得到若干个较小的同类区域,再根据一定规则将较小的同类区域合,并得到物体的候选区域,其具体的算法流程如下</p>
-<blockquote>
-<ol type="1">
-<li>根据图像的色彩纹理特征,使用过分割手段，将图像分割成小区域 (1k~2k 个)</li>
-<li>查看现有小区域，按照合并规则合并可能性最高的相邻两个区域。重复直到整张图像合并成一个区域位置</li>
-<li>输出所有曾经存在过的区域，即得到了RCNN所需的候选区域</li>
-</ol>
-</blockquote>
-<p>并且合并规则保证优先合并以下四种区域：</p>
-<blockquote>
-<p>1.颜色（颜色直方图）相近的</p>
-<p>2.纹理（梯度直方图）相近的</p>
-<p>3.合并后总面积小的： 保证合并操作的尺度较为均匀，避免一个大区域陆续“吃掉”其他小区域</p>
-<p>4.合并后，总面积在其BBOX中所占比例大的： 保证合并后形状规则。</p>
-</blockquote>
-<p><img src="/2019/11/30/rcnn/figure/selectivesearch.png"></p>
-<h4 id="spp-netroi-pooling-的引入">SPP-net（ROI Pooling 的引入）</h4>
-<p>要优化得到RCNN的后续改进型,就要先看看RCNN有哪些缺点,之前RCNN在选出Selective Search上千个bondingbox之后,需要将每个物体框resize后依次通过CNN特征提取器,这是相当耗时的一个环节.如果可以先得到整张图片的特征,在每次选取bondingbox时取整体特征的一部分直接得到物体的特征值,效率必然会大大提升</p>
-<p><img src="https://bloglunit.files.wordpress.com/2017/05/20170525-research-seminar-google-slides-2017-05-26-17-14-03.png"></p>
-<p>SSP-Net就通过引入空间金字塔池化(Spatial Pyramid Pooling),在输入和特征提取方面对RCNN进行了两处改进</p>
-<blockquote>
-<p>1.结合空间金字塔方法实现CNNs的对尺度输入。 一般CNN后接全连接层或者分类器，他们都需要固定的输入尺寸，因此不得不对输入数据进行crop或者warp，这些预处理会造成数据的丢失或几何的失真。SPP Net的第一个贡献就是将金字塔思想加入到CNN，实现了数据的多尺度输入。</p>
-<p>2.只对原图提取一次卷积特征 在R-CNN中，每个候选框先resize到统一大小，然后分别作为CNN的输入，这样是很低效的。 所以SPP Net根据这个缺点做了优化：只对原图进行一次卷积得到整张图的feature map，然后找到每个候选框zaifeature map上的映射patch，将此patch作为每个候选框的卷积特征输入到SPP layer和之后的层。节省了大量的计算时间，比R-CNN有一百倍左右的提速。</p>
-</blockquote>
-<h4 id="fast-r-cnnselective-search-cnn-roi-结构">Fast R-CNN（Selective Search + CNN + ROI 结构）</h4>
-<p>如果说SSP方法给出了RCNN改进的方向,那Fast R-CNN就是在SPP Net的基础上,引入了ROI Pooling层，对RCNN作了进一步改进，使得性能进一步提高。</p>
-<p><img src="/2019/11/30/rcnn/figure/fastrcnn.png" alt="fastrcnn" style="zoom:30%;"></p>
-<h5 id="roi-pooling-层">ROI Pooling 层</h5>
-<p>FastRCNN作者提出了一个可以看做单层sppnet的网络层，叫做ROI Pooling，这个网络层可以把不同大小的输入映射到一个固定尺度的特征向量，而我们知道，conv、pooling、relu等操作都不需要固定size的输入，因此，在原始图片上执行这些操作后，虽然输入图片size不同导致得到的feature map尺寸也不同，不能直接接到一个全连接层进行分类，但是可以加入这个神奇的ROI Pooling层，对每个region都提取一个固定维度的特征表示，再通过正常的softmax进行类型识别。另外，之前RCNN的处理流程是先提proposal，然后CNN提取特征，之后用SVM分类器，最后再做bbox regression，而在Fast-RCNN中，作者巧妙的把bbox regression放进了神经网络内部，与region分类和并成为了一个multi-task模型，实际实验也证明，这两个任务能够共享卷积特征，并相互促进。Fast-RCNN很重要的一个贡献是成功的让人们看到了Region Proposal+CNN这一框架实时检测的希望，原来多类检测真的可以在保证准确率的同时提升处理速度，也为后来的Faster-RCNN做下了铺垫。</p>
-<p><img src="https://bloglunit.files.wordpress.com/2017/05/20170525-research-seminar-google-slides-2017-05-29-19-06-26.png"></p>
-<h4 id="faster-r-cnnrpn-cnn-roi-结构">Faster R-CNN（RPN + CNN + ROI 结构）</h4>
-<p>Fast R-CNN与SSPNe已经t针对RCNN特征提取与输入尺寸方面的不足做了优化,为了进一步提升效率,就要对RCNN候选区域生成环节进行优化了</p>
-<blockquote>
-<p>问题: RCNN的选择性搜索算法要一次找出上千个候选框，非常耗时且低效 解决：加入一个提取边缘的神经网络Region Proposal Network(RPN),将深度学习引入候选框生成环节</p>
-</blockquote>
-<p>基于以上优化整个Faster R-CNN可以分为三部分：</p>
-<blockquote>
-<ol type="1">
-<li>backbone：<strong>共享基础卷积层，用于提取整张图片的特征</strong>。例如VGG16，或Resnet101，去除其中的全连接层，只留下卷基层，输出下采样后的特征图。</li>
-<li>RPN：候选检测框生成网络（Region Proposal Networks）。</li>
-<li>Roi pooling与分类网络：对候选检测框进行分类，并且再次微调候选框坐标（在RPN中，网络会根据先前人为设置的anchor框进行坐标调整，所以这里是第二次调整）。输出检测结果。</li>
-</ol>
-</blockquote>
-<p><img src="https://pic4.zhimg.com/80/v2-e64a99b38f411c337f538eb5f093bdf3_1440w.jpg" style="zoom:73%;"></p>
-<h5 id="rpn网络">RPN网络</h5>
-<p>总的来说，从R-CNN, SPP-NET, Fast R-CNN, Faster R-CNN一路走来，基于深度学习目标检测的流程变得越来越精简，精度越来越高，速度也越来越快。可以说基于Region Proposal的R-CNN系列目标检测方法是当前目标检测技术领域最主要的一个分支,不过也由于RCNN家族是从传统的基于手工特征的目标检测框架逐步迭代而来的,因而其模型也相对复杂,,用金庸小说中对武功的分类来讲,RCNN家族模型兼有的复杂结构与高精度,可以说是目标检测中的“气宗”,而与之后纯粹源于深度学习的YOLO系列模型形成了鲜明对比</p>
-<h4 id="reference">Reference</h4>
-<ul>
-<li>https://www.cnblogs.com/skyfsm/p/6806246.html</li>
-<li>https://www.cnblogs.com/yhyue/p/9247962.html</li>
-<li>https://towardsdatascience.com/r-cnn-fast-r-cnn-faster-r-cnn-yolo-object-detection-algorithms-36d53571365e?gi=ca4fe493ba3e</li>
-</ul>
-]]></content>
-      
-        
-        <tags>
-            
-            <tag> paper reading </tag>
-            
-            <tag> CV </tag>
             
         </tags>
         

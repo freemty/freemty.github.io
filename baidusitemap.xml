@@ -1,55 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://freemty.github.io/2020/02/27/CRF/</loc>
+    <loc>http://freemty.github.io/2020/08/27/rnn-poem-generator/</loc>
     <lastmod>2022-02-17</lastmod>
   </url>  <url>
-    <loc>http://freemty.github.io/2020/02/27/EM/</loc>
+    <loc>http://freemty.github.io/2020/04/03/SVM/</loc>
     <lastmod>2022-02-17</lastmod>
   </url>  <url>
-    <loc>http://freemty.github.io/2020/02/27/rnn-poem-generator/</loc>
+    <loc>http://freemty.github.io/2022/02/17/4.DimentionReduction/</loc>
+    <lastmod>2022-02-17</lastmod>
+  </url>  <url>
+    <loc>http://freemty.github.io/2020/02/19/twenty/</loc>
+    <lastmod>2022-02-17</lastmod>
+  </url>  <url>
+    <loc>http://freemty.github.io/2019/12/05/suibi1/</loc>
+    <lastmod>2022-02-17</lastmod>
+  </url>  <url>
+    <loc>http://freemty.github.io/2020/10/30/seqGAN-code/</loc>
+    <lastmod>2022-02-17</lastmod>
+  </url>  <url>
+    <loc>http://freemty.github.io/2020/10/27/seqGAN/</loc>
+    <lastmod>2022-02-17</lastmod>
+  </url>  <url>
+    <loc>http://freemty.github.io/2020/11/30/rcnn/</loc>
+    <lastmod>2022-02-17</lastmod>
+  </url>  <url>
+    <loc>http://freemty.github.io/2020/04/10/attention/</loc>
+    <lastmod>2022-02-17</lastmod>
+  </url>  <url>
+    <loc>http://freemty.github.io/2020/12/20/gan-ukiyo-generator/</loc>
+    <lastmod>2022-02-17</lastmod>
+  </url>  <url>
+    <loc>http://freemty.github.io/2020/07/01/YOLO/</loc>
+    <lastmod>2022-02-17</lastmod>
+  </url>  <url>
+    <loc>http://freemty.github.io/2020/04/01/MCMC/</loc>
+    <lastmod>2022-02-17</lastmod>
+  </url>  <url>
+    <loc>http://freemty.github.io/2020/03/09/EM/</loc>
+    <lastmod>2022-02-17</lastmod>
+  </url>  <url>
+    <loc>http://freemty.github.io/2020/03/05/CRF/</loc>
     <lastmod>2022-02-17</lastmod>
   </url>  <url>
     <loc>http://freemty.github.io/2020/02/27/HMM/</loc>
     <lastmod>2022-02-17</lastmod>
   </url>  <url>
-    <loc>http://freemty.github.io/2020/02/27/MCMC/</loc>
-    <lastmod>2022-02-17</lastmod>
-  </url>  <url>
-    <loc>http://freemty.github.io/2019/11/30/rcnn/</loc>
-    <lastmod>2022-02-17</lastmod>
-  </url>  <url>
-    <loc>http://freemty.github.io/2020/02/27/attention/</loc>
-    <lastmod>2022-02-17</lastmod>
-  </url>  <url>
-    <loc>http://freemty.github.io/2020/02/27/seqGAN-code/</loc>
-    <lastmod>2022-02-15</lastmod>
-  </url>  <url>
     <loc>http://freemty.github.io/2019/11/30/superAE/</loc>
-    <lastmod>2022-02-15</lastmod>
-  </url>  <url>
-    <loc>http://freemty.github.io/2020/02/27/gan-ukiyo-generator/</loc>
     <lastmod>2022-02-15</lastmod>
   </url>  <url>
     <loc>http://freemty.github.io/2019/11/30/AlphaGo/</loc>
     <lastmod>2022-02-15</lastmod>
   </url>  <url>
-    <loc>http://freemty.github.io/2021/04/30/YOLO/</loc>
-    <lastmod>2022-02-13</lastmod>
-  </url>  <url>
-    <loc>http://freemty.github.io/2020/02/27/seqGAN/</loc>
-    <lastmod>2022-02-11</lastmod>
-  </url>  <url>
     <loc>http://freemty.github.io/2020/01/28/RL1/</loc>
     <lastmod>2022-02-11</lastmod>
   </url>  <url>
-    <loc>http://freemty.github.io/2020/02/19/twenty/</loc>
-    <lastmod>2022-02-08</lastmod>
-  </url>  <url>
     <loc>http://freemty.github.io/2020/06/02/interestingwords/</loc>
     <lastmod>2020-06-02</lastmod>
-  </url>  <url>
-    <loc>http://freemty.github.io/2019/12/05/suibi1/</loc>
-    <lastmod>2020-02-18</lastmod>
   </url>
 </urlset>

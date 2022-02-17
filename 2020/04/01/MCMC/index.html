@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/6464.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/6464.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/6464.jpg">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://freemty.github.io').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="本文主要整理自shuhuai008大佬的白班推导的MCMC版书">
+<meta name="keywords" content="RL,Machine Learning,study notes">
+<meta property="og:type" content="article">
+<meta property="og:title" content="「Study Notes」马尔可夫链蒙特卡罗方法">
+<meta property="og:url" content="http:&#x2F;&#x2F;freemty.github.io&#x2F;2020&#x2F;04&#x2F;01&#x2F;MCMC&#x2F;index.html">
+<meta property="og:site_name" content="Sum Stack">
+<meta property="og:description" content="本文主要整理自shuhuai008大佬的白班推导的MCMC版书">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2022-02-17T14:49:59.926Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://freemty.github.io/2020/04/01/MCMC/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>「Study Notes」马尔可夫链蒙特卡罗方法 | Sum Stack</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Sum Stack" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sum Stack</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/freemty" class="github-corner" title="Follow me on GitHub ^.^!" aria-label="Follow me on GitHub ^.^!" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://freemty.github.io/2020/04/01/MCMC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/IMG_0029.png">
+      <meta itemprop="name" content="Sum Young">
+      <meta itemprop="description" content="Hey my friend XD">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sum Stack">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          「Study Notes」马尔可夫链蒙特卡罗方法
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-04-01 18:20:50" itemprop="dateCreated datePublished" datetime="2020-04-01T18:20:50+08:00">2020-04-01</time>
+            </span>
+
+          
+            <span id="/2020/04/01/MCMC/" class="post-meta-item leancloud_visitors" data-flag-title="「Study Notes」马尔可夫链蒙特卡罗方法" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本文主要整理自shuhuai008大佬的<a href="https://space.bilibili.com/97068901" target="_blank" rel="noopener">白班推导</a>的MCMC版书</p>
+<a id="more"></a>
+<p>MCMC 是一种随机的近似推断，其核心就是基于采样的随机近似方法蒙特卡洛方法。对于采样任务来说，有下面一些常用的场景：</p>
+<ol type="1">
+<li>采样作为任务，用于生成新的样本</li>
+<li>求和/求积分</li>
+</ol>
+<p>采样结束后，我们需要评价采样出来的样本点是不是好的样本集：</p>
+<ol type="1">
+<li>样本趋向于高概率的区域</li>
+<li>样本之间必须独立</li>
+</ol>
+<p>具体采样中，采样是一个困难的过程：</p>
+<ol type="1">
+<li>无法采样得到归一化因子，即无法直接对概率 $ p(x)=(x)$ 采样，常常需要对 CDF 采样，但复杂的情况不行</li>
+<li>如果归一化因子可以求得，但是对高维数据依然不能均匀采样（维度灾难），这是由于对 <span class="math inline">\(p\)</span> 维空间，总的状态空间是 <span class="math inline">\(K^p\)</span> 这么大，于是在这种情况下，直接采样也不行</li>
+</ol>
+<p>因此需要借助其他手段，如蒙特卡洛方法中的拒绝采样，重要性采样和 MCMC。</p>
+<p>#### 蒙特卡洛方法</p>
+<p>蒙特卡洛方法旨在求得复杂概率分布下的期望值：<span class="math inline">\(\mathbb{E}_{z|x}[f(z)]=\int p(z|x)f(z)dz\simeq\frac{1}{N}\sum\limits_{i=1}^Nf(z_i)\)</span>，也就是说，从概率分布中取 <span class="math inline">\(N\)</span> 个点，从而近似计算这个积分。采样方法有：</p>
+<ol type="1">
+<li><p>概率分布采样，首先求得概率密度的累积密度函数 CDF，然后求得 CDF 的反函数，在0到1之间均匀采样，代入反函数，就得到了采样点。但是实际大部分概率分布不能得到 CDF。</p></li>
+<li><p>Rejection Sampling 拒绝采样：对于概率分布 <span class="math inline">\(p(z)\)</span>，引入简单的提议分布 <span class="math inline">\(q(z)\)</span>，使得 <span class="math inline">\(\forall z_i,Mq(z_i)\ge p(z_i)\)</span>。我们先在 $ q(z)$ 中采样，定义接受率：<span class="math inline">\(\alpha=\frac{p(z^i)}{Mq(z^i)}\le1\)</span>。算法描述为：</p>
+<ol type="1">
+<li>取 <span class="math inline">\(z^i\sim q(z)\)</span>。</li>
+<li>在均匀分布中选取 <span class="math inline">\(u\)</span>。</li>
+<li>如果 <span class="math inline">\(u\le\alpha\)</span>，则接受 <span class="math inline">\(z^i\)</span>，否则，拒绝这个值。</li>
+</ol></li>
+<li><p>Importance Sampling：直接对期望：<span class="math inline">\(\mathbb{E}_{p(z)}[f(z)]\)</span> 进行采样。 <span class="math display">\[
+\mathbb{E}_{p(z)}[f(z)]=\int p(z)f(z)dz=\int \frac{p(z)}{q(z)}f(z)q(z)dz\simeq\frac{1}{N}\sum\limits_{i=1}^Nf(z_i)\frac{p(z_i)}{q(z_i)}
+\]</span> 于是采样在 $ q(z)$ 中采样，并通过权重计算和。重要值采样对于权重非常小的时候，效率非常低。重要性采样有一个变种 Sampling-Importance-Resampling，这种方法，首先和上面一样进行采样，然后在采样出来的 <span class="math inline">\(N\)</span> 个样本中，重新采样，这个重新采样，使用每个样本点的权重作为概率分布进行采样。</p></li>
+</ol>
+<h4 id="mcmc">MCMC</h4>
+<p>马尔可夫链式一种时间状态都是离散的随机变量序列。我们关注的主要是齐次的一阶马尔可夫链。马尔可夫链满足：<span class="math inline">\(p(X_{t+1}|X_1,X_2,\cdots,X_t)=p(X_{t+1}|X_t)\)</span>。这个式子可以写成转移矩阵的形式 <span class="math inline">\(p_{ij}=p(X_{t+1}=j|X_t=i)\)</span>。我们有： <span class="math display">\[
+\pi_{t+1}(x^*)=\int\pi_i(x)p_{x\to x^*}dx
+\]</span> 如果存在 <span class="math inline">\(\pi=(\pi(1),\pi(2),\cdots),\sum\limits_{i=1}^{+\infin}\pi(i)=1\)</span>，有上式成立，这个序列就叫马尔可夫链 <span class="math inline">\(X_t\)</span> 的平稳分布，平稳分布就是表示在某一个时刻后，分布不再改变。MCMC 就是通过构建马尔可夫链概率序列，使其收敛到平稳分布 <span class="math inline">\(p(z)\)</span>。引入细致平衡：<span class="math inline">\(\pi(x)p_{x\to x^*}=\pi(x^*)p_{x^*\to x}\)</span>。如果一个分布满足细致平衡，那么一定满足平稳分布（反之不成立）： <span class="math display">\[
+\int\pi(x)p_{x\to x^*}dx=\int\pi(x^*)p_{x^*\to x}dx=\pi(x^*)
+\]</span> 细致平衡条件将平稳分布的序列和马尔可夫链的转移矩阵联系在一起了，通过转移矩阵可以不断生成样本点。假定随机取一个转移矩阵 <span class="math inline">\((Q=Q_{ij})\)</span>，作为一个提议矩阵。我们有： <span class="math display">\[
+p(z)\cdot Q_{z\to z^*}\alpha(z,z^*)=p(z^*)\cdot Q_{z^*\to z}\alpha(z^*,z)
+\]</span> 取 ： <span class="math display">\[
+\alpha(z,z^*)=\min\{1,\frac{p(z^*)Q_{z^*\to z}}{p(z)Q_{z\to z^*}}\}
+\]</span> 则 <span class="math display">\[
+p(z)\cdot Q_{z\to z^*}\alpha(z,z^*)=\min\{p(z)Q_{z\to z^*},p(z^*)Q_{z^*\to z}\}=p(z^*)\cdot Q_{z^*\to z}\alpha(z^*,z)
+\]</span> 于是，迭代就得到了序列，这个算法叫做 Metropolis-Hastings 算法：</p>
+<ol type="1">
+<li>通过在0，1之间均匀分布取点 <span class="math inline">\(u\)</span></li>
+<li>生成 <span class="math inline">\(z^*\sim Q(z^*|z^{i-1})\)</span></li>
+<li>计算 <span class="math inline">\(\alpha\)</span> 值</li>
+<li>如果 <span class="math inline">\(\alpha\ge u\)</span>，则 <span class="math inline">\(z^i=z^*\)</span>，否则 <span class="math inline">\(z^{i}=z^{i-1}\)</span></li>
+</ol>
+<p>这样取的样本就服从 <span class="math inline">\(p(z)=\frac{\hat{p}(z)}{z_p}\sim \hat{p}(z)\)</span>。</p>
+<p>下面介绍另一种采样方式 Gibbs 采样，如果 <span class="math inline">\(z\)</span> 的维度非常高，那么通过固定被采样的维度其余的维度来简化采样过程：<span class="math inline">\(z_i\sim p(z_i|z_{-i})\)</span>：</p>
+<ol type="1">
+<li>给定初始值 <span class="math inline">\(z_1^0,z_2^0,\cdots\)</span></li>
+<li>在 <span class="math inline">\(t+1\)</span> 时刻，采样 <span class="math inline">\(z_i^{t+1}\sim p(z_i|z_{-i})\)</span>，从第一个维度一个个采样。</li>
+</ol>
+<p>Gibbs 采样方法是一种特殊的 MH 采样，可以计算 Gibbs 采样的接受率： <span class="math display">\[
+\frac{p(z^*)Q_{z^*\to z}}{p(z)Q_{z\to z^*}}=\frac{p(z_i^*|z^*_{-i})p(z^*_{-i})p(z_i|z_{-i}^*)}{p(z_i|z_{-i})p(z_{-i})p(z_i^*|z_{-i})}
+\]</span> 对于每个 Gibbs 采样步骤，<span class="math inline">\(z_{-i}=z_{-i}^*\)</span>，这是由于每个维度 <span class="math inline">\(i\)</span> 采样的时候，其余的参量保持不变。所以上式为1。于是 Gibbs 采样过程中，相当于找到了一个步骤，使得所有的接受率为 1。</p>
+<h4 id="平稳分布">平稳分布</h4>
+<p>定义随机矩阵： <span class="math display">\[
+Q=\begin{pmatrix}Q_{11}&amp;Q_{12}&amp;\cdots&amp;Q_{1K}\\\vdots&amp;\vdots&amp;\vdots&amp;\vdots\\Q_{k1}&amp;Q_{k2}&amp;\cdots&amp;Q_{KK}\end{pmatrix}
+\]</span> 这个矩阵每一行或者每一列的和都是1。随机矩阵的特征值都小于等于1。假设只有一个特征值为 <span class="math inline">\(\lambda_i=1\)</span>。于是在马尔可夫过程中： <span class="math display">\[
+q^{t+1}(x=j)=\sum\limits_{i=1}^Kq^t(x=i)Q_{ij}\\
+\Rightarrow q^{t+1}=q^t\cdot Q=q^1Q^t
+\]</span> 于是有： <span class="math display">\[
+q^{t+1}=q^1A\Lambda^t A^{-1}
+\]</span> 如果 <span class="math inline">\(m\)</span> 足够大，那么，<span class="math inline">\(\Lambda^m=diag(0,0,\cdots,1,\cdots,0)\)</span>，则：<span class="math inline">\(q^{m+1}=q^{m}\)</span> ，则趋于平稳分布了。马尔可夫链可能具有平稳分布的性质，所以我们可以构建马尔可夫链使其平稳分布收敛于需要的概率分布（设计转移矩阵）。</p>
+<p>在采样过程中，需要经历一定的时间（燃烧期/混合时间）才能达到平稳分布。但是 MCMC 方法有一些问题：</p>
+<ol type="1">
+<li>无法判断是否已经收敛</li>
+<li>燃烧期过长（维度太高，并且维度之间有关，可能无法采样到某些维度），例如在 GMM 中，可能无法采样到某些峰。于是在一些模型中，需要对隐变量之间的关系作出约束，如 RBM 假设隐变量之间无关。</li>
+<li>样本之间一定是有相关性的，如果每个时刻都取一个点，那么每个样本一定和前一个相关，这可以通过间隔一段时间采样。</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/RL/" rel="tag"># RL</a>
+              <a href="/tags/Machine-Learning/" rel="tag"># Machine Learning</a>
+              <a href="/tags/study-notes/" rel="tag"># study notes</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/09/EM/" rel="prev" title="「Study Notes」EM算法">
+      <i class="fa fa-chevron-left"></i> 「Study Notes」EM算法
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/04/03/SVM/" rel="next" title="「Study Notes」SVM支持向量机">
+      「Study Notes」SVM支持向量机 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#mcmc"><span class="nav-number">1.</span> <span class="nav-text">MCMC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#平稳分布"><span class="nav-number">2.</span> <span class="nav-text">平稳分布</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Sum Young"
+      src="/images/IMG_0029.png">
+  <p class="site-author-name" itemprop="name">Sum Young</p>
+  <div class="site-description" itemprop="description">Hey my friend XD</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/freemty" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;freemty" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.douban.com/people/173066356" title="豆瓣 → https:&#x2F;&#x2F;www.douban.com&#x2F;people&#x2F;173066356" rel="noopener" target="_blank"><i class="fa fa-fw fa-Douban"></i>豆瓣</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2020 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-Sum"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sum Young</span>
+</div>
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+  <script>
+  function leancloudSelector(url) {
+    return document.getElementById(url).querySelector('.leancloud-visitors-count');
+  }
+  if (CONFIG.page.isPost) {
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = visitors.getAttribute('id').trim();
+      var title = visitors.getAttribute('data-flag-title').trim();
+
+      Counter('get', `/classes/Counter?where=${JSON.stringify({ url })}`)
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+              leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .then(response => response.json())
+              .catch(error => {
+                console.log('Failed to save visitor count', error);
+              })
+          } else {
+              Counter('post', '/classes/Counter', { title: title, url: url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.log('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.log('LeanCloud Counter Error', error);
+        });
+    }
+  } else {
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return element.getAttribute('id').trim();
+      });
+
+      Counter('get', `/classes/Counter?where=${JSON.stringify({ url: { '$in': entries } })}`)
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length === 0) {
+            document.querySelectorAll('.leancloud_visitors .leancloud-visitors-count').forEach(element => {
+              element.innerText = 0;
+            });
+            return;
+          }
+          for (let item of results) {
+            let { url, time } = item;
+            leancloudSelector(url).innerText = time;
+          }
+          for (let url of entries) {
+            var element = leancloudSelector(url);
+            if (element.innerText == '') {
+              element.innerText = 0;
+            }
+          }
+        })
+        .catch(error => {
+          console.log('LeanCloud Counter Error', error);
+        });
+    }
+  }
+
+  fetch('https://app-router.leancloud.cn/2/route?appId=')
+    .then(response => response.json())
+    .then(({ api_server }) => {
+      var Counter = (method, url, data) => {
+        return fetch(`https://${api_server}/1.1${url}`, {
+          method: method,
+          headers: {
+            'X-LC-Id': '',
+            'X-LC-Key': '',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+    
+
+  
+
+</body>
+</html>
