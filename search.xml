@@ -295,7 +295,8 @@ I=\mathop{argmax}\limits_{I}P(I|O,\lambda)
     <entry>
       <title><![CDATA[「Paper-Reading」Transformer——NLP界大魔王的诞生]]></title>
       <url>/2020/02/27/attention/</url>
-      <content type="html"><![CDATA[
+      <content type="html"><![CDATA[<p>Attention is all you need !!!</p>
+<a id="more"></a>
 ]]></content>
       
         
@@ -832,8 +833,10 @@ s \xrightarrow[]{a \sim \pi_\theta(.\vert s)} s&#39; \xrightarrow[]{a \sim \pi_\
 <p>简而言之,localization就是输出物体坐标(根据坐标即可得到物体的bonding box),并最大化IOU,即尽量使预测bonding box与实际物体框重合.</p>
 <p>对于localization,有两种处理思路</p>
 <h5 id="思路一将localization看作回归问题">思路一:将localization看作回归问题</h5>
-<p>当将localization看作回归问题,即使用label数据回归预测（x,y,w,h）四个参数,得到bondingbox.这实际上延续了CV中解决classification问题的思路,只需改变一下输出层的结构(将输出层由类别改为四个坐标),即可使用经过预训练的CNN模型(Vgg,AvexNet e.t.c)来完成localization.在RCNN的论文中</p>
-<p>我会觉得回归的思路与机器学习的模型更为契合,不幸的是RCNN的作者提到,基于回归的思路在目标检测中在实践中并不能取得理想的结果</p>
+<p>当将localization看作回归问题,即使用label数据回归预测（x,y,w,h）四个参数,得到bondingbox.这实际上延续了CV中解决classification问题的思路,只需改变一下输出层的结构(将输出层由类别改为四个坐标),即可使用经过预训练的CNN模型(Vgg,AvexNet</p>
+<p>e.t.c)来完成localization.</p>
+<p><img src="https://images2015.cnblogs.com/blog/1093303/201705/1093303-20170504112723757-880743532.png"></p>
+<p>直觉上讲,我会觉得regression的思路与机器学习的模型更为契合,不幸的是RCNN的作者提到回归法在目标检测中在实践中并不能取得理想的结果,因此沿用了之前的传统思路(使用selectivesearch 的方法选取候选区域),不过这并不代表regression不可行,之后的YOLO就是基于回归的思路进行物体location的,并大放异彩.</p>
 <h5 id="思路二从图中取出若干候选区域并选出最优">思路二:从图中取出若干候选区域,并选出最优</h5>
 <p>候选区域（Region Proposal</p>
 <h4 id="r-cnn-selective-search-cnn-svm-结构">R-CNN （Selective Search + CNN + SVM 结构）</h4>
@@ -848,8 +851,27 @@ s \xrightarrow[]{a \sim \pi_\theta(.\vert s)} s&#39; \xrightarrow[]{a \sim \pi_\
 </ul>
 <p><img src="/2019/11/30/rcnn/figure/rcnn-process.png" alt="rcnn-process" style="zoom:50%;"></p>
 <p>相应地,RCNN由三部分构成,第一部分是生成候选区域的Selective Search算法;第二部分是用来提取特征的CNN(文中选取了Vgg16),第三部分是用以分类的SVM.</p>
+<h5 id="selective-search">Selective Search</h5>
+<p>前面提到,RCNN是在之前的传统目标检测框架上迭代得到的,因此生成候选区域时仍然沿用了之前已经较为成熟的Selective Search方法.Selective Search主要是根据图像的色彩与纹理特征,先得到若干个较小的同类区域,再根据一定规则将较小的同类区域合,并得到物体的候选区域,其具体的算法流程如下</p>
+<blockquote>
+<ol type="1">
+<li>根据图像的色彩纹理特征,使用过分割手段，将图像分割成小区域 (1k~2k 个)</li>
+<li>查看现有小区域，按照合并规则合并可能性最高的相邻两个区域。重复直到整张图像合并成一个区域位置</li>
+<li>输出所有曾经存在过的区域，即得到了RCNN所需的候选区域</li>
+</ol>
+</blockquote>
+<p>并且合并规则保证优先合并以下四种区域：</p>
+<blockquote>
+<p>1.颜色（颜色直方图）相近的</p>
+<p>2.纹理（梯度直方图）相近的</p>
+<p>3.合并后总面积小的： 保证合并操作的尺度较为均匀，避免一个大区域陆续“吃掉”其他小区域 （</p>
+<p>4.合并后，总面积在其BBOX中所占比例大的： 保证合并后形状规则。</p>
+</blockquote>
+<figure>
+<img src="/2019/11/30/rcnn/figure/selectivesearch.png" alt="selectivesearch"><figcaption>selectivesearch</figcaption>
+</figure>
 <h4 id="spp-netroi-pooling-的引入">SPP-net（ROI Pooling 的引入）</h4>
-<p>在引入RCNN的后续改进型,就要先看看RCNN有哪些缺点,之前RCNN在选出Selective Search上千个bondingbox之后,需要将每个物体框resize后依次通过CNN特征提取器,这是相当耗时的一个环节.如果可以先得到整张图片的特征,在每次选取bondingbox时取整体特征的一部分直接得到物体的特征值,效率必然会大大提升</p>
+<p>要优化得到RCNN的后续改进型,就要先看看RCNN有哪些缺点,之前RCNN在选出Selective Search上千个bondingbox之后,需要将每个物体框resize后依次通过CNN特征提取器,这是相当耗时的一个环节.如果可以先得到整张图片的特征,在每次选取bondingbox时取整体特征的一部分直接得到物体的特征值,效率必然会大大提升</p>
 <p><img src="https://bloglunit.files.wordpress.com/2017/05/20170525-research-seminar-google-slides-2017-05-26-17-14-03.png"></p>
 <p>SSP Net就一定程度上的解决了以上问题</p>
 <p>1.结合空间金字塔方法实现CNNs的对尺度输入。 一般CNN后接全连接层或者分类器，他们都需要固定的输入尺寸，因此不得不对输入数据进行crop或者warp，这些预处理会造成数据的丢失或几何的失真。SPP Net的第一个贡献就是将金字塔思想加入到CNN，实现了数据的多尺度输入。</p>
@@ -871,6 +893,7 @@ s \xrightarrow[]{a \sim \pi_\theta(.\vert s)} s&#39; \xrightarrow[]{a \sim \pi_\
 <ul>
 <li>https://www.cnblogs.com/skyfsm/p/6806246.html</li>
 <li>https://www.cnblogs.com/yhyue/p/9247962.html</li>
+<li>https://towardsdatascience.com/r-cnn-fast-r-cnn-faster-r-cnn-yolo-object-detection-algorithms-36d53571365e?gi=ca4fe493ba3e</li>
 </ul>
 ]]></content>
       
