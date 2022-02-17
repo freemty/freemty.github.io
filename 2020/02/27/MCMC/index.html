@@ -46,20 +46,18 @@
   };
 </script>
 
-  <meta name="description" content="前段时间使用上交开源的seqGAN重新实现了Poem Generator,这几天回头细读一下文章">
-<meta name="keywords" content="NLP,RL,paper reading">
+  <meta name="description" content="本文主要整理自shuhuai008大佬的白班推导的MCMC版书">
+<meta name="keywords" content="Machine Learning,RL,study notes">
 <meta property="og:type" content="article">
-<meta property="og:title" content="「Paper-Reading」seqGAN——将GAN与Policy Gradient带入NLP领域">
-<meta property="og:url" content="http:&#x2F;&#x2F;freemty.github.io&#x2F;2020&#x2F;02&#x2F;27&#x2F;seqGAN&#x2F;index.html">
+<meta property="og:title" content="「Study Notes」马尔可夫链蒙特卡罗方法">
+<meta property="og:url" content="http:&#x2F;&#x2F;freemty.github.io&#x2F;2020&#x2F;02&#x2F;27&#x2F;MCMC&#x2F;index.html">
 <meta property="og:site_name" content="Sum Stack">
-<meta property="og:description" content="前段时间使用上交开源的seqGAN重新实现了Poem Generator,这几天回头细读一下文章">
+<meta property="og:description" content="本文主要整理自shuhuai008大佬的白班推导的MCMC版书">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http:&#x2F;&#x2F;freemty.github.io&#x2F;2020&#x2F;02&#x2F;27&#x2F;seqGAN&#x2F;figure&#x2F;seqgan.png">
-<meta property="og:updated_time" content="2022-02-11T12:49:48.031Z">
+<meta property="og:updated_time" content="2022-02-17T13:14:15.114Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http:&#x2F;&#x2F;freemty.github.io&#x2F;2020&#x2F;02&#x2F;27&#x2F;seqGAN&#x2F;figure&#x2F;seqgan.png">
 
-<link rel="canonical" href="http://freemty.github.io/2020/02/27/seqGAN/">
+<link rel="canonical" href="http://freemty.github.io/2020/02/27/MCMC/">
 
 
 <script id="page-configurations">
@@ -73,7 +71,7 @@
   };
 </script>
 
-  <title>「Paper-Reading」seqGAN——将GAN与Policy Gradient带入NLP领域 | Sum Stack</title>
+  <title>「Study Notes」马尔可夫链蒙特卡罗方法 | Sum Stack</title>
   
 
 
@@ -180,7 +178,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="http://freemty.github.io/2020/02/27/seqGAN/">
+    <link itemprop="mainEntityOfPage" href="http://freemty.github.io/2020/02/27/MCMC/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/IMG_0029.png">
@@ -193,7 +191,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          「Paper-Reading」seqGAN——将GAN与Policy Gradient带入NLP领域
+          「Study Notes」马尔可夫链蒙特卡罗方法
         </h1>
 
         <div class="post-meta">
@@ -207,7 +205,7 @@
             </span>
 
           
-            <span id="/2020/02/27/seqGAN/" class="post-meta-item leancloud_visitors" data-flag-title="「Paper-Reading」seqGAN——将GAN与Policy Gradient带入NLP领域" title="Views">
+            <span id="/2020/02/27/MCMC/" class="post-meta-item leancloud_visitors" data-flag-title="「Study Notes」马尔可夫链蒙特卡罗方法" title="Views">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -231,44 +229,80 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>前段时间使用上交开源的seqGAN重新实现了Poem Generator,这几天回头细读一下文章</p>
+        <p>本文主要整理自shuhuai008大佬的<a href="https://space.bilibili.com/97068901" target="_blank" rel="noopener">白班推导</a>的MCMC版书</p>
 <a id="more"></a>
-<h3 id="abstract">Abstract</h3>
-<h3 id="proposed-model">Proposed Model</h3>
-<p>为了方便阅读，我们先记</p>
-<ul>
-<li>discriminator <span class="math inline">\(D\)</span></li>
-<li>generator <span class="math inline">\(G\)</span></li>
-<li>vocabulary <span class="math inline">\(\gamma\)</span></li>
-<li>a sequence <span class="math inline">\(Y_{1:T} = (y_1,...,y_t,...,y_T),y_t ∈ \gamma\)</span></li>
-<li>current state <span class="math inline">\(s = Y_{1:t-1}\)</span>(当前的状态为之前所有输出tokens的序列)</li>
-<li>next state <span class="math inline">\(s^{,} = Y_{1:t}\)</span></li>
-<li>action <span class="math inline">\(a = y_t\)</span></li>
-</ul>
-<p>在上面的预设下，所有Text-Generation类任务，都可以抽象化为在<span class="math inline">\(t\)</span>时刻，已经生成<span class="math inline">\((y_1,..y_{t-1})\)</span>的基础上，采取什么action（如何选取<span class="math inline">\(y_t\)</span>）。</p>
-<h4 id="seqgan-via-policy-gradient">SeqGAN via Policy Gradient</h4>
-<p>生成器有<span class="math inline">\(G_\theta(y_t|Y_{1:t-1})\)</span> 在对抗学习的情境下，<span class="math inline">\(G\)</span> 目标函数是</p>
-<p><span class="math display">\[
-&lt;Empty \space Math \space Block&gt;
-\]</span></p>
-<p>那么<span class="math inline">\(D\)</span>是怎么计算每一步的value的呢？</p>
-<p>可这样的话，Discriminator只能对一整个seq进行判别 这里就要Rollout Policy出场了</p>
-<p>在前<span class="math inline">\(T-1\)</span>时刻 <span class="math display">\[
-Q^{G_\theta}_{D_\phi}(a = y_t;s = Y_{1:t-1}) =
-\frac{1}{N}\sum^{N}_{n=1}D_\phi(Y_{1:T}^{n})
-\]</span></p>
-<p>其中 <span class="math display">\[
-Y_{1:T}^{n}
-\]</span></p>
-<p>最后的<span class="math inline">\(T\)</span>时刻，由于，序列已经生成了，就不用</p>
-<p><span class="math display">\[
- Q^{G_\theta}_{D_\phi}(a = y_T;s = Y_{1:T-1}) = D_\phi(Y_{1:T})
-\]</span></p>
-<p>是在看完代码之后，才明白在Rollout里面也保存着一套LSTM，这就是paper中说的<span class="math inline">\(G_\beta\)</span>，</p>
-<h4 id="step">Step</h4>
-<p>先用MLE去预训练<span class="math inline">\(G_\theta\)</span>，再用<span class="math inline">\(G_\theta\)</span>生成的“赝品”和真实数据共同去预训练<span class="math inline">\(D_\phi\)</span></p>
-<p>action value function : <span class="math inline">\(Q^{G_\theta}_{D_\phi}(s,a)\)</span></p>
-<p><img src="/2020/02/27/seqGAN/figure/seqgan.png" style="zoom:30%;"></p>
+<p>MCMC 是一种随机的近似推断，其核心就是基于采样的随机近似方法蒙特卡洛方法。对于采样任务来说，有下面一些常用的场景：</p>
+<ol>
+<li>采样作为任务，用于生成新的样本</li>
+<li>求和/求积分</li>
+</ol>
+<p>采样结束后，我们需要评价采样出来的样本点是不是好的样本集：</p>
+<ol>
+<li>样本趋向于高概率的区域</li>
+<li>样本之间必须独立</li>
+</ol>
+<p>具体采样中，采样是一个困难的过程：</p>
+<ol>
+<li>无法采样得到归一化因子，即无法直接对概率 $ p(x)=\frac{1}{Z}\hat{p}(x)$ 采样，常常需要对 CDF 采样，但复杂的情况不行</li>
+<li>如果归一化因子可以求得，但是对高维数据依然不能均匀采样（维度灾难），这是由于对 $p$ 维空间，总的状态空间是 $K^p$ 这么大，于是在这种情况下，直接采样也不行</li>
+</ol>
+<p>因此需要借助其他手段，如蒙特卡洛方法中的拒绝采样，重要性采样和 MCMC。</p>
+<h4 id="蒙特卡洛方法"><a href="#蒙特卡洛方法" class="headerlink" title="蒙特卡洛方法"></a>蒙特卡洛方法</h4><p>蒙特卡洛方法旨在求得复杂概率分布下的期望值：$\mathbb{E}_{z|x}[f(z)]=\int p(z|x)f(z)dz\simeq\frac{1}{N}\sum\limits_{i=1}^Nf(z_i)$，也就是说，从概率分布中取 $N$ 个点，从而近似计算这个积分。采样方法有：</p>
+<ol>
+<li><p>概率分布采样，首先求得概率密度的累积密度函数 CDF，然后求得 CDF 的反函数，在0到1之间均匀采样，代入反函数，就得到了采样点。但是实际大部分概率分布不能得到 CDF。</p>
+</li>
+<li><p>Rejection Sampling 拒绝采样：对于概率分布 $p(z)$，引入简单的提议分布 $q(z)$，使得 $\forall z_i,Mq(z_i)\ge p(z_i)$。我们先在 $ q(z)$ 中采样，定义接受率：$\alpha=\frac{p(z^i)}{Mq(z^i)}\le1$。算法描述为：</p>
+<ol>
+<li>取 $z^i\sim q(z)$。</li>
+<li>在均匀分布中选取 $u$。</li>
+<li>如果 $u\le\alpha$，则接受 $z^i$，否则，拒绝这个值。</li>
+</ol>
+</li>
+<li><p>Importance Sampling：直接对期望：$\mathbb{E}_{p(z)}[f(z)]$ 进行采样。</p>
+<script type="math/tex; mode=display">
+\mathbb{E}_{p(z)}[f(z)]=\int p(z)f(z)dz=\int \frac{p(z)}{q(z)}f(z)q(z)dz\simeq\frac{1}{N}\sum\limits_{i=1}^Nf(z_i)\frac{p(z_i)}{q(z_i)}</script><p>于是采样在 $ q(z)$ 中采样，并通过权重计算和。重要值采样对于权重非常小的时候，效率非常低。重要性采样有一个变种 Sampling-Importance-Resampling，这种方法，首先和上面一样进行采样，然后在采样出来的 $N$ 个样本中，重新采样，这个重新采样，使用每个样本点的权重作为概率分布进行采样。</p>
+</li>
+</ol>
+<h4 id="MCMC"><a href="#MCMC" class="headerlink" title="MCMC"></a>MCMC</h4><p>马尔可夫链式一种时间状态都是离散的随机变量序列。我们关注的主要是齐次的一阶马尔可夫链。马尔可夫链满足：$p(X_{t+1}|X_1,X_2,\cdots,X_t)=p(X_{t+1}|X_t)$。这个式子可以写成转移矩阵的形式 $p_{ij}=p(X_{t+1}=j|X_t=i)$。我们有：</p>
+<script type="math/tex; mode=display">
+\pi_{t+1}(x^*)=\int\pi_i(x)p_{x\to x^*}dx</script><p>如果存在 $\pi=(\pi(1),\pi(2),\cdots),\sum\limits_{i=1}^{+\infin}\pi(i)=1$，有上式成立，这个序列就叫马尔可夫链 $X_t$ 的平稳分布，平稳分布就是表示在某一个时刻后，分布不再改变。MCMC 就是通过构建马尔可夫链概率序列，使其收敛到平稳分布 $p(z)$。引入细致平衡：$\pi(x)p_{x\to x^<em>}=\pi(x^</em>)p_{x^*\to x}$。如果一个分布满足细致平衡，那么一定满足平稳分布（反之不成立）：</p>
+<script type="math/tex; mode=display">
+\int\pi(x)p_{x\to x^*}dx=\int\pi(x^*)p_{x^*\to x}dx=\pi(x^*)</script><p>细致平衡条件将平稳分布的序列和马尔可夫链的转移矩阵联系在一起了，通过转移矩阵可以不断生成样本点。假定随机取一个转移矩阵 $(Q=Q_{ij})$，作为一个提议矩阵。我们有：</p>
+<script type="math/tex; mode=display">
+p(z)\cdot Q_{z\to z^*}\alpha(z,z^*)=p(z^*)\cdot Q_{z^*\to z}\alpha(z^*,z)</script><p>取 ：</p>
+<script type="math/tex; mode=display">
+\alpha(z,z^*)=\min\{1,\frac{p(z^*)Q_{z^*\to z}}{p(z)Q_{z\to z^*}}\}</script><p>则</p>
+<script type="math/tex; mode=display">
+p(z)\cdot Q_{z\to z^*}\alpha(z,z^*)=\min\{p(z)Q_{z\to z^*},p(z^*)Q_{z^*\to z}\}=p(z^*)\cdot Q_{z^*\to z}\alpha(z^*,z)</script><p>于是，迭代就得到了序列，这个算法叫做 Metropolis-Hastings 算法：</p>
+<ol>
+<li>通过在0，1之间均匀分布取点 $u$</li>
+<li>生成 $z^<em>\sim Q(z^</em>|z^{i-1})$</li>
+<li>计算 $\alpha$ 值</li>
+<li>如果 $\alpha\ge u$，则 $z^i=z^*$，否则 $z^{i}=z^{i-1}$</li>
+</ol>
+<p>这样取的样本就服从 $p(z)=\frac{\hat{p}(z)}{z_p}\sim \hat{p}(z)$。</p>
+<p>下面介绍另一种采样方式 Gibbs 采样，如果 $z$ 的维度非常高，那么通过固定被采样的维度其余的维度来简化采样过程：$z_i\sim p(z_i|z_{-i})$：</p>
+<ol>
+<li>给定初始值 $z_1^0,z_2^0,\cdots$</li>
+<li>在 $t+1$ 时刻，采样 $z_i^{t+1}\sim p(z_i|z_{-i})$，从第一个维度一个个采样。</li>
+</ol>
+<p>Gibbs 采样方法是一种特殊的 MH 采样，可以计算 Gibbs 采样的接受率：</p>
+<script type="math/tex; mode=display">
+\frac{p(z^*)Q_{z^*\to z}}{p(z)Q_{z\to z^*}}=\frac{p(z_i^*|z^*_{-i})p(z^*_{-i})p(z_i|z_{-i}^*)}{p(z_i|z_{-i})p(z_{-i})p(z_i^*|z_{-i})}</script><p>对于每个 Gibbs 采样步骤，$z_{-i}=z_{-i}^*$，这是由于每个维度 $i$ 采样的时候，其余的参量保持不变。所以上式为1。于是 Gibbs 采样过程中，相当于找到了一个步骤，使得所有的接受率为 1。</p>
+<h4 id="平稳分布"><a href="#平稳分布" class="headerlink" title="平稳分布"></a>平稳分布</h4><p>定义随机矩阵：</p>
+<script type="math/tex; mode=display">
+Q=\begin{pmatrix}Q_{11}&Q_{12}&\cdots&Q_{1K}\\\vdots&\vdots&\vdots&\vdots\\Q_{k1}&Q_{k2}&\cdots&Q_{KK}\end{pmatrix}</script><p>这个矩阵每一行或者每一列的和都是1。随机矩阵的特征值都小于等于1。假设只有一个特征值为 $\lambda_i=1$。于是在马尔可夫过程中：</p>
+<script type="math/tex; mode=display">
+q^{t+1}(x=j)=\sum\limits_{i=1}^Kq^t(x=i)Q_{ij}\\
+\Rightarrow q^{t+1}=q^t\cdot Q=q^1Q^t</script><p>于是有：</p>
+<script type="math/tex; mode=display">
+q^{t+1}=q^1A\Lambda^t A^{-1}</script><p>如果 $m$ 足够大，那么，$\Lambda^m=diag(0,0,\cdots,1,\cdots,0)$，则：$q^{m+1}=q^{m}$ ，则趋于平稳分布了。马尔可夫链可能具有平稳分布的性质，所以我们可以构建马尔可夫链使其平稳分布收敛于需要的概率分布（设计转移矩阵）。</p>
+<p>在采样过程中，需要经历一定的时间（燃烧期/混合时间）才能达到平稳分布。但是 MCMC 方法有一些问题：</p>
+<ol>
+<li>无法判断是否已经收敛</li>
+<li>燃烧期过长（维度太高，并且维度之间有关，可能无法采样到某些维度），例如在 GMM 中，可能无法采样到某些峰。于是在一些模型中，需要对隐变量之间的关系作出约束，如 RBM 假设隐变量之间无关。</li>
+<li>样本之间一定是有相关性的，如果每个时刻都取一个点，那么每个样本一定和前一个相关，这可以通过间隔一段时间采样。</li>
+</ol>
 
     </div>
 
@@ -278,9 +312,9 @@ Y_{1:T}^{n}
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/NLP/" rel="tag"># NLP</a>
+              <a href="/tags/Machine-Learning/" rel="tag"># Machine Learning</a>
               <a href="/tags/RL/" rel="tag"># RL</a>
-              <a href="/tags/paper-reading/" rel="tag"># paper reading</a>
+              <a href="/tags/study-notes/" rel="tag"># study notes</a>
           </div>
 
         
@@ -289,12 +323,12 @@ Y_{1:T}^{n}
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/02/27/seqGAN-code/" rel="prev" title="seqGAN后续——代码阅读+重构新版PoemGenerator">
-      <i class="fa fa-chevron-left"></i> seqGAN后续——代码阅读+重构新版PoemGenerator
+    <a href="/2020/02/19/twenty/" rel="prev" title="兜兜转转又一年">
+      <i class="fa fa-chevron-left"></i> 兜兜转转又一年
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/02/27/rnn-poem-generator/" rel="next" title="「Personal Project」用LSTM实现唐诗生成">
-      「Personal Project」用LSTM实现唐诗生成 <i class="fa fa-chevron-right"></i>
+    <a href="/2020/02/27/seqGAN-code/" rel="next" title="seqGAN后续——代码阅读+重构新版PoemGenerator">
+      seqGAN后续——代码阅读+重构新版PoemGenerator <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -333,7 +367,7 @@ Y_{1:T}^{n}
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#abstract"><span class="nav-number">1.</span> <span class="nav-text">Abstract</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#proposed-model"><span class="nav-number">2.</span> <span class="nav-text">Proposed Model</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#seqgan-via-policy-gradient"><span class="nav-number">2.1.</span> <span class="nav-text">SeqGAN via Policy Gradient</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#step"><span class="nav-number">2.2.</span> <span class="nav-text">Step</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#蒙特卡洛方法"><span class="nav-number">1.</span> <span class="nav-text">蒙特卡洛方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MCMC"><span class="nav-number">2.</span> <span class="nav-text">MCMC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#平稳分布"><span class="nav-number">3.</span> <span class="nav-text">平稳分布</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

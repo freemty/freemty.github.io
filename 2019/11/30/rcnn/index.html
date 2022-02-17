@@ -46,13 +46,13 @@
   };
 </script>
 
-  <meta name="description" content="R-CNN的横空出世标志着“目标检测”被纳入了深度学习的板块之中,RCNN家族是从传统的基于手工特征的目标检测框架逐步迭代而来的,因而其模型也相对复杂,与于之后纯粹源于深度学习的YOLO系列模型形成了鲜明对比.">
+  <meta name="description" content="R-CNN的横空出世标志着“目标检测”被纳入了深度学习的板块之中,RCNN家族是从传统的基于手工特征的目标检测框架逐步迭代而来的,因而其模型也相对复杂,与之后纯粹源于深度学习的YOLO系列模型形成了鲜明对比.">
 <meta name="keywords" content="paper reading,CV">
 <meta property="og:type" content="article">
 <meta property="og:title" content="「Paper-Reading」RCNN family —— 基于Region Proposal的目标检测模型">
 <meta property="og:url" content="http:&#x2F;&#x2F;freemty.github.io&#x2F;2019&#x2F;11&#x2F;30&#x2F;rcnn&#x2F;index.html">
 <meta property="og:site_name" content="Sum Stack">
-<meta property="og:description" content="R-CNN的横空出世标志着“目标检测”被纳入了深度学习的板块之中,RCNN家族是从传统的基于手工特征的目标检测框架逐步迭代而来的,因而其模型也相对复杂,与于之后纯粹源于深度学习的YOLO系列模型形成了鲜明对比.">
+<meta property="og:description" content="R-CNN的横空出世标志着“目标检测”被纳入了深度学习的板块之中,RCNN家族是从传统的基于手工特征的目标检测框架逐步迭代而来的,因而其模型也相对复杂,与之后纯粹源于深度学习的YOLO系列模型形成了鲜明对比.">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https:&#x2F;&#x2F;images2015.cnblogs.com&#x2F;blog&#x2F;1093303&#x2F;201705&#x2F;1093303-20170504112723757-880743532.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;freemty.github.io&#x2F;2019&#x2F;11&#x2F;30&#x2F;rcnn&#x2F;figure&#x2F;rcnn-process.png">
@@ -60,7 +60,8 @@
 <meta property="og:image" content="https:&#x2F;&#x2F;bloglunit.files.wordpress.com&#x2F;2017&#x2F;05&#x2F;20170525-research-seminar-google-slides-2017-05-26-17-14-03.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;freemty.github.io&#x2F;2019&#x2F;11&#x2F;30&#x2F;rcnn&#x2F;figure&#x2F;fastrcnn.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;bloglunit.files.wordpress.com&#x2F;2017&#x2F;05&#x2F;20170525-research-seminar-google-slides-2017-05-29-19-06-26.png">
-<meta property="og:updated_time" content="2022-02-17T11:56:58.710Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic4.zhimg.com&#x2F;80&#x2F;v2-e64a99b38f411c337f538eb5f093bdf3_1440w.jpg">
+<meta property="og:updated_time" content="2022-02-17T12:46:31.626Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;images2015.cnblogs.com&#x2F;blog&#x2F;1093303&#x2F;201705&#x2F;1093303-20170504112723757-880743532.png">
 
@@ -107,9 +108,9 @@
   .use-motion .logo-line-before i { left: initial; }
   .use-motion .logo-line-after i { right: initial; }
   </style>
-</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</noscript>
 
-<link rel="alternate" href="/atom.xml" title="Sum Stack" type="application/atom+xml">
+<link rel="alternate" href="/atom.xml" title="Sum Stack" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
@@ -236,11 +237,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>R-CNN的横空出世标志着“目标检测”被纳入了深度学习的板块之中,RCNN家族是从传统的基于手工特征的目标检测框架逐步迭代而来的,因而其模型也相对复杂,与于之后纯粹源于深度学习的YOLO系列模型形成了鲜明对比.</p>
+        <p>R-CNN的横空出世标志着“目标检测”被纳入了深度学习的板块之中,RCNN家族是从传统的基于手工特征的目标检测框架逐步迭代而来的,因而其模型也相对复杂,与之后纯粹源于深度学习的YOLO系列模型形成了鲜明对比.</p>
 <a id="more"></a>
 <p>本文将从RCNN入手,记录基于Region Proposal的目标检测模型的基本结构, 并补充其后续版本的改进之处(Fast R-CNN .e.tc.).</p>
-<h4 id="od任务的基本问题-localization-classification">OD任务的基本问题: localization + classification</h4>
-<p>借用知乎上一个博主的总结,OD要解决的问题就是“物体在哪里以及是什么”的流程问题.而其中“是什么?”其实是CV中典型的classification问题,已经有很多成熟的模型可直接调用.因而解决“物体在哪里”的localization任务,就成了OD任务的重点.为了方便即后续讨论,对于localization问题,我们可以记</p>
+<h4 id="OD任务的基本问题-localization-classification"><a href="#OD任务的基本问题-localization-classification" class="headerlink" title="OD任务的基本问题: localization + classification"></a>OD任务的基本问题: localization + classification</h4><p>借用知乎上一个博主的总结,OD要解决的问题就是“物体在哪里以及是什么”的流程问题.而其中“是什么?”其实是CV中典型的classification问题,已经有很多成熟的模型可直接调用.因而解决“物体在哪里”的localization任务,就成了OD任务的重点.为了方便即后续讨论,对于localization问题,我们可以记</p>
 <blockquote>
 <p>输入：图片</p>
 <p>输出：方框在图片中的位置（x,y,w,h）</p>
@@ -248,28 +248,23 @@
 <p>评估方法：检测评价函数 intersection-over-union(IOU,也就是俗称的召回率)</p>
 </blockquote>
 <p>简而言之,localization就是输出物体坐标(根据坐标即可得到物体的bonding box),并最大化IOU,即尽量使预测bonding box与实际物体框重合.对于localization,有两种处理思路</p>
-<h5 id="思路一将localization看作回归问题">思路一:将localization看作回归问题</h5>
-<p>当将localization看作回归问题,即使用label数据回归预测（x,y,w,h）四个参数,得到bondingbox.这实际上延续了CV中解决classification问题的思路,只需改变一下输出层的结构(将输出层由类别改为四个坐标),即可使用经过预训练的CNN模型(Vgg,AvexNet e.t.c)来完成localization.</p>
-<p><img src="https://images2015.cnblogs.com/blog/1093303/201705/1093303-20170504112723757-880743532.png"></p>
+<h5 id="思路一-将localization看作回归问题"><a href="#思路一-将localization看作回归问题" class="headerlink" title="思路一:将localization看作回归问题"></a>思路一:将localization看作回归问题</h5><p>当将localization看作回归问题,即使用label数据回归预测（x,y,w,h）四个参数,得到bondingbox.这实际上延续了CV中解决classification问题的思路,只需改变一下输出层的结构(将输出层由类别改为四个坐标),即可使用经过预训练的CNN模型(Vgg,AvexNet e.t.c)来完成localization.</p>
+<p><img src="https://images2015.cnblogs.com/blog/1093303/201705/1093303-20170504112723757-880743532.png" alt></p>
 <p>直觉上讲,我会觉得regression的思路与机器学习的模型更为契合,不幸的是RCNN的作者提到回归法在目标检测中在实践中并不能取得理想的结果,因此沿用了之前的传统思路(使用selectivesearch 的方法选取候选区域),不过这并不代表regression不可行,之后的YOLO就是基于回归的思路进行物体location的,并大放异彩.</p>
-<h5 id="思路二从图中取出若干候选区域并选出最优">思路二:从图中取出若干候选区域,并选出最优</h5>
-<p>候选区域（Region Proposal</p>
-<h4 id="r-cnn-selective-search-cnn-svm-结构">R-CNN （Selective Search + CNN + SVM 结构）</h4>
-<p>R-CNN算是卷积神经网络在目标检测领域的开山之作,整体结构上R-CNN继承了已经较为成熟的Selective Search + DPM/HoG + SVM的目标检测框架.在其最大的突破点在于使用CNN作为特征提取器,代替传统了的已经到瓶颈的手工特征(DPM/HoG);并且经过预训练的CNN特征提取器(如在ImageNet上预训练的Vgg)在应用时只需在目标数据集上进行fine-tuning,降低了对数据集的要求,可以解决数据集不足的问题.</p>
-<h5 id="工作流程与总体结构">工作流程与总体结构</h5>
-<p>RCNN的运行可分为四个步骤,我把它简化为“找框,喂框,认框,修框”,具体来说就是</p>
+<h5 id="思路二-从图中取出若干候选区域-并选出最优"><a href="#思路二-从图中取出若干候选区域-并选出最优" class="headerlink" title="思路二:从图中取出若干候选区域,并选出最优"></a>思路二:从图中取出若干候选区域,并选出最优</h5><p>候选区域（Region Proposal</p>
+<h4 id="R-CNN-（Selective-Search-CNN-SVM-结构）"><a href="#R-CNN-（Selective-Search-CNN-SVM-结构）" class="headerlink" title="R-CNN （Selective Search + CNN + SVM 结构）"></a>R-CNN （Selective Search + CNN + SVM 结构）</h4><p>R-CNN算是卷积神经网络在目标检测领域的开山之作,整体结构上R-CNN继承了已经较为成熟的Selective Search + DPM/HoG + SVM的目标检测框架.在其最大的突破点在于使用CNN作为特征提取器,代替传统了的已经到瓶颈的手工特征(DPM/HoG);并且经过预训练的CNN特征提取器(如在ImageNet上预训练的Vgg)在应用时只需在目标数据集上进行fine-tuning,降低了对数据集的要求,可以解决数据集不足的问题.</p>
+<h5 id="工作流程与总体结构"><a href="#工作流程与总体结构" class="headerlink" title="工作流程与总体结构"></a>工作流程与总体结构</h5><p>RCNN的运行可分为四个步骤,我把它简化为“找框,喂框,认框,修框”,具体来说就是</p>
 <blockquote>
-<p>找框(生成候选区域)： 采用Selective Search 方法,对每张输入图片生成1-2K个候选区域</p>
+<p>找框(生成候选区域)： 采用Selective Search 方法,对每张输入图片生成1-2K个候选区域 </p>
 <p>喂框(CNN特征提取)： 对每个候选区域，使用CNN提取特征,得到其特征向量</p>
 <p>认框(类别判断)： 将候选区域的特征向量特征送入每一个类(人、马、狗 e.t.c.)的SVM 分类器，判别是否属于该类</p>
 <p>修框(位置精修)： 使用回归器精细修正候选框位置</p>
 </blockquote>
 <p><img src="/2019/11/30/rcnn/figure/rcnn-process.png" alt="rcnn-process" style="zoom:50%;"></p>
-<p>相应地,RCNN由三部分构成,第一部分是生成候选区域的Selective Search算法;第二部分是用来提取特征的CNN(文中选取了Vgg16),第三部分是用以分类的SVM.</p>
-<h5 id="selective-search">Selective Search</h5>
-<p>前面提到,RCNN是在之前的传统目标检测框架上迭代得到的,因此生成候选区域时仍然沿用了之前已经较为成熟的Selective Search方法.Selective Search主要是根据图像的色彩与纹理特征,先得到若干个较小的同类区域,再根据一定规则将较小的同类区域合,并得到物体的候选区域,其具体的算法流程如下</p>
+<p>相应地,RCNN由三部分构成,第一部分是生成候选区域的Selective Search算法;第二部分是用来提取特征的CNN(文中选取了Vgg16),第三部分是用以分类的SVM(如果是现在,一定也会用CNN做分类)</p>
+<h5 id="Selective-Search"><a href="#Selective-Search" class="headerlink" title="Selective Search"></a>Selective Search</h5><p>前面提到,RCNN是在之前的传统目标检测框架上迭代得到的,因此生成候选区域时仍然沿用了之前已经较为成熟的Selective Search方法.Selective Search主要是根据图像的色彩与纹理特征,先得到若干个较小的同类区域,再根据一定规则将较小的同类区域合,并得到物体的候选区域,其具体的算法流程如下</p>
 <blockquote>
-<ol type="1">
+<ol>
 <li>根据图像的色彩纹理特征,使用过分割手段，将图像分割成小区域 (1k~2k 个)</li>
 <li>查看现有小区域，按照合并规则合并可能性最高的相邻两个区域。重复直到整张图像合并成一个区域位置</li>
 <li>输出所有曾经存在过的区域，即得到了RCNN所需的候选区域</li>
@@ -279,34 +274,39 @@
 <blockquote>
 <p>1.颜色（颜色直方图）相近的</p>
 <p>2.纹理（梯度直方图）相近的</p>
-<p>3.合并后总面积小的： 保证合并操作的尺度较为均匀，避免一个大区域陆续“吃掉”其他小区域</p>
+<p>3.合并后总面积小的： 保证合并操作的尺度较为均匀，避免一个大区域陆续“吃掉”其他小区域 </p>
 <p>4.合并后，总面积在其BBOX中所占比例大的： 保证合并后形状规则。</p>
 </blockquote>
-<p><img src="/2019/11/30/rcnn/figure/selectivesearch.png"></p>
-<h4 id="spp-netroi-pooling-的引入">SPP-net（ROI Pooling 的引入）</h4>
-<p>要优化得到RCNN的后续改进型,就要先看看RCNN有哪些缺点,之前RCNN在选出Selective Search上千个bondingbox之后,需要将每个物体框resize后依次通过CNN特征提取器,这是相当耗时的一个环节.如果可以先得到整张图片的特征,在每次选取bondingbox时取整体特征的一部分直接得到物体的特征值,效率必然会大大提升</p>
-<p><img src="https://bloglunit.files.wordpress.com/2017/05/20170525-research-seminar-google-slides-2017-05-26-17-14-03.png"></p>
-<p>SSP Net就一定程度上的解决了以上问题</p>
-<p>1.结合空间金字塔方法实现CNNs的对尺度输入。 一般CNN后接全连接层或者分类器，他们都需要固定的输入尺寸，因此不得不对输入数据进行crop或者warp，这些预处理会造成数据的丢失或几何的失真。SPP Net的第一个贡献就是将金字塔思想加入到CNN，实现了数据的多尺度输入。</p>
-<p>如下图所示，在卷积层和全连接层之间加入了SPP layer。此时网络的输入可以是任意尺度的，在SPP layer中每一个pooling的filter会根据输入调整大小，而SPP的输出尺度始终是固定的。</p>
-<p>2.只对原图提取一次卷积特征 在R-CNN中，每个候选框先resize到统一大小，然后分别作为CNN的输入，这样是很低效的。 所以SPP Net根据这个缺点做了优化：只对原图进行一次卷积得到整张图的feature map，然后找到每个候选框zaifeature map上的映射patch，将此patch作为每个候选框的卷积特征输入到SPP layer和之后的层。节省了大量的计算时间，比R-CNN有一百倍左右的提速。</p>
-<p>Spatial Pyramid Pooling（空间金字塔池化）</p>
-<h4 id="fast-r-cnnselective-search-cnn-roi-结构">Fast R-CNN（Selective Search + CNN + ROI 结构）</h4>
-<p>SPP Net真是个好方法，R-CNN的进阶版Fast R-CNN就是在RCNN的基础上采纳了SPP Net方法，对RCNN作了改进，使得性能进一步提高。</p>
-<p>R-CNN与Fast RCNN的区别有哪些呢？ 先说RCNN的缺点：即使使用了selective search等预处理步骤来提取潜在的bounding box作为输入，但是RCNN仍会有严重的速度瓶颈，原因也很明显，就是计算机对所有region进行特征提取时会有重复计算，Fast-RCNN正是为了解决这个问题诞生的。</p>
+<p><img src="/2019/11/30/rcnn/figure/selectivesearch.png" alt></p>
+<h4 id="SPP-net（ROI-Pooling-的引入）"><a href="#SPP-net（ROI-Pooling-的引入）" class="headerlink" title="SPP-net（ROI Pooling 的引入）"></a>SPP-net（ROI Pooling 的引入）</h4><p>要优化得到RCNN的后续改进型,就要先看看RCNN有哪些缺点,之前RCNN在选出Selective Search上千个bondingbox之后,需要将每个物体框resize后依次通过CNN特征提取器,这是相当耗时的一个环节.如果可以先得到整张图片的特征,在每次选取bondingbox时取整体特征的一部分直接得到物体的特征值,效率必然会大大提升</p>
+<p><img src="https://bloglunit.files.wordpress.com/2017/05/20170525-research-seminar-google-slides-2017-05-26-17-14-03.png" alt></p>
+<p>SSP-Net就通过引入空间金字塔池化(Spatial Pyramid Pooling),在输入和特征提取方面对RCNN进行了两处改进</p>
+<blockquote>
+<p>1.结合空间金字塔方法实现CNNs的对尺度输入。<br>一般CNN后接全连接层或者分类器，他们都需要固定的输入尺寸，因此不得不对输入数据进行crop或者warp，这些预处理会造成数据的丢失或几何的失真。SPP Net的第一个贡献就是将金字塔思想加入到CNN，实现了数据的多尺度输入。</p>
+<p>2.只对原图提取一次卷积特征<br>在R-CNN中，每个候选框先resize到统一大小，然后分别作为CNN的输入，这样是很低效的。<br>所以SPP Net根据这个缺点做了优化：只对原图进行一次卷积得到整张图的feature map，然后找到每个候选框zaifeature map上的映射patch，将此patch作为每个候选框的卷积特征输入到SPP layer和之后的层。节省了大量的计算时间，比R-CNN有一百倍左右的提速。</p>
+</blockquote>
+<h4 id="Fast-R-CNN（Selective-Search-CNN-ROI-结构）"><a href="#Fast-R-CNN（Selective-Search-CNN-ROI-结构）" class="headerlink" title="Fast R-CNN（Selective Search + CNN + ROI 结构）"></a>Fast R-CNN（Selective Search + CNN + ROI 结构）</h4><p>如果说SSP方法给出了RCNN改进的方向,那Fast R-CNN就是在SPP Net的基础上,引入了ROI Pooling层，对RCNN作了进一步改进，使得性能进一步提高。</p>
 <p><img src="/2019/11/30/rcnn/figure/fastrcnn.png" alt="fastrcnn" style="zoom:30%;"></p>
-<p>大牛提出了一个可以看做单层sppnet的网络层，叫做ROI Pooling，这个网络层可以把不同大小的输入映射到一个固定尺度的特征向量，而我们知道，conv、pooling、relu等操作都不需要固定size的输入，因此，在原始图片上执行这些操作后，虽然输入图片size不同导致得到的feature map尺寸也不同，不能直接接到一个全连接层进行分类，但是可以加入这个神奇的ROI Pooling层，对每个region都提取一个固定维度的特征表示，再通过正常的softmax进行类型识别。另外，之前RCNN的处理流程是先提proposal，然后CNN提取特征，之后用SVM分类器，最后再做bbox regression，而在Fast-RCNN中，作者巧妙的把bbox regression放进了神经网络内部，与region分类和并成为了一个multi-task模型，实际实验也证明，这两个任务能够共享卷积特征，并相互促进。Fast-RCNN很重要的一个贡献是成功的让人们看到了Region Proposal+CNN这一框架实时检测的希望，原来多类检测真的可以在保证准确率的同时提升处理速度，也为后来的Faster-RCNN做下了铺垫。</p>
-<p><img src="https://bloglunit.files.wordpress.com/2017/05/20170525-research-seminar-google-slides-2017-05-29-19-06-26.png"></p>
-<h4 id="faster-r-cnnrpn-cnn-roi-结构">Faster R-CNN（RPN + CNN + ROI 结构）</h4>
-<p>Fast R-CNN存在的问题：存在瓶颈：选择性搜索，找出所有的候选框，这个也非常耗时。那我们能不能找出一个更加高效的方法来求出这些候选框呢？ 解决：加入一个提取边缘的神经网络，也就说找到候选框的工作也交给神经网络来做了。 做这样的任务的神经网络叫做Region Proposal Network(RPN)。</p>
-<p>具体做法： 　　• 将RPN放在最后一个卷积层的后面 　　• RPN直接训练得到候选区域</p>
-<h5 id="rpn">RPN</h5>
-<p>总的来说，从R-CNN, SPP-NET, Fast R-CNN, Faster R-CNN一路走来，基于深度学习目标检测的流程变得越来越精简，精度越来越高，速度也越来越快。可以说基于Region Proposal的R-CNN系列目标检测方法是当前目标检测技术领域最主要的一个分支。</p>
-<h4 id="reference">Reference</h4>
-<ul>
-<li>https://www.cnblogs.com/skyfsm/p/6806246.html</li>
-<li>https://www.cnblogs.com/yhyue/p/9247962.html</li>
-<li>https://towardsdatascience.com/r-cnn-fast-r-cnn-faster-r-cnn-yolo-object-detection-algorithms-36d53571365e?gi=ca4fe493ba3e</li>
+<h5 id="ROI-Pooling-层"><a href="#ROI-Pooling-层" class="headerlink" title="ROI Pooling 层"></a>ROI Pooling 层</h5><p>FastRCNN作者提出了一个可以看做单层sppnet的网络层，叫做ROI Pooling，这个网络层可以把不同大小的输入映射到一个固定尺度的特征向量，而我们知道，conv、pooling、relu等操作都不需要固定size的输入，因此，在原始图片上执行这些操作后，虽然输入图片size不同导致得到的feature map尺寸也不同，不能直接接到一个全连接层进行分类，但是可以加入这个神奇的ROI Pooling层，对每个region都提取一个固定维度的特征表示，再通过正常的softmax进行类型识别。另外，之前RCNN的处理流程是先提proposal，然后CNN提取特征，之后用SVM分类器，最后再做bbox regression，而在Fast-RCNN中，作者巧妙的把bbox regression放进了神经网络内部，与region分类和并成为了一个multi-task模型，实际实验也证明，这两个任务能够共享卷积特征，并相互促进。Fast-RCNN很重要的一个贡献是成功的让人们看到了Region Proposal+CNN这一框架实时检测的希望，原来多类检测真的可以在保证准确率的同时提升处理速度，也为后来的Faster-RCNN做下了铺垫。</p>
+<p><img src="https://bloglunit.files.wordpress.com/2017/05/20170525-research-seminar-google-slides-2017-05-29-19-06-26.png" alt></p>
+<h4 id="Faster-R-CNN（RPN-CNN-ROI-结构）"><a href="#Faster-R-CNN（RPN-CNN-ROI-结构）" class="headerlink" title="Faster R-CNN（RPN + CNN + ROI 结构）"></a>Faster R-CNN（RPN + CNN + ROI 结构）</h4><p>Fast R-CNN与SSPNe已经t针对RCNN特征提取与输入尺寸方面的不足做了优化,为了进一步提升效率,就要对RCNN候选区域生成环节进行优化了</p>
+<blockquote>
+<p>问题:   RCNN的选择性搜索算法要一次找出上千个候选框，非常耗时且低效<br>解决：加入一个提取边缘的神经网络Region Proposal Network(RPN),将深度学习引入候选框生成环节</p>
+</blockquote>
+<p>基于以上优化整个Faster R-CNN可以分为三部分：</p>
+<blockquote>
+<ol>
+<li>backbone：<strong>共享基础卷积层，用于提取整张图片的特征</strong>。例如VGG16，或Resnet101，去除其中的全连接层，只留下卷基层，输出下采样后的特征图。</li>
+<li>RPN：候选检测框生成网络（Region Proposal Networks）。</li>
+<li>Roi pooling与分类网络：对候选检测框进行分类，并且再次微调候选框坐标（在RPN中，网络会根据先前人为设置的anchor框进行坐标调整，所以这里是第二次调整）。输出检测结果。</li>
+</ol>
+</blockquote>
+<p><img src="https://pic4.zhimg.com/80/v2-e64a99b38f411c337f538eb5f093bdf3_1440w.jpg" style="zoom:73%;"></p>
+<h5 id="RPN网络"><a href="#RPN网络" class="headerlink" title="RPN网络"></a>RPN网络</h5><p>总的来说，从R-CNN, SPP-NET, Fast R-CNN, Faster R-CNN一路走来，基于深度学习目标检测的流程变得越来越精简，精度越来越高，速度也越来越快。可以说基于Region Proposal的R-CNN系列目标检测方法是当前目标检测技术领域最主要的一个分支,不过也由于RCNN家族是从传统的基于手工特征的目标检测框架逐步迭代而来的,因而其模型也相对复杂,,用金庸小说中对武功的分类来讲,RCNN家族模型兼有的复杂结构与高精度,可以说是目标检测中的“气宗”,而与之后纯粹源于深度学习的YOLO系列模型形成了鲜明对比</p>
+<h4 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h4><ul>
+<li><a href="https://www.cnblogs.com/skyfsm/p/6806246.html" target="_blank" rel="noopener">https://www.cnblogs.com/skyfsm/p/6806246.html</a></li>
+<li><a href="https://www.cnblogs.com/yhyue/p/9247962.html" target="_blank" rel="noopener">https://www.cnblogs.com/yhyue/p/9247962.html</a></li>
+<li><a href="https://towardsdatascience.com/r-cnn-fast-r-cnn-faster-r-cnn-yolo-object-detection-algorithms-36d53571365e?gi=ca4fe493ba3e" target="_blank" rel="noopener">https://towardsdatascience.com/r-cnn-fast-r-cnn-faster-r-cnn-yolo-object-detection-algorithms-36d53571365e?gi=ca4fe493ba3e</a></li>
 </ul>
 
     </div>
@@ -371,7 +371,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#od任务的基本问题-localization-classification"><span class="nav-number">1.</span> <span class="nav-text">OD任务的基本问题: localization + classification</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#思路一将localization看作回归问题"><span class="nav-number">1.1.</span> <span class="nav-text">思路一:将localization看作回归问题</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#思路二从图中取出若干候选区域并选出最优"><span class="nav-number">1.2.</span> <span class="nav-text">思路二:从图中取出若干候选区域,并选出最优</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#r-cnn-selective-search-cnn-svm-结构"><span class="nav-number">2.</span> <span class="nav-text">R-CNN （Selective Search + CNN + SVM 结构）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#工作流程与总体结构"><span class="nav-number">2.1.</span> <span class="nav-text">工作流程与总体结构</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#selective-search"><span class="nav-number">2.2.</span> <span class="nav-text">Selective Search</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#spp-netroi-pooling-的引入"><span class="nav-number">3.</span> <span class="nav-text">SPP-net（ROI Pooling 的引入）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#fast-r-cnnselective-search-cnn-roi-结构"><span class="nav-number">4.</span> <span class="nav-text">Fast R-CNN（Selective Search + CNN + ROI 结构）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#faster-r-cnnrpn-cnn-roi-结构"><span class="nav-number">5.</span> <span class="nav-text">Faster R-CNN（RPN + CNN + ROI 结构）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#rpn"><span class="nav-number">5.1.</span> <span class="nav-text">RPN</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#reference"><span class="nav-number">6.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#OD任务的基本问题-localization-classification"><span class="nav-number">1.</span> <span class="nav-text">OD任务的基本问题: localization + classification</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#思路一-将localization看作回归问题"><span class="nav-number">1.1.</span> <span class="nav-text">思路一:将localization看作回归问题</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#思路二-从图中取出若干候选区域-并选出最优"><span class="nav-number">1.2.</span> <span class="nav-text">思路二:从图中取出若干候选区域,并选出最优</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#R-CNN-（Selective-Search-CNN-SVM-结构）"><span class="nav-number">2.</span> <span class="nav-text">R-CNN （Selective Search + CNN + SVM 结构）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#工作流程与总体结构"><span class="nav-number">2.1.</span> <span class="nav-text">工作流程与总体结构</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Selective-Search"><span class="nav-number">2.2.</span> <span class="nav-text">Selective Search</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SPP-net（ROI-Pooling-的引入）"><span class="nav-number">3.</span> <span class="nav-text">SPP-net（ROI Pooling 的引入）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Fast-R-CNN（Selective-Search-CNN-ROI-结构）"><span class="nav-number">4.</span> <span class="nav-text">Fast R-CNN（Selective Search + CNN + ROI 结构）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#ROI-Pooling-层"><span class="nav-number">4.1.</span> <span class="nav-text">ROI Pooling 层</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Faster-R-CNN（RPN-CNN-ROI-结构）"><span class="nav-number">5.</span> <span class="nav-text">Faster R-CNN（RPN + CNN + ROI 结构）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#RPN网络"><span class="nav-number">5.1.</span> <span class="nav-text">RPN网络</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Reference"><span class="nav-number">6.</span> <span class="nav-text">Reference</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -386,12 +386,12 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-count">15</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

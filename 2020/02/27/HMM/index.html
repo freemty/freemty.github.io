@@ -47,14 +47,14 @@
 </script>
 
   <meta name="description" content="本文主要整理自shuhuai008大佬的白班推导的版书和《统计学习方法》第九章HMM">
-<meta name="keywords" content="NLP,Machine Learning">
+<meta name="keywords" content="NLP,Machine Learning,study notes">
 <meta property="og:type" content="article">
-<meta property="og:title" content="隐马尔可夫模型">
+<meta property="og:title" content="「Study Notes」隐马尔可夫模型">
 <meta property="og:url" content="http:&#x2F;&#x2F;freemty.github.io&#x2F;2020&#x2F;02&#x2F;27&#x2F;HMM&#x2F;index.html">
 <meta property="og:site_name" content="Sum Stack">
 <meta property="og:description" content="本文主要整理自shuhuai008大佬的白班推导的版书和《统计学习方法》第九章HMM">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2022-02-15T12:22:03.291Z">
+<meta property="og:updated_time" content="2022-02-17T13:06:32.083Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="http://freemty.github.io/2020/02/27/HMM/">
@@ -71,7 +71,7 @@
   };
 </script>
 
-  <title>隐马尔可夫模型 | Sum Stack</title>
+  <title>「Study Notes」隐马尔可夫模型 | Sum Stack</title>
   
 
 
@@ -100,9 +100,9 @@
   .use-motion .logo-line-before i { left: initial; }
   .use-motion .logo-line-after i { right: initial; }
   </style>
-</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</noscript>
 
-<link rel="alternate" href="/atom.xml" title="Sum Stack" type="application/atom+xml">
+<link rel="alternate" href="/atom.xml" title="Sum Stack" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
@@ -191,7 +191,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          隐马尔可夫模型
+          「Study Notes」隐马尔可夫模型
         </h1>
 
         <div class="post-meta">
@@ -205,7 +205,7 @@
             </span>
 
           
-            <span id="/2020/02/27/HMM/" class="post-meta-item leancloud_visitors" data-flag-title="隐马尔可夫模型" title="Views">
+            <span id="/2020/02/27/HMM/" class="post-meta-item leancloud_visitors" data-flag-title="「Study Notes」隐马尔可夫模型" title="Views">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -231,121 +231,105 @@
       
         <p>本文主要整理自shuhuai008大佬的<a href="https://space.bilibili.com/97068901" target="_blank" rel="noopener">白班推导</a>的版书和《统计学习方法》第九章HMM</p>
 <a id="more"></a>
-<h3 id="基本概念">基本概念</h3>
-<p>HMM(隐马尔可夫模型)作为一种常见的序列建模的方法，</p>
+<h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p>HMM(隐马尔可夫模型)作为一种常见的序列建模的方法，</p>
 <p>在隐马尔可夫模型中，我们对存在隐状态与观测值的</p>
-<p>HMM中的参数为三元组<span class="math inline">\(\lambda = (\pi,A,B)\)</span> 其中<span class="math inline">\(A\)</span>为状态转移矩阵，</p>
-<p><span class="math inline">\(I\)</span>为每一时刻的隐状态的集合，<span class="math inline">\(O\)</span>为每一时刻观测值的集合，即:</p>
-<p><span class="math display">\[I = \{i_1,i_2,...,i_T\}, \; O =\{o_1,o_2,...o_T\}\]</span></p>
-<p>HMM有两个重要的性质</p>
-<p><strong>1.齐次Markov性</strong> 每一时刻的观测值仅仅依赖当前时刻的隐状态 <span class="math display">\[
-p(i_{t+1}|i_t,i_{t-1},\cdots,i_1,o_t,o_{t-1},\cdots,o_1)=p(i_{t+1}|i_t)
-\]</span></p>
-<p><strong>2.观测独立性</strong>每一时刻的隐状态仅依赖于其前一时刻 <span class="math display">\[
-p(o_t|i_t,i_{t-1},\cdots,i_1,o_{t-1},\cdots,o_1)=p(o_t|i_t)
-\]</span> HMM的三个基本问题：</p>
-<p>1.Evaluation：<span class="math inline">\(p(O|\lambda)\)</span>，Forward-Backward 算法</p>
-<p>2.Learning：<span class="math inline">\(\lambda=\mathop{argmax}\limits_{\lambda}p(O|\lambda)\)</span>，Baum-Welch 算法</p>
-<p>3.Decoding：<span class="math inline">\(I=\mathop{argmax}\limits_{I}p(I|O,\lambda)\)</span>，Vierbi 算法</p>
-<p>预测问题：<span class="math inline">\(p(i_{t+1}|o_1,o_2,\cdots,o_t)\)</span> ​- 2.滤波问题：<span class="math inline">\(p(i_t|o_1,o_2,\cdots,o_t)\)</span></p>
-<h3 id="evaluation问题">Evaluation问题</h3>
-<p>所谓Evaluation问题，就是假定我们已知<span class="math inline">\(\lambda\)</span>时，评价任意序列<span class="math inline">\(O\)</span>产生的概率，也就是求条件概率<span class="math inline">\(P(O|\lambda)\)</span></p>
-<p>直觉上看，既然<span class="math inline">\(\lambda\)</span>已知，那么根据观测独立性，我们只要知道隐状态序列<span class="math inline">\(I = \{i_1,i_2,...,i_T\}\)</span>，就可以进而求出<span class="math inline">\(O =\{o_1,o_2,...o_T\}\)</span>，所以有:</p>
-<p><span class="math display">\[
-P(O|\lambda) = P(I|\lambda)P(O|I,\lambda)
-\]</span></p>
-<p>我们分开来看 <span class="math display">\[
-p(I|\lambda)=p(i_1,i_2,\cdots,i_t|\lambda)=p(i_t|i_1,i_2,\cdots,i_{t-1},\lambda)p(i_1,i_2,\cdots,i_{t-1}|\lambda)
-\]</span> 根据Markov假设: <span class="math display">\[
-p(i_t|i_1,i_2,\cdots,i_{t-1},\lambda)=p(i_t|i_{t-1})=a_{i_{t-1}i_t}
-\]</span> 所以有： <span class="math display">\[
-p(I|\lambda)=\pi_1\prod\limits_{t=2}^Ta_{i_{t-1},i_t}
-\]</span> 再看第二部分 <span class="math display">\[
-p(O|I,\lambda)=\prod\limits_{t=1}^Tb_{i_t}(o_t)
-\]</span></p>
-<p><span class="math display">\[
-p(O|\lambda)=\sum\limits_{I}\pi_{i_1}\prod\limits_{t=2}^Ta_{i_{t-1},i_t}\prod\limits_{t=1}^Tb_{i_t}(o_t)
-\]</span></p>
-<p>上式中的<span class="math inline">\(\sum\limits_I\)</span> 实际上是在对每一步的i求和，包含了<span class="math inline">\(N^T\)</span>种轨迹，因此上面这个定义式是一个复杂度为<span class="math inline">\(O(TN^T)\)</span>的算式，这种指数复杂度肯定是不能硬解了，这时就该我们的前后向算法登场了。</p>
-<h4 id="前向算法">前向算法</h4>
-<p>为了方便，我们不妨计<span class="math inline">\(\alpha_t(i)=p(o_1,o_2,\cdots,o_t,i_t=q_i|\lambda)\)</span>，所以<span class="math inline">\(\alpha_T(i)=p(O,i_T=q_i|\lambda)\)</span>，根据贝叶斯公式积分即可得到<span class="math inline">\(p(O|\lambda)\)</span> <span class="math display">\[
-p(O|\lambda)=\sum\limits_{i=1}^Np(O,i_T=q_i|\lambda)=\sum\limits_{i=1}^N\alpha_T(i)
-\]</span> 不难看出，前向算法的核心就是要推出<span class="math inline">\(\alpha_T\)</span></p>
-<p>我们先考虑<span class="math inline">\(\alpha_{t+1}(j)\)</span> <span class="math display">\[
+<p>HMM中的参数为三元组$\lambda = (\pi,A,B)$ 其中$A$为状态转移矩阵，</p>
+<p>$I$为每一时刻的隐状态的集合，$O$为每一时刻观测值的集合，即:</p>
+<script type="math/tex; mode=display">I = \{i_1,i_2,...,i_T\}, \; O =\{o_1,o_2,...o_T\}</script><p>HMM有两个重要的性质</p>
+<p><strong>1.齐次Markov性</strong> 每一时刻的观测值仅仅依赖当前时刻的隐状态</p>
+<script type="math/tex; mode=display">
+p(i_{t+1}|i_t,i_{t-1},\cdots,i_1,o_t,o_{t-1},\cdots,o_1)=p(i_{t+1}|i_t)</script><p><strong>2.观测独立性</strong>每一时刻的隐状态仅依赖于其前一时刻</p>
+<script type="math/tex; mode=display">
+p(o_t|i_t,i_{t-1},\cdots,i_1,o_{t-1},\cdots,o_1)=p(o_t|i_t)</script><p>HMM的三个基本问题：</p>
+<p>1.Evaluation：$p(O|\lambda)$，Forward-Backward 算法</p>
+<p>2.Learning：$\lambda=\mathop{argmax}\limits_{\lambda}p(O|\lambda)$，Baum-Welch 算法</p>
+<p>3.Decoding：$I=\mathop{argmax}\limits_{I}p(I|O,\lambda)$，Vierbi 算法</p>
+<p>  预测问题：$p(i_{t+1}|o_1,o_2,\cdots,o_t)$<br>​- 2.滤波问题：$p(i_t|o_1,o_2,\cdots,o_t)$</p>
+<h3 id="Evaluation问题"><a href="#Evaluation问题" class="headerlink" title="Evaluation问题"></a>Evaluation问题</h3><p>所谓Evaluation问题，就是假定我们已知$\lambda$时，评价任意序列$O$产生的概率，也就是求条件概率$P(O|\lambda)$</p>
+<p>直觉上看，既然$\lambda$已知，那么根据观测独立性，我们只要知道隐状态序列$I = \{i_1,i_2,…,i_T\}$，就可以进而求出$O =\{o_1,o_2,…o_T\}$，所以有:</p>
+<script type="math/tex; mode=display">
+P(O|\lambda) = P(I|\lambda)P(O|I,\lambda)</script><p>我们分开来看</p>
+<script type="math/tex; mode=display">
+p(I|\lambda)=p(i_1,i_2,\cdots,i_t|\lambda)=p(i_t|i_1,i_2,\cdots,i_{t-1},\lambda)p(i_1,i_2,\cdots,i_{t-1}|\lambda)</script><p>根据Markov假设:</p>
+<script type="math/tex; mode=display">
+p(i_t|i_1,i_2,\cdots,i_{t-1},\lambda)=p(i_t|i_{t-1})=a_{i_{t-1}i_t}</script><p>所以有：</p>
+<script type="math/tex; mode=display">
+p(I|\lambda)=\pi_1\prod\limits_{t=2}^Ta_{i_{t-1},i_t}</script><p>再看第二部分</p>
+<script type="math/tex; mode=display">
+p(O|I,\lambda)=\prod\limits_{t=1}^Tb_{i_t}(o_t)</script><script type="math/tex; mode=display">
+p(O|\lambda)=\sum\limits_{I}\pi_{i_1}\prod\limits_{t=2}^Ta_{i_{t-1},i_t}\prod\limits_{t=1}^Tb_{i_t}(o_t)</script><p>上式中的$\sum\limits_I$  实际上是在对每一步的i求和，包含了$N^T$种轨迹，因此上面这个定义式是一个复杂度为$O(TN^T)$的算式，这种指数复杂度肯定是不能硬解了，这时就该我们的前后向算法登场了。</p>
+<h4 id="前向算法"><a href="#前向算法" class="headerlink" title="前向算法"></a>前向算法</h4><p>为了方便，我们不妨计$\alpha_t(i)=p(o_1,o_2,\cdots,o_t,i_t=q_i|\lambda)$，所以$\alpha_T(i)=p(O,i_T=q_i|\lambda)$，根据贝叶斯公式积分即可得到$p(O|\lambda)$</p>
+<script type="math/tex; mode=display">
+p(O|\lambda)=\sum\limits_{i=1}^Np(O,i_T=q_i|\lambda)=\sum\limits_{i=1}^N\alpha_T(i)</script><p>不难看出，前向算法的核心就是要推出$\alpha_T$</p>
+<p>我们先考虑$\alpha_{t+1}(j)$</p>
+<script type="math/tex; mode=display">
 \begin{aligned}
-\alpha_{t+1}(j)&amp;=p(o_1,o_2,\cdots,o_{t+1},i_{t+1}=q_j|\lambda)\\
-&amp;=\sum\limits_{i=1}^Np(o_1,o_2,\cdots,o_{t+1},i_{t+1}=q_j,i_t=q_i|\lambda)\\
-&amp;=\sum\limits_{i=1}^Np(o_{t+1}|o_1,o_2,\cdots,i_{t+1}=q_j,i_t=q_i|\lambda)p(o_1,\cdots,o_t,i_t=q_i,i_{t+1}=q_j|\lambda)
-\end{aligned}
-\]</span> 因为观测独立性假设，所以<span class="math inline">\(o_{t+1}\)</span>仅与<span class="math inline">\(i_{t+1}\)</span>有关 <span class="math display">\[
+\alpha_{t+1}(j)&=p(o_1,o_2,\cdots,o_{t+1},i_{t+1}=q_j|\lambda)\\
+&=\sum\limits_{i=1}^Np(o_1,o_2,\cdots,o_{t+1},i_{t+1}=q_j,i_t=q_i|\lambda)\\
+&=\sum\limits_{i=1}^Np(o_{t+1}|o_1,o_2,\cdots,i_{t+1}=q_j,i_t=q_i|\lambda)p(o_1,\cdots,o_t,i_t=q_i,i_{t+1}=q_j|\lambda)
+\end{aligned}</script><p>因为观测独立性假设，所以$o_{t+1}$仅与$i_{t+1}$有关</p>
+<script type="math/tex; mode=display">
 \begin{aligned}
-\alpha_{t+1}(j)&amp;=\sum\limits_{i=1}^Np(o_{t+1}|i_{t+1}=q_j)p(o_1,\cdots,o_t,i_t=q_i,i_{t+1}=q_j|\lambda)\\
-&amp;=\sum\limits_{i=1}^Np(o_{t+1}|i_{t+1}=q_j)p(i_{t+1}=q_j|o_1,\cdots,o_t,i_t=q_i,\lambda)p(o_1,\cdots,o_t,i_t=q_i|\lambda)\\
-&amp;=[\sum\limits_{i=1}^Na_{ij}\alpha_t(i)]b_{j}(o_t)
-\end{aligned}
-\]</span> 到此，我们就得到了<span class="math inline">\(\alpha\)</span>的递推公式,而<span class="math inline">\(\alpha_1(i)=\pi_ib_i(o_1)\)</span></p>
-<p>在前向算法中，每一次递推的复杂度是N，一共进行T次递推，最后再将<span class="math inline">\(\alpha_T\)</span>进行一次积分，复杂度是N，所以前向算法的时间复杂度是<span class="math inline">\(O(TN^2)\)</span></p>
-<h4 id="后向算法">后向算法</h4>
-<p>与前向算法类似，我们计<span class="math inline">\(\beta_t(i)=p(o_{t+1},o_{t+1},\cdots，o_T|i_t=i,\lambda)\)</span>，接下来我们用<span class="math inline">\(\beta\)</span>来表示<span class="math inline">\(P(O|\lambda)\)</span> <span class="math display">\[
-\begin{aligned}p(O|\lambda)&amp;=p(o_1,\cdots,o_T|\lambda)\\
-&amp;=\sum\limits_{i=1}^Np(o_1,o_2,\cdots,o_T,i_1=q_i|\lambda)\\
-&amp;=\sum\limits_{i=1}^Np(o_1,o_2,\cdots,o_T|i_1=q_i,\lambda)\pi_i\\
-&amp;=\sum\limits_{i=1}^Np(o_1|o_2,\cdots,o_T,i_1=q_i,\lambda)p(o_2,\cdots,o_T|i_1=q_i,\lambda)\pi_i\\
-&amp;=\sum\limits_{i=1}^Nb_i(o_1)\pi_i\beta_1(i)
-\end{aligned}
-\]</span> 和前向算法一样，接下来我们推导<span class="math inline">\(\beta\)</span>递推式： <span class="math display">\[
-\begin{aligned}\beta_t(i)&amp;=p(o_{t+1},\cdots,o_T|i_t=q_i)\\
-&amp;=\sum\limits_{j=1}^Np(o_{t+1},o_{t+2},\cdots,o_T,i_{t+1}=q_j|i_t=q_i)\\
-&amp;=\sum\limits_{j=1}^Np(o_{t+1},\cdots,o_T|i_{t+1}=q_j,i_t=q_i)p(i_{t+1}=q_j|i_t=q_i)\\
-&amp;=\sum\limits_{j=1}^Np(o_{t+1},\cdots,o_T|i_{t+1}=q_j)a_{ij}\\
-&amp;=\sum\limits_{j=1}^Np(o_{t+1}|o_{t+2},\cdots,o_T,i_{t+1}=q_j)p(o_{t+2},\cdots,o_T|i_{t+1}=q_j)a_{ij}\\
-&amp;=\sum\limits_{j=1}^Nb_j(o_{t+1})a_{ij}\beta_{t+1}(j)
-\end{aligned}
-\]</span> 不难看出，后向算法的复杂度同样是<span class="math inline">\(O(N^2T)\)</span></p>
-<h3 id="learning问题">Learning问题</h3>
-<p>说起learning，本质就是对通过<strong>最大似然法</strong>（MLE）对参数$ $的学习过程。而这种含有隐状态的模型，自然而然的就想到用EM算法进行优化，下面我们回忆一下EM算法。</p>
-<p>EM的最终目的是为了解决含有隐变量的混合模型的参数估计问题即 <span class="math display">\[
-\theta_{MLE}=\mathop{argmax}\limits_\theta\log p(x|\theta)
-\]</span> 它主要由不断迭代的E-step和M-step组成</p>
-<p><strong>E-step:</strong> 计算 <span class="math inline">\(\log p(x,z|\theta)\)</span> 在概率分布 <span class="math inline">\(p(z|x,\theta^t)\)</span> 下的期望</p>
-<p><strong>M-step:</strong>计算使这个期望最大化的参数得到<span class="math inline">\(p(z|x,\theta^{（t+1）})\)</span></p>
-<p>EM算法可写作： <span class="math display">\[
-\theta^{t+1}=\mathop{argmax}_{\theta}\int_z\log p(X,Z|\theta)p(Z|X,\theta^t)dz
-\]</span> 在HMM中，即为 <span class="math display">\[
+\alpha_{t+1}(j)&=\sum\limits_{i=1}^Np(o_{t+1}|i_{t+1}=q_j)p(o_1,\cdots,o_t,i_t=q_i,i_{t+1}=q_j|\lambda)\\
+&=\sum\limits_{i=1}^Np(o_{t+1}|i_{t+1}=q_j)p(i_{t+1}=q_j|o_1,\cdots,o_t,i_t=q_i,\lambda)p(o_1,\cdots,o_t,i_t=q_i|\lambda)\\
+&=[\sum\limits_{i=1}^Na_{ij}\alpha_t(i)]b_{j}(o_t)
+\end{aligned}</script><p>到此，我们就得到了$\alpha$的递推公式,而$\alpha_1(i)=\pi_ib_i(o_1)$</p>
+<p>在前向算法中，每一次递推的复杂度是N，一共进行T次递推，最后再将$\alpha_T$进行一次积分，复杂度是N，所以前向算法的时间复杂度是$O(TN^2)$</p>
+<h4 id="后向算法"><a href="#后向算法" class="headerlink" title="后向算法"></a>后向算法</h4><p>与前向算法类似，我们计$\beta_t(i)=p(o_{t+1},o_{t+1},\cdots，o_T|i_t=i,\lambda)$，接下来我们用$\beta$来表示$P(O|\lambda)$</p>
+<script type="math/tex; mode=display">
+\begin{aligned}p(O|\lambda)&=p(o_1,\cdots,o_T|\lambda)\\
+&=\sum\limits_{i=1}^Np(o_1,o_2,\cdots,o_T,i_1=q_i|\lambda)\\
+&=\sum\limits_{i=1}^Np(o_1,o_2,\cdots,o_T|i_1=q_i,\lambda)\pi_i\\
+&=\sum\limits_{i=1}^Np(o_1|o_2,\cdots,o_T,i_1=q_i,\lambda)p(o_2,\cdots,o_T|i_1=q_i,\lambda)\pi_i\\
+&=\sum\limits_{i=1}^Nb_i(o_1)\pi_i\beta_1(i)
+\end{aligned}</script><p>和前向算法一样，接下来我们推导$\beta$递推式：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}\beta_t(i)&=p(o_{t+1},\cdots,o_T|i_t=q_i)\\
+&=\sum\limits_{j=1}^Np(o_{t+1},o_{t+2},\cdots,o_T,i_{t+1}=q_j|i_t=q_i)\\
+&=\sum\limits_{j=1}^Np(o_{t+1},\cdots,o_T|i_{t+1}=q_j,i_t=q_i)p(i_{t+1}=q_j|i_t=q_i)\\
+&=\sum\limits_{j=1}^Np(o_{t+1},\cdots,o_T|i_{t+1}=q_j)a_{ij}\\
+&=\sum\limits_{j=1}^Np(o_{t+1}|o_{t+2},\cdots,o_T,i_{t+1}=q_j)p(o_{t+2},\cdots,o_T|i_{t+1}=q_j)a_{ij}\\
+&=\sum\limits_{j=1}^Nb_j(o_{t+1})a_{ij}\beta_{t+1}(j)
+\end{aligned}</script><p>不难看出，后向算法的复杂度同样是$O(N^2T)$</p>
+<h3 id="Learning问题"><a href="#Learning问题" class="headerlink" title="Learning问题"></a>Learning问题</h3><p>说起learning，本质就是对通过<strong>最大似然法</strong>（MLE）对参数$ \lambda $的学习过程。而这种含有隐状态的模型，自然而然的就想到用EM算法进行优化，下面我们回忆一下EM算法。</p>
+<p>EM的最终目的是为了解决含有隐变量的混合模型的参数估计问题即</p>
+<script type="math/tex; mode=display">
+\theta_{MLE}=\mathop{argmax}\limits_\theta\log p(x|\theta)</script><p>它主要由不断迭代的E-step和M-step组成</p>
+<p><strong>E-step:</strong> 计算 $\log p(x,z|\theta)$ 在概率分布 $p(z|x,\theta^t)$ 下的期望</p>
+<p><strong>M-step:</strong>计算使这个期望最大化的参数得到$p(z|x,\theta^{（t+1）})$</p>
+<p>EM算法可写作：</p>
+<script type="math/tex; mode=display">
+\theta^{t+1}=\mathop{argmax}_{\theta}\int_z\log p(X,Z|\theta)p(Z|X,\theta^t)dz</script><p>在HMM中，即为</p>
+<script type="math/tex; mode=display">
 \begin{aligned}
-\lambda^{(t+1)} &amp;= arg \max \limits_{\lambda}\sum\limits_{I} \log p(O,I|\lambda)p(I|O,\lambda^{t})
-\end{aligned}
-\]</span></p>
-<p>其中由于后验项<span class="math inline">\(p(I|O,\lambda^{t})\)</span>中不含<span class="math inline">\(\lambda\)</span>,因此对上式中<span class="math inline">\(\lambda\)</span>的取值是可有可无的，所以可将原式改写为 <span class="math display">\[
+\lambda^{(t+1)} &= arg \max \limits_{\lambda}\sum\limits_{I} \log p(O,I|\lambda)p(I|O,\lambda^{t})
+\end{aligned}</script><p>其中由于后验项$p(I|O,\lambda^{t})$中不含$\lambda$,因此对上式中$\lambda$的取值是可有可无的，所以可将原式改写为</p>
+<script type="math/tex; mode=display">
 \begin{aligned}
-\lambda^{t+1} &amp;= arg \max \limits_{\lambda}\sum\limits_{I} \log p(O,I|\lambda)p(O,I|\lambda^{t})
-\end{aligned}
-\]</span> 我们下面先对<span class="math inline">\(\pi^{t+1}\)</span>进行参数估计： <span class="math display">\[
-\pi^{t+1}=\mathop{argmax}_\pi\sum\limits_{T}[\log \pi_{i_1}\cdot p(O,i_1...i_T|\lambda^t)]
-\]</span> 首先将联合概率化为边缘概率 <span class="math display">\[
-\pi^{t+1}=\mathop{argmax}_\pi\sum\limits_{i}[\log \pi_{i}\cdot p(O,i_1 = q_i|\lambda^t)]
-\]</span> 到这一步，就要用上一些技巧了。其实对于<span class="math inline">\(\pi\)</span>，是有一个约束条件的，即<span class="math inline">\(\sum\limits_i\pi_i=1\)</span> ，有了约束条件，我们就可以用拉格朗日法进行求解了。</p>
-<p>先定义 Lagrange 函数： <span class="math display">\[
- L(\pi,\eta)=\sum\limits_{i=1}^N\log \pi_i\cdot p(O,i_1=q_i|\lambda^t)+\eta(\sum\limits_{i=1}^N\pi_i-1)
-\]</span> 对<span class="math inline">\(\pi_i\)</span>求偏导： <span class="math display">\[
-\frac{\partial L}{\partial\pi_i}=\frac{1}{\pi_i}p(O,i_1=q_i|\lambda^t)+\eta=0
-\]</span> 自然而然的就可得到： <span class="math display">\[
-\pi_i^{t+1}=\frac{p(O,i_1=q_i|\lambda^t)}{p(O|\lambda^t)}
-\]</span> 对<span class="math inline">\(A^{t+1}\)</span>和<span class="math inline">\(B^{t+1}\)</span>也是类似的方法，只是计算会更加繁琐一些。</p>
+\lambda^{t+1} &= arg \max \limits_{\lambda}\sum\limits_{I} \log p(O,I|\lambda)p(O,I|\lambda^{t})
+\end{aligned}</script><p>我们下面先对$\pi^{t+1}$进行参数估计：</p>
+<script type="math/tex; mode=display">
+\pi^{t+1}=\mathop{argmax}_\pi\sum\limits_{T}[\log \pi_{i_1}\cdot p(O,i_1...i_T|\lambda^t)]</script><p>首先将联合概率化为边缘概率</p>
+<script type="math/tex; mode=display">
+\pi^{t+1}=\mathop{argmax}_\pi\sum\limits_{i}[\log \pi_{i}\cdot p(O,i_1 = q_i|\lambda^t)]</script><p>到这一步，就要用上一些技巧了。其实对于$\pi$，是有一个约束条件的，即$\sum\limits_i\pi_i=1$ ，有了约束条件，我们就可以用拉格朗日法进行求解了。</p>
+<p>先定义 Lagrange 函数：</p>
+<script type="math/tex; mode=display">
+ L(\pi,\eta)=\sum\limits_{i=1}^N\log \pi_i\cdot p(O,i_1=q_i|\lambda^t)+\eta(\sum\limits_{i=1}^N\pi_i-1)</script><p>对$\pi_i$求偏导：</p>
+<script type="math/tex; mode=display">
+\frac{\partial L}{\partial\pi_i}=\frac{1}{\pi_i}p(O,i_1=q_i|\lambda^t)+\eta=0</script><p>自然而然的就可得到：</p>
+<script type="math/tex; mode=display">
+\pi_i^{t+1}=\frac{p(O,i_1=q_i|\lambda^t)}{p(O|\lambda^t)}</script><p>对$A^{t+1}$和$B^{t+1}$也是类似的方法，只是计算会更加繁琐一些。</p>
 <p>以上就是HMM中的EM算法，也叫<strong>Baum-Welch</strong>算法。</p>
-<h3 id="decoding问题">Decoding问题</h3>
-<p>所谓decoding问题，就是在已知观测序列的情况下，预测隐状态序列即<span class="math inline">\(P(I|O)\)</span> <span class="math display">\[
-I=\mathop{argmax}\limits_{I}P(I|O,\lambda)
-\]</span> 实质上就是要求我们找到一个序列,使其概率最大，用老师的话讲，就是在参数空间中找到一条最短路径，这实质上就可以转化成动态规划问题来求解，也就是著名的<strong>维特比算法</strong>（Viterbi algorithm）</p>
-<p>首先定义<span class="math inline">\(\delta\)</span>，它表征的是，<span class="math inline">\(i_t\)</span>已知时，到达<span class="math inline">\(i_t\)</span>的最大概率 <span class="math display">\[
-\delta_{t}(j)=\max\limits_{i_1,\cdots,i_{t-1}}p(o_1,\cdots,o_t,i_1,\cdots,i_{t-1},i_t=q_i)
-\]</span> 由于观测独立性和其次马尔可夫性，能得到<span class="math inline">\(\delta\)</span>的递推式 <span class="math display">\[
-\delta_{t+1}(j)=\max\limits_{1\le i\le N}\delta_t(i)a_{ij}b_j(o_{t+1})
-\]</span> 但<span class="math inline">\(\delta\)</span>只是一个概率值，我们还需要定义<span class="math inline">\(\psi\)</span>来记录节点，<span class="math inline">\(\psi_{t+1}\)</span>表示了在前面的路径都已知时，下一时刻最可能到达的隐状态 <span class="math display">\[
-\psi_{t+1}(j)=\mathop{argmax}\limits_{1\le i\le N}\delta_t(i)a_{ij}
-\]</span></p>
-<h3 id="reference">Reference</h3>
-<p><a href="https://anxiang1836.github.io/2019/11/05/NLP_From_HMM_to_CRF/" target="_blank" rel="noopener">【NLP】从隐马尔科夫到条件随机场</a></p>
+<h3 id="Decoding问题"><a href="#Decoding问题" class="headerlink" title="Decoding问题"></a>Decoding问题</h3><p>所谓decoding问题，就是在已知观测序列的情况下，预测隐状态序列即$P(I|O)$</p>
+<script type="math/tex; mode=display">
+I=\mathop{argmax}\limits_{I}P(I|O,\lambda)</script><p>实质上就是要求我们找到一个序列,使其概率最大，用老师的话讲，就是在参数空间中找到一条最短路径，这实质上就可以转化成动态规划问题来求解，也就是著名的<strong>维特比算法</strong>（Viterbi algorithm）</p>
+<p>首先定义$\delta$，它表征的是，$i_t$已知时，到达$i_t$的最大概率</p>
+<script type="math/tex; mode=display">
+\delta_{t}(j)=\max\limits_{i_1,\cdots,i_{t-1}}p(o_1,\cdots,o_t,i_1,\cdots,i_{t-1},i_t=q_i)</script><p>由于观测独立性和其次马尔可夫性，能得到$\delta$的递推式</p>
+<script type="math/tex; mode=display">
+\delta_{t+1}(j)=\max\limits_{1\le i\le N}\delta_t(i)a_{ij}b_j(o_{t+1})</script><p>但$\delta$只是一个概率值，我们还需要定义$\psi$来记录节点，$\psi_{t+1}$表示了在前面的路径都已知时，下一时刻最可能到达的隐状态</p>
+<script type="math/tex; mode=display">
+\psi_{t+1}(j)=\mathop{argmax}\limits_{1\le i\le N}\delta_t(i)a_{ij}</script><h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><p><a href="https://anxiang1836.github.io/2019/11/05/NLP_From_HMM_to_CRF/" target="_blank" rel="noopener">【NLP】从隐马尔科夫到条件随机场</a></p>
 <p><a href="https://www.cnblogs.com/pinard/p/6955871.html" target="_blank" rel="noopener">隐马尔科夫模型HMM（二）前向后向算法评估观察序列概率</a></p>
 
     </div>
@@ -358,6 +342,7 @@ I=\mathop{argmax}\limits_{I}P(I|O,\lambda)
           <div class="post-tags">
               <a href="/tags/NLP/" rel="tag"># NLP</a>
               <a href="/tags/Machine-Learning/" rel="tag"># Machine Learning</a>
+              <a href="/tags/study-notes/" rel="tag"># study notes</a>
           </div>
 
         
@@ -410,7 +395,7 @@ I=\mathop{argmax}\limits_{I}P(I|O,\lambda)
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本概念"><span class="nav-number">1.</span> <span class="nav-text">基本概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#evaluation问题"><span class="nav-number">2.</span> <span class="nav-text">Evaluation问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#前向算法"><span class="nav-number">2.1.</span> <span class="nav-text">前向算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#后向算法"><span class="nav-number">2.2.</span> <span class="nav-text">后向算法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#learning问题"><span class="nav-number">3.</span> <span class="nav-text">Learning问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#decoding问题"><span class="nav-number">4.</span> <span class="nav-text">Decoding问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reference"><span class="nav-number">5.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本概念"><span class="nav-number">1.</span> <span class="nav-text">基本概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Evaluation问题"><span class="nav-number">2.</span> <span class="nav-text">Evaluation问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#前向算法"><span class="nav-number">2.1.</span> <span class="nav-text">前向算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#后向算法"><span class="nav-number">2.2.</span> <span class="nav-text">后向算法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Learning问题"><span class="nav-number">3.</span> <span class="nav-text">Learning问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Decoding问题"><span class="nav-number">4.</span> <span class="nav-text">Decoding问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Reference"><span class="nav-number">5.</span> <span class="nav-text">Reference</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -425,12 +410,12 @@ I=\mathop{argmax}\limits_{I}P(I|O,\lambda)
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-count">15</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
