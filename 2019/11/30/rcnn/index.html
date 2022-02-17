@@ -46,13 +46,13 @@
   };
 </script>
 
-  <meta name="description" content="R-CNN的横空出世标志着“目标检测”也被纳入了深度学习的板块之中">
+  <meta name="description" content="R-CNN的横空出世标志着“目标检测”被纳入了深度学习的板块之中,RCNN家族是从传统的基于手工特征的目标检测框架逐步迭代而来的,因而其模型也相对复杂,与于之后纯粹源于深度学习的YOLO系列模型形成了鲜明对比.">
 <meta name="keywords" content="paper reading,CV">
 <meta property="og:type" content="article">
 <meta property="og:title" content="「Paper-Reading」RCNN family —— 基于Region Proposal的目标检测模型">
 <meta property="og:url" content="http:&#x2F;&#x2F;freemty.github.io&#x2F;2019&#x2F;11&#x2F;30&#x2F;rcnn&#x2F;index.html">
 <meta property="og:site_name" content="Sum Stack">
-<meta property="og:description" content="R-CNN的横空出世标志着“目标检测”也被纳入了深度学习的板块之中">
+<meta property="og:description" content="R-CNN的横空出世标志着“目标检测”被纳入了深度学习的板块之中,RCNN家族是从传统的基于手工特征的目标检测框架逐步迭代而来的,因而其模型也相对复杂,与于之后纯粹源于深度学习的YOLO系列模型形成了鲜明对比.">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https:&#x2F;&#x2F;images2015.cnblogs.com&#x2F;blog&#x2F;1093303&#x2F;201705&#x2F;1093303-20170504112723757-880743532.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;freemty.github.io&#x2F;2019&#x2F;11&#x2F;30&#x2F;rcnn&#x2F;figure&#x2F;rcnn-process.png">
@@ -60,7 +60,7 @@
 <meta property="og:image" content="https:&#x2F;&#x2F;bloglunit.files.wordpress.com&#x2F;2017&#x2F;05&#x2F;20170525-research-seminar-google-slides-2017-05-26-17-14-03.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;freemty.github.io&#x2F;2019&#x2F;11&#x2F;30&#x2F;rcnn&#x2F;figure&#x2F;fastrcnn.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;bloglunit.files.wordpress.com&#x2F;2017&#x2F;05&#x2F;20170525-research-seminar-google-slides-2017-05-29-19-06-26.png">
-<meta property="og:updated_time" content="2022-02-17T11:32:14.343Z">
+<meta property="og:updated_time" content="2022-02-17T11:56:58.710Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;images2015.cnblogs.com&#x2F;blog&#x2F;1093303&#x2F;201705&#x2F;1093303-20170504112723757-880743532.png">
 
@@ -107,9 +107,9 @@
   .use-motion .logo-line-before i { left: initial; }
   .use-motion .logo-line-after i { right: initial; }
   </style>
-</noscript>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
-<link rel="alternate" href="/atom.xml" title="Sum Stack" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+<link rel="alternate" href="/atom.xml" title="Sum Stack" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
@@ -236,22 +236,20 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>R-CNN的横空出世标志着“目标检测”也被纳入了深度学习的板块之中</p>
+        <p>R-CNN的横空出世标志着“目标检测”被纳入了深度学习的板块之中,RCNN家族是从传统的基于手工特征的目标检测框架逐步迭代而来的,因而其模型也相对复杂,与于之后纯粹源于深度学习的YOLO系列模型形成了鲜明对比.</p>
 <a id="more"></a>
-<p>本文将着重于记录R-CNN的技术细节,进而补充其后续版本的改进之处(Fast R-CNN .e.tc.),并顺便补充一些之前较为陌生的图像处理领域的相关知识</p>
+<p>本文将从RCNN入手,记录基于Region Proposal的目标检测模型的基本结构, 并补充其后续版本的改进之处(Fast R-CNN .e.tc.).</p>
 <h4 id="od任务的基本问题-localization-classification">OD任务的基本问题: localization + classification</h4>
-<p>借用知乎上一个博主的总结,OD要解决的问题就是“物体在哪里以及是什么的整个流程问题”.而其中“是什么?”其实是CV中典型的classification问题,已经有很多成熟的模型可直接调用.因而解决“物体在哪里”的localization任务,就成了OD任务的重点.为了方便即后续讨论,对于localization问题,我们可以记</p>
-<ul>
-<li>输入：图片</li>
-<li>输出：方框在图片中的位置（x,y,w,h）</li>
-<li>label: 物体在图片中的实际位置（x,y,w,h）</li>
-<li>评估方法：检测评价函数 intersection-over-union(IOU)</li>
-</ul>
-<p>简而言之,localization就是输出物体坐标(根据坐标即可得到物体的bonding box),并最大化IOU,即尽量使预测bonding box与实际物体框重合.</p>
-<p>对于localization,有两种处理思路</p>
+<p>借用知乎上一个博主的总结,OD要解决的问题就是“物体在哪里以及是什么”的流程问题.而其中“是什么?”其实是CV中典型的classification问题,已经有很多成熟的模型可直接调用.因而解决“物体在哪里”的localization任务,就成了OD任务的重点.为了方便即后续讨论,对于localization问题,我们可以记</p>
+<blockquote>
+<p>输入：图片</p>
+<p>输出：方框在图片中的位置（x,y,w,h）</p>
+<p>label: 物体在图片中的实际位置（x,y,w,h）</p>
+<p>评估方法：检测评价函数 intersection-over-union(IOU,也就是俗称的召回率)</p>
+</blockquote>
+<p>简而言之,localization就是输出物体坐标(根据坐标即可得到物体的bonding box),并最大化IOU,即尽量使预测bonding box与实际物体框重合.对于localization,有两种处理思路</p>
 <h5 id="思路一将localization看作回归问题">思路一:将localization看作回归问题</h5>
-<p>当将localization看作回归问题,即使用label数据回归预测（x,y,w,h）四个参数,得到bondingbox.这实际上延续了CV中解决classification问题的思路,只需改变一下输出层的结构(将输出层由类别改为四个坐标),即可使用经过预训练的CNN模型(Vgg,AvexNet</p>
-<p>e.t.c)来完成localization.</p>
+<p>当将localization看作回归问题,即使用label数据回归预测（x,y,w,h）四个参数,得到bondingbox.这实际上延续了CV中解决classification问题的思路,只需改变一下输出层的结构(将输出层由类别改为四个坐标),即可使用经过预训练的CNN模型(Vgg,AvexNet e.t.c)来完成localization.</p>
 <p><img src="https://images2015.cnblogs.com/blog/1093303/201705/1093303-20170504112723757-880743532.png"></p>
 <p>直觉上讲,我会觉得regression的思路与机器学习的模型更为契合,不幸的是RCNN的作者提到回归法在目标检测中在实践中并不能取得理想的结果,因此沿用了之前的传统思路(使用selectivesearch 的方法选取候选区域),不过这并不代表regression不可行,之后的YOLO就是基于回归的思路进行物体location的,并大放异彩.</p>
 <h5 id="思路二从图中取出若干候选区域并选出最优">思路二:从图中取出若干候选区域,并选出最优</h5>
@@ -260,12 +258,12 @@
 <p>R-CNN算是卷积神经网络在目标检测领域的开山之作,整体结构上R-CNN继承了已经较为成熟的Selective Search + DPM/HoG + SVM的目标检测框架.在其最大的突破点在于使用CNN作为特征提取器,代替传统了的已经到瓶颈的手工特征(DPM/HoG);并且经过预训练的CNN特征提取器(如在ImageNet上预训练的Vgg)在应用时只需在目标数据集上进行fine-tuning,降低了对数据集的要求,可以解决数据集不足的问题.</p>
 <h5 id="工作流程与总体结构">工作流程与总体结构</h5>
 <p>RCNN的运行可分为四个步骤,我把它简化为“找框,喂框,认框,修框”,具体来说就是</p>
-<ul>
-<li>找框(生成候选区域)： 采用Selective Search 方法,对每张输入图片生成1-2K个候选区域</li>
-<li><p>喂框(CNN特征提取)： 对每个候选区域，使用CNN提取特征,得到其特征向量</p></li>
-<li>认框(类别判断)： 将候选区域的特征向量特征送入每一个类(人、马、狗 e.t.c.)的SVM 分类器，判别是否属于该类</li>
-<li><p>修框(位置精修)： 使用回归器精细修正候选框位置</p></li>
-</ul>
+<blockquote>
+<p>找框(生成候选区域)： 采用Selective Search 方法,对每张输入图片生成1-2K个候选区域</p>
+<p>喂框(CNN特征提取)： 对每个候选区域，使用CNN提取特征,得到其特征向量</p>
+<p>认框(类别判断)： 将候选区域的特征向量特征送入每一个类(人、马、狗 e.t.c.)的SVM 分类器，判别是否属于该类</p>
+<p>修框(位置精修)： 使用回归器精细修正候选框位置</p>
+</blockquote>
 <p><img src="/2019/11/30/rcnn/figure/rcnn-process.png" alt="rcnn-process" style="zoom:50%;"></p>
 <p>相应地,RCNN由三部分构成,第一部分是生成候选区域的Selective Search算法;第二部分是用来提取特征的CNN(文中选取了Vgg16),第三部分是用以分类的SVM.</p>
 <h5 id="selective-search">Selective Search</h5>
@@ -281,12 +279,10 @@
 <blockquote>
 <p>1.颜色（颜色直方图）相近的</p>
 <p>2.纹理（梯度直方图）相近的</p>
-<p>3.合并后总面积小的： 保证合并操作的尺度较为均匀，避免一个大区域陆续“吃掉”其他小区域 （</p>
+<p>3.合并后总面积小的： 保证合并操作的尺度较为均匀，避免一个大区域陆续“吃掉”其他小区域</p>
 <p>4.合并后，总面积在其BBOX中所占比例大的： 保证合并后形状规则。</p>
 </blockquote>
-<figure>
-<img src="/2019/11/30/rcnn/figure/selectivesearch.png" alt="selectivesearch"><figcaption>selectivesearch</figcaption>
-</figure>
+<p><img src="/2019/11/30/rcnn/figure/selectivesearch.png"></p>
 <h4 id="spp-netroi-pooling-的引入">SPP-net（ROI Pooling 的引入）</h4>
 <p>要优化得到RCNN的后续改进型,就要先看看RCNN有哪些缺点,之前RCNN在选出Selective Search上千个bondingbox之后,需要将每个物体框resize后依次通过CNN特征提取器,这是相当耗时的一个环节.如果可以先得到整张图片的特征,在每次选取bondingbox时取整体特征的一部分直接得到物体的特征值,效率必然会大大提升</p>
 <p><img src="https://bloglunit.files.wordpress.com/2017/05/20170525-research-seminar-google-slides-2017-05-26-17-14-03.png"></p>
