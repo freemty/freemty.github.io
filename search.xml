@@ -301,9 +301,9 @@ I=\mathop{argmax}\limits_{I}P(I|O,\lambda)
         
         <tags>
             
-            <tag> paper reading </tag>
-            
             <tag> NLP </tag>
+            
+            <tag> paper reading </tag>
             
         </tags>
         
@@ -427,6 +427,62 @@ w_n = \gamma \cdot w_1 + (1 - \gamma) \cdot w_2
     </entry>
     
     <entry>
+      <title><![CDATA[「Paper-Reading」seqGAN——将GAN与Policy Gradient带入NLP领域]]></title>
+      <url>/2020/02/27/seqGAN/</url>
+      <content type="html"><![CDATA[<p>前段时间使用上交开源的seqGAN重新实现了Poem Generator,这几天回头细读一下文章</p>
+<a id="more"></a>
+<h3 id="abstract">Abstract</h3>
+<h3 id="proposed-model">Proposed Model</h3>
+<p>为了方便阅读，我们先记</p>
+<ul>
+<li>discriminator <span class="math inline">\(D\)</span></li>
+<li>generator <span class="math inline">\(G\)</span></li>
+<li>vocabulary <span class="math inline">\(\gamma\)</span></li>
+<li>a sequence <span class="math inline">\(Y_{1:T} = (y_1,...,y_t,...,y_T),y_t ∈ \gamma\)</span></li>
+<li>current state <span class="math inline">\(s = Y_{1:t-1}\)</span>(当前的状态为之前所有输出tokens的序列)</li>
+<li>next state <span class="math inline">\(s^{,} = Y_{1:t}\)</span></li>
+<li>action <span class="math inline">\(a = y_t\)</span></li>
+</ul>
+<p>在上面的预设下，所有Text-Generation类任务，都可以抽象化为在<span class="math inline">\(t\)</span>时刻，已经生成<span class="math inline">\((y_1,..y_{t-1})\)</span>的基础上，采取什么action（如何选取<span class="math inline">\(y_t\)</span>）。</p>
+<h4 id="seqgan-via-policy-gradient">SeqGAN via Policy Gradient</h4>
+<p>生成器有<span class="math inline">\(G_\theta(y_t|Y_{1:t-1})\)</span> 在对抗学习的情境下，<span class="math inline">\(G\)</span> 目标函数是</p>
+<p><span class="math display">\[
+&lt;Empty \space Math \space Block&gt;
+\]</span></p>
+<p>那么<span class="math inline">\(D\)</span>是怎么计算每一步的value的呢？</p>
+<p>可这样的话，Discriminator只能对一整个seq进行判别 这里就要Rollout Policy出场了</p>
+<p>在前<span class="math inline">\(T-1\)</span>时刻 <span class="math display">\[
+Q^{G_\theta}_{D_\phi}(a = y_t;s = Y_{1:t-1}) =
+\frac{1}{N}\sum^{N}_{n=1}D_\phi(Y_{1:T}^{n})
+\]</span></p>
+<p>其中 <span class="math display">\[
+Y_{1:T}^{n}
+\]</span></p>
+<p>最后的<span class="math inline">\(T\)</span>时刻，由于，序列已经生成了，就不用</p>
+<p><span class="math display">\[
+ Q^{G_\theta}_{D_\phi}(a = y_T;s = Y_{1:T-1}) = D_\phi(Y_{1:T})
+\]</span></p>
+<p>是在看完代码之后，才明白在Rollout里面也保存着一套LSTM，这就是paper中说的<span class="math inline">\(G_\beta\)</span>，</p>
+<h4 id="step">Step</h4>
+<p>先用MLE去预训练<span class="math inline">\(G_\theta\)</span>，再用<span class="math inline">\(G_\theta\)</span>生成的“赝品”和真实数据共同去预训练<span class="math inline">\(D_\phi\)</span></p>
+<p>action value function : <span class="math inline">\(Q^{G_\theta}_{D_\phi}(s,a)\)</span></p>
+<p><img src="/2020/02/27/seqGAN/figure/seqgan.png" style="zoom:30%;"></p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> NLP </tag>
+            
+            <tag> RL </tag>
+            
+            <tag> paper reading </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[seqGAN后续——代码阅读+重构新版PoemGenerator]]></title>
       <url>/2020/02/27/seqGAN-code/</url>
       <content type="html"><![CDATA[<p>aaa</p>
@@ -477,69 +533,13 @@ w_n = \gamma \cdot w_1 + (1 - \gamma) \cdot w_2
         
         <tags>
             
+            <tag> NLP </tag>
+            
             <tag> RL </tag>
             
             <tag> paper reading </tag>
-            
-            <tag> NLP </tag>
             
             <tag> personal tiny project </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[「Paper-Reading」seqGAN——将GAN与Policy Gradient带入NLP领域]]></title>
-      <url>/2020/02/27/seqGAN/</url>
-      <content type="html"><![CDATA[<p>前段时间使用上交开源的seqGAN重新实现了Poem Generator,这几天回头细读一下文章</p>
-<a id="more"></a>
-<h3 id="abstract">Abstract</h3>
-<h3 id="proposed-model">Proposed Model</h3>
-<p>为了方便阅读，我们先记</p>
-<ul>
-<li>discriminator <span class="math inline">\(D\)</span></li>
-<li>generator <span class="math inline">\(G\)</span></li>
-<li>vocabulary <span class="math inline">\(\gamma\)</span></li>
-<li>a sequence <span class="math inline">\(Y_{1:T} = (y_1,...,y_t,...,y_T),y_t ∈ \gamma\)</span></li>
-<li>current state <span class="math inline">\(s = Y_{1:t-1}\)</span>(当前的状态为之前所有输出tokens的序列)</li>
-<li>next state <span class="math inline">\(s^{,} = Y_{1:t}\)</span></li>
-<li>action <span class="math inline">\(a = y_t\)</span></li>
-</ul>
-<p>在上面的预设下，所有Text-Generation类任务，都可以抽象化为在<span class="math inline">\(t\)</span>时刻，已经生成<span class="math inline">\((y_1,..y_{t-1})\)</span>的基础上，采取什么action（如何选取<span class="math inline">\(y_t\)</span>）。</p>
-<h4 id="seqgan-via-policy-gradient">SeqGAN via Policy Gradient</h4>
-<p>生成器有<span class="math inline">\(G_\theta(y_t|Y_{1:t-1})\)</span> 在对抗学习的情境下，<span class="math inline">\(G\)</span> 目标函数是</p>
-<p><span class="math display">\[
-&lt;Empty \space Math \space Block&gt;
-\]</span></p>
-<p>那么<span class="math inline">\(D\)</span>是怎么计算每一步的value的呢？</p>
-<p>可这样的话，Discriminator只能对一整个seq进行判别 这里就要Rollout Policy出场了</p>
-<p>在前<span class="math inline">\(T-1\)</span>时刻 <span class="math display">\[
-Q^{G_\theta}_{D_\phi}(a = y_t;s = Y_{1:t-1}) =
-\frac{1}{N}\sum^{N}_{n=1}D_\phi(Y_{1:T}^{n})
-\]</span></p>
-<p>其中 <span class="math display">\[
-Y_{1:T}^{n}
-\]</span></p>
-<p>最后的<span class="math inline">\(T\)</span>时刻，由于，序列已经生成了，就不用</p>
-<p><span class="math display">\[
- Q^{G_\theta}_{D_\phi}(a = y_T;s = Y_{1:T-1}) = D_\phi(Y_{1:T})
-\]</span></p>
-<p>是在看完代码之后，才明白在Rollout里面也保存着一套LSTM，这就是paper中说的<span class="math inline">\(G_\beta\)</span>，</p>
-<h4 id="step">Step</h4>
-<p>先用MLE去预训练<span class="math inline">\(G_\theta\)</span>，再用<span class="math inline">\(G_\theta\)</span>生成的“赝品”和真实数据共同去预训练<span class="math inline">\(D_\phi\)</span></p>
-<p>action value function : <span class="math inline">\(Q^{G_\theta}_{D_\phi}(s,a)\)</span></p>
-<p><img src="/2020/02/27/seqGAN/figure/seqgan.png" style="zoom:30%;"></p>
-]]></content>
-      
-        
-        <tags>
-            
-            <tag> RL </tag>
-            
-            <tag> paper reading </tag>
-            
-            <tag> NLP </tag>
             
         </tags>
         
@@ -816,11 +816,58 @@ s \xrightarrow[]{a \sim \pi_\theta(.\vert s)} s&#39; \xrightarrow[]{a \sim \pi_\
     </entry>
     
     <entry>
-      <title><![CDATA[「Paper-Reading」RCNN family —— 目标检测领域的“two step“派]]></title>
+      <title><![CDATA[「Paper-Reading」RCNN family —— 深度学习在目标检测领域的不断演进]]></title>
       <url>/2019/11/30/rcnn/</url>
-      <content type="html"><![CDATA[<p>前段时间读了YOLO,这次就补一下目标检测领域的另一分支——RCNN家族</p>
+      <content type="html"><![CDATA[<p>R-CNN的横空出世标志着“目标检测”也被纳入了深度学习的板块之中</p>
 <a id="more"></a>
+<p>本文将着重于记录R-CNN的技术细节,进而补充其后续版本的改进之处(Fast R-CNN .e.tc.),并顺便补充一些之前较为陌生的图像处理领域的相关知识</p>
+<h4 id="od任务的基本问题-localization-classification">OD任务的基本问题: localization + classification</h4>
+<p>借用知乎上一个博主的总结,OD要解决的问题就是“物体在哪里以及是什么的整个流程问题”.而其中“是什么?”其实是CV中典型的classification问题,已经有很多成熟的模型可直接调用.因而解决“物体在哪里”的localization任务,就成了OD任务的重点.为了方便即后续讨论,对于localization问题,我们可以记</p>
+<ul>
+<li>输入：图片</li>
+<li>输出：方框在图片中的位置（x,y,w,h）</li>
+<li>label: 物体在图片中的实际位置（x,y,w,h）</li>
+<li>评估方法：检测评价函数 intersection-over-union(IOU)</li>
+</ul>
+<p>简而言之,localization就是输出物体坐标(根据坐标即可得到物体的bonding box),并最大化IOU,即尽量使预测bonding box与实际物体框重合.</p>
+<p>对于localization,有两种处理思路</p>
+<h5 id="思路一将localization看作回归问题">思路一:将localization看作回归问题</h5>
+<p>当将localization看作回归问题,即使用label数据回归预测（x,y,w,h）四个参数,得到bondingbox.这实际上延续了CV中解决classification问题的思路,只需改变一下输出层的结构(将输出层由类别改为四个坐标),即可使用经过预训练的CNN模型(Vgg,AvexNet e.t.c)来完成localization.</p>
+<h5 id="思路二将localization看作xx问题">思路二:将localization看作XX问题</h5>
+<p>传统目标检测流程： 1）区域选择（穷举策略：采用滑动窗口，且设置不同的大小，不同的长宽比对图像进行遍历，时间复杂度高） 2）特征提取（SIFT、HOG等；形态多样性、光照变化多样性、背景多样性使得特征鲁棒性差） 3）分类器分类（主要有SVM、Adaboost等）</p>
+<h4 id="r-cnn">R-CNN</h4>
+<p>R-CNN算是卷积神经网络在目标检测领域的开山之作,整体结构上R-CNN继承了已经较为成熟的Selective Search + DPM/HoG + SVM的目标检测框架.在其最大的突破点在于使用CNN作为特征提取器,代替传统了的已经到瓶颈的手工特征(DPM/HoG);并且经过预训练的CNN特征提取器(如在ImageNet上预训练的Vgg)在应用时只需在目标数据集上进行fine-tuning,降低了对数据集的要求,可以解决数据集不足的问题.</p>
+<h5 id="工作流程与总体结构">工作流程与总体结构</h5>
+<p>RCNN的运行可分为四个步骤,我把它简化为“找框,喂框,认框,修框”,具体来说就是</p>
+<ul>
+<li>找框(生成候选区域)： 采用Selective Search 方法,对每张输入图片生成1-2K个候选区域</li>
+<li><p>喂框(CNN特征提取)： 对每个候选区域，使用CNN提取特征,得到其特征向量</p></li>
+<li>认框(类别判断)： 将候选区域的特征向量特征送入每一个类(人、马、狗 e.t.c.)的SVM 分类器，判别是否属于该类</li>
+<li><p>修框(位置精修)： 使用回归器精细修正候选框位置</p></li>
+</ul>
+<p><img src="/2019/11/30/rcnn/figure/rcnn-process.png" alt="rcnn-process" style="zoom:50%;"></p>
+<p>相应地,RCNN由三部分构成,第一部分是生成候选区域的Selective Search算法;第二部分是用来提取特征的CNN(文中选取了Vgg16),第三部分是用以分类的SVM.</p>
+<h4 id="ssp-net">SSP Net</h4>
+<p>在引入RCNN的后续改进型,就要先看看RCNN有哪些缺点,之前RCNN在选出Selective Search上千个bondingbox之后,需要将每个物体框resize后依次通过CNN特征提取器,这是相当耗时的一个环节.如果可以先得到整张图片的特征,在每次选取bondingbox时取整体特征的一部分直接得到物体的特征值,效率必然会大大提升</p>
+<p>SSP Net就一定程度上的解决了以上问题</p>
+<p>1.结合空间金字塔方法实现CNNs的对尺度输入。 一般CNN后接全连接层或者分类器，他们都需要固定的输入尺寸，因此不得不对输入数据进行crop或者warp，这些预处理会造成数据的丢失或几何的失真。SPP Net的第一个贡献就是将金字塔思想加入到CNN，实现了数据的多尺度输入。</p>
+<p>如下图所示，在卷积层和全连接层之间加入了SPP layer。此时网络的输入可以是任意尺度的，在SPP layer中每一个pooling的filter会根据输入调整大小，而SPP的输出尺度始终是固定的。</p>
+<p>2.只对原图提取一次卷积特征 在R-CNN中，每个候选框先resize到统一大小，然后分别作为CNN的输入，这样是很低效的。 所以SPP Net根据这个缺点做了优化：只对原图进行一次卷积得到整张图的feature map，然后找到每个候选框zaifeature map上的映射patch，将此patch作为每个候选框的卷积特征输入到SPP layer和之后的层。节省了大量的计算时间，比R-CNN有一百倍左右的提速。</p>
+<p>Spatial Pyramid Pooling（空间金字塔池化）</p>
+<h4 id="fast-r-cnn">Fast R-CNN</h4>
+<p>SPP Net真是个好方法，R-CNN的进阶版Fast R-CNN就是在RCNN的基础上采纳了SPP Net方法，对RCNN作了改进，使得性能进一步提高。</p>
+<p>R-CNN与Fast RCNN的区别有哪些呢？ 先说RCNN的缺点：即使使用了selective search等预处理步骤来提取潜在的bounding box作为输入，但是RCNN仍会有严重的速度瓶颈，原因也很明显，就是计算机对所有region进行特征提取时会有重复计算，Fast-RCNN正是为了解决这个问题诞生的。</p>
+<p><img src="/2019/11/30/rcnn/figure/fastrcnn.png" alt="fastrcnn" style="zoom:30%;"></p>
+<p>大牛提出了一个可以看做单层sppnet的网络层，叫做ROI Pooling，这个网络层可以把不同大小的输入映射到一个固定尺度的特征向量，而我们知道，conv、pooling、relu等操作都不需要固定size的输入，因此，在原始图片上执行这些操作后，虽然输入图片size不同导致得到的feature map尺寸也不同，不能直接接到一个全连接层进行分类，但是可以加入这个神奇的ROI Pooling层，对每个region都提取一个固定维度的特征表示，再通过正常的softmax进行类型识别。另外，之前RCNN的处理流程是先提proposal，然后CNN提取特征，之后用SVM分类器，最后再做bbox regression，而在Fast-RCNN中，作者巧妙的把bbox regression放进了神经网络内部，与region分类和并成为了一个multi-task模型，实际实验也证明，这两个任务能够共享卷积特征，并相互促进。Fast-RCNN很重要的一个贡献是成功的让人们看到了Region Proposal+CNN这一框架实时检测的希望，原来多类检测真的可以在保证准确率的同时提升处理速度，也为后来的Faster-RCNN做下了铺垫。</p>
+<h4 id="faster-r-cnn">Faster R-CNN</h4>
+<p>Fast R-CNN存在的问题：存在瓶颈：选择性搜索，找出所有的候选框，这个也非常耗时。那我们能不能找出一个更加高效的方法来求出这些候选框呢？ 解决：加入一个提取边缘的神经网络，也就说找到候选框的工作也交给神经网络来做了。 做这样的任务的神经网络叫做Region Proposal Network(RPN)。</p>
+<p>具体做法： 　　• 将RPN放在最后一个卷积层的后面 　　• RPN直接训练得到候选区域</p>
+<h5 id="rpn">RPN</h5>
 <h4 id="reference">Reference</h4>
+<ul>
+<li>https://www.cnblogs.com/skyfsm/p/6806246.html</li>
+<li>https://www.cnblogs.com/yhyue/p/9247962.html</li>
+</ul>
 ]]></content>
       
         
@@ -874,9 +921,9 @@ s \xrightarrow[]{a \sim \pi_\theta(.\vert s)} s&#39; \xrightarrow[]{a \sim \pi_\
         
         <tags>
             
-            <tag> paper reading </tag>
-            
             <tag> NLP </tag>
+            
+            <tag> paper reading </tag>
             
         </tags>
         
