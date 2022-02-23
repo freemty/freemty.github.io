@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://freemty.github.io/2020/10/30/seqGAN-code/</loc>
+    <lastmod>2022-02-23</lastmod>
+  </url>  <url>
+    <loc>http://freemty.github.io/2020/08/27/rnn-poem-generator/</loc>
+    <lastmod>2022-02-23</lastmod>
+  </url>  <url>
     <loc>http://freemty.github.io/2020/03/05/CRF/</loc>
     <lastmod>2022-02-23</lastmod>
   </url>  <url>
     <loc>http://freemty.github.io/2020/12/20/gan-ukiyo-generator/</loc>
     <lastmod>2022-02-23</lastmod>
-  </url>  <url>
-    <loc>http://freemty.github.io/2020/08/27/rnn-poem-generator/</loc>
-    <lastmod>2022-02-17</lastmod>
   </url>  <url>
     <loc>http://freemty.github.io/2020/04/03/SVM/</loc>
     <lastmod>2022-02-17</lastmod>
@@ -17,9 +20,6 @@
     <lastmod>2022-02-17</lastmod>
   </url>  <url>
     <loc>http://freemty.github.io/2019/12/05/suibi1/</loc>
-    <lastmod>2022-02-17</lastmod>
-  </url>  <url>
-    <loc>http://freemty.github.io/2020/10/30/seqGAN-code/</loc>
     <lastmod>2022-02-17</lastmod>
   </url>  <url>
     <loc>http://freemty.github.io/2020/10/27/seqGAN/</loc>

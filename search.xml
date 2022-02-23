@@ -203,7 +203,7 @@ w_n = \gamma \cdot w_1 + (1 - \gamma) \cdot w_2
     <entry>
       <title><![CDATA[seqGAN后续——代码阅读+重构新版PoemGenerator]]></title>
       <url>/2020/10/30/seqGAN-code/</url>
-      <content type="html"><![CDATA[<p>aaa</p>
+      <content type="html"><![CDATA[<p>不说效果怎么样seqGAN这个思路真是太棒了</p>
 <a id="more"></a>
 <p>这是上一篇paper-reading的后续。在NLG中，强化学习肯定是相当重要的一种思路，因此GAN的实现还是相当有必要的，而seqGAN可以说是的文本GAN中的baseline了（leakGAN maskGAN etc.）所以这几天半抄半改的复现了seqGAN，并在上面跑了一下全唐诗（相比之下自己以前的LSTM-Generator纯属小玩具orz）。</p>
 <h2 id="code">Code</h2>
@@ -322,7 +322,7 @@ Y_{1:T}^{n}
     <entry>
       <title><![CDATA[「Personal Project」用LSTM实现唐诗生成]]></title>
       <url>/2020/08/27/rnn-poem-generator/</url>
-      <content type="html"><![CDATA[<p>Aaa</p>
+      <content type="html"><![CDATA[<p>先把生成样例push上来,坑留着以后填 (</p>
 <a id="more"></a>
 <h4 id="生成样例">生成样例</h4>
 <blockquote>
