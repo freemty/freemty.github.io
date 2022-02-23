@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://freemty.github.io/2020/03/05/CRF/</loc>
+    <lastmod>2022-02-23</lastmod>
+  </url>  <url>
+    <loc>http://freemty.github.io/2020/12/20/gan-ukiyo-generator/</loc>
+    <lastmod>2022-02-23</lastmod>
+  </url>  <url>
     <loc>http://freemty.github.io/2020/08/27/rnn-poem-generator/</loc>
     <lastmod>2022-02-17</lastmod>
   </url>  <url>
     <loc>http://freemty.github.io/2020/04/03/SVM/</loc>
-    <lastmod>2022-02-17</lastmod>
-  </url>  <url>
-    <loc>http://freemty.github.io/2022/02/17/4.DimentionReduction/</loc>
     <lastmod>2022-02-17</lastmod>
   </url>  <url>
     <loc>http://freemty.github.io/2020/02/19/twenty/</loc>
@@ -28,9 +31,6 @@
     <loc>http://freemty.github.io/2020/04/10/attention/</loc>
     <lastmod>2022-02-17</lastmod>
   </url>  <url>
-    <loc>http://freemty.github.io/2020/12/20/gan-ukiyo-generator/</loc>
-    <lastmod>2022-02-17</lastmod>
-  </url>  <url>
     <loc>http://freemty.github.io/2020/07/01/YOLO/</loc>
     <lastmod>2022-02-17</lastmod>
   </url>  <url>
@@ -38,9 +38,6 @@
     <lastmod>2022-02-17</lastmod>
   </url>  <url>
     <loc>http://freemty.github.io/2020/03/09/EM/</loc>
-    <lastmod>2022-02-17</lastmod>
-  </url>  <url>
-    <loc>http://freemty.github.io/2020/03/05/CRF/</loc>
     <lastmod>2022-02-17</lastmod>
   </url>  <url>
     <loc>http://freemty.github.io/2020/02/27/HMM/</loc>

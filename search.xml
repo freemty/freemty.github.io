@@ -3,98 +3,12 @@
   
     
     <entry>
-      <title><![CDATA[4.DimentionReduction]]></title>
-      <url>/2022/02/17/4.DimentionReduction/</url>
-      <content type="html"><![CDATA[<h1 id="降维">降维</h1>
-<p>解决过拟合的问题除了正则化和添加数据之外，降维就是最好的方法。降维的思路来源于维度灾难的问题，我们知道 <span class="math inline">\(n\)</span> 维球的体积为： <span class="math display">\[
-CR^n
-\]</span> 那么在球体积与边长为 <span class="math inline">\(2R\)</span> 的超立方体比值为： <span class="math display">\[
-\lim\limits_{n\rightarrow0}\frac{CR^n}{2^nR^n}=0
-\]</span></p>
-<p>这就是所谓的维度灾难，在高维数据中，主要样本都分布在立方体的边缘，所以数据集更加稀疏。</p>
-<p>降维的算法分为：</p>
-<ol type="1">
-<li>直接降维，特征选择</li>
-<li>线性降维，PCA，MDS等</li>
-<li>分线性，流形包括 Isomap，LLE 等</li>
-</ol>
-<p>为了方便，我们首先将协方差矩阵（数据集）写成中心化的形式： <span class="math display">\[
-\begin{align}S&amp;=\frac{1}{N}\sum\limits_{i=1}^N(x_i-\overline{x})(x_i-\overline{x})^T\nonumber\\
-&amp;=\frac{1}{N}(x_1-\overline{x},x_2-\overline{x},\cdots,x_N-\overline{x})(x_1-\overline{x},x_2-\overline{x},\cdots,x_N-\overline{x})^T\nonumber\\
-&amp;=\frac{1}{N}(X^T-\frac{1}{N}X^T\mathbb{I}_{N1}\mathbb{I}_{N1}^T)(X^T-\frac{1}{N}X^T\mathbb{I}_{N1}\mathbb{I}_{N1}^T)^T\nonumber\\
-&amp;=\frac{1}{N}X^T(E_N-\frac{1}{N}\mathbb{I}_{N1}\mathbb{I}_{1N})(E_N-\frac{1}{N}\mathbb{I}_{N1}\mathbb{I}_{1N})^TX\nonumber\\
-&amp;=\frac{1}{N}X^TH_NH_N^TX\nonumber\\
-&amp;=\frac{1}{N}X^TH_NH_NX=\frac{1}{N}X^THX
-\end{align}
-\]</span> 这个式子利用了中心矩阵 $ H$的对称性，这也是一个投影矩阵。</p>
-<h2 id="线性降维-主成分分析-pca">线性降维-主成分分析 PCA</h2>
-<h3 id="损失函数">损失函数</h3>
-<p>主成分分析中，我们的基本想法是将所有数据投影到一个字空间中，从而达到降维的目标，为了寻找这个子空间，我们基本想法是：</p>
-<ol type="1">
-<li>所有数据在子空间中更为分散</li>
-<li>损失的信息最小，即：在补空间的分量少</li>
-</ol>
-<p>原来的数据很有可能各个维度之间是相关的，于是我们希望找到一组 <span class="math inline">\(p\)</span> 个新的线性无关的单位基 <span class="math inline">\(u_i\)</span>，降维就是取其中的 <span class="math inline">\(q\)</span> 个基。于是对于一个样本 <span class="math inline">\(x_i\)</span>，经过这个坐标变换后： <span class="math display">\[
-\hat{x_i}=\sum\limits_{i=1}^p(u_i^Tx_i)u_i=\sum\limits_{i=1}^q(u_i^Tx_i)u_i+\sum\limits_{i=q+1}^p(u_i^Tx_i)u_i
-\]</span> 对于数据集来说，我们首先将其中心化然后再去上面的式子的第一项，并使用其系数的平方平均作为损失函数并最大化： <span class="math display">\[
-\begin{align}J&amp;=\frac{1}{N}\sum\limits_{i=1}^N\sum\limits_{j=1}^q((x_i-\overline{x})^Tu_j)^2\nonumber\\
-&amp;=\sum\limits_{j=1}^qu_j^TSu_j\ ,\ s.t.\ u_j^Tu_j=1
-\end{align}
-\]</span> 由于每个基都是线性无关的，于是每一个 <span class="math inline">\(u_j\)</span> 的求解可以分别进行，使用拉格朗日乘子法： <span class="math display">\[
-\mathop{argmax}_{u_j}L(u_j,\lambda)=\mathop{argmax}_{u_j}u_j^TSu_j+\lambda(1-u_j^Tu_j)
-\]</span> 于是： <span class="math display">\[
-Su_j=\lambda u_j
-\]</span> 可见，我们需要的基就是协方差矩阵的本征矢。损失函数最大取在本征值前 <span class="math inline">\(q\)</span> 个最大值。</p>
-<p>下面看其损失的信息最少这个条件，同样适用系数的平方平均作为损失函数，并最小化： <span class="math display">\[
-\begin{align}J&amp;=\frac{1}{N}\sum\limits_{i=1}^N\sum\limits_{j=q+1}^p((x_i-\overline{x})^Tu_j)^2\nonumber\\
-&amp;=\sum\limits_{j=q+1}^pu_j^TSu_j\ ,\ s.t.\ u_j^Tu_j=1
-\end{align}
-\]</span> 同样的： <span class="math display">\[
-\mathop{argmin}_{u_j}L(u_j,\lambda)=\mathop{argmin}_{u_j}u_j^TSu_j+\lambda(1-u_j^Tu_j)
-\]</span> 损失函数最小取在本征值剩下的个最小的几个值。数据集的协方差矩阵可以写成 <span class="math inline">\(S=U\Lambda U^T\)</span>，直接对这个表达式当然可以得到本征矢。</p>
-<h3 id="svd-与-pcoa">SVD 与 PCoA</h3>
-<p>下面使用实际训练时常常使用的 SVD 直接求得这个 <span class="math inline">\(q\)</span> 个本征矢。</p>
-<p>对中心化后的数据集进行奇异值分解： <span class="math display">\[
-HX=U\Sigma V^T,U^TU=E_N,V^TV=E_p,\Sigma:N\times p
-\]</span></p>
-<p>于是： <span class="math display">\[
-S=\frac{1}{N}X^THX=\frac{1}{N}X^TH^THX=\frac{1}{N}V\Sigma^T\Sigma V^T
-\]</span> 因此，我们直接对中心化后的数据集进行 SVD，就可以得到特征值和特征向量 <span class="math inline">\(V\)</span>，在新坐标系中的坐标就是： <span class="math display">\[
-HX\cdot V
-\]</span> 由上面的推导，我们也可以得到另一种方法 PCoA 主坐标分析，定义并进行特征值分解： <span class="math display">\[
-T=HXX^TH=U\Sigma\Sigma^TU^T
-\]</span> 由于： <span class="math display">\[
-TU\Sigma=U\Sigma(\Sigma^T\Sigma)
-\]</span> 于是可以直接得到坐标。这两种方法都可以得到主成分，但是由于方差矩阵是 <span class="math inline">\(p\times p\)</span> 的，而 <span class="math inline">\(T\)</span> 是 <span class="math inline">\(N\times N\)</span> 的，所以对样本量较少的时候可以采用 PCoA的方法。</p>
-<h3 id="p-pca">p-PCA</h3>
-<p>下面从概率的角度对 PCA 进行分析，概率方法也叫 p-PCA。我们使用线性模型，类似之前 LDA，我们选定一个方向，对原数据 <span class="math inline">\(x\in\mathbb{R}^p\)</span> ，降维后的数据为 <span class="math inline">\(z\in\mathbb{R}^q,q&lt;p\)</span>。降维通过一个矩阵变换（投影）进行： <span class="math display">\[
-\begin{align}
-z&amp;\sim\mathcal{N}(\mathbb{O}_{q1},\mathbb{I}_{qq})\\
-x&amp;=Wz+\mu+\varepsilon\\
-\varepsilon&amp;\sim\mathcal{N}(0,\sigma^2\mathbb{I}_{pp})
-\end{align}
-\]</span> 对于这个模型，我么可以使用期望-最大（EM）的算法进行学习，在进行推断的时候需要求得 <span class="math inline">\(p(z|x)\)</span>，推断的求解过程和线性高斯模型类似。 <span class="math display">\[
-\begin{align}
-&amp;p(z|x)=\frac{p(x|z)p(z)}{p(x)}\\
-&amp;\mathbb{E}[x]=\mathbb{E}[Wz+\mu+\varepsilon]=\mu\\
-&amp;Var[x]=WW^T+\sigma^2\mathbb{I}_{pp}\\
-\Longrightarrow p(z|x)=\mathcal{N}(W^T(WW^T+&amp;\sigma^2\mathbb{I})^{-1}(x-\mu),\mathbb{I}-W^T(WW^T+\sigma^2\mathbb{I})^{-1}W)
-\end{align}
-\]</span></p>
-<h2 id="小结">小结</h2>
-<p>降维是解决维度灾难和过拟合的重要方法，除了直接的特征选择外，我们还可以采用算法的途径对特征进行筛选，线性的降维方法以 PCA 为代表，在 PCA 中，我们只要直接对数据矩阵进行中心化然后求奇异值分解或者对数据的协方差矩阵进行分解就可以得到其主要维度。非线性学习的方法如流形学习将投影面从平面改为超曲面。</p>
-]]></content>
-      
-        
-    </entry>
-    
-    <entry>
       <title><![CDATA[「Personal Project」用StyleGAN来生成浮世绘]]></title>
       <url>/2020/12/20/gan-ukiyo-generator/</url>
       <content type="html"><![CDATA[<p>来玩玩图像生成吧!</p>
 <a id="more"></a>
 <h4 id="前言">前言</h4>
-<p>但在具体了解了之后发现,现在基于GAN的图像生成模型已经相当成熟了,例如Google在2018年已经用BigGAN刷爆了ImageNet上的所有种类图像的生成(如图中BigGAN生成的汉堡)且都已经达到了可以“以假乱真”的水平了。轮子已经造好了,从零开始进行完成一个图像生成方面的模型是几乎不可能也是不必要的,很多原本一厢情愿的“创意”都变得相当的鸡肋。</p>
+<p>前段时间DIP的课程设计本来是想从零造一个GAN的轮子,但在具体了解了之后发现,现在基于GAN的图像生成模型已经相当成熟了,例如Google在2018年已经用BigGAN刷爆了ImageNet上的所有种类图像的生成(如图中BigGAN生成的汉堡)且都已经达到了可以“以假乱真”的水平了。轮子已经造好了,从零开始进行完成一个图像生成方面的模型是几乎不可能也是不必要的,很多原本一厢情愿的“创意”都变得相当的鸡肋。</p>
 <p><img src="/2020/12/20/gan-ukiyo-generator/figure/hambuger.jpeg" alt="hambuger" style="zoom:25%;"></p>
 <p>​ 不过另一方面,这些现成的模型也给了在更精细领域上进行产出成为可能。就例如在Github上的开发者roadrunner01就用动漫头像数据集来微调英伟达训练好的styleGAN人脸生成模型,得到了鼎鼎大名的“二次元老婆生成器”,生成样例如图所示。</p>
 <p><img src="/2020/12/20/gan-ukiyo-generator/figure/sister.png" style="zoom: 25%;"></p>
@@ -337,11 +251,11 @@ w_n = \gamma \cdot w_1 + (1 - \gamma) \cdot w_2
         
         <tags>
             
+            <tag> NLP </tag>
+            
             <tag> RL </tag>
             
             <tag> paper reading </tag>
-            
-            <tag> NLP </tag>
             
             <tag> personal tiny project </tag>
             
@@ -395,11 +309,11 @@ Y_{1:T}^{n}
         
         <tags>
             
+            <tag> NLP </tag>
+            
             <tag> RL </tag>
             
             <tag> paper reading </tag>
-            
-            <tag> NLP </tag>
             
         </tags>
         
@@ -607,9 +521,9 @@ Y_{1:T}^{n}
         
         <tags>
             
-            <tag> paper reading </tag>
-            
             <tag> NLP </tag>
+            
+            <tag> paper reading </tag>
             
         </tags>
         
@@ -815,11 +729,11 @@ K=\begin{pmatrix}k(x_1,x_2)&amp;\cdots&amp;k(x_1,x_N)\\\vdots&amp;\vdots&amp;\vd
         
         <tags>
             
-            <tag> NLP </tag>
-            
             <tag> Machine Learning </tag>
             
             <tag> study notes </tag>
+            
+            <tag> NLP </tag>
             
         </tags>
         
@@ -907,11 +821,11 @@ q^{t+1}=q^1A\Lambda^t A^{-1}
         
         <tags>
             
-            <tag> RL </tag>
-            
             <tag> Machine Learning </tag>
             
             <tag> study notes </tag>
+            
+            <tag> RL </tag>
             
         </tags>
         
@@ -1222,11 +1136,11 @@ I=\mathop{argmax}\limits_{I}P(I|O,\lambda)
         
         <tags>
             
-            <tag> NLP </tag>
-            
             <tag> Machine Learning </tag>
             
             <tag> study notes </tag>
+            
+            <tag> NLP </tag>
             
         </tags>
         
@@ -1542,9 +1456,9 @@ s \xrightarrow[]{a \sim \pi_\theta(.\vert s)} s&#39; \xrightarrow[]{a \sim \pi_\
         
         <tags>
             
-            <tag> paper reading </tag>
-            
             <tag> NLP </tag>
+            
+            <tag> paper reading </tag>
             
         </tags>
         
