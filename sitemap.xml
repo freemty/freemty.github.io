@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://athul.github.io/archie/</loc>
+    <lastmod>2022-05-08T15:31:36+08:00</lastmod>
+  </url><url>
+    <loc>https://athul.github.io/archie/posts/my-first-post/</loc>
+    <lastmod>2022-05-08T15:31:36+08:00</lastmod>
+  </url><url>
+    <loc>https://athul.github.io/archie/posts/</loc>
+    <lastmod>2022-05-08T15:31:36+08:00</lastmod>
+  </url><url>
+    <loc>https://athul.github.io/archie/posts/gan-ukiyo-generator/</loc>
+    <lastmod>2020-12-20T18:20:50+00:00</lastmod>
+  </url><url>
+    <loc>https://athul.github.io/archie/tags/cv/</loc>
+    <lastmod>2020-12-20T18:20:50+00:00</lastmod>
+  </url><url>
+    <loc>https://athul.github.io/archie/tags/personal-tiny-project/</loc>
+    <lastmod>2020-12-20T18:20:50+00:00</lastmod>
+  </url><url>
+    <loc>https://athul.github.io/archie/tags/</loc>
+    <lastmod>2020-12-20T18:20:50+00:00</lastmod>
+  </url><url>
+    <loc>https://athul.github.io/archie/categories/</loc>
+  </url>
+</urlset>
