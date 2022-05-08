@@ -6,7 +6,7 @@
     <description>Recent content in Tags on Archie</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>© Athul</copyright>
+    <copyright>© Sum</copyright>
     <lastBuildDate>Sun, 20 Dec 2020 18:20:50 +0000</lastBuildDate><atom:link href="https://athul.github.io/archie/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>CV</title>
@@ -23,6 +23,33 @@
       <pubDate>Sun, 20 Dec 2020 18:20:50 +0000</pubDate>
       
       <guid>https://athul.github.io/archie/tags/personal-tiny-project/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Machine Learning</title>
+      <link>https://athul.github.io/archie/tags/machine-learning/</link>
+      <pubDate>Thu, 27 Feb 2020 18:20:50 +0000</pubDate>
+      
+      <guid>https://athul.github.io/archie/tags/machine-learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>NLP</title>
+      <link>https://athul.github.io/archie/tags/nlp/</link>
+      <pubDate>Thu, 27 Feb 2020 18:20:50 +0000</pubDate>
+      
+      <guid>https://athul.github.io/archie/tags/nlp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>study notes</title>
+      <link>https://athul.github.io/archie/tags/study-notes/</link>
+      <pubDate>Thu, 27 Feb 2020 18:20:50 +0000</pubDate>
+      
+      <guid>https://athul.github.io/archie/tags/study-notes/</guid>
       <description></description>
     </item>
     
