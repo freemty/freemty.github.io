@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>personal tiny project on Archie</title>
-    <link>https://athul.github.io/archie/tags/personal-tiny-project/</link>
+    <link>https://https://freemty.github.io/tags/personal-tiny-project/</link>
     <description>Recent content in personal tiny project on Archie</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© Sum</copyright>
-    <lastBuildDate>Sun, 20 Dec 2020 18:20:50 +0000</lastBuildDate><atom:link href="https://athul.github.io/archie/tags/personal-tiny-project/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 20 Dec 2020 18:20:50 +0000</lastBuildDate><atom:link href="https://https://freemty.github.io/tags/personal-tiny-project/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>「Personal Project」用StyleGAN来生成浮世绘</title>
-      <link>https://athul.github.io/archie/posts/gan-ukiyo-generator/</link>
+      <link>https://https://freemty.github.io/posts/gan-ukiyo-generator/</link>
       <pubDate>Sun, 20 Dec 2020 18:20:50 +0000</pubDate>
       
-      <guid>https://athul.github.io/archie/posts/gan-ukiyo-generator/</guid>
+      <guid>https://https://freemty.github.io/posts/gan-ukiyo-generator/</guid>
       <description>来玩玩图像生成吧!</description>
     </item>
     
