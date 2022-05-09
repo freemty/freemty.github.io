@@ -2,45 +2,45 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://https://freemty.github.io/</loc>
+    <loc>/</loc>
     <lastmod>2022-05-08T15:31:36+08:00</lastmod>
   </url><url>
-    <loc>https://https://freemty.github.io/posts/my-first-post/</loc>
+    <loc>/posts/my-first-post/</loc>
     <lastmod>2022-05-08T15:31:36+08:00</lastmod>
   </url><url>
-    <loc>https://https://freemty.github.io/posts/</loc>
+    <loc>/posts/</loc>
     <lastmod>2022-05-08T15:31:36+08:00</lastmod>
   </url><url>
-    <loc>https://https://freemty.github.io/posts/gan-ukiyo-generator/</loc>
+    <loc>/posts/gan-ukiyo-generator/</loc>
     <lastmod>2020-12-20T18:20:50+00:00</lastmod>
   </url><url>
-    <loc>https://https://freemty.github.io/tags/cv/</loc>
+    <loc>/tags/cv/</loc>
     <lastmod>2020-12-20T18:20:50+00:00</lastmod>
   </url><url>
-    <loc>https://https://freemty.github.io/tags/personal-tiny-project/</loc>
+    <loc>/tags/personal-tiny-project/</loc>
     <lastmod>2020-12-20T18:20:50+00:00</lastmod>
   </url><url>
-    <loc>https://https://freemty.github.io/tags/</loc>
+    <loc>/tags/</loc>
     <lastmod>2020-12-20T18:20:50+00:00</lastmod>
   </url><url>
-    <loc>https://https://freemty.github.io/posts/hmm/</loc>
+    <loc>/posts/hmm/</loc>
     <lastmod>2020-02-27T18:20:50+00:00</lastmod>
   </url><url>
-    <loc>https://https://freemty.github.io/tags/machine-learning/</loc>
+    <loc>/tags/machine-learning/</loc>
     <lastmod>2020-02-27T18:20:50+00:00</lastmod>
   </url><url>
-    <loc>https://https://freemty.github.io/tags/nlp/</loc>
+    <loc>/tags/nlp/</loc>
     <lastmod>2020-02-27T18:20:50+00:00</lastmod>
   </url><url>
-    <loc>https://https://freemty.github.io/tags/study-notes/</loc>
+    <loc>/tags/study-notes/</loc>
     <lastmod>2020-02-27T18:20:50+00:00</lastmod>
   </url><url>
-    <loc>https://https://freemty.github.io/archives/</loc>
+    <loc>/archives/</loc>
     <lastmod>2019-05-28T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://https://freemty.github.io/about/</loc>
+    <loc>/about/</loc>
     <lastmod>2019-02-28T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://https://freemty.github.io/categories/</loc>
+    <loc>/categories/</loc>
   </url>
 </urlset>

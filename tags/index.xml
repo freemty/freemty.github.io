@@ -1,55 +1,55 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Tags on Archie</title>
-    <link>https://https://freemty.github.io/tags/</link>
+    <link>/tags/</link>
     <description>Recent content in Tags on Archie</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© Sum</copyright>
-    <lastBuildDate>Sun, 20 Dec 2020 18:20:50 +0000</lastBuildDate><atom:link href="https://https://freemty.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 20 Dec 2020 18:20:50 +0000</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>CV</title>
-      <link>https://https://freemty.github.io/tags/cv/</link>
+      <link>/tags/cv/</link>
       <pubDate>Sun, 20 Dec 2020 18:20:50 +0000</pubDate>
       
-      <guid>https://https://freemty.github.io/tags/cv/</guid>
+      <guid>/tags/cv/</guid>
       <description></description>
     </item>
     
     <item>
       <title>personal tiny project</title>
-      <link>https://https://freemty.github.io/tags/personal-tiny-project/</link>
+      <link>/tags/personal-tiny-project/</link>
       <pubDate>Sun, 20 Dec 2020 18:20:50 +0000</pubDate>
       
-      <guid>https://https://freemty.github.io/tags/personal-tiny-project/</guid>
+      <guid>/tags/personal-tiny-project/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Machine Learning</title>
-      <link>https://https://freemty.github.io/tags/machine-learning/</link>
+      <link>/tags/machine-learning/</link>
       <pubDate>Thu, 27 Feb 2020 18:20:50 +0000</pubDate>
       
-      <guid>https://https://freemty.github.io/tags/machine-learning/</guid>
+      <guid>/tags/machine-learning/</guid>
       <description></description>
     </item>
     
     <item>
       <title>NLP</title>
-      <link>https://https://freemty.github.io/tags/nlp/</link>
+      <link>/tags/nlp/</link>
       <pubDate>Thu, 27 Feb 2020 18:20:50 +0000</pubDate>
       
-      <guid>https://https://freemty.github.io/tags/nlp/</guid>
+      <guid>/tags/nlp/</guid>
       <description></description>
     </item>
     
     <item>
       <title>study notes</title>
-      <link>https://https://freemty.github.io/tags/study-notes/</link>
+      <link>/tags/study-notes/</link>
       <pubDate>Thu, 27 Feb 2020 18:20:50 +0000</pubDate>
       
-      <guid>https://https://freemty.github.io/tags/study-notes/</guid>
+      <guid>/tags/study-notes/</guid>
       <description></description>
     </item>
     

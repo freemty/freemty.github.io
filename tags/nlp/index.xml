@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>NLP on Archie</title>
-    <link>https://https://freemty.github.io/tags/nlp/</link>
+    <link>/tags/nlp/</link>
     <description>Recent content in NLP on Archie</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© Sum</copyright>
-    <lastBuildDate>Thu, 27 Feb 2020 18:20:50 +0000</lastBuildDate><atom:link href="https://https://freemty.github.io/tags/nlp/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 27 Feb 2020 18:20:50 +0000</lastBuildDate><atom:link href="/tags/nlp/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>「Study Notes」隐马尔可夫模型</title>
-      <link>https://https://freemty.github.io/posts/hmm/</link>
+      <link>/posts/hmm/</link>
       <pubDate>Thu, 27 Feb 2020 18:20:50 +0000</pubDate>
       
-      <guid>https://https://freemty.github.io/posts/hmm/</guid>
+      <guid>/posts/hmm/</guid>
       <description>本文主要整理自shuhuai008大佬的&lt;a href=&#34;https://space.bilibili.com/97068901&#34;&gt;白班推导&lt;/a&gt;的版书和《统计学习方法》第九章HMM</description>
     </item>
     
