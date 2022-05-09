@@ -7,7 +7,16 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© Sum</copyright>
-    <lastBuildDate>Sun, 20 Dec 2020 18:20:50 +0000</lastBuildDate><atom:link href="https://athul.github.io/archie/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 08 May 2022 15:31:36 +0800</lastBuildDate><atom:link href="https://athul.github.io/archie/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>My First Post</title>
+      <link>https://athul.github.io/archie/posts/my-first-post/</link>
+      <pubDate>Sun, 08 May 2022 15:31:36 +0800</pubDate>
+      
+      <guid>https://athul.github.io/archie/posts/my-first-post/</guid>
+      <description>Here is how you can setup dark mode for Ink and test on various OS like iOS, Android, macOS and Windows 10.</description>
+    </item>
+    
     <item>
       <title>「Personal Project」用StyleGAN来生成浮世绘</title>
       <link>https://athul.github.io/archie/posts/gan-ukiyo-generator/</link>
@@ -23,7 +32,7 @@
       <pubDate>Thu, 27 Feb 2020 18:20:50 +0000</pubDate>
       
       <guid>https://athul.github.io/archie/posts/hmm/</guid>
-      <description>Here is how you can setup dark mode for Ink and test on various OS like iOS, Android, macOS and Windows 10.</description>
+      <description>本文主要整理自shuhuai008大佬的&lt;a href=&#34;https://space.bilibili.com/97068901&#34;&gt;白班推导&lt;/a&gt;的版书和《统计学习方法》第九章HMM</description>
     </item>
     
   </channel>
