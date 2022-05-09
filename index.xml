@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Archie</title>
+    <title>SSSS</title>
     <link>/</link>
-    <description>Recent content on Archie</description>
+    <description>Recent content on SSSS</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© Sum</copyright>
@@ -35,6 +35,14 @@
       <description>本文主要整理自shuhuai008大佬的&lt;a href=&#34;https://space.bilibili.com/97068901&#34;&gt;白班推导&lt;/a&gt;的版书和《统计学习方法》第九章HMM</description>
     </item>
     
+    <item>
+      <title></title>
+      <link>/archives/</link>
+      <pubDate>Tue, 28 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/archives/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>About</title>
@@ -42,7 +50,7 @@
       <pubDate>Thu, 28 Feb 2019 00:00:00 +0000</pubDate>
       
       <guid>/about/</guid>
-      <description>Hugo, the world’s fastest framework for building websites</description>
+      <description>Written in Go, Hugo is an open source static site generator available under the Apache Licence 2.</description>
     </item>
     
   </channel>

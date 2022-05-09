@@ -1,202 +1,78 @@
 <!DOCTYPE html>
-<html lang="en" dir="auto">
-
-<head><meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
-<title>「Study Notes」隐马尔可夫模型 | Archie</title>
-<meta name="keywords" content="NLP, Machine Learning, study notes">
-<meta name="description" content="本文主要整理自shuhuai008大佬的白班推导的版书和《统计学习方法》第九章HMM">
-<meta name="author" content="">
-<link rel="canonical" href="/posts/hmm/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.ec8da366ca2fb647537ccb7a8f6fa5b4e9cd3c7a0d3171dd2d3baad1e49c8bfc.css" integrity="sha256-7I2jZsovtkdTfMt6j2&#43;ltOnNPHoNMXHdLTuq0eSci/w=" rel="preload stylesheet" as="style">
-<script defer crossorigin="anonymous" src="/assets/js/highlight.min.2840b7fccd34145847db71a290569594bdbdb00047097f75d6495d162f5d7dff.js" integrity="sha256-KEC3/M00FFhH23GikFaVlL29sABHCX911kldFi9dff8="
-    onload="hljs.initHighlightingOnLoad();"></script>
-<link rel="icon" href="favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="mask-icon" href="safari-pinned-tab.svg">
-<meta name="theme-color" content="#2e2e33">
-<meta name="msapplication-TileColor" content="#2e2e33">
-<noscript>
-    <style>
-        #theme-toggle,
-        .top-link {
-            display: none;
-        }
-
-    </style>
-    <style>
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --theme: rgb(29, 30, 32);
-                --entry: rgb(46, 46, 51);
-                --primary: rgb(218, 218, 219);
-                --secondary: rgb(155, 156, 157);
-                --tertiary: rgb(65, 66, 68);
-                --content: rgb(196, 196, 197);
-                --hljs-bg: rgb(46, 46, 51);
-                --code-bg: rgb(55, 56, 62);
-                --border: rgb(51, 51, 51);
-            }
-
-            .list {
-                background: var(--theme);
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-track {
-                background: 0 0;
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-thumb {
-                border-color: var(--theme);
-            }
-        }
-
-    </style>
-</noscript><meta property="og:title" content="「Study Notes」隐马尔可夫模型" />
+<html><head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>「Study Notes」隐马尔可夫模型 - SSSS</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="本文主要整理自shuhuai008大佬的白班推导的版书和《统计学习方法》第九章HMM" />
+	<meta property="og:image" content=""/>
+	<meta property="og:title" content="「Study Notes」隐马尔可夫模型" />
 <meta property="og:description" content="本文主要整理自shuhuai008大佬的白班推导的版书和《统计学习方法》第九章HMM" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/hmm/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2020-02-27T18:20:50&#43;00:00" />
-<meta property="article:modified_time" content="2020-02-27T18:20:50&#43;00:00" />
+<meta property="article:published_time" content="2020-02-27T18:20:50+00:00" />
+<meta property="article:modified_time" content="2020-02-27T18:20:50+00:00" />
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="「Study Notes」隐马尔可夫模型"/>
 <meta name="twitter:description" content="本文主要整理自shuhuai008大佬的白班推导的版书和《统计学习方法》第九章HMM"/>
+<script src="js/feather.min.js"></script>
+	
+	
+        <link href="/css/fonts.b685ac6f654695232de7b82a9143a46f9e049c8e3af3a21d9737b01f4be211d1.css" rel="stylesheet">
+	
 
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "Posts",
-      "item": "/posts/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  3 ,
-      "name": "「Study Notes」隐马尔可夫模型",
-      "item": "/posts/hmm/"
-    }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "「Study Notes」隐马尔可夫模型",
-  "name": "「Study Notes」隐马尔可夫模型",
-  "description": "本文主要整理自shuhuai008大佬的白班推导的版书和《统计学习方法》第九章HMM",
-  "keywords": [
-    "NLP", "Machine Learning", "study notes"
-  ],
-  "articleBody": "本文主要整理自shuhuai008大佬的白班推导的版书和《统计学习方法》第九章HMM\n基本概念 HMM(隐马尔可夫模型)作为一种常见的序列建模的方法，\n在隐马尔可夫模型中，我们对存在隐状态与观测值的\nHMM中的参数为三元组$\\lambda = (\\pi,A,B)$ 其中$A$为状态转移矩阵，\n$I$为每一时刻的隐状态的集合，$O$为每一时刻观测值的集合，即:\n$$I = {i_1,i_2,…,i_T}, ; O ={o_1,o_2,…o_T}$$\nHMM有两个重要的性质\n1.齐次Markov性 每一时刻的观测值仅仅依赖当前时刻的隐状态 $$ p(i_{t+1}|i_t,i_{t-1},\\cdots,i_1,o_t,o_{t-1},\\cdots,o_1)=p(i_{t+1}|i_t) $$\n2.观测独立性每一时刻的隐状态仅依赖于其前一时刻 $$ p(o_t|i_t,i_{t-1},\\cdots,i_1,o_{t-1},\\cdots,o_1)=p(o_t|i_t) $$ HMM的三个基本问题：\n1.Evaluation：$p(O|\\lambda)$，Forward-Backward 算法\n2.Learning：$\\lambda=\\mathop{argmax}\\limits_{\\lambda}p(O|\\lambda)$，Baum-Welch 算法\n3.Decoding：$I=\\mathop{argmax}\\limits_{I}p(I|O,\\lambda)$，Vierbi 算法\n预测问题：$p(i_{t+1}|o_1,o_2,\\cdots,o_t)$ ​- 2.滤波问题：$p(i_t|o_1,o_2,\\cdots,o_t)$\nHMM 用概率图表示为：\n4graph TD; 5t1--t2; 6subgraph four 7\tt4--x4((x4)) 8end 9subgraph three 10\tt3--x3((x3)) 11end 12subgraph two 13\tt2--x2((x2)) 14end 15subgraph one 16\tt1--x1((x1)) 17end 18 19t2--t3; 20t3--t4; Evaluation问题 所谓Evaluation问题，就是假定我们已知$\\lambda$时，评价任意序列$O$产生的概率，也就是求条件概率$P(O|\\lambda)$\n直觉上看，既然$\\lambda$已知，那么根据观测独立性，我们只要知道隐状态序列$I = {i_1,i_2,…,i_T}$，就可以进而求出$O ={o_1,o_2,…o_T}$，所以有:\n$$ P(O|\\lambda) = P(I|\\lambda)P(O|I,\\lambda) $$\n我们分开来看 $$ p(I|\\lambda)=p(i_1,i_2,\\cdots,i_t|\\lambda)=p(i_t|i_1,i_2,\\cdots,i_{t-1},\\lambda)p(i_1,i_2,\\cdots,i_{t-1}|\\lambda) $$ 根据Markov假设: $$ p(i_t|i_1,i_2,\\cdots,i_{t-1},\\lambda)=p(i_t|i_{t-1})=a_{i_{t-1}i_t} $$ 所以有： $$ p(I|\\lambda)=\\pi_1\\prod\\limits_{t=2}^Ta_{i_{t-1},i_t} $$ 再看第二部分 $$ p(O|I,\\lambda)=\\prod\\limits_{t=1}^Tb_{i_t}(o_t) $$\n$$ p(O|\\lambda)=\\sum\\limits_{I}\\pi_{i_1}\\prod\\limits_{t=2}^Ta_{i_{t-1},i_t}\\prod\\limits_{t=1}^Tb_{i_t}(o_t) $$\n上式中的$\\sum\\limits_I$ 实际上是在对每一步的i求和，包含了$N^T$种轨迹，因此上面这个定义式是一个复杂度为$O(TN^T)$的算式，这种指数复杂度肯定是不能硬解了，这时就该我们的前后向算法登场了。\n前向算法 为了方便，我们不妨计$\\alpha_t(i)=p(o_1,o_2,\\cdots,o_t,i_t=q_i|\\lambda)$，所以$\\alpha_T(i)=p(O,i_T=q_i|\\lambda)$，根据贝叶斯公式积分即可得到$p(O|\\lambda)$ $$ p(O|\\lambda)=\\sum\\limits_{i=1}^Np(O,i_T=q_i|\\lambda)=\\sum\\limits_{i=1}^N\\alpha_T(i) $$ 不难看出，前向算法的核心就是要推出$\\alpha_T$\n我们先考虑$\\alpha_{t+1}(j)$ $$ \\begin{aligned} \\alpha_{t+1}(j)\u0026=p(o_1,o_2,\\cdots,o_{t+1},i_{t+1}=q_j|\\lambda)\\ \u0026=\\sum\\limits_{i=1}^Np(o_1,o_2,\\cdots,o_{t+1},i_{t+1}=q_j,i_t=q_i|\\lambda)\\ \u0026=\\sum\\limits_{i=1}^Np(o_{t+1}|o_1,o_2,\\cdots,i_{t+1}=q_j,i_t=q_i|\\lambda)p(o_1,\\cdots,o_t,i_t=q_i,i_{t+1}=q_j|\\lambda) \\end{aligned} $$ 因为观测独立性假设，所以$o_{t+1}$仅与$i_{t+1}$有关 $$ \\begin{aligned} \\alpha_{t+1}(j)\u0026=\\sum\\limits_{i=1}^Np(o_{t+1}|i_{t+1}=q_j)p(o_1,\\cdots,o_t,i_t=q_i,i_{t+1}=q_j|\\lambda)\\ \u0026=\\sum\\limits_{i=1}^Np(o_{t+1}|i_{t+1}=q_j)p(i_{t+1}=q_j|o_1,\\cdots,o_t,i_t=q_i,\\lambda)p(o_1,\\cdots,o_t,i_t=q_i|\\lambda)\\ \u0026=[\\sum\\limits_{i=1}^Na_{ij}\\alpha_t(i)]b_{j}(o_t) \\end{aligned} $$ 到此，我们就得到了$\\alpha$的递推公式,而$\\alpha_1(i)=\\pi_ib_i(o_1)$\n在前向算法中，每一次递推的复杂度是N，一共进行T次递推，最后再将$\\alpha_T$进行一次积分，复杂度是N，所以前向算法的时间复杂度是$O(TN^2)$\n后向算法 与前向算法类似，我们计$\\beta_t(i)=p(o_{t+1},o_{t+1},\\cdots，o_T|i_t=i,\\lambda)$，接下来我们用$\\beta$来表示$P(O|\\lambda)$ $$ \\begin{aligned}p(O|\\lambda)\u0026=p(o_1,\\cdots,o_T|\\lambda)\\ \u0026=\\sum\\limits_{i=1}^Np(o_1,o_2,\\cdots,o_T,i_1=q_i|\\lambda)\\ \u0026=\\sum\\limits_{i=1}^Np(o_1,o_2,\\cdots,o_T|i_1=q_i,\\lambda)\\pi_i\\ \u0026=\\sum\\limits_{i=1}^Np(o_1|o_2,\\cdots,o_T,i_1=q_i,\\lambda)p(o_2,\\cdots,o_T|i_1=q_i,\\lambda)\\pi_i\\ \u0026=\\sum\\limits_{i=1}^Nb_i(o_1)\\pi_i\\beta_1(i) \\end{aligned} $$ 和前向算法一样，接下来我们推导$\\beta$递推式： $$ \\begin{aligned}\\beta_t(i)\u0026=p(o_{t+1},\\cdots,o_T|i_t=q_i)\\ \u0026=\\sum\\limits_{j=1}^Np(o_{t+1},o_{t+2},\\cdots,o_T,i_{t+1}=q_j|i_t=q_i)\\ \u0026=\\sum\\limits_{j=1}^Np(o_{t+1},\\cdots,o_T|i_{t+1}=q_j,i_t=q_i)p(i_{t+1}=q_j|i_t=q_i)\\ \u0026=\\sum\\limits_{j=1}^Np(o_{t+1},\\cdots,o_T|i_{t+1}=q_j)a_{ij}\\ \u0026=\\sum\\limits_{j=1}^Np(o_{t+1}|o_{t+2},\\cdots,o_T,i_{t+1}=q_j)p(o_{t+2},\\cdots,o_T|i_{t+1}=q_j)a_{ij}\\ \u0026=\\sum\\limits_{j=1}^Nb_j(o_{t+1})a_{ij}\\beta_{t+1}(j) \\end{aligned} $$ 不难看出，后向算法的复杂度同样是$O(N^2T)$\nLearning问题 说起learning，本质就是对通过最大似然法（MLE）对参数$ \\lambda $的学习过程。而这种含有隐状态的模型，自然而然的就想到用EM算法进行优化，下面我们回忆一下EM算法。\nEM的最终目的是为了解决含有隐变量的混合模型的参数估计问题即 $$ \\theta_{MLE}=\\mathop{argmax}\\limits_\\theta\\log p(x|\\theta) $$ 它主要由不断迭代的E-step和M-step组成\nE-step: 计算 $\\log p(x,z|\\theta)$ 在概率分布 $p(z|x,\\theta^t)$ 下的期望\n**M-step:**计算使这个期望最大化的参数得到$p(z|x,\\theta^{（t+1）})$\nEM算法可写作： $$ \\theta^{t+1}=\\mathop{argmax}{\\theta}\\int_z\\log p(X,Z|\\theta)p(Z|X,\\theta^t)dz $$ 在HMM中，即为 $$ \\begin{aligned} \\lambda^{(t+1)} \u0026= arg \\max \\limits{\\lambda}\\sum\\limits_{I} \\log p(O,I|\\lambda)p(I|O,\\lambda^{t}) \\end{aligned} $$\n其中由于后验项$p(I|O,\\lambda^{t})$中不含$\\lambda$,因此对上式中$\\lambda$的取值是可有可无的，所以可将原式改写为 $$ \\begin{aligned} \\lambda^{t+1} \u0026= arg \\max \\limits_{\\lambda}\\sum\\limits_{I} \\log p(O,I|\\lambda)p(O,I|\\lambda^{t}) \\end{aligned} $$ 我们下面先对$\\pi^{t+1}$进行参数估计： $$ \\pi^{t+1}=\\mathop{argmax}\\pi\\sum\\limits{T}[\\log \\pi_{i_1}\\cdot p(O,i_1…i_T|\\lambda^t)] $$ 首先将联合概率化为边缘概率 $$ \\pi^{t+1}=\\mathop{argmax}\\pi\\sum\\limits{i}[\\log \\pi_{i}\\cdot p(O,i_1 = q_i|\\lambda^t)] $$ 到这一步，就要用上一些技巧了。其实对于$\\pi$，是有一个约束条件的，即$\\sum\\limits_i\\pi_i=1$ ，有了约束条件，我们就可以用拉格朗日法进行求解了。\n先定义 Lagrange 函数： $$ L(\\pi,\\eta)=\\sum\\limits_{i=1}^N\\log \\pi_i\\cdot p(O,i_1=q_i|\\lambda^t)+\\eta(\\sum\\limits_{i=1}^N\\pi_i-1) $$ 对$\\pi_i$求偏导： $$ \\frac{\\partial L}{\\partial\\pi_i}=\\frac{1}{\\pi_i}p(O,i_1=q_i|\\lambda^t)+\\eta=0 $$ 自然而然的就可得到： $$ \\pi_i^{t+1}=\\frac{p(O,i_1=q_i|\\lambda^t)}{p(O|\\lambda^t)} $$ 对$A^{t+1}$和$B^{t+1}$也是类似的方法，只是计算会更加繁琐一些。\n以上就是HMM中的EM算法，也叫Baum-Welch算法。\nDecoding问题 所谓decoding问题，就是在已知观测序列的情况下，预测隐状态序列即$P(I|O)$ $$ I=\\mathop{argmax}\\limits_{I}P(I|O,\\lambda) $$ 实质上就是要求我们找到一个序列,使其概率最大，用老师的话讲，就是在参数空间中找到一条最短路径，这实质上就可以转化成动态规划问题来求解，也就是著名的维特比算法（Viterbi algorithm）\n首先定义$\\delta$，它表征的是，$i_t$已知时，到达$i_t$的最大概率 $$ \\delta_{t}(j)=\\max\\limits_{i_1,\\cdots,i_{t-1}}p(o_1,\\cdots,o_t,i_1,\\cdots,i_{t-1},i_t=q_i) $$ 由于观测独立性和其次马尔可夫性，能得到$\\delta$的递推式 $$ \\delta_{t+1}(j)=\\max\\limits_{1\\le i\\le N}\\delta_t(i)a_{ij}b_j(o_{t+1}) $$ 但$\\delta$只是一个概率值，我们还需要定义$\\psi$来记录节点，$\\psi_{t+1}$表示了在前面的路径都已知时，下一时刻最可能到达的隐状态 $$ \\psi_{t+1}(j)=\\mathop{argmax}\\limits_{1\\le i\\le N}\\delta_t(i)a_{ij} $$\n q q  Reference 【NLP】从隐马尔科夫到条件随机场\n隐马尔科夫模型HMM（二）前向后向算法评估观察序列概率\n",
-  "wordCount" : "250",
-  "inLanguage": "en",
-  "datePublished": "2020-02-27T18:20:50Z",
-  "dateModified": "2020-02-27T18:20:50Z",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "/posts/hmm/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "Archie",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "favicon.ico"
-    }
-  }
-}
-</script>
+	
+	<link rel="stylesheet" type="text/css" media="screen" href="/css/main.40ca3a860425083862b7ebd55447caec5c4384573f0cb098b8d06a91e8dace2e.css" />
+	
+	
 </head>
+<body>
+        <div class="content"><header>
+	<div class="main">
+		<a href="">SSSS</a>
+	</div>
+	<nav>
+		
+		<a href="/">Home</a>
+		
+		<a href="/about">About</a>
+		
+		<a href="/posts">All posts</a>
+		
+		<a href="/tags">Tags</a>
+		
+		
+	</nav>
 
-<body class="" id="top">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"></script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+
 <script>
-    if (localStorage.getItem("pref-theme") === "dark") {
-        document.body.classList.add('dark');
-    } else if (localStorage.getItem("pref-theme") === "light") {
-        document.body.classList.remove('dark')
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.body.classList.add('dark');
-    }
-
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false}
+            ]
+        });
+    });
 </script>
-
-<header class="header">
-    <nav class="nav">
-        <div class="logo">
-            <a href="" accesskey="h" title="Archie (Alt + H)">Archie</a>
-            <span class="logo-switches">
-                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
-                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                </button>
-            </span>
-        </div>
-        <ul id="menu">
-            <li>
-                <a href="/" title="Home">
-                    <span>Home</span>
-                </a>
-            </li>
-            <li>
-                <a href="/about" title="About">
-                    <span>About</span>
-                </a>
-            </li>
-            <li>
-                <a href="/posts" title="All posts">
-                    <span>All posts</span>
-                </a>
-            </li>
-            <li>
-                <a href="/tags" title="Tags">
-                    <span>Tags</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
+	
 </header>
-<main class="main">
 
-<article class="post-single">
-  <header class="post-header">
-    
-    <h1 class="post-title">
-      「Study Notes」隐马尔可夫模型
-    </h1>
-    <div class="post-meta"><span title='2020-02-27 18:20:50 +0000 UTC'>February 27, 2020</span>
+<main>
+	<article>
+		<div class="title">
+			<h1 class="title">「Study Notes」隐马尔可夫模型</h1>
+			<div class="meta">Posted on Feb 27, 2020</div>
+		</div>
+		
 
-</div>
-  </header> 
-  <div class="post-content"><p>本文主要整理自shuhuai008大佬的<a href="https://space.bilibili.com/97068901">白班推导</a>的版书和《统计学习方法》第九章HMM</p>
+		<section class="body">
+			<p>本文主要整理自shuhuai008大佬的<a href="https://space.bilibili.com/97068901">白班推导</a>的版书和《统计学习方法》第九章HMM</p>
 <!-- raw HTML omitted -->
-<h3 id="基本概念">基本概念<a hidden class="anchor" aria-hidden="true" href="#基本概念">#</a></h3>
+<h3 id="基本概念">基本概念</h3>
 <p>HMM(隐马尔可夫模型)作为一种常见的序列建模的方法，</p>
 <p>在隐马尔可夫模型中，我们对存在隐状态与观测值的</p>
 <p>HMM中的参数为三元组$\lambda = (\pi,A,B)$ 其中$A$为状态转移矩阵，</p>
@@ -235,7 +111,7 @@ HMM的三个基本问题：</p>
 </span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span><span>
 </span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19</span><span>t2--&gt;t3;
 </span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20</span><span>t3--&gt;t4;
-</span></span></code></pre></div><h3 id="evaluation问题">Evaluation问题<a hidden class="anchor" aria-hidden="true" href="#evaluation问题">#</a></h3>
+</span></span></code></pre></div><h3 id="evaluation问题">Evaluation问题</h3>
 <p>所谓Evaluation问题，就是假定我们已知$\lambda$时，评价任意序列$O$产生的概率，也就是求条件概率$P(O|\lambda)$</p>
 <p>直觉上看，既然$\lambda$已知，那么根据观测独立性，我们只要知道隐状态序列$I = {i_1,i_2,&hellip;,i_T}$，就可以进而求出$O ={o_1,o_2,&hellip;o_T}$，所以有:</p>
 <p>$$
@@ -261,7 +137,7 @@ $$</p>
 p(O|\lambda)=\sum\limits_{I}\pi_{i_1}\prod\limits_{t=2}^Ta_{i_{t-1},i_t}\prod\limits_{t=1}^Tb_{i_t}(o_t)
 $$</p>
 <p>上式中的$\sum\limits_I$  实际上是在对每一步的i求和，包含了$N^T$种轨迹，因此上面这个定义式是一个复杂度为$O(TN^T)$的算式，这种指数复杂度肯定是不能硬解了，这时就该我们的前后向算法登场了。</p>
-<h4 id="前向算法">前向算法<a hidden class="anchor" aria-hidden="true" href="#前向算法">#</a></h4>
+<h4 id="前向算法">前向算法</h4>
 <p>为了方便，我们不妨计$\alpha_t(i)=p(o_1,o_2,\cdots,o_t,i_t=q_i|\lambda)$，所以$\alpha_T(i)=p(O,i_T=q_i|\lambda)$，根据贝叶斯公式积分即可得到$p(O|\lambda)$
 $$
 p(O|\lambda)=\sum\limits_{i=1}^Np(O,i_T=q_i|\lambda)=\sum\limits_{i=1}^N\alpha_T(i)
@@ -285,7 +161,7 @@ $$
 $$
 到此，我们就得到了$\alpha$的递推公式,而$\alpha_1(i)=\pi_ib_i(o_1)$</p>
 <p>在前向算法中，每一次递推的复杂度是N，一共进行T次递推，最后再将$\alpha_T$进行一次积分，复杂度是N，所以前向算法的时间复杂度是$O(TN^2)$</p>
-<h4 id="后向算法">后向算法<a hidden class="anchor" aria-hidden="true" href="#后向算法">#</a></h4>
+<h4 id="后向算法">后向算法</h4>
 <p>与前向算法类似，我们计$\beta_t(i)=p(o_{t+1},o_{t+1},\cdots，o_T|i_t=i,\lambda)$，接下来我们用$\beta$来表示$P(O|\lambda)$
 $$
 \begin{aligned}p(O|\lambda)&amp;=p(o_1,\cdots,o_T|\lambda)\
@@ -306,7 +182,7 @@ $$
 \end{aligned}
 $$
 不难看出，后向算法的复杂度同样是$O(N^2T)$</p>
-<h3 id="learning问题">Learning问题<a hidden class="anchor" aria-hidden="true" href="#learning问题">#</a></h3>
+<h3 id="learning问题">Learning问题</h3>
 <p>说起learning，本质就是对通过<strong>最大似然法</strong>（MLE）对参数$ \lambda $的学习过程。而这种含有隐状态的模型，自然而然的就想到用EM算法进行优化，下面我们回忆一下EM算法。</p>
 <p>EM的最终目的是为了解决含有隐变量的混合模型的参数估计问题即
 $$
@@ -354,7 +230,7 @@ $$
 $$
 对$A^{t+1}$和$B^{t+1}$也是类似的方法，只是计算会更加繁琐一些。</p>
 <p>以上就是HMM中的EM算法，也叫<strong>Baum-Welch</strong>算法。</p>
-<h3 id="decoding问题">Decoding问题<a hidden class="anchor" aria-hidden="true" href="#decoding问题">#</a></h3>
+<h3 id="decoding问题">Decoding问题</h3>
 <p>所谓decoding问题，就是在已知观测序列的情况下，预测隐状态序列即$P(I|O)$
 $$
 I=\mathop{argmax}\limits_{I}P(I|O,\lambda)
@@ -376,91 +252,42 @@ $$</p>
 <li>q</li>
 <li>q</li>
 </ul>
-<h3 id="reference">Reference<a hidden class="anchor" aria-hidden="true" href="#reference">#</a></h3>
+<h3 id="reference">Reference</h3>
 <p><a href="https://anxiang1836.github.io/2019/11/05/NLP_From_HMM_to_CRF/">【NLP】从隐马尔科夫到条件随机场</a></p>
 <p><a href="https://www.cnblogs.com/pinard/p/6955871.html">隐马尔科夫模型HMM（二）前向后向算法评估观察序列概率</a></p>
 
+		</section>
 
+		<div class="post-tags">
+			
+			
+			<nav class="nav tags">
+				<ul class="tags">
+					
+					<li><a href="/tags/nlp">NLP</a></li>
+					
+					<li><a href="/tags/machine-learning">Machine Learning</a></li>
+					
+					<li><a href="/tags/study-notes">study notes</a></li>
+					
+				</ul>
+			</nav>
+			
+			
+		</div>
+	</article>
+</main>
+<footer>
+  <div style="display:flex"><a class="soc" href="https://github.com/athul/archie" title="GitHub"><i data-feather="github"></i></a><a class="soc" href="https://twitter.com/athulcajay/" title="Twitter"><i data-feather="twitter"></i></a><a class="soc" href="https://gitlab.com/athul/" title="GitLab"><i data-feather="gitlab"></i></a></div>
+  <div class="footer-info">
+    2022  © Sum |  <a
+      href="https://github.com/athul/archie">Archie Theme</a> | Built with <a href="https://gohugo.io">Hugo</a>
   </div>
-
-  <footer class="post-footer">
-    <ul class="post-tags">
-      <li><a href="/tags/nlp/">NLP</a></li>
-      <li><a href="/tags/machine-learning/">Machine Learning</a></li>
-      <li><a href="/tags/study-notes/">study notes</a></li>
-    </ul>
-  </footer>
-</article>
-    </main>
-    
-<footer class="footer">
-    <span>© Sum</span>
-    <span>
-        Powered by
-        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
-        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
-    </span>
 </footer>
-<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
-        <path d="M12 6H0l6-6z" />
-    </svg>
-</a>
+
 
 <script>
-    let menu = document.getElementById('menu')
-    if (menu) {
-        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
-        menu.onscroll = function () {
-            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
-        }
-    }
-
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener("click", function (e) {
-            e.preventDefault();
-            var id = this.getAttribute("href").substr(1);
-            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
-                    behavior: "smooth"
-                });
-            } else {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
-            }
-            if (id === "top") {
-                history.replaceState(null, null, " ");
-            } else {
-                history.pushState(null, null, `#${id}`);
-            }
-        });
-    });
-
-</script>
-<script>
-    var mybutton = document.getElementById("top-link");
-    window.onscroll = function () {
-        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
-            mybutton.style.visibility = "visible";
-            mybutton.style.opacity = "1";
-        } else {
-            mybutton.style.visibility = "hidden";
-            mybutton.style.opacity = "0";
-        }
-    };
-
-</script>
-<script>
-    document.getElementById("theme-toggle").addEventListener("click", () => {
-        if (document.body.className.includes("dark")) {
-            document.body.classList.remove('dark');
-            localStorage.setItem("pref-theme", 'light');
-        } else {
-            document.body.classList.add('dark');
-            localStorage.setItem("pref-theme", 'dark');
-        }
-    })
-
-</script>
-</body>
-
+  feather.replace()
+</script></div>
+    </body>
 </html>
