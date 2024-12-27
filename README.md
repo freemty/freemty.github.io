@@ -1,1 +1,1 @@
-This is the source code to Jiahao Shao's public academic website: https://jiahao-shao1.github.io/
+This is the source code to Yuanbo Yang's public academic website: https://freemty.github.io/
