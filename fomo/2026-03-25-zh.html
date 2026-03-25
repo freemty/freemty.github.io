@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html data-theme="light" data-lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>No More FOMO — 2026-03-25</title>
+  <style>
+    /* ===== Design Tokens ===== */
+    :root,
+    [data-theme="light"] {
+      --bg: #f6f4f0;
+      --bg-secondary: #edeae4;
+      --surface: #ffffff;
+      --surface-warm: #faf8f4;
+      --surface-elevated: #ffffff;
+      --border: #ddd6c8;
+      --border-subtle: #ebe6dc;
+      --text: #1a1612;
+      --text-secondary: #4a4035;
+      --text-muted: #8a7d6b;
+      --accent: #9a6c1e;
+      --accent-hover: #7a5516;
+      --accent-subtle: rgba(154, 108, 30, 0.08);
+      --green: #2d7a45;
+      --green-subtle: rgba(45, 122, 69, 0.08);
+      --shadow-sm: 0 1px 2px rgba(26, 22, 18, 0.04);
+      --shadow-md: 0 2px 8px rgba(26, 22, 18, 0.06), 0 1px 2px rgba(26, 22, 18, 0.04);
+      --radius: 8px;
+      --radius-sm: 5px;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+      --font-mono: "SF Mono", Menlo, "Cascadia Code", "Fira Code", monospace;
+    }
+
+    [data-theme="dark"] {
+      --bg: #0f1114;
+      --bg-secondary: #181b21;
+      --surface: #1e2228;
+      --surface-warm: #242830;
+      --surface-elevated: #282d36;
+      --border: #2e343e;
+      --border-subtle: #262c35;
+      --text: #e8eaf0;
+      --text-secondary: #a0a8b8;
+      --text-muted: #606878;
+      --accent: #c4b08a;
+      --accent-hover: #dbc8a0;
+      --accent-subtle: rgba(196, 176, 138, 0.1);
+      --green: #5cb87a;
+      --green-subtle: rgba(92, 184, 122, 0.1);
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+      --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+      --radius: 10px;
+      --radius-sm: 6px;
+    }
+
+    /* ===== Reset & Base ===== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    a:hover {
+      color: var(--accent-hover);
+    }
+
+    /* ===== Header ===== */
+    .header {
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(12px);
+      background: color-mix(in srgb, var(--surface) 92%, transparent);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .header {
+        backdrop-filter: none;
+        background: var(--surface);
+      }
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 880px;
+      margin: 0 auto;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .back-link {
+      display: inline-block;
+      font-size: 11px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-family: var(--font-mono);
+      letter-spacing: 0.02em;
+      margin-bottom: 2px;
+      transition: color 0.15s ease;
+    }
+
+    .back-link:hover {
+      color: var(--accent);
+    }
+
+    .title {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+    }
+
+    .title span {
+      color: var(--accent);
+    }
+
+    .meta {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      margin-top: 1px;
+      letter-spacing: 0.02em;
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ===== View Switcher ===== */
+    .view-switcher {
+      display: flex;
+      background: var(--bg-secondary);
+      border-radius: var(--radius-sm);
+      padding: 2px;
+      gap: 1px;
+    }
+
+    .view-btn {
+      background: none;
+      border: none;
+      padding: 5px 12px;
+      font-size: 11px;
+      font-family: var(--font-sans);
+      color: var(--text-muted);
+      cursor: pointer;
+      border-radius: calc(var(--radius-sm) - 2px);
+      transition: all 0.2s ease;
+      font-weight: 500;
+    }
+
+    .view-btn.active {
+      background: var(--surface-elevated);
+      color: var(--text);
+      box-shadow: var(--shadow-sm);
+      font-weight: 600;
+    }
+
+    .view-btn:hover:not(.active) {
+      color: var(--text-secondary);
+    }
+
+    /* ===== Theme & Lang Buttons ===== */
+    .theme-btn,
+    .lang-btn {
+      background: var(--surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 5px 10px;
+      font-size: 11px;
+      cursor: pointer;
+      color: var(--text-muted);
+      font-family: var(--font-sans);
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .theme-btn:hover,
+    .lang-btn:hover {
+      background: var(--bg-secondary);
+      color: var(--text-secondary);
+      border-color: var(--border);
+    }
+
+    /* ===== Highlights ===== */
+    .highlights {
+      background: var(--surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius);
+      margin: 20px auto;
+      padding: 18px 22px;
+      max-width: 880px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .highlights-title {
+      color: var(--accent);
+      text-transform: uppercase;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      margin-bottom: 10px;
+      opacity: 0.85;
+    }
+
+    .highlights ol {
+      padding-left: 22px;
+      font-size: 13px;
+      line-height: 1.75;
+    }
+
+    .highlights li {
+      margin-bottom: 6px;
+      padding-left: 4px;
+    }
+
+    .highlights li::marker {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .highlights li b {
+      color: var(--text);
+    }
+
+    .highlights li a {
+      font-size: 11px;
+      font-family: var(--font-mono);
+    }
+
+    /* ===== Content Layout ===== */
+    .content {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 0 24px 60px;
+    }
+
+    .content-wrap {
+      display: block;
+    }
+
+    .main-content {
+      min-width: 0;
+    }
+
+    .sections-container {
+      display: block;
+    }
+
+    /* ===== Sidebar Nav ===== */
+    .sidebar-nav {
+      display: none;
+    }
+
+    .sidebar-nav a {
+      display: block;
+      padding: 5px 10px;
+      font-size: 12px;
+      color: var(--text-muted);
+      border-radius: var(--radius-sm);
+      transition: all 0.15s ease;
+      font-weight: 450;
+    }
+
+    .sidebar-nav a:hover {
+      background: var(--accent-subtle);
+      color: var(--accent);
+    }
+
+    .sidebar-nav a.active {
+      color: var(--accent);
+      font-weight: 600;
+      background: var(--accent-subtle);
+    }
+
+    /* ===== Section ===== */
+    .section {
+      margin-bottom: 32px;
+    }
+
+    .section-header {
+      color: var(--accent);
+      font-size: 14px;
+      font-weight: 700;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border-subtle);
+      margin-bottom: 2px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: -0.01em;
+    }
+
+    .section-count {
+      background: var(--accent-subtle);
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 99px;
+      color: var(--accent);
+      letter-spacing: 0.02em;
+    }
+
+    /* ===== Item ===== */
+    .item {
+      padding: 12px 0 14px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .item:last-child {
+      border-bottom: none;
+    }
+
+    .item-title {
+      font-weight: 650;
+      font-size: 14px;
+      line-height: 1.4;
+      letter-spacing: -0.01em;
+    }
+
+    .item-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+      line-height: 1.65;
+    }
+
+    .item-meta {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .item-links a {
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 1px 0;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.15s ease;
+    }
+
+    .item-links a:hover {
+      color: var(--accent-hover);
+      border-bottom-color: var(--accent-hover);
+    }
+
+    /* ===== Item Empty ===== */
+    .item-empty {
+      color: var(--text-muted);
+      font-style: italic;
+      font-size: 12px;
+      padding: 12px 0;
+    }
+
+    /* ===== Badge ===== */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 99px;
+      font-weight: 550;
+      letter-spacing: 0.02em;
+    }
+
+    .badge-source {
+      background: var(--accent-subtle);
+      color: var(--accent);
+    }
+
+    .badge-green {
+      background: var(--green-subtle);
+      color: var(--green);
+    }
+
+    /* ===== Podcast ===== */
+    .podcast-summary {
+      background: var(--surface-warm);
+      border-left: 2px solid var(--accent);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: 10px 14px;
+      margin-top: 8px;
+    }
+
+    .tldr {
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 1.6;
+      color: var(--text-secondary);
+    }
+
+
+    /* ===== Footer ===== */
+    .footer {
+      border-top: 1px solid var(--border-subtle);
+      padding: 16px 24px;
+      font-size: 11px;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+      max-width: 880px;
+      margin: 0 auto;
+      letter-spacing: 0.02em;
+    }
+
+    /* ===== View: Newspaper (default) ===== */
+    .view-newspaper .sidebar-nav {
+      display: none;
+    }
+
+    /* ===== View: Sidebar ===== */
+    .view-sidebar .content-wrap {
+      display: flex;
+      gap: 24px;
+    }
+
+    .view-sidebar .sidebar-nav {
+      display: block;
+      width: 170px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 80px;
+      align-self: flex-start;
+      padding-top: 8px;
+    }
+
+    /* ===== View: Grid ===== */
+    .view-grid .sidebar-nav {
+      display: none;
+    }
+
+    .view-grid .sections-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .view-grid .section {
+      background: var(--surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      margin-bottom: 0;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow 0.2s ease;
+    }
+
+    .view-grid .section:hover {
+      box-shadow: var(--shadow-md);
+    }
+
+    .view-grid .section.wide {
+      grid-column: 1 / -1;
+    }
+
+    .view-grid .item-desc {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 768px) {
+      .header {
+        padding: 12px 16px;
+      }
+
+      .header-top {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .highlights {
+        margin: 12px 16px;
+      }
+
+      .content {
+        padding: 0 16px 24px;
+      }
+
+      .view-grid .sections-container {
+        grid-template-columns: 1fr;
+      }
+
+      .view-sidebar .content-wrap {
+        flex-direction: column;
+      }
+
+      .view-sidebar .sidebar-nav {
+        width: 100%;
+        position: static;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="header-top">
+      <div>
+        <a href="./index.html" class="back-link" data-zh="← 归档" data-en="← Archive">← 归档</a>
+        <div class="title">No More <span>FOMO</span></div>
+        <div class="meta">2026-03-25 | 总计: 43 条</div>
+      </div>
+      <div class="controls">
+        <div class="view-switcher">
+          <button class="view-btn active" data-zh="报纸" data-en="Newspaper" onclick="setView('newspaper')">报纸</button>
+          <button class="view-btn" data-zh="侧栏" data-en="Sidebar" onclick="setView('sidebar')">侧栏</button>
+          <button class="view-btn" data-zh="网格" data-en="Grid" onclick="setView('grid')">网格</button>
+        </div>
+        <button class="theme-btn" onclick="toggleTheme()">🌓</button>
+        <button class="lang-btn" onclick="toggleLang()">中/EN</button>
+      </div>
+    </div>
+  </div>
+  <div class="highlights"><div class="highlights-title" data-zh="今日要点" data-en="Today's Highlights">今日要点</div><ol><li><b>litellm PyPI 供应链攻击</b> — `pip install litellm` 即可窃取 SSH 密钥、AWS/GCP 凭证、k8s 配置、shell 历史和加密钱包；@karpathy (19.9K L) 和 @drjimfan 对&quot;vibe agent 身份盗窃&quot;时代发出警报。</li><li><b>Anthropic 工程：多 Agent 框架</b> — Anthropic 发布如何使用多 agent 框架推进 Claude 在前端设计和长时间自主 SWE 工作流中的能力。| <a href="https://www.anthropic.com/engineering" target="_blank" rel="noopener">博客</a> | 3.8K L, 4.9K 收藏</li><li><b>OpenAI 关停 Sora</b> — AI 视频产品上线约 6 个月后停运；HuggingFace CEO Clement Delangue 呼吁开源。</li></ol></div>
+  <div class="content view-newspaper" id="mainContent">
+    <div class="content-wrap">
+      <nav class="sidebar-nav"><a href="#models" data-zh="模型与发布(2)" data-en="Models &amp; Releases(2)">模型与发布(2)</a>
+      <a href="#tools" data-zh="工具与演示(3)" data-en="Tools &amp; Demos(3)">工具与演示(3)</a>
+      <a href="#agents" data-zh="AI Agents(4)" data-en="AI Agents(4)">AI Agents(4)</a>
+      <a href="#labs" data-zh="实验室动态(8)" data-en="Lab Updates(8)">实验室动态(8)</a>
+      <a href="#podcasts" data-zh="播客(3)" data-en="Podcasts(3)">播客(3)</a>
+      <a href="#hn" data-zh="HN 讨论(2)" data-en="HN Threads(2)">HN 讨论(2)</a>
+      <a href="#industry" data-zh="行业动态(3)" data-en="Industry(3)">行业动态(3)</a>
+      <a href="#hf-papers" data-zh="HF 热门论文(7)" data-en="HF Trending Papers(7)">HF 热门论文(7)</a>
+      <a href="#arxiv-ai-agents" data-zh="arxiv: AI Agents(5)" data-en="arxiv: AI Agents(5)">arxiv: AI Agents(5)</a>
+      <a href="#arxiv-大语言模型" data-zh="arxiv: 大语言模型(3)" data-en="arxiv: 大语言模型(3)">arxiv: 大语言模型(3)</a></nav>
+      <div class="main-content">
+        <div class="sections-container"><div class="section" id="models"><div class="section-header" data-zh="模型与发布" data-en="Models &amp; Releases">模型与发布 <span class="section-count">2</span></div><div class="item"><div class="item-title">Nemotron-Cascade-2-30B-A3B</div><div class="item-desc">NVIDIA 新级联推理模型，HuggingFace 热度第一。小模型处理简单查询，大模型处理复杂查询，推理成本降低约 3 倍。社区评价：&quot;感觉像 Opus。&quot;</div><div class="item-meta"><span class="badge badge-source">@_akhaliq (RT @ctnzr)</span></div></div><div class="item"><div class="item-title">Gemini 3.1 Flash-Lite</div><div class="item-desc">Google DeepMind 演示：浏览时实时生成完整网站。</div><div class="item-meta"><span class="badge badge-source">@GoogleDeepMind 1.5K L</span></div></div></div>
+<div class="section" id="tools"><div class="section-header" data-zh="工具与演示" data-en="Tools &amp; Demos">工具与演示 <span class="section-count">3</span></div><div class="item"><div class="item-title">hf-mount</div><div class="item-desc">HuggingFace 推出 hf-mount：将 Hub 上的 Storage Bucket、模型或数据集挂载为本地文件系统。容量可达本地磁盘 100 倍，Storage Bucket 支持读写。专为 agentic 存储设计。</div><div class="item-meta"><span class="badge badge-source">@_akhaliq 22L</span> <span class="badge badge-source">@ClementDelangue</span></div></div><div class="item"><div class="item-title">ProofShot</div><div class="item-desc">让 AI 编程 agent 拥有&quot;眼睛&quot;来验证构建的 UI。开源。</div><div class="item-meta"><span class="item-links"><a href="https://github.com/AmElmo/proofshot" target="_blank" rel="noopener">github</a></span> <span class="badge badge-green">HN 126 pts, 88c</span></div></div><div class="item"><div class="item-title">Claude Code auto 模式</div><div class="item-desc">新权限级别：Claude 自行判断每个操作的安全性，介于手动审批和跳过之间。</div><div class="item-meta"><span class="badge badge-source">@dotey 78L</span> <span class="badge badge-source">@bcherny</span></div></div></div>
+<div class="section" id="agents"><div class="section-header" data-zh="AI Agents" data-en="AI Agents">AI Agents <span class="section-count">4</span></div><div class="item"><div class="item-title">Devin 代码审查</div><div class="item-desc">@swyx 称赞 Devin 的代码审查能发现自己的错误：&quot;相当于睡一觉后以全新的眼光看 PR，每天救我 3-8 次。&quot;</div><div class="item-meta"><span class="badge badge-source">@swyx 103L</span></div></div><div class="item"><div class="item-title">litellm 攻击 — agent 身份盗窃</div><div class="item-desc">@drjimfan: &quot;过去的身份盗窃与 vibe agent 能做的事相比不值一提。它们可以污染 ~/.claude、skills，甚至 agent 访问的 PDF。&quot;</div><div class="item-meta"><span class="badge badge-source">@drjimfan 448L</span></div></div><div class="item"><div class="item-title">Agent 工具弱于 Agent 本身</div><div class="item-desc">@emollick: &quot;可靠性是系统的属性。当前的 agentic 工具弱于 agent 本身 — agent 间协作、升级、何时呼叫人类介入都做得不好。&quot;</div><div class="item-meta"><span class="badge badge-source">@emollick</span></div></div><div class="item"><div class="item-title">Anthropic 多 Agent 框架</div><div class="item-desc">工程博文介绍使用多 agent 系统推进 Claude 在自主 SWE 和前端设计任务中的表现。</div><div class="item-meta"><span class="item-links"><a href="https://www.anthropic.com/engineering" target="_blank" rel="noopener">博客</a></span> <span class="badge badge-source">@AnthropicAI 3.8K L, 4.9K 收藏</span> <span class="badge badge-source">@bcherny RT</span></div></div></div>
+<div class="section" id="labs"><div class="section-header" data-zh="实验室动态" data-en="Lab Updates">实验室动态 <span class="section-count">8</span></div><div class="item"><div class="item-title">[Anthropic]</div><div class="item-desc">前端设计和自主 SWE 的多 agent 框架 | <a href="https://www.anthropic.com/engineering" target="_blank" rel="noopener">博客</a> | 3月24日</div></div><div class="item"><div class="item-title">[Anthropic]</div><div class="item-desc">向 Claude 合作伙伴网络投资 1 亿美元 | 3月12日</div></div><div class="item"><div class="item-title">[OpenAI]</div><div class="item-desc">GPT 青少年安全政策 | 3月24日</div></div><div class="item"><div class="item-title">[OpenAI]</div><div class="item-desc">OpenAI 基金会最新进展 | 3月24日</div></div><div class="item"><div class="item-title">[OpenAI]</div><div class="item-desc">Sora 安全创作 / Sora 关停 | 3月23日</div></div><div class="item"><div class="item-title">[DeepMind]</div><div class="item-desc">与 Agile Robots 合作 — 将 Gemini 集成到下一代机器人硬件 | @GoogleDeepMind 1.1K L | 3月24日</div></div><div class="item"><div class="item-title">[DeepMind]</div><div class="item-desc">Gemini 3.1 Flash-Lite 实时网站生成演示 | 3月24日</div></div><div class="item"><div class="item-title">[DeepMind]</div><div class="item-desc">衡量 AGI 进展 — 新认知框架 + Kaggle 黑客马拉松 | 3月17日</div></div></div>
+<div class="section" id="podcasts"><div class="section-header" data-zh="播客" data-en="Podcasts">播客 <span class="section-count">3</span></div><div class="item"><div class="item-title">[No Priors]</div><div class="item-desc">OpenAI 终结 Sora 视频模型 | 3月24日</div><div class="podcast-summary"><div class="tldr">OpenAI 在约 6 个月后决定停运 Sora。讨论这对 AI 视频生成意味着什么，以及开源是否会是更好的选择。</div></div></div><div class="item"><div class="item-title">[No Priors]</div><div class="item-desc">Bezos 计划筹集 1000 亿美元投资 AI 与 Nvidia 面临的挑战 | 3月23日</div><div class="podcast-summary"><div class="tldr">分析 Jeff Bezos 传闻中 1000 亿美元 AI 投资计划，以及随着 AI 基础设施竞争加剧 NVIDIA 面临的竞争挑战。</div></div></div><div class="item"><div class="item-title">[Latent Space]</div><div class="item-desc">为什么没有&quot;材料科学的 AlphaFold&quot; — 材料科学深度探讨 | <a href="https://www.latent.space/p/materials" target="_blank" rel="noopener">链接</a> | 3月24日</div><div class="podcast-summary"><div class="tldr">探讨为什么材料科学尽管与蛋白质折叠有结构性相似，却未出现 AlphaFold 时刻。涵盖数据稀缺性、模拟成本以及突破所需的条件。</div></div></div></div>
+<div class="section" id="hn"><div class="section-header" data-zh="HN 讨论" data-en="HN Threads">HN 讨论 <span class="section-count">2</span></div><div class="item"><div class="item-title">ProofShot</div><div class="item-desc">让 AI 编程 agent 拥有视觉验证能力</div><div class="item-meta">126 pts, 88 评论 <span class="item-links"><a href="https://github.com/AmElmo/proofshot" target="_blank" rel="noopener">github</a></span> <span class="item-links"><a href="https://news.ycombinator.com/item?id=47499672" target="_blank" rel="noopener">HN</a></span></div></div><div class="item"><div class="item-title">AI agent 沙箱加速 100 倍</div><div class="item-desc">Cloudflare 动态 worker 实现沙箱隔离</div><div class="item-meta">31 pts, 9 评论 <span class="item-links"><a href="https://blog.cloudflare.com/dynamic-workers/" target="_blank" rel="noopener">博客</a></span></div></div></div>
+<div class="section" id="industry"><div class="section-header" data-zh="行业动态" data-en="Industry">行业动态 <span class="section-count">3</span></div><div class="item"><div class="item-title">OpenAI 关停 Sora</div><div class="item-desc">AI 视频产品上线约 6 个月后终止。HF CEO Clement Delangue 公开呼吁开源。</div><div class="item-meta"><span class="badge badge-source">@emollick 1K L</span> <span class="badge badge-source">@dotey 344L</span></div></div><div class="item"><div class="item-title">AI 实验室策略分化</div><div class="item-desc">@emollick: &quot;Anthropic 专注、OpenAI 尝试后放弃 (GPT Store, Sora)、Google 什么都做。不确定哪种策略会赢。&quot;</div><div class="item-meta"><span class="badge badge-source">@emollick 138L</span></div></div><div class="item"><div class="item-title">无需机器人的机器人学习</div><div class="item-desc">@drjimfan: &quot;2026 年的重点是在没有机器人的情况下扩展机器人学习。EgoScale 和从人类行为克隆打破了遥操作的诅咒。灵巧性现在有了 scaling law。&quot;</div><div class="item-meta"><span class="badge badge-source">@drjimfan 560L</span></div></div></div>
+<div class="section wide" id="hf-papers"><div class="section-header" data-zh="HF 热门论文" data-en="HF Trending Papers">HF 热门论文 <span class="section-count">7</span></div><div class="item"><div class="item-title">MinerU-Diffusion: 将文档 OCR 重新思考为基于扩散解码的逆渲染</div><div class="item-desc">(30 upvotes) — 用并行扩散去噪替代自回归解码进行文档 OCR，提升鲁棒性和解码速度。| <a href="https://arxiv.org/abs/2603.22458" target="_blank" rel="noopener">arxiv</a> | <a href="https://huggingface.co/papers/2603.22458" target="_blank" rel="noopener">HF</a></div></div><div class="item"><div class="item-title">WildWorld: 面向生成式 ARPG 的大规模动态世界建模数据集</div><div class="item-desc">(29 upvotes) — 来自真实感游戏的动作条件世界建模数据集，带有显式状态标注。| <a href="https://arxiv.org/abs/2603.23497" target="_blank" rel="noopener">arxiv</a> | <a href="https://huggingface.co/papers/2603.23497" target="_blank" rel="noopener">HF</a></div></div><div class="item"><div class="item-title">PEARL: 个性化流式视频理解模型</div><div class="item-desc">(29 upvotes) — 处理实时视觉输入，具有精确时间标注；引入新基准和即插即用个性化策略。| <a href="https://arxiv.org/abs/2603.20422" target="_blank" rel="noopener">arxiv</a> | <a href="https://huggingface.co/papers/2603.20422" target="_blank" rel="noopener">HF</a></div></div><div class="item"><div class="item-title">从静态模板到动态运行时图: LLM Agent 工作流优化综述</div><div class="item-desc">(24 upvotes) — 综述 LLM 系统如何使用交错各种计算组件的可执行工作流。| <a href="https://arxiv.org/abs/2603.22386" target="_blank" rel="noopener">arxiv</a> | <a href="https://huggingface.co/papers/2603.22386" target="_blank" rel="noopener">HF</a></div></div><div class="item"><div class="item-title">SIMART: 通过 MLLM 将单体网格分解为可仿真铰接资产</div><div class="item-desc">(18 upvotes) — 统一的多模态 LLM 框架，用于生成铰接 3D 资产。| <a href="https://arxiv.org/abs/2603.23386" target="_blank" rel="noopener">arxiv</a> | <a href="https://huggingface.co/papers/2603.23386" target="_blank" rel="noopener">HF</a></div></div><div class="item"><div class="item-title">SpecEyes: 通过推测性感知和规划加速 Agentic 多模态 LLM</div><div class="item-desc">(16 upvotes) — 轻量级推测性规划器配合认知门控，实现 1.1-3.35 倍加速。| <a href="https://arxiv.org/abs/2603.23483" target="_blank" rel="noopener">arxiv</a> | <a href="https://huggingface.co/papers/2603.23483" target="_blank" rel="noopener">HF</a></div></div><div class="item"><div class="item-title">推理还是修辞？大语言模型道德推理解释的实证分析</div><div class="item-desc">调查 LLM 对道德困境的回应是否反映真正的发展进程还是对齐训练的修辞。发现&quot;道德腹语术&quot;证据。</div><div class="item-meta"><span class="item-links"><a href="https://arxiv.org/abs/2603.21854" target="_blank" rel="noopener">arxiv</a></span> <span class="item-links"><a href="https://huggingface.co/papers/2603.21854" target="_blank" rel="noopener">HF</a></span></div></div></div>
+<div class="section wide" id="arxiv-ai-agents"><div class="section-header" data-zh="arxiv: AI Agents" data-en="arxiv: AI Agents">arxiv: AI Agents <span class="section-count">5</span></div><div class="item"><div class="item-title">Code Review Agent Benchmark (c-CRAB)</div><div class="item-desc">首个 AI 代码审查 agent 专用基准，评估 PR-agent、Devin、Claude Code 和 OpenAI Codex。当前最佳 agent 仅解决约 40% 的任务。</div><div class="item-meta"><span class="item-links"><a href="https://arxiv.org/abs/2603.23448" target="_blank" rel="noopener">arxiv</a></span></div></div><div class="item"><div class="item-title">HEARTBEAT: Claw AI Agent 中的静默记忆污染</div><div class="item-desc">严重安全漏洞：后台任务执行可在无需 prompt 注入的情况下静默污染 agent 长期记忆。仅社交错误信息就能达到 61% 的误导率。</div><div class="item-meta"><span class="item-links"><a href="https://arxiv.org/abs/2603.23064" target="_blank" rel="noopener">arxiv</a></span></div></div><div class="item"><div class="item-title">Mecha-nudges for Machines: 产品展示如何为 AI Agent 优化</div><div class="item-desc">研究当 AI agent 成为买家时产品列表如何适应。发现 ChatGPT 发布后 Etsy 商品增加了机器可用的结构化信息。</div><div class="item-meta"><span class="item-links"><a href="https://arxiv.org/abs/2603.23433" target="_blank" rel="noopener">arxiv</a></span></div></div><div class="item"><div class="item-title">多 Agent 人机系统中的偏差错误归因</div><div class="item-desc">在延迟反馈条件下，人类系统性地错误归因 AI agent 之间的责任。</div><div class="item-meta"><span class="item-links"><a href="https://arxiv.org/abs/2603.23419" target="_blank" rel="noopener">arxiv</a></span></div></div><div class="item"><div class="item-title">LLM 社交网络中脆弱性的涌现 (Moltbook)</div><div class="item-desc">对 AI agent 社交平台的网络科学分析揭示了核心-边缘结构，极易受到定向攻击。</div><div class="item-meta"><span class="item-links"><a href="https://arxiv.org/abs/2603.23279" target="_blank" rel="noopener">arxiv</a></span></div></div></div>
+<div class="section wide" id="arxiv-大语言模型"><div class="section-header" data-zh="arxiv: 大语言模型" data-en="arxiv: 大语言模型">arxiv: 大语言模型 <span class="section-count">3</span></div><div class="item"><div class="item-title">SpecEyes: 通过推测性感知和规划加速 Agentic 多模态 LLM</div><div class="item-desc">轻量级推测性规划器配合认知门控和异构并行处理，在不损失质量的情况下实现 1.1-3.35 倍加速。同时在 HF 热门 (16 upvotes)。</div><div class="item-meta"><span class="item-links"><a href="https://arxiv.org/abs/2603.23483" target="_blank" rel="noopener">arxiv</a></span></div></div><div class="item"><div class="item-title">SortedRL: 通过在线长度感知调度加速 LLM 强化学习训练</div><div class="item-desc">按响应长度分组训练样本的在线调度策略，减少填充浪费并加速推理模型训练。</div><div class="item-meta"><span class="item-links"><a href="https://arxiv.org/abs/2603.23414" target="_blank" rel="noopener">arxiv</a></span></div></div><div class="item"><div class="item-title">LLM 性别推断中的上下文不变性失效</div><div class="item-desc">LLM 输出随最小上下文变化而剧烈变化。19-52% 的案例表现出持续的上下文依赖性。</div><div class="item-meta"><span class="item-links"><a href="https://arxiv.org/abs/2603.23485" target="_blank" rel="noopener">arxiv</a></span></div></div></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span class="footer-text">来源: Twitter/X KOLs | Anthropic/OpenAI/DeepMind 博客 | No Priors + Latent Space 播客 | HackerNews | HuggingFace Daily Papers | arxiv cs.AI/cs.CL | 总计: 43 条</span></div>
+  <script>
+    function setView(view) {
+      var el = document.getElementById('mainContent');
+      el.className = 'content view-' + view;
+      var btns = document.querySelectorAll('.view-btn');
+      btns.forEach(function(btn) {
+        var btnView = btn.getAttribute('onclick').match(/'(\w+)'/)[1];
+        if (btnView === view) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+      try { localStorage.setItem('fomo-view', view); } catch(e) {}
+    }
+
+    function toggleTheme() {
+      var html = document.documentElement;
+      var current = html.getAttribute('data-theme');
+      var next = current === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      try { localStorage.setItem('fomo-theme', next); } catch(e) {}
+    }
+
+    function toggleLang() {
+      var path = window.location.pathname;
+      var filename = path.split('/').pop();
+      if (filename.match(/-zh\.html$/)) {
+        window.location.href = filename.replace(/-zh\.html$/, '.html');
+      } else {
+        window.location.href = filename.replace(/\.html$/, '-zh.html');
+      }
+    }
+
+    function setLang(lang) {
+      document.documentElement.setAttribute('data-lang', lang);
+      var els = document.querySelectorAll('[data-zh][data-en]');
+      els.forEach(function(el) {
+        el.textContent = el.getAttribute('data-' + lang);
+      });
+      try { localStorage.setItem('fomo-lang', lang); } catch(e) {}
+    }
+
+    /* ===== Init ===== */
+    (function() {
+      var savedView, savedTheme, savedLang;
+      try {
+        savedView = localStorage.getItem('fomo-view');
+        savedTheme = localStorage.getItem('fomo-theme');
+        savedLang = localStorage.getItem('fomo-lang');
+      } catch(e) {}
+
+      if (savedView) {
+        setView(savedView);
+      }
+
+      if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+      } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+
+      var defaultLang = document.documentElement.getAttribute('data-lang') || 'zh';
+      var lang = savedLang || defaultLang;
+      setLang(lang);
+    })();
+  </script>
+</body>
+</html>
