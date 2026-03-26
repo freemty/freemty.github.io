@@ -63,14 +63,19 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
+body {
+  background-color: #faf8f4;
+  color: #3a342c;
+}
+
 a {
-  color: #1772d0;
+  color: #c0392b;
   text-decoration: none;
 }
 
 a:focus,
 a:hover {
-  color: #f09228;
+  color: #6e6860;
   text-decoration: none;
 }
 
@@ -129,5 +134,10 @@ name {
 }
 
 span.highlight {
-  background-color: #ffffd0;
+  background-color: #f0ede5;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #e0dbd0;
 }
