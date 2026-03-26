@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-theme="light" data-lang="zh">
+<html data-theme="light" data-lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -202,6 +202,77 @@
       background: var(--bg-secondary);
       color: var(--text-secondary);
       border-color: var(--border);
+    }
+
+    /* ===== Date Nav ===== */
+    .date-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 24px;
+      max-width: 880px;
+      margin: 0 auto;
+    }
+
+    .date-nav-btn {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      transition: all 0.15s ease;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .date-nav-btn:hover:not(.disabled) {
+      background: var(--accent-subtle);
+      color: var(--accent);
+    }
+
+    .date-nav-btn.disabled {
+      opacity: 0.3;
+      cursor: default;
+    }
+
+    .date-chips {
+      display: flex;
+      gap: 4px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      flex: 1;
+      justify-content: center;
+    }
+
+    .date-chips::-webkit-scrollbar { display: none; }
+
+    .date-chip {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 4px 10px;
+      border-radius: 99px;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .date-chip:hover {
+      background: var(--accent-subtle);
+      color: var(--accent);
+    }
+
+    .date-chip.active {
+      background: var(--accent);
+      color: #fff;
+      font-weight: 600;
+    }
+
+    [data-theme="dark"] .date-chip.active {
+      color: var(--bg);
     }
 
     /* ===== Highlights ===== */
@@ -541,6 +612,7 @@
       </div>
     </div>
   </div>
+  <div class="date-nav"><span class="date-nav-btn disabled">← </span><div class="date-chips"><a href="./2026-03-22.html" class="date-chip active">03-22</a><a href="./2026-03-23.html" class="date-chip">03-23</a><a href="./2026-03-24.html" class="date-chip">03-24</a><a href="./2026-03-25.html" class="date-chip">03-25</a><a href="./2026-03-26.html" class="date-chip">03-26</a></div><a href="./2026-03-23.html" class="date-nav-btn">2026-03-23 →</a></div>
   <div class="highlights"><div class="highlights-title" data-zh="今日要点" data-en="Today's Highlights">今日要点</div><ol><li><b>Thariq's technical writing collection</b> — Claude Code core dev pins all technical articles, coming to official Claude blog soon (4.9K likes) | <a href="https://x.com/trq212" target="_blank" rel="noopener">@trq212</a></li><li><b>Kumiho: Graph-Native Cognitive Memory for AI Agents</b> — Formal belief revision semantics for versioned agent memory, grounding the &quot;how should agents remember&quot; question in logic | <a href="https://arxiv.org/abs/2603.17244" target="_blank" rel="noopener">arxiv</a></li><li><b>AI Scientist via Synthetic Task Scaling</b> — A principled way to train agents for scientific discovery by generating synthetic research tasks at scale | <a href="https://arxiv.org/abs/2603.17216" target="_blank" rel="noopener">arxiv</a></li></ol></div>
   <div class="content view-newspaper" id="mainContent">
     <div class="content-wrap">

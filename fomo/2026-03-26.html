@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-theme="light" data-lang="zh">
+<html data-theme="light" data-lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -202,6 +202,77 @@
       background: var(--bg-secondary);
       color: var(--text-secondary);
       border-color: var(--border);
+    }
+
+    /* ===== Date Nav ===== */
+    .date-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 24px;
+      max-width: 880px;
+      margin: 0 auto;
+    }
+
+    .date-nav-btn {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      transition: all 0.15s ease;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .date-nav-btn:hover:not(.disabled) {
+      background: var(--accent-subtle);
+      color: var(--accent);
+    }
+
+    .date-nav-btn.disabled {
+      opacity: 0.3;
+      cursor: default;
+    }
+
+    .date-chips {
+      display: flex;
+      gap: 4px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      flex: 1;
+      justify-content: center;
+    }
+
+    .date-chips::-webkit-scrollbar { display: none; }
+
+    .date-chip {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 4px 10px;
+      border-radius: 99px;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .date-chip:hover {
+      background: var(--accent-subtle);
+      color: var(--accent);
+    }
+
+    .date-chip.active {
+      background: var(--accent);
+      color: #fff;
+      font-weight: 600;
+    }
+
+    [data-theme="dark"] .date-chip.active {
+      color: var(--bg);
     }
 
     /* ===== Highlights ===== */
@@ -541,7 +612,8 @@
       </div>
     </div>
   </div>
-  <div class="highlights"><div class="highlights-title" data-zh="今日要点" data-en="Today's Highlights">今日要点</div><ol><li><b>litellm PyPI supply chain attack</b> — Malicious code in litellm v1.82.8 exfiltrated SSH keys, AWS/GCP/Azure creds, crypto wallets, and more via a single `pip install`. Karpathy called it &quot;software horror&quot; (26.8K likes).</li><li><b>OpenAI shuts down Sora</b> — The AI video product is being discontinued after just ~6 months, including the standalone app and API. Sora team posted farewell on X.</li><li><b>Anthropic ships Claude Code auto mode</b> — A new permission model where Claude itself decides what's safe to run, replacing the binary approve-all or approve-each approach. Engineering blog details the classifier design.</li></ol></div>
+  <div class="date-nav"><a href="./2026-03-25.html" class="date-nav-btn">← 2026-03-25</a><div class="date-chips"><a href="./2026-03-22.html" class="date-chip">03-22</a><a href="./2026-03-23.html" class="date-chip">03-23</a><a href="./2026-03-24.html" class="date-chip">03-24</a><a href="./2026-03-25.html" class="date-chip">03-25</a><a href="./2026-03-26.html" class="date-chip active">03-26</a></div><span class="date-nav-btn disabled"> →</span></div>
+  <div class="highlights"><div class="highlights-title" data-zh="今日要点" data-en="Today's Highlights">今日要点</div><ol><li><b>litellm PyPI supply chain attack</b> — Malicious code in litellm v1.82.8 exfiltrated SSH keys, AWS/GCP/Azure creds, crypto wallets, and more via a single `pip install`. Karpathy called it &quot;software horror&quot; (26.8K likes). | <a href="https://x.com/karpathy/status/2036487306585268612" target="_blank" rel="noopener">tweet</a></li><li><b>OpenAI shuts down Sora</b> — The AI video product is being discontinued after just ~6 months, including the standalone app and API. Sora team posted farewell on X. | <a href="https://x.com/dotey/status/2036550971682181547" target="_blank" rel="noopener">tweet</a></li><li><b>Anthropic ships Claude Code auto mode</b> — A new permission model where Claude itself decides what's safe to run, replacing the binary approve-all or approve-each approach. | <a href="https://www.anthropic.com/engineering/claude-code-auto-mode" target="_blank" rel="noopener">blog</a></li></ol></div>
   <div class="content view-newspaper" id="mainContent">
     <div class="content-wrap">
       <nav class="sidebar-nav"><a href="#models" data-zh="模型与发布(4)" data-en="Models &amp; Releases(4)">模型与发布(4)</a>

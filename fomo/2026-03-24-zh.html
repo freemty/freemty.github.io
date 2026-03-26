@@ -204,6 +204,77 @@
       border-color: var(--border);
     }
 
+    /* ===== Date Nav ===== */
+    .date-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 24px;
+      max-width: 880px;
+      margin: 0 auto;
+    }
+
+    .date-nav-btn {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      transition: all 0.15s ease;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .date-nav-btn:hover:not(.disabled) {
+      background: var(--accent-subtle);
+      color: var(--accent);
+    }
+
+    .date-nav-btn.disabled {
+      opacity: 0.3;
+      cursor: default;
+    }
+
+    .date-chips {
+      display: flex;
+      gap: 4px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      flex: 1;
+      justify-content: center;
+    }
+
+    .date-chips::-webkit-scrollbar { display: none; }
+
+    .date-chip {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 4px 10px;
+      border-radius: 99px;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .date-chip:hover {
+      background: var(--accent-subtle);
+      color: var(--accent);
+    }
+
+    .date-chip.active {
+      background: var(--accent);
+      color: #fff;
+      font-weight: 600;
+    }
+
+    [data-theme="dark"] .date-chip.active {
+      color: var(--bg);
+    }
+
     /* ===== Highlights ===== */
     .highlights {
       background: var(--surface);
@@ -541,6 +612,7 @@
       </div>
     </div>
   </div>
+  <div class="date-nav"><a href="./2026-03-23-zh.html" class="date-nav-btn">← 2026-03-23</a><div class="date-chips"><a href="./2026-03-22-zh.html" class="date-chip">03-22</a><a href="./2026-03-23-zh.html" class="date-chip">03-23</a><a href="./2026-03-24-zh.html" class="date-chip active">03-24</a><a href="./2026-03-25-zh.html" class="date-chip">03-25</a><a href="./2026-03-26-zh.html" class="date-chip">03-26</a></div><a href="./2026-03-25-zh.html" class="date-nav-btn">2026-03-25 →</a></div>
   <div class="highlights"><div class="highlights-title" data-zh="今日要点" data-en="Today's Highlights">今日要点</div><ol><li><b>litellm PyPI 供应链攻击</b> — `pip install litellm` 即可窃取 SSH 密钥、AWS/GCP 凭证、k8s 配置、shell 历史和加密钱包；@karpathy 发出警告 (20.5K L)，@drjimfan 警告 &quot;vibe agent 身份盗窃&quot; 时代来临。| <a href="https://x.com/karpathy/status/2036487306585268612" target="_blank" rel="noopener">推文</a></li><li><b>OpenAI 关停 Sora</b> — AI 视频产品上线约 6 个月后停运；HuggingFace CEO Clement Delangue 呼吁开源。| <a href="https://x.com/dotey/status/2036550971682181547" target="_blank" rel="noopener">推文</a></li><li><b>Claude Code auto 模式</b> — 新权限级别：Claude 自行判断每个操作的安全性，介于手动审批和跳过之间。@bcherny: &quot;no more permission prompts&quot; (3K L) | <a href="https://x.com/bcherny/status/2036555259997462541" target="_blank" rel="noopener">推文</a></li></ol></div>
   <div class="content view-newspaper" id="mainContent">
     <div class="content-wrap">

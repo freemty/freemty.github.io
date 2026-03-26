@@ -204,6 +204,77 @@
       border-color: var(--border);
     }
 
+    /* ===== Date Nav ===== */
+    .date-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 24px;
+      max-width: 880px;
+      margin: 0 auto;
+    }
+
+    .date-nav-btn {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      transition: all 0.15s ease;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .date-nav-btn:hover:not(.disabled) {
+      background: var(--accent-subtle);
+      color: var(--accent);
+    }
+
+    .date-nav-btn.disabled {
+      opacity: 0.3;
+      cursor: default;
+    }
+
+    .date-chips {
+      display: flex;
+      gap: 4px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      flex: 1;
+      justify-content: center;
+    }
+
+    .date-chips::-webkit-scrollbar { display: none; }
+
+    .date-chip {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 4px 10px;
+      border-radius: 99px;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .date-chip:hover {
+      background: var(--accent-subtle);
+      color: var(--accent);
+    }
+
+    .date-chip.active {
+      background: var(--accent);
+      color: #fff;
+      font-weight: 600;
+    }
+
+    [data-theme="dark"] .date-chip.active {
+      color: var(--bg);
+    }
+
     /* ===== Highlights ===== */
     .highlights {
       background: var(--surface);
@@ -541,7 +612,8 @@
       </div>
     </div>
   </div>
-  <div class="highlights"><div class="highlights-title" data-zh="今日要点" data-en="Today's Highlights">今日要点</div><ol><li><b>litellm PyPI 供应链攻击</b> — litellm v1.82.8 中的恶意代码通过一次 `pip install` 即可窃取 SSH 密钥、AWS/GCP/Azure 凭证、加密钱包等。Karpathy 称之为&quot;软件恐怖事件&quot;（26.8K 赞）。</li><li><b>OpenAI 关停 Sora</b> — AI 视频产品上线仅约半年即宣布关停，包括独立 App 和 API。Sora 团队在 X 上发帖告别。</li><li><b>Anthropic 推出 Claude Code auto 模式</b> — 全新权限模型，由 Claude 自行判断操作是否安全，取代了原来&quot;全部批准&quot;或&quot;逐一批准&quot;的二元选择。工程博客详述了分类器设计。</li></ol></div>
+  <div class="date-nav"><a href="./2026-03-25-zh.html" class="date-nav-btn">← 2026-03-25</a><div class="date-chips"><a href="./2026-03-22-zh.html" class="date-chip">03-22</a><a href="./2026-03-23-zh.html" class="date-chip">03-23</a><a href="./2026-03-24-zh.html" class="date-chip">03-24</a><a href="./2026-03-25-zh.html" class="date-chip">03-25</a><a href="./2026-03-26-zh.html" class="date-chip active">03-26</a></div><span class="date-nav-btn disabled"> →</span></div>
+  <div class="highlights"><div class="highlights-title" data-zh="今日要点" data-en="Today's Highlights">今日要点</div><ol><li><b>litellm PyPI 供应链攻击</b> — litellm v1.82.8 中的恶意代码通过一次 `pip install` 即可窃取 SSH 密钥、AWS/GCP/Azure 凭证、加密钱包等。Karpathy 称之为&quot;软件恐怖事件&quot;（26.8K 赞）。 | <a href="https://x.com/karpathy/status/2036487306585268612" target="_blank" rel="noopener">tweet</a></li><li><b>OpenAI 关停 Sora</b> — AI 视频产品上线仅约半年即宣布关停，包括独立 App 和 API。Sora 团队在 X 上发帖告别。 | <a href="https://x.com/dotey/status/2036550971682181547" target="_blank" rel="noopener">tweet</a></li><li><b>Anthropic 推出 Claude Code auto 模式</b> — 全新权限模型，由 Claude 自行判断操作是否安全，取代了原来&quot;全部批准&quot;或&quot;逐一批准&quot;的二元选择。 | <a href="https://www.anthropic.com/engineering/claude-code-auto-mode" target="_blank" rel="noopener">博客</a></li></ol></div>
   <div class="content view-newspaper" id="mainContent">
     <div class="content-wrap">
       <nav class="sidebar-nav"><a href="#models" data-zh="模型与发布(4)" data-en="Models &amp; Releases(4)">模型与发布(4)</a>

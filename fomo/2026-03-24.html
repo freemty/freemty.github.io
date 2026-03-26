@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-theme="light" data-lang="zh">
+<html data-theme="light" data-lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -202,6 +202,77 @@
       background: var(--bg-secondary);
       color: var(--text-secondary);
       border-color: var(--border);
+    }
+
+    /* ===== Date Nav ===== */
+    .date-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 24px;
+      max-width: 880px;
+      margin: 0 auto;
+    }
+
+    .date-nav-btn {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      transition: all 0.15s ease;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .date-nav-btn:hover:not(.disabled) {
+      background: var(--accent-subtle);
+      color: var(--accent);
+    }
+
+    .date-nav-btn.disabled {
+      opacity: 0.3;
+      cursor: default;
+    }
+
+    .date-chips {
+      display: flex;
+      gap: 4px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      flex: 1;
+      justify-content: center;
+    }
+
+    .date-chips::-webkit-scrollbar { display: none; }
+
+    .date-chip {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 4px 10px;
+      border-radius: 99px;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .date-chip:hover {
+      background: var(--accent-subtle);
+      color: var(--accent);
+    }
+
+    .date-chip.active {
+      background: var(--accent);
+      color: #fff;
+      font-weight: 600;
+    }
+
+    [data-theme="dark"] .date-chip.active {
+      color: var(--bg);
     }
 
     /* ===== Highlights ===== */
@@ -541,6 +612,7 @@
       </div>
     </div>
   </div>
+  <div class="date-nav"><a href="./2026-03-23.html" class="date-nav-btn">← 2026-03-23</a><div class="date-chips"><a href="./2026-03-22.html" class="date-chip">03-22</a><a href="./2026-03-23.html" class="date-chip">03-23</a><a href="./2026-03-24.html" class="date-chip active">03-24</a><a href="./2026-03-25.html" class="date-chip">03-25</a><a href="./2026-03-26.html" class="date-chip">03-26</a></div><a href="./2026-03-25.html" class="date-nav-btn">2026-03-25 →</a></div>
   <div class="highlights"><div class="highlights-title" data-zh="今日要点" data-en="Today's Highlights">今日要点</div><ol><li><b>litellm PyPI supply chain attack</b> — `pip install litellm` exfiltrated SSH keys, AWS/GCP creds, k8s configs, shell history, and crypto wallets; @karpathy raised the alarm (20.5K L), @drjimfan warned of &quot;vibe agent identity theft.&quot; | <a href="https://x.com/karpathy/status/2036487306585268612" target="_blank" rel="noopener">tweet</a></li><li><b>OpenAI shuts down Sora</b> — AI video product discontinued after ~6 months; HuggingFace CEO Clement Delangue called for open-sourcing it. | <a href="https://x.com/dotey/status/2036550971682181547" target="_blank" rel="noopener">tweet</a></li><li><b>Claude Code auto mode</b> — New permission level: Claude self-judges the safety of each action, a middle ground between manual approval and skip-all. @bcherny: &quot;no more permission prompts&quot; (3K L) | <a href="https://x.com/bcherny/status/2036555259997462541" target="_blank" rel="noopener">tweet</a></li></ol></div>
   <div class="content view-newspaper" id="mainContent">
     <div class="content-wrap">
