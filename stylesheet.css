@@ -412,12 +412,12 @@ section {
 
 
 [data-theme="dark"] .hero-photo img {
-  filter: none;
+  filter: brightness(0.55);
 }
 
 [data-theme="dark"] .hero-photo:hover img,
 [data-theme="dark"] .hero-content:hover .hero-photo img {
-  filter: none;
+  filter: brightness(1);
 }
 
 [data-theme="dark"] .paper-media img {
@@ -440,14 +440,18 @@ section {
 
 .paper-media {
   flex-shrink: 0;
-  width: 160px;
+  width: 200px;
+  height: 130px;
   position: relative;
   overflow: hidden;
   align-self: center;
+  border-radius: 4px;
 }
 
 .paper-media img {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
   filter: brightness(1.3) saturate(0.2) contrast(0.7);
   transition: filter 0.3s ease, opacity 0.3s ease;
 }
