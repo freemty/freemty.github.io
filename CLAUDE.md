@@ -31,7 +31,7 @@ The site uses the **Swiss Knife Design System** (`/swiss-knife-design` skill). K
 - `build/` — Viser 3D viewer client (pre-built React app, do not modify directly)
 - `data/` — Media assets (images, videos, PDFs, logos)
 - `data/Yuanbo_CV.tex` + `data/Yuanbo_CV.pdf` — LaTeX CV source and compiled PDF. Uses Swiss Knife Red accent on section rules. Compile with `pdflatex data/Yuanbo_CV.tex` (run twice for refs).
-- `data/logo/` — Institution logos (padded PNGs: ant, zju, hdu, ucsd, umich, analamma)
+- `data/logo/` — Institution logos (padded PNGs: ant, zju, hdu, ucsd, umich, analemma)
 - `scripts/` — Python image processing utilities
 - `cc-research-playbook.html`, `steam-steel-infinite-minds.html` — Standalone presentation pages
 
