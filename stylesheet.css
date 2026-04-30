@@ -531,7 +531,6 @@ section {
 }
 
 .paper-venue .oral {
-  color: var(--text);
   font-weight: 700;
   background: var(--accent);
   color: #FFFFFF;

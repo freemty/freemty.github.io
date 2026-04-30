@@ -96,12 +96,12 @@
           <span class="news-text">One paper accepted to <b>CVPR 2026</b>.</span>
         </div>
         <div class="news-item">
-          <span class="news-date">Jul 2025</span>
-          <span class="news-text">One paper accepted to <b>NeurIPS 2025</b>.</span>
-        </div>
-        <div class="news-item">
           <span class="news-date">Aug 2025</span>
           <span class="news-text">UrbanGen accepted to <b>TPAMI 2025</b>.</span>
+        </div>
+        <div class="news-item">
+          <span class="news-date">Jul 2025</span>
+          <span class="news-text">One paper accepted to <b>NeurIPS 2025</b>.</span>
         </div>
         <div class="news-item">
           <span class="news-date">Feb 2025</span>
@@ -131,7 +131,7 @@
       </div>
 
       <div class="papers-toggle">
-        <button id="toggle-papers" onclick="document.querySelector('.papers').classList.toggle('expanded'); this.textContent = this.textContent === 'Show all' ? 'Show selected' : 'Show all';">Show all</button>
+        <button id="toggle-papers" onclick="document.querySelector('.papers').classList.toggle('expanded'); this.textContent = this.textContent === 'Show all' ? 'Show selected' : 'Show all'; document.querySelectorAll('.paper-card.fade-in:not(.visible)').forEach(el => observer.observe(el));">Show all</button>
       </div>
 
       <div class="papers">
@@ -532,7 +532,7 @@
     const saved = localStorage.getItem('theme');
     if (saved) {
       setTheme(saved);
-    } else {
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
       setTheme('dark');
     }
 
@@ -548,7 +548,7 @@
     });
 
     // Fade-in on scroll
-    const observer = new IntersectionObserver((entries) => {
+    var observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('visible');
