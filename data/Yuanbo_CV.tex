@@ -1,0 +1,168 @@
+%-------------------------
+% Academic CV in LaTeX
+% Based on Enxin Song's CV style
+%-------------------------
+\documentclass[letterpaper,11pt]{article}
+\usepackage{titlesec}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{enumitem}
+\usepackage[colorlinks=true,urlcolor=black,linkcolor=black]{hyperref}
+
+% Swiss Knife Red — accent only on rules/lines
+\definecolor{SwissRed}{HTML}{C6011F}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\usepackage{fontawesome5}
+\usepackage{multicol}
+\input{glyphtounicode}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+
+% Margins — generous whitespace
+\usepackage[margin=1in]{geometry}
+\urlstyle{same}
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Section formatting — black title, thin gray rule, short red accent at left
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\Large\bfseries
+}{}{0em}{}[\vspace{2pt}{\color{SwissRed}\rule{24pt}{1.5pt}}\hspace{4pt}{\color{black!20}\leaders\hrule height 0.4pt\hfill\kern0pt} \vspace{-5pt}]
+
+\pdfgentounicode=1
+
+% Commands
+\newcommand{\cvItem}[1]{\item\small{#1 \vspace{-2pt}}}
+\newcommand{\cvSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{1.0\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & \textbf{\small #2} \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-7pt}
+}
+\newcommand{\cvSubheadingSimple}[2]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{1.0\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & \textit{\small #2} \\
+    \end{tabular*}\vspace{-7pt}
+}
+\renewcommand\labelitemi{$\vcenter{\hbox{\tiny$\bullet$}}$}
+\newcommand{\cvListStart}{\begin{itemize}[leftmargin=0.0in, label={}]}
+\newcommand{\cvListEnd}{\end{itemize}}
+\newcommand{\cvItemListStart}{\begin{itemize}}
+\newcommand{\cvItemListEnd}{\end{itemize}\vspace{0pt}}
+
+%==============================================================================
+\begin{document}
+
+%----------HEADING----------
+\begin{center}
+  {\Huge\scshape Yuanbo Yang} \\[8pt]
+  \small
+  \href{mailto:yangyuanbo04@gmail.com}{\faEnvelope\ yangyuanbo04@gmail.com} \quad
+  \href{https://freemty.github.io/}{\faGlobe\ freemty.github.io} \quad
+  \href{https://scholar.google.com/citations?user=aVOAL6cAAAAJ}{\faGoogle\ Google Scholar}
+\end{center}
+
+%----------RESEARCH OVERVIEW----------
+\section{Research Overview}
+
+My research centers on \textbf{vision foundation models}, with a focus on understanding their internal mechanisms and improving their design. Key areas include:
+\begin{itemize}[leftmargin=0.2in]
+  \item \textbf{Understanding and Improving:} Uncovering the mechanisms of generative models to guide efficient architecture design.
+  \item \textbf{World Simulators:} Developing interactive and realistic vision generative models as world simulators.
+  \item \textbf{Grounding with Generative Priors:} Leveraging generative priors for precise grounding in real-world environments.
+\end{itemize}
+
+%----------EDUCATION----------
+\section{Education}
+\cvListStart
+  \cvSubheading
+    {University of California San Diego}{Fall 2026 --}
+    {Ph.D. Student}{Advisor: \href{https://cseweb.ucsd.edu/~haozhang/}{Hao Zhang}}
+  \cvSubheading
+    {Zhejiang University}{2022 -- 2025}
+    {Master of Artificial Intelligence}{Advisor: \href{https://yiyiliao.github.io/}{Yiyi Liao}}
+  \cvSubheading
+    {Hangzhou Dianzi University}{2018 -- 2022}
+    {Bachelor of Electronics Engineering}{}
+\cvListEnd
+
+%----------EXPERIENCE----------
+\section{Research Experience}
+\cvListStart
+  \cvSubheading
+    {Analamma AI}{2026 -- Present}
+    {Research Intern}{}
+  \cvSubheading
+    {University of Michigan}{2025}
+    {Research Intern}{Mentor: \href{https://www.cs.toronto.edu/~jungao/}{Jun Gao}}
+  \cvSubheading
+    {Ant Group}{2023 -- 2025}
+    {Research Intern}{Mentor: \href{https://shenyujun.github.io/}{Yujun Shen} and \href{https://xuenan.net/}{Nan Xue}}
+\cvListEnd
+
+%----------PUBLICATIONS----------
+\section{Selected Publications}
+\small The $*$ sign denotes equal contribution. \href{https://scholar.google.com/citations?user=aVOAL6cAAAAJ}{\faGoogle\ Google Scholar}
+
+\begin{itemize}[leftmargin=0.15in]
+
+  \item Chunyang Li$^*$, \textbf{Yuanbo Yang}$^*$, Jiahao Shao$^*$, Hongyu Zhou, Katja Schwarz, Yiyi Liao.
+  \href{https://sisyphe-lee.github.io/ReRoPE/}{ReRoPE: Repurposing RoPE for Relative Camera Control.}
+  In \textit{SIGGRAPH}, 2026.
+
+  \item Jiaxin Huang, \textbf{Yuanbo Yang}, Bangbang Yang, Lin Ma, Yuewen Ma, Yiyi Liao.
+  \href{https://xdimlab.github.io/Gen3R/}{Gen3R: 3D Scene Generation Meets Feed-Forward Reconstruction.}
+  In \textit{CVPR}, 2026.
+
+  \item \textbf{Yuanbo Yang}$^*$, Jiahao Shao$^*$, Xinyang Li, Yujun Shen, Andreas Geiger, Yiyi Liao.
+  \href{https://freemty.github.io/project-prometheus/}{Prometheus: 3D-Aware Latent Diffusion Models for Feed-Forward Text-to-3D Scene Generation.}
+  In \textit{CVPR}, 2025.
+
+  \item \textbf{Yuanbo Yang}, Yujun Shen, Yue Wang, Andreas Geiger, Yiyi Liao.
+  \href{https://xdimlab.github.io/UrbanGen/}{UrbanGen: Urban Generation with Compositional and Controllable Neural Fields.}
+  In \textit{T-PAMI}, 2025.
+
+  \item Jiahao Shao$^*$, \textbf{Yuanbo Yang}$^*$, Hongyu Zhou, Youmin Zhang, Yujun Shen, Matteo Poggi, Yiyi Liao.
+  \href{https://xdimlab.github.io/ChronoDepth/}{ChronoDepth: Learning Temporally Consistent Video Depth from Video Diffusion Priors.}
+  In \textit{CVPR}, 2025.
+
+  \item Yichong Lu$^*$, Yuzhuo Tian$^*$, Zijin Jiang$^*$, Yikun Zhao, \textbf{Yuanbo Yang}, Hao Ouyang, Haoji Hu, Huimin Yu, Yujun Shen, Yiyi Liao.
+  \href{https://xdimlab.github.io/Orientation_Matters/}{Orientation Matters: Making 3D Generative Models Orientation-Aligned.}
+  In \textit{NeurIPS}, 2025.
+
+  \item Tianyu Yuan$^*$, \textbf{Yuanbo Yang}$^*$, Lin-Zhuo Chen, Yao Yao, Zhuzhong Qian.
+  \href{https://yuantianyu177.github.io/heft_page/}{HeFT: Harnessing Video Diffusion Priors for Robust Correspondence.}
+  \textit{arXiv:2512.04619}, 2025.
+
+  \item \textbf{Yuanbo Yang}, Yifei Yang, Hanlei Guo, Rong Xiong, Yue Wang, Yiyi Liao.
+  \href{https://lv3d.github.io/urbanGIRAFFE/}{UrbanGIRAFFE: Representing Urban Scenes as Compositional Generative Neural Feature Fields.}
+  In \textit{ICCV}, 2023.
+
+  \item Xinya Chen, Hanlei Guo, Yanrui Bin, Shangzhan Zhang, \textbf{Yuanbo Yang}, Hongyu Zhou, Youmin Zhang, Yujun Shen, Yiyi Liao.
+  \href{https://xdimlab.github.io/TeFF/}{TeFF: Learning 3D-Aware GANs from Unposed Images with Template Feature Field.}
+  In \textit{ECCV} \textbf{(Oral)}, 2024.
+
+  \item Shangzhan Zhang, Sida Peng, Tao Xu, \textbf{Yuanbo Yang}, Tianrun Chen, Nan Xue, Yujun Shen, Hujun Bao, Ruizhen Hu, Xiaowei Zhou.
+  \href{https://zhanghe3z.github.io/MaPa/}{MaPa: Text-driven Photorealistic Material Painting for 3D Shapes.}
+  In \textit{SIGGRAPH}, 2024.
+
+\end{itemize}
+
+%----------TECHNICAL SKILLS----------
+\section{Technical Skills}
+\begin{itemize}[leftmargin=0.15in, label={}]
+  \small{\item{
+    Python; PyTorch; Lightning; CUDA; C; Linux; LaTeX; Claude Code
+  }}
+\end{itemize}
+
+\end{document}
