@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -41,6 +41,32 @@
             --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
             --duration-normal: 0.8s;
         }
+
+        [data-theme="light"] {
+            --bg-primary: #FFFFF8;
+            --bg-secondary: #F5F0E8;
+            --text-primary: #1a1a2e;
+            --text-secondary: #4a4a5a;
+            --accent: #8b6914;
+            --accent-secondary: #6b5020;
+            --accent-glow: rgba(139, 105, 20, 0.15);
+        }
+
+        .theme-toggle-btn {
+            position: fixed;
+            top: clamp(0.5rem,1.5vh,1rem);
+            right: clamp(0.8rem,2vw,1.5rem);
+            z-index: 1001;
+            background: none;
+            border: 1px solid var(--accent-secondary);
+            border-radius: 4px;
+            color: var(--text-secondary);
+            font-family: var(--font-body);
+            font-size: clamp(0.55rem,0.8vw,0.7rem);
+            padding: 3px 8px;
+            cursor: pointer;
+        }
+        .theme-toggle-btn:hover { color: var(--text-primary); border-color: var(--accent); }
 
         /* ===========================================
            BASE STYLES
@@ -547,6 +573,14 @@
     </style>
 </head>
 <body>
+    <!-- Brand mark + theme toggle -->
+    <div style="position:fixed;top:clamp(0.5rem,1.5vh,1rem);left:clamp(0.8rem,2vw,1.5rem);z-index:1001;font-family:var(--font-display);font-size:28px;font-weight:700;color:var(--text-primary)">Y<span style="color:var(--accent)">.</span></div>
+    <button class="theme-toggle-btn" onclick="toggleTheme()">light/dark</button>
+    <script>
+    function toggleTheme(){var h=document.documentElement;var c=h.getAttribute('data-theme');h.setAttribute('data-theme',c==='dark'?'light':'dark');localStorage.setItem('steam-theme',h.getAttribute('data-theme'))}
+    (function(){var s=localStorage.getItem('steam-theme');if(s)document.documentElement.setAttribute('data-theme',s)})();
+    </script>
+
     <!-- Progress bar -->
     <div class="progress-bar"></div>
 
