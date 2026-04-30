@@ -6,7 +6,7 @@
     <title>Steam, Steel, and Infinite Minds</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=DM+Sans:wght@400;500;700&family=EB+Garamond:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=DM+Sans:wght@400;500;700&family=EB+Garamond:wght@400;600&family=Inter:wght@400;500;600&family=Noto+Serif+SC:wght@400;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
     <style>
         /* ===========================================
            CSS CUSTOM PROPERTIES (THEME)
@@ -60,8 +60,8 @@
             --accent: #C6011F;
             --accent-secondary: #8B0015;
             --accent-glow: rgba(198, 1, 31, 0.15);
-            --font-display: 'EB Garamond', serif;
-            --font-body: 'Inter', -apple-system, sans-serif;
+            --font-display: 'EB Garamond', 'Noto Serif SC', serif;
+            --font-body: 'Inter', 'Noto Sans SC', -apple-system, sans-serif;
         }
 
         [data-theme="swiss-light"] {
@@ -72,8 +72,8 @@
             --accent: #C6011F;
             --accent-secondary: #8B0015;
             --accent-glow: rgba(198, 1, 31, 0.1);
-            --font-display: 'EB Garamond', serif;
-            --font-body: 'Inter', -apple-system, sans-serif;
+            --font-display: 'EB Garamond', 'Noto Serif SC', serif;
+            --font-body: 'Inter', 'Noto Sans SC', -apple-system, sans-serif;
         }
 
         .theme-switcher {
@@ -388,6 +388,13 @@
             display: block;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
             border: 2px solid var(--accent-secondary);
+        }
+
+        [data-theme="swiss-dark"] .slide-image,
+        [data-theme="swiss-light"] .slide-image {
+            border: none;
+            box-shadow: none;
+            border-radius: 4px;
         }
 
         .image-container {
