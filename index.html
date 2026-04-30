@@ -1,650 +1,564 @@
-<!DOCTYPE HTML>
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Yuanbo Yang</title>
-  
   <meta name="author" content="Yuanbo Yang">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  
-  <link rel="stylesheet" type="text/css" href="stylesheet.css">
-	<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔥</text></svg>">
+  <meta name="description" content="Yuanbo Yang - Researcher in Vision Foundation Models">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&family=Noto+Serif+SC:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="stylesheet.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔥</text></svg>">
 </head>
 
 <body>
-  <table style="width:100%;max-width:1000px;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-    <tr style="padding:0px">
-      <td style="padding:0px">
-        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-          <tr style="padding:0px">
-            <td style="padding:2.5%;width:63%;vertical-align:middle">
-              <p style="text-align:center">
-                <name>Yuanbo Yang</name>
-              </p>
-              <p>I am currently working as research intern with <a href="https://www.cs.toronto.edu/~jungao/"> Prof. Jun Gao</a>. Before that, I get my Master Degree at <a href="https://www.zju.edu.cn/english/">Zhejiang University</a>, working with <a href="https://yiyiliao.github.io/">Prof. Yiyi Liao</a>. I am also lucky to have collaboration with <a href="https://www.cvlibs.net/">Prof. Andreas Geiger</a>. I obtained my B.Eng. degree in Electronics Engineering from <a href="https://en.hdu.edu.cn/">Hangzhou Dianzi University</a> in 2022.
-              </p>
-              <p>My current research focuses on <strong>understanding and improving vision foundation models</strong>. Previously, I have worked on 3D generative models. I’d really appreciate the chance to exchange ideas with anyone who shares similar interests! Feel free to reach me via <a href="mailto:yangyuanbo04@gmail.com">Email</a> or <a href="https://x.com/yuanboyang60742">X</a>.</p>
 
-              </p>
-              <p style="text-align:center">
-                <a href="mailto:yangyuanbo04@gmail.com">Email</a> &nbsp/&nbsp
-                <a href="./data/Yuanbo_CV.pdf">CV</a> &nbsp/&nbsp
-                <!-- <a href="https://scholar.google.com/citations?hl=en&user=On9ZpxcAAAAJ">Scholar</a> &nbsp/&nbsp -->
-                <a href="https://x.com/yuanboyang60742">X</a> &nbsp/&nbsp
-                <a href="https://github.com/freemty">Github</a>
-              </p>
-            </td>
-            <td style="padding:2.5%;width:40%;max-width:40%">
-              <a href="data/yuanbo.jpg"><img style="width:90%;max-width:100%" alt="profile photo" src="data/ellipse_yuanbo.jpg" class="hoverZoomLink"></a>
-            </td>
-          </tr>
-        </tbody></table>
+  <!-- NAV -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a class="nav-name" href="#">Yuanbo Yang</a>
+      <div class="nav-links">
+        <a href="#research">Research</a>
+        <a href="#experience">Experience</a>
+        <a href="mailto:yangyuanbo04@gmail.com">Contact</a>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+          <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+          <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
 
-        <hr>
-
-        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-          <tr>
-              <td style="padding:10px;width:100%;vertical-align:middle">
-                  <heading>News</heading>
-              </td>
-          </tr>
-        </tbody></table>
-
-        <div style="height:120px;overflow-y:scroll;">
-        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-        <tr>
-          <ul>
-            <li>Jul. 2025: One paper accepted to <b>NeurIPS 2025</b>.</li>
-            <br>
-            <li>Aug. 2025: UrbanGen accepted to <b>TPAMI 2025</b>.</li>
-            <br>
-            <li>Jul. 2024: Prometheus🔥 and ChronoDepth🕰️ accepted to <b>CVPR 2025</b>.</li>
-            <br>
-            <li>Jul. 2024: One paper accepted to <b>ECCV 2024</b>.</li>
-            <br>
-            <li>May. 2024: One paper accepted to <b>SIGGRAPH 2024</b>.</li>
-            <br>
-            <li>Jul. 2023: One paper accepted to <b>ICCV 2023</b>.</li>
-          </ul>
-          </td>
-        </tr>
-        <!-- One News -->
-
-
-      </tbody></table>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-text">
+          <h1>Yuanbo Yang <span class="name-zh">杨渊博</span></h1>
+          <p class="hero-tagline">Understanding and Improving Vision Foundation Models</p>
+          <p class="hero-bio">
+            I am an incoming PhD student at <a href="https://ucsd.edu/">UC San Diego</a>, working with <a href="https://cseweb.ucsd.edu/~haozhang/">Prof. Hao Zhang</a>.
+            Previously, I was a research intern at <a href="https://www.umich.edu/">University of Michigan</a> with <a href="https://www.cs.toronto.edu/~jungao/">Prof. Jun Gao</a>.
+            I got my Master's degree at <a href="https://www.zju.edu.cn/english/">Zhejiang University</a>,
+            working with <a href="https://yiyiliao.github.io/">Prof. Yiyi Liao</a>.
+            I am also lucky to have collaborated with <a href="https://www.cvlibs.net/">Prof. Andreas Geiger</a>.
+          </p>
+          <p class="hero-bio">
+            My research focuses on understanding and improving vision foundation models. Previously, I worked on 3D generative models. Feel free to reach out!
+          </p>
+          <div class="hero-links">
+            <a href="mailto:yangyuanbo04@gmail.com">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              Email
+            </a>
+            <a href="./data/Yuanbo_CV.pdf">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              CV
+            </a>
+            <a href="https://scholar.google.com/citations?user=aVOAL6cAAAAJ">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/></svg>
+              Scholar
+            </a>
+            <a href="https://x.com/yuanboyang60742">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+              X
+            </a>
+            <a href="https://github.com/freemty">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+              GitHub
+            </a>
+          </div>
         </div>
-        <hr>
+        <div class="hero-photo">
+          <a href="data/yuanbo.jpg">
+            <img src="data/yuanbo.jpg" alt="Yuanbo Yang">
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
 
-        
-        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-            <tr>
-            <td style="padding:20px;width:100%;vertical-align:middle">
-              <heading>Research</heading>
-            </td>
-          </tr>
-        </tbody></table>
+  <!-- NEWS -->
+  <div class="news-section">
+    <div class="container">
+      <div class="news-list">
+        <div class="news-item">
+          <span class="news-date">Mar 2026</span>
+          <span class="news-text">One paper accepted to <b>SIGGRAPH 2026</b>.</span>
+        </div>
+        <div class="news-item">
+          <span class="news-date">Feb 2026</span>
+          <span class="news-text">One paper accepted to <b>CVPR 2026</b>.</span>
+        </div>
+        <div class="news-item">
+          <span class="news-date">Jul 2025</span>
+          <span class="news-text">One paper accepted to <b>NeurIPS 2025</b>.</span>
+        </div>
+        <div class="news-item">
+          <span class="news-date">Aug 2025</span>
+          <span class="news-text">UrbanGen accepted to <b>TPAMI 2025</b>.</span>
+        </div>
+        <div class="news-item">
+          <span class="news-date">Feb 2025</span>
+          <span class="news-text">Prometheus and ChronoDepth accepted to <b>CVPR 2025</b>.</span>
+        </div>
+        <div class="news-item">
+          <span class="news-date">Jul 2024</span>
+          <span class="news-text">One paper accepted to <b>ECCV 2024</b>.</span>
+        </div>
+        <div class="news-item">
+          <span class="news-date">May 2024</span>
+          <span class="news-text">One paper accepted to <b>SIGGRAPH 2024</b>.</span>
+        </div>
+        <div class="news-item">
+          <span class="news-date">Jul 2023</span>
+          <span class="news-text">One paper accepted to <b>ICCV 2023</b>.</span>
+        </div>
+      </div>
+    </div>
+  </div>
 
-        <!-- The Constant Eye -->
-        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
-          <tbody>
-            <tr onmouseout="constanteye_stop()" onmouseover="constanteye_start()">
-              <td style="padding:20px;width:25%;vertical-align:middle;">
-                <div class="one">
-                  <div class="two" id='constanteye_image'>
-                    <img src='data/constanteye.jpg' width=100%>
-                  </div>
-                  <img src='data/constanteye.jpg' width=100%>
-                </div>
-                <script type="text/javascript">
-                  function constanteye_start() {
-                    document.getElementById('constanteye_image').style.opacity = "1";
-                  }
-                  function constanteye_stop() {
-                    document.getElementById('constanteye_image').style.opacity = "0";
-                  }
-                  constanteye_stop()
-                </script>
-              </td>
-              <td style="width:75%;vertical-align:middle;">
-                <a href="https://arxiv.org/abs/2602.12563">
-                  <papertitle>The Constant Eye: Benchmarking and Bridging Appearance Robustness in Autonomous Driving</papertitle>
-                </a>
-                <br>
-                Jiabao Wang,
-                Hongyu Zhou,
-                <strong>Yuanbo Yang</strong>,
-                <a href="https://jiahao-shao1.github.io/">Jiahao Shao</a>,
-                <a href="https://yiyiliao.github.io/">Yiyi Liao†</a>
-                <br>
-                <em>arXiv</em>, 2025
-                <br>
-                <a href="https://arxiv.org/abs/2602.12563">arXiv</a>
-                <p></p>
-                <p> <strong>The Constant Eye</strong> identifies a critical decoupling failure in autonomous driving research and benchmarks appearance robustness under OOD conditions like weather and lighting shifts.</p>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+  <!-- RESEARCH -->
+  <section id="research">
+    <div class="container">
+      <div class="section-header">
+        <h2>Research</h2>
+      </div>
+
+      <div class="papers-toggle">
+        <button id="toggle-papers" onclick="document.querySelector('.papers').classList.toggle('expanded'); this.textContent = this.textContent === 'Show all' ? 'Show selected' : 'Show all';">Show all</button>
+      </div>
+
+      <div class="papers">
 
         <!-- ReRoPE -->
-        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
-          <tbody>
-            <tr onmouseout="rerope_stop()" onmouseover="rerope_start()">
-              <td style="padding:20px;width:25%;vertical-align:middle;">
-                <div class="one">
-                  <div class="two" id='rerope_image'>
-                    <img src='data/rerope.jpg' width=100%>
-                  </div>
-                  <img src='data/rerope.jpg' width=100%>
-                </div>
-                <script type="text/javascript">
-                  function rerope_start() {
-                    document.getElementById('rerope_image').style.opacity = "1";
-                  }
-                  function rerope_stop() {
-                    document.getElementById('rerope_image').style.opacity = "0";
-                  }
-                  rerope_stop()
-                </script>
-              </td>
-              <td style="width:75%;vertical-align:middle;">
-                <a href="https://arxiv.org/abs/2602.08068">
-                  <papertitle>ReRoPE: Repurposing RoPE for Relative Camera Control</papertitle>
-                </a>
-                <br>
-                Chunyang Li,
-                <strong>Yuanbo Yang</strong>,
-                <a href="https://jiahao-shao1.github.io/">Jiahao Shao</a>,
-                Hongyu Zhou,
-                Katja Schwarz,
-                <a href="https://yiyiliao.github.io/">Yiyi Liao†</a>
-                <br>
-                <em>arXiv</em>, 2025
-                <br>
-                <a href="https://arxiv.org/abs/2602.08068">arXiv</a>
-                <p></p>
-                <p> <strong>ReRoPE</strong> repurposes Rotary Position Embedding for shift-invariant relative camera control in video generation, improving generalization and reducing accumulated drift.</p>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <article class="paper-card fade-in">
+          <div class="paper-info">
+            <a class="paper-title" href="https://sisyphe-lee.github.io/ReRoPE/">
+              ReRoPE: Repurposing RoPE for Relative Camera Control
+            </a>
+            <p class="paper-authors">
+              Chunyang Li*,
+              <span class="me">Yuanbo Yang*</span>,
+              <a href="https://jiahao-shao1.github.io/">Jiahao Shao*</a>,
+              Hongyu Zhou,
+              Katja Schwarz,
+              <a href="https://yiyiliao.github.io/">Yiyi Liao</a>
+            </p>
+            <p class="paper-venue">SIGGRAPH 2026</p>
+            <div class="paper-links">
+              <a href="https://sisyphe-lee.github.io/ReRoPE/">Project</a>
+              <a href="https://arxiv.org/abs/2602.08068">arXiv</a>
+            </div>
+            <p class="paper-desc">
+              <strong>ReRoPE</strong> repurposes Rotary Position Embedding for shift-invariant relative camera control in video generation.
+            </p>
+          </div>
+        </article>
 
         <!-- Gen3R -->
-        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
-          <tbody>
-            <tr onmouseout="gen3r_stop()" onmouseover="gen3r_start()">
-              <td style="padding:20px;width:25%;vertical-align:middle;">
-                <div class="one">
-                  <div class="two" id='gen3r_image'>
-                    <img src='data/gen3r.jpg' width=100%>
-                  </div>
-                  <img src='data/gen3r.jpg' width=100%>
-                </div>
-                <script type="text/javascript">
-                  function gen3r_start() {
-                    document.getElementById('gen3r_image').style.opacity = "1";
-                  }
-                  function gen3r_stop() {
-                    document.getElementById('gen3r_image').style.opacity = "0";
-                  }
-                  gen3r_stop()
-                </script>
-              </td>
-              <td style="width:75%;vertical-align:middle;">
-                <a href="https://arxiv.org/abs/2601.04090">
-                  <papertitle>Gen3R: 3D Scene Generation Meets Feed-Forward Reconstruction</papertitle>
-                </a>
-                <br>
-                Jiaxin Huang,
-                <strong>Yuanbo Yang</strong>,
-                Bangbang Yang,
-                Lin Ma,
-                Yuewen Ma,
-                <a href="https://yiyiliao.github.io/">Yiyi Liao†</a>
-                <br>
-                <em>arXiv</em>, 2025
-                <br>
-                <a href="https://arxiv.org/abs/2601.04090">arXiv</a>
-                <p></p>
-                <p> <strong>Gen3R</strong> bridges foundational reconstruction models and video diffusion models for scene-level 3D generation, repurposing VGGT to produce geometric latents aligned with appearance latents.</p>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
-        <!-- HeFT -->
-        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
-          <tbody>
-            <tr onmouseout="heft_stop()" onmouseover="heft_start()">
-              <td style="padding:20px;width:25%;vertical-align:middle;">
-                <div class="one">
-                  <div class="two" id='heft_image'>
-                    <img src='data/heft.jpg' width=100%>
-                  </div>
-                  <img src='data/heft.jpg' width=100%>
-                </div>
-                <script type="text/javascript">
-                  function heft_start() {
-                    document.getElementById('heft_image').style.opacity = "1";
-                  }
-                  function heft_stop() {
-                    document.getElementById('heft_image').style.opacity = "0";
-                  }
-                  heft_stop()
-                </script>
-              </td>
-              <td style="width:75%;vertical-align:middle;">
-                <a href="https://arxiv.org/abs/2512.04619">
-                  <papertitle>HeFT: Harnessing Video Diffusion Priors for Robust Correspondence</papertitle>
-                </a>
-                <br>
-                Tianyu Yuan,
-                <strong>Yuanbo Yang</strong>,
-                Lin-Zhuo Chen,
-                Yao Yao,
-                Zhuzhong Qian
-                <br>
-                <em>arXiv</em>, 2025
-                <br>
-                <a href="https://arxiv.org/abs/2512.04619">arXiv</a>
-                <p></p>
-                <p> <strong>HeFT</strong> is a zero-shot point tracking framework that leverages visual priors of pretrained video diffusion models by analyzing internal representations of Video Diffusion Transformers.</p>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <article class="paper-card fade-in">
+          <div class="paper-info">
+            <a class="paper-title" href="https://xdimlab.github.io/Gen3R/">
+              Gen3R: 3D Scene Generation Meets Feed-Forward Reconstruction
+            </a>
+            <p class="paper-authors">
+              Jiaxin Huang,
+              <span class="me">Yuanbo Yang</span>,
+              Bangbang Yang,
+              Lin Ma,
+              Yuewen Ma,
+              <a href="https://yiyiliao.github.io/">Yiyi Liao</a>
+            </p>
+            <p class="paper-venue">CVPR 2026</p>
+            <div class="paper-links">
+              <a href="https://xdimlab.github.io/Gen3R/">Project</a>
+              <a href="https://arxiv.org/abs/2601.04090">arXiv</a>
+            </div>
+            <p class="paper-desc">
+              <strong>Gen3R</strong> bridges foundational reconstruction models and video diffusion models for scene-level 3D generation.
+            </p>
+          </div>
+        </article>
 
         <!-- Prometheus -->
-        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto; background-color: #faf8f4;">
-          <tbody>
-            <tr onmouseout="prometheus_stop()" onmouseover="prometheus_start()">
-              <td style="padding:20px;width:25%;vertical-align:middle;">
-                <div class="one">
-                  <div class="two" id='prometheus_image'>
-                    <video width=100% muted autoplay loop>
-                      <source src="data/prometheus.mp4" type="video/mp4">
-                      Your browser does not support the video tag.
-                    </video>
-                  </div>
-                  <img src='data/prometheus.png' width=100%>
-                </div>
-                <script type="text/javascript">
-                  function prometheus_start() {
-                    document.getElementById('prometheus_image').style.opacity = "1";
-                  }
-                  function prometheus_stop() {
-                    document.getElementById('prometheus_image').style.opacity = "0";
-                  }
-                  prometheus_stop()
-                </script>
-              </td>
+        <article class="paper-card highlight fade-in">
+          <div class="paper-media">
+            <img src="data/prometheus.png" alt="Prometheus">
+            <video muted autoplay loop playsinline>
+              <source src="data/prometheus.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="paper-info">
+            <a class="paper-title" href="https://freemty.github.io/project-prometheus/">
+              Prometheus: 3D-Aware Latent Diffusion Models for Feed-Forward Text-to-3D Scene Generation
+            </a>
+            <p class="paper-authors">
+              <span class="me">Yuanbo Yang*</span>,
+              <a href="https://jiahao-shao1.github.io/">Jiahao Shao*</a>,
+              <a href="https://github.com/imlixinyang/">Xinyang Li</a>,
+              <a href="https://shenyujun.github.io/">Yujun Shen</a>,
+              <a href="https://www.cvlibs.net/">Andreas Geiger</a>,
+              <a href="https://yiyiliao.github.io/">Yiyi Liao</a>
+            </p>
+            <p class="paper-venue">CVPR 2025</p>
+            <div class="paper-links">
+              <a href="https://freemty.github.io/project-prometheus/">Project</a>
+              <a href="https://arxiv.org/abs/2412.21117">arXiv</a>
+              <a href="https://github.com/XDimLab/Prometheus">Code</a>
+            </div>
+            <p class="paper-desc">
+              <strong>Prometheus</strong> introduces feed-forward scene-level 3D generation in seconds, harnessing pre-trained 2D priors for generalizable and efficient 3D synthesis.
+            </p>
+          </div>
+        </article>
 
-              <td style="width:75%;vertical-align:middle;">
-                <a href="https://freemty.github.io/project-prometheus/">
-                  <papertitle>Prometheus🔥: 3D-Aware Latent Diffusion Models for
-                    Feed-Forward Text-to-3D Scene Generation</papertitle>
-                </a>
-                <br>
-                <strong>Yuanbo Yang*</strong>,
-                <a href="https://jiahao-shao1.github.io/"> Jiahao Shao*</a>,
-                <a href="https://github.com/imlixinyang/">Xinyang Li</a>,
-                <a href="https://shenyujun.github.io/">Yujun Shen</a>,
-                <a href="https://www.cvlibs.net/">Andreas Geiger</a>,
-                <a href="https://yiyiliao.github.io/">Yiyi Liao†</a>
-                <br>
-                <em>CVPR</em>, 2025
-                <br>
-                <a href="https://freemty.github.io/project-prometheus/">project page</a>
-                /
-                <a href="data/prometheus_paper.pdf">Paper</a>
-                /
-                <a href="https://arxiv.org/abs/2412.21117">arXiv</a>
-                /
-                <a href="https://github.com/XDimLab/Prometheus">code</a>
-                <p></p>
-                <p> <strong>Prometheus</strong> introduces a novel method for feed-forward scene-level 3D generation in seconds. Its key idea is to
-                harness the power of pre-trained 2D priors to enable generalizable and efficient 3D synthesis – hence its name, Prometheus🔥.</p>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <!-- UrbanGen -->
+        <article class="paper-card highlight fade-in">
+          <div class="paper-media">
+            <img src="data/urbangen.jpg" alt="UrbanGen">
+            <video muted autoplay loop playsinline>
+              <source src="data/urbangen.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="paper-info">
+            <a class="paper-title" href="https://xdimlab.github.io/UrbanGen/">
+              UrbanGen: Urban Generation with Compositional and Controllable Neural Fields
+            </a>
+            <p class="paper-authors">
+              <span class="me">Yuanbo Yang</span>,
+              <a href="https://shenyujun.github.io/">Yujun Shen</a>,
+              <a href="https://ywang-zju.github.io/">Yue Wang</a>,
+              <a href="https://www.cvlibs.net/">Andreas Geiger</a>,
+              <a href="https://yiyiliao.github.io/">Yiyi Liao</a>
+            </p>
+            <p class="paper-venue">T-PAMI 2025</p>
+            <div class="paper-links">
+              <a href="https://xdimlab.github.io/UrbanGen/">Project</a>
+              <a href="data/urbangen_paper.pdf">Paper</a>
+            </div>
+            <p class="paper-desc">
+              <strong>UrbanGen</strong> generates 3D urban radiance fields with photorealistic rendering, accurate geometry, high controllability, and diverse city styles.
+            </p>
+          </div>
+        </article>
 
-        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
-          <tbody>
-            <tr onmouseout="urbangen_stop()" onmouseover="urbangen_start()">
-              <!-- 左侧视频/图片 -->
-              <td style="padding:20px;width:25%;vertical-align:middle;">
-                <div class="one">
-                  <div class="two" id='urbangen_image'>
-                    <video width=100% muted autoplay loop>
-                      <source src="data/urbangen.mp4" type="video/mp4" style="display: block; width: 100%; height: auto;">
-                      Your browser does not support the video tag.
-                    </video>
-                  </div>
-                  <img src='data/urbangen.jpg' width=100%>
-                </div>
-                <script type="text/javascript">
-                  function urbangen_start() {
-                    document.getElementById('urbangen_image').style.opacity = "1";
-                  }
-                  function urbangen_stop() {
-                    document.getElementById('urbangen_image').style.opacity = "0";
-                  }
-                  urbangen_stop()
-                </script>
-              </td>
-              <!-- 右侧内容 -->
-              <td style="width:75%;vertical-align:middle;">
-                <a href="https://freemty.github.io/project-urbangen/">
-                  <papertitle>UrbanGen🚘: Urban Generation with Compositional and Controllable Neural Fields</papertitle>
-                </a>
-                <br>
-                <strong>Yuanbo Yang</strong>,
-                <a href="https://shenyujun.github.io/">Yujun Shen</a>,
-                <a href="https://ywang-zju.github.io/">Yue Wang</a>,
-                <a href="https://www.cvlibs.net/">Andreas Geiger</a>,
-                <a href="https://yiyiliao.github.io/">Yiyi Liao†</a>
-                <br>
-                <em>TPAMI</em>, 2025
-                <br>
-                <a href="https://freemty.github.io/project-urbangen/">project page</a>
-                /
-                <a href="data/urbangen_paper.pdf">Paper</a>
-                <!-- <a href="https://arxiv.org/abs/2406.01493">arXiv</a> -->
-                /
-                <a href="https://freemty.github.io/project-urbangen/">code</a>
-                <p></p>
-                <p> <strong>UrbanGen</strong> proposes a solution for the challenging task of generating 3D urban radiance
-                  fields with photorealistic rendering,
-                  accurate geometry, high controllability, and diverse city styles.</p>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
-        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-
-          <tr onmouseout="chronodepth_stop()" onmouseover="chronodepth_start()">
-            <td style="padding:20px;width:25%;vertical-align:middle">
-              <div class="one">
-                <div class="two" id='chronodepth_image'><video  width=100% muted autoplay loop>
-                <source src="data/chronodepth.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-                </video></div>
-                <img src='data/chronodepth.jpg' width=100%>
-              </div>
-              <script type="text/javascript">
-                function chronodepth_start() {
-                  document.getElementById('chronodepth_image').style.opacity = "1";
-                }
-      
-                function chronodepth_stop() {
-                  document.getElementById('chronodepth_image').style.opacity = "0";
-                }
-                chronodepth_stop()
-              </script>
-            </td>
-            <td width="75%" valign="middle">
-              <a href="https://xdimlab.github.io/ChronoDepth/">
-                <papertitle>ChronoDepth🕰️: Learning Temporally Consistent Video Depth from Video Diffusion Priors</papertitle>
-              </a>
-              <br>
-              <a href="https://jiahao-shao1.github.io/"> Jiahao Shao*</a>, 
-              <strong>Yuanbo Yang*</strong>,
-              <a href="">Hongyu Zhou</a>,
+        <!-- ChronoDepth -->
+        <article class="paper-card fade-in">
+          <div class="paper-media">
+            <img src="data/chronodepth.jpg" alt="ChronoDepth">
+            <video muted autoplay loop playsinline>
+              <source src="data/chronodepth.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="paper-info">
+            <a class="paper-title" href="https://xdimlab.github.io/ChronoDepth/">
+              ChronoDepth: Learning Temporally Consistent Video Depth from Video Diffusion Priors
+            </a>
+            <p class="paper-authors">
+              <a href="https://jiahao-shao1.github.io/">Jiahao Shao*</a>,
+              <span class="me">Yuanbo Yang*</span>,
+              Hongyu Zhou,
               <a href="https://youmi-zym.github.io/">Youmin Zhang</a>,
               <a href="https://shenyujun.github.io/">Yujun Shen</a>,
               <a href="https://vitorguizilini.github.io/">Vitor Guizilini</a>,
               <a href="https://yuewang.xyz/">Yue Wang</a>,
               <a href="https://mattpoggi.github.io/">Matteo Poggi</a>,
-              <a href="https://yiyiliao.github.io/">Yiyi Liao†</a>
-              <br>
-             <em>CVPR</em>, 2025
-              <br>
-              <a href="https://xdimlab.github.io/ChronoDepth/">project page</a>
-              /
+              <a href="https://yiyiliao.github.io/">Yiyi Liao</a>
+            </p>
+            <p class="paper-venue">CVPR 2025</p>
+            <div class="paper-links">
+              <a href="https://xdimlab.github.io/ChronoDepth/">Project</a>
               <a href="https://arxiv.org/abs/2406.01493">arXiv</a>
-              /
-              <a href="https://github.com/jiahao-shao1/ChronoDepth">code</a>
-              <p></p>
-              <p> <strong>ChronoDepth</strong> addresses the challenge of streamed video depth estimation with video diffusion model.</p>
-            </td>
-          </tr>
-        </tbody></table>
+              <a href="https://github.com/jiahao-shao1/ChronoDepth">Code</a>
+            </div>
+            <p class="paper-desc">
+              <strong>ChronoDepth</strong> addresses temporally consistent video depth estimation using video diffusion model priors.
+            </p>
+          </div>
+        </article>
 
-        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
-          <tbody>
-            <tr onmouseout="teff_stop()" onmouseover="teff_start()">
-              <!-- 左侧 GIF 图片 -->
-              <td style="padding:20px;width:25%;vertical-align:middle;">
-                <div class="one">
-                  <div class="two" id='teff_image'>
-                    <img src='data/teff.gif' width=100% alt="Animated GIF" style="display: block;">
-                  </div>
-                  <img src='data/teff.gif' width=100% alt="Animated GIF" style="display: block;">
-                </div>
-                <script type="text/javascript">
-                  function teff_start() {
-                    document.getElementById('teff_image').style.opacity = "1";
-                  }
-                  function teff_stop() {
-                    document.getElementById('teff_image').style.opacity = "0";
-                  }
-                  teff_stop()
-                </script>
-              </td>
-              <!-- 右侧内容 -->
-              <td style="width:75%;vertical-align:middle;">
-                <a href="https://xdimlab.github.io/TeFF/">
-                  <papertitle>TeFF🐘: Learning 3D-Aware GANs from Unposed Images with Template Feature Field</papertitle>
-                  <span style="color:#c0392b;"><strong>(Oral)</strong></span>
-                </a>
-                <br>
-                <a href="https://xinyachen21.github.io/">Xinya Chen</a>,
-                Hanlei Guo,
-                Yanrui Bin,
-                <a href="https://zhanghe3z.github.io/">Shangzhan Zhang</a>,
-                <strong>Yuanbo Yang</strong>,
-                <a href="https://ywang-zju.github.io/">Yue Wang</a>,
-                <a href="https://shenyujun.github.io/">Yujun Shen</a>,
-                <a href="https://yiyiliao.github.io/">Yiyi Liao†</a>
-                <br>
-                <!-- <em>In Proc. of the European Conf. on Computer Vision <strong>(ECCV)</strong></em>, 2024 -->
-                <em>ECCV</em>, 2024
-                <br>
-                <a href="https://xdimlab.github.io/TeFF/">project page</a>
-                /
-                <a href="https://arxiv.org/abs/2404.05705">arXiv</a>
-                /
-                <a href="https://github.com/XinyaChen21/TeFF">code</a>
-                <p></p>
-                <p> <strong>TeFF</strong> targets learning 3D-aware GANs from unposed images, for which we propose to perform
-                  on-the-fly pose estimation of training images with a learned template feature field (TeFF).</p>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        
-        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
-        <tbody>
-          <tr onmouseout="mapa_stop()" onmouseover="mapa_start()">
-            <!-- 左侧图片 -->
-            <td style="padding:20px;width:25%;vertical-align:middle;">
-              <div class="one">
-                <div class="two" id='mapa_image'>
-                  <img src='data/mapa.jpg' width=100% alt="MaPa Image">
-                </div>
-                <img src='data/mapa.jpg' width=100% alt="MaPa Image">
-              </div>
-              <script type="text/javascript">
-                function mapa_start() {
-                  document.getElementById('mapa_image').style.opacity = "1";
-                }
-                function mapa_stop() {
-                  document.getElementById('mapa_image').style.opacity = "0";
-                }
-                mapa_stop()
-              </script>
-            </td>
-            <!-- 右侧内容 -->
-            <td style="width:75%;vertical-align:middle;">
-              <a href="https://zhanghe3z.github.io/MaPa/">
-                <papertitle>MaPa🖼️: Text-driven Photorealistic Material Painting for 3D Shapes</papertitle>
-              </a>
-              <br>
+        <!-- Orientation Matters -->
+        <article class="paper-card fade-in">
+          <div class="paper-info">
+            <a class="paper-title" href="https://xdimlab.github.io/Orientation_Matters/">
+              Orientation Matters: Making 3D Generative Models Orientation-Aligned
+            </a>
+            <p class="paper-authors">
+              Yichong Lu*,
+              Yuzhuo Tian*,
+              Zijin Jiang*,
+              Yikun Zhao,
+              <span class="me">Yuanbo Yang</span>,
+              Hao Ouyang,
+              Haoji Hu,
+              Huimin Yu,
+              <a href="https://shenyujun.github.io/">Yujun Shen</a>,
+              <a href="https://yiyiliao.github.io/">Yiyi Liao</a>
+            </p>
+            <p class="paper-venue">NeurIPS 2025</p>
+            <div class="paper-links">
+              <a href="https://xdimlab.github.io/Orientation_Matters/">Project</a>
+            </div>
+            <p class="paper-desc">
+              <strong>Orientation Matters</strong> addresses orientation alignment in 3D generative models.
+            </p>
+          </div>
+        </article>
+
+        <!-- HeFT -->
+        <article class="paper-card fade-in">
+          <div class="paper-info">
+            <a class="paper-title" href="https://yuantianyu177.github.io/heft_page/">
+              HeFT: Harnessing Video Diffusion Priors for Robust Correspondence
+            </a>
+            <p class="paper-authors">
+              Tianyu Yuan*,
+              <span class="me">Yuanbo Yang*</span>,
+              Lin-Zhuo Chen,
+              Yao Yao,
+              Zhuzhong Qian
+            </p>
+            <p class="paper-venue">arXiv 2025</p>
+            <div class="paper-links">
+              <a href="https://yuantianyu177.github.io/heft_page/">Project</a>
+              <a href="https://arxiv.org/abs/2512.04619">arXiv</a>
+            </div>
+            <p class="paper-desc">
+              <strong>HeFT</strong> is a zero-shot point tracking framework leveraging visual priors of pretrained video diffusion models.
+            </p>
+          </div>
+        </article>
+
+        <!-- The Constant Eye -->
+        <article class="paper-card fade-in">
+          <div class="paper-info">
+            <a class="paper-title" href="https://arxiv.org/abs/2602.12563">
+              The Constant Eye: Benchmarking and Bridging Appearance Robustness in Autonomous Driving
+            </a>
+            <p class="paper-authors">
+              Jiabao Wang,
+              Hongyu Zhou,
+              <span class="me">Yuanbo Yang</span>,
+              <a href="https://jiahao-shao1.github.io/">Jiahao Shao</a>,
+              <a href="https://yiyiliao.github.io/">Yiyi Liao</a>
+            </p>
+            <p class="paper-venue">arXiv 2025</p>
+            <div class="paper-links">
+              <a href="https://arxiv.org/abs/2602.12563">arXiv</a>
+            </div>
+            <p class="paper-desc">
+              <strong>The Constant Eye</strong> benchmarks appearance robustness under OOD conditions in autonomous driving.
+            </p>
+          </div>
+        </article>
+
+        <!-- TeFF -->
+        <article class="paper-card fade-in">
+          <div class="paper-media">
+            <img src="data/teff.gif" alt="TeFF">
+          </div>
+          <div class="paper-info">
+            <a class="paper-title" href="https://xdimlab.github.io/TeFF/">
+              TeFF: Learning 3D-Aware GANs from Unposed Images with Template Feature Field
+            </a>
+            <p class="paper-authors">
+              <a href="https://xinyachen21.github.io/">Xinya Chen</a>,
+              Hanlei Guo,
+              Yanrui Bin,
+              <a href="https://zhanghe3z.github.io/">Shangzhan Zhang</a>,
+              <span class="me">Yuanbo Yang</span>,
+              Hongyu Zhou,
+              <a href="https://youmi-zym.github.io/">Youmin Zhang</a>,
+              <a href="https://shenyujun.github.io/">Yujun Shen</a>,
+              <a href="https://yiyiliao.github.io/">Yiyi Liao</a>
+            </p>
+            <p class="paper-venue">ECCV 2024 <span class="oral">(Oral)</span></p>
+            <div class="paper-links">
+              <a href="https://xdimlab.github.io/TeFF/">Project</a>
+              <a href="https://arxiv.org/abs/2404.05705">arXiv</a>
+              <a href="https://github.com/XinyaChen21/TeFF">Code</a>
+            </div>
+            <p class="paper-desc">
+              <strong>TeFF</strong> learns 3D-aware GANs from unposed images via on-the-fly pose estimation with a learned template feature field.
+            </p>
+          </div>
+        </article>
+
+        <!-- MaPa -->
+        <article class="paper-card fade-in">
+          <div class="paper-media">
+            <img src="data/mapa.jpg" alt="MaPa">
+          </div>
+          <div class="paper-info">
+            <a class="paper-title" href="https://zhanghe3z.github.io/MaPa/">
+              MaPa: Text-driven Photorealistic Material Painting for 3D Shapes
+            </a>
+            <p class="paper-authors">
               <a href="https://zhanghe3z.github.io/">Shangzhan Zhang</a>,
               <a href="https://pengsida.net/">Sida Peng</a>,
               Tao Xu,
-              <strong>Yuanbo Yang</strong>,
+              <span class="me">Yuanbo Yang</span>,
               <a href="https://tianrun-chen.github.io/">Tianrun Chen</a>,
               <a href="https://xuenan.net/">Nan Xue</a>,
               <a href="https://shenyujun.github.io/">Yujun Shen</a>,
               <a href="http://www.cad.zju.edu.cn/home/bao/">Hujun Bao</a>,
               <a href="https://csse.szu.edu.cn/staff/ruizhenhu/">Ruizhen Hu</a>,
               <a href="https://www.xzhou.me/">Xiaowei Zhou</a>
-              <br>
-              <em>SIGGRAPH</em>, 2024.
-              <br>
-              <a href="https://zhanghe3z.github.io/MaPa/">project page</a>
-              /
-              <a href="https://github.com/zhanghe3z/MaPa/releases/download/paper/2024_SIGGRAPH_PaintMat_arxiv.6.pdf">paper</a>
-              <!-- <a href="https://github.com/jiahao-shao1/ChronoDepth">code</a> -->
-              <p></p>
-              <p> <strong>MaPa</strong> introduces a method to create segment-wise procedural material graphs as the
-                appearance representation, which supports high-quality rendering and provides significant flexibility in
-                editing.</p>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
-          <tbody>
-            <tr onmouseout="urbangiraffe_stop()" onmouseover="urbangiraffe_start()">
-              <!-- 左侧 GIF 图片 -->
-              <td style="padding:20px;width:25%;vertical-align:middle;">
-                <div class="one">
-                  <div class="two" id='urbangiraffe_image'>
-                    <img src='data/urbangiraffe.gif' width=100% alt="Animated GIF" style="display: block;">
-                  </div>
-                  <img src='data/urbangiraffe.gif' width=100% alt="Animated GIF" style="display: block;">
-                </div>
-                <script type="text/javascript">
-                  function urbangiraffe_start() {
-                    document.getElementById('urbangiraffe_image').style.opacity = "1";
-                  }
-                  function urbangiraffe_stop() {
-                    document.getElementById('urbangiraffe_image').style.opacity = "0";
-                  }
-                  urbangiraffe_stop()
-                </script>
-              </td>
-              <!-- 右侧内容 -->
-              <td style="width:75%;vertical-align:middle;">
-                <a href="https://lv3d.github.io/urbanGIRAFFE/">
-                  <papertitle>UrbanGIRAFFE🚗: Representing Urban Scenes as Compositional Generative Neural Feature Fields
-                  </papertitle>
-                </a>
-                <br>
-                <strong>Yuanbo Yang</strong>,
-                <a href="https://openreview.net/profile?id=~Yifei_Yang1">Yifei Yang</a>,
-                Hanlei Guo,
-                <a href="http://www.cse.zju.edu.cn/english/redir.php?catalog_id=1113878&amp;object_id=1115898">Rong Xiong</a>,
-                <a href="https://ywang-zju.github.io/">Yue Wang</a>,
-                <a href="https://yiyiliao.github.io/">Yiyi Liao†</a>
-                <br>
-                <em>ICCV</em>, 2023
-                <br>
-                <a href="https://xdimlab.github.io/ChronoDepth/">project page</a>
-                /
-                <a href="https://arxiv.org/abs/2303.14167">arXiv</a>
-                /
-                <a href="https://github.com/jiahao-shao1/ChronoDepth">code</a>
-                <p></p>
-                <p> <strong>UrbanGIRAFFE</strong> leverages a coarse 3D panoptic prior to guide a 3D-aware generative model,
-                  enabling photorealistic 3D-aware
-                  image synthesis with diverse controllability, including large camera movement, stuff editing, and object
-                  manipulation.</p>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
-        <heading>Experiences</heading>
-        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
-          <tbody>
-            <tr>
-              <td style="padding:20px;width:20%;vertical-align:middle">
-                <img src='data/logo/padded_ant.png' width=60% style="display: block; margin: auto;">
-              </td>
-            <td width="75%" valign="middle">
-                <br>
-                <strong>Ant Group</strong> 
-                <br>
-                  2023 - Present
-                <br>
-                Research Intern
-              </td>
-            </tr>
-          </tbody>
-
-        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
-          <tbody>
-            <tr>
-              <td style="padding:20px;width:20%;vertical-align:middle">
-                <img src='data/logo/padded_zju.png' width=60%, style="display: block; margin: auto;">
-              </td>
-              <td width="75%" valign="middle">
-                <br>
-                <strong>Zhejiang University</strong>,
-                <br>
-                Sep. 2022 - June. 2025
-                <br>
-                Master's student
-              </td>
-            </tr>
-          </tbody>
-
-        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
-          <tbody>
-            <tr>
-              <td style="padding:20px;width:20%;vertical-align:middle">
-                <img src='data/logo/padded_hdu.png' width=60%, style="display: block; margin: auto;">
-              </td>
-              <td width="75%" valign="middle">
-                <br>
-                <strong>Hangzhou Dianzi University</strong>
-                <br>
-                Sep. 2018 - June. 2022
-                <br>
-                Bachelor Degree
-              </td>
-            </tr>
-          </tbody>
-
-        </table>
-
-
-
-        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-          <tr>
-            <td style="padding:0px">
-              <br>
-              <p style="text-align:right;font-size:small;">Last updated Dec. 2024<br>Thanks <a href="https://jonbarron.info/">Dr. Jon Barron</a> for sharing the source code of his personal page.</p>
-              </p>
-            </td>
-          </tr>
-        </tbody></table>
-
-        <table>
-          <div style="width:20%;margin:0 auto;">
-            <script type="text/javascript" id="clstr_globe" src="//clustrmaps.com/globe.js?d=aeAvHz-b79mC7dPRO9kLzIprAAipupSBWJPwByyZKfQ"></script>
+            </p>
+            <p class="paper-venue">SIGGRAPH 2024</p>
+            <div class="paper-links">
+              <a href="https://zhanghe3z.github.io/MaPa/">Project</a>
+              <a href="https://github.com/zhanghe3z/MaPa/releases/download/paper/2024_SIGGRAPH_PaintMat_arxiv.6.pdf">Paper</a>
+            </div>
+            <p class="paper-desc">
+              <strong>MaPa</strong> creates segment-wise procedural material graphs for high-quality rendering with significant editing flexibility.
+            </p>
           </div>
-        </table>
+        </article>
 
+        <!-- UrbanGIRAFFE -->
+        <article class="paper-card highlight fade-in">
+          <div class="paper-media">
+            <img src="data/urbangiraffe.gif" alt="UrbanGIRAFFE">
+          </div>
+          <div class="paper-info">
+            <a class="paper-title" href="https://lv3d.github.io/urbanGIRAFFE/">
+              UrbanGIRAFFE: Representing Urban Scenes as Compositional Generative Neural Feature Fields
+            </a>
+            <p class="paper-authors">
+              <span class="me">Yuanbo Yang</span>,
+              <a href="https://openreview.net/profile?id=~Yifei_Yang1">Yifei Yang</a>,
+              Hanlei Guo,
+              <a href="http://www.cse.zju.edu.cn/english/redir.php?catalog_id=1113878&object_id=1115898">Rong Xiong</a>,
+              <a href="https://ywang-zju.github.io/">Yue Wang</a>,
+              <a href="https://yiyiliao.github.io/">Yiyi Liao</a>
+            </p>
+            <p class="paper-venue">ICCV 2023</p>
+            <div class="paper-links">
+              <a href="https://lv3d.github.io/urbanGIRAFFE/">Project</a>
+              <a href="https://arxiv.org/abs/2303.14167">arXiv</a>
+            </div>
+            <p class="paper-desc">
+              <strong>UrbanGIRAFFE</strong> leverages coarse 3D panoptic priors to guide a 3D-aware generative model for photorealistic urban scene synthesis with diverse controllability.
+            </p>
+          </div>
+        </article>
 
-      </td>
-    </tr>
-  </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="container">
+      <div class="section-header">
+        <h2>Experience</h2>
+      </div>
+
+      <div class="exp-grid">
+        <div class="exp-col">
+          <div class="timeline-item fade-in">
+            <img class="timeline-logo" src="data/logo/padded_ucsd.png" alt="UC San Diego">
+            <div class="timeline-info">
+              <h3>UC San Diego</h3>
+              <div class="timeline-period">2026</div>
+            </div>
+          </div>
+          <div class="timeline-item fade-in">
+            <img class="timeline-logo" src="data/logo/padded_zju.png" alt="Zhejiang University">
+            <div class="timeline-info">
+              <h3>Zhejiang University</h3>
+              <div class="timeline-period">2022 &mdash; 2025</div>
+            </div>
+          </div>
+          <div class="timeline-item fade-in">
+            <img class="timeline-logo" src="data/logo/padded_hdu.png" alt="Hangzhou Dianzi University">
+            <div class="timeline-info">
+              <h3>Hangzhou Dianzi University</h3>
+              <div class="timeline-period">2018 &mdash; 2022</div>
+            </div>
+          </div>
+        </div>
+        <div class="exp-col">
+          <div class="timeline-item fade-in">
+            <img class="timeline-logo" src="data/logo/padded_analamma.png" alt="Analamma AI">
+            <div class="timeline-info">
+              <h3>Analamma AI</h3>
+              <div class="timeline-period">2025 &mdash;</div>
+            </div>
+          </div>
+          <div class="timeline-item fade-in">
+            <img class="timeline-logo" src="data/logo/padded_umich.png" alt="University of Michigan">
+            <div class="timeline-info">
+              <h3>University of Michigan</h3>
+              <div class="timeline-period">2025</div>
+            </div>
+          </div>
+          <div class="timeline-item fade-in">
+            <img class="timeline-logo" src="data/logo/padded_ant.png" alt="Ant Group">
+            <div class="timeline-info">
+              <h3>Ant Group</h3>
+              <div class="timeline-period">2023 &mdash; 2025</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <p>Last updated Apr. 2026</p>
+    </div>
+  </footer>
+
+  <script>
+    // Theme toggle
+    const toggle = document.getElementById('theme-toggle');
+    const root = document.documentElement;
+
+    function setTheme(theme) {
+      root.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+    }
+
+    const saved = localStorage.getItem('theme');
+    if (saved) {
+      setTheme(saved);
+    } else {
+      setTheme('dark');
+    }
+
+    toggle.addEventListener('click', () => {
+      const current = root.getAttribute('data-theme');
+      setTheme(current === 'dark' ? 'light' : 'dark');
+    });
+
+    // Nav scroll effect
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 20);
+    });
+
+    // Fade-in on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.02, rootMargin: '0px 0px 50px 0px' });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+
 </body>
 
 </html>

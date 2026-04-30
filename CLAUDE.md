@@ -11,17 +11,28 @@ Yuanbo Yang's personal academic website, hosted at https://freemty.github.io/. S
 - `project_page` — main branch (default remote), serves the live site
 - `personal` — personal/development branch
 - `master` — legacy branch
-- `hugo` — abandoned Hugo migration
+
+## Design System
+
+The site uses the **Swiss Knife Design System** (`/swiss-knife-design` skill). Key principles:
+
+- **Color**: Pure black `#000` + pure white `#FFF` + Swiss Army Knife Red `#C6011F` (same in dark mode)
+- **Red is line, not text** — accent only on borders, bars, badges, and hover states
+- **Dormant → Alive** — images/logos start faded (light: brightened; dark: darkened), restore on hover
+- **Typography**: EB Garamond (display) + Inter (body)
+- **Layout**: Flexbox, max-width 860px, no table layouts
+- **Dark mode**: `data-theme="dark"` on `<html>`, respects system preference + localStorage
+- **Accessibility**: `:focus-visible` outline on all interactive elements; `scroll-margin-top` on sections for fixed nav; mobile breakpoints restore image saturation (no hover on touch)
 
 ## Site Structure
 
-- `index.html` + `stylesheet.css` — Main academic homepage (based on Jon Barron's template). Uses custom HTML elements (`<papertitle>`, `<heading>`, `<name>`) styled in CSS. Research papers use hover-to-reveal video/image pattern with JS toggle functions.
+- `index.html` + `stylesheet.css` — Main academic homepage. Modern card-based layout with nav, hero, news, research papers (highlight/expand system), experience timeline, and dark mode toggle.
 - `fomo/` — "No More FOMO" daily AI news digest. Auto-generated HTML files named by date (`YYYY-MM-DD.html`, `YYYY-MM-DD-zh.html`). Has its own `index.html` archive page with dark/light theme and zh/en language toggle.
 - `build/` — Viser 3D viewer client (pre-built React app, do not modify directly)
 - `data/` — Media assets (images, videos, PDFs, logos)
-- `scripts/` — Python image processing utilities (`ellipse_img.py`, `paddig_img.py`)
+- `data/logo/` — Institution logos (padded PNGs: ant, zju, hdu, ucsd, umich, analamma)
+- `scripts/` — Python image processing utilities
 - `cc-research-playbook.html`, `steam-steel-infinite-minds.html` — Standalone presentation pages
-- `steam-steel-presentation-assets/` — Assets for the presentation page
 
 ## Development
 
@@ -37,6 +48,9 @@ Push to `project_page` branch — GitHub Pages serves the site automatically.
 
 ## Key Patterns
 
-- FOMO digest files are generated externally (by the `no-more-fomo` skill/cron). When updating, follow the existing date-naming convention and update `fomo/index.html` archive entries.
-- Adding a new research paper: follow the existing table row pattern in `index.html` — create hover JS functions, add media to `data/`, and update the News section.
-- The site uses inline `<table>` layout (not CSS grid/flexbox) for the main page, matching the Jon Barron template style.
+- **Adding a new paper**: Add an `<article class="paper-card">` inside `.papers`. Use `class="highlight"` for first-author papers (shown by default). Others are hidden until "Show all" is clicked.
+- **Paper media**: Include `<div class="paper-media">` with `<img>` and optional `<video>`. Images auto-desaturate and restore on hover.
+- **News items**: Add a `<div class="news-item">` with `.news-date` and `.news-text` spans.
+- **Experience entries**: Add a `<div class="timeline-item">` with logo + info.
+- **FOMO digest**: Generated externally by the `no-more-fomo` skill/cron. Follow date-naming convention.
+- **Dark mode**: Handled via CSS variables + `[data-theme="dark"]` selectors. JS toggles the attribute and saves to localStorage.
