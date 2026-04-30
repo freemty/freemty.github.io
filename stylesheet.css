@@ -755,9 +755,14 @@ section {
     padding: 0 16px;
   }
 
+  .nav-name {
+    display: none;
+  }
+
   .nav-inner {
     padding: 0 16px;
     height: 48px;
+    justify-content: center;
   }
 
   .hero {
