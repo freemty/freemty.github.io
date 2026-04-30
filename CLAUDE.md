@@ -30,6 +30,7 @@ The site uses the **Swiss Knife Design System** (`/swiss-knife-design` skill). K
 - `fomo/` — "No More FOMO" daily AI news digest. Auto-generated HTML files named by date (`YYYY-MM-DD.html`, `YYYY-MM-DD-zh.html`). Has its own `index.html` archive page with dark/light theme and zh/en language toggle.
 - `build/` — Viser 3D viewer client (pre-built React app, do not modify directly)
 - `data/` — Media assets (images, videos, PDFs, logos)
+- `data/Yuanbo_CV.tex` + `data/Yuanbo_CV.pdf` — LaTeX CV source and compiled PDF. Uses Swiss Knife Red accent on section rules. Compile with `pdflatex data/Yuanbo_CV.tex` (run twice for refs).
 - `data/logo/` — Institution logos (padded PNGs: ant, zju, hdu, ucsd, umich, analamma)
 - `scripts/` — Python image processing utilities
 - `cc-research-playbook.html`, `steam-steel-infinite-minds.html` — Standalone presentation pages
@@ -54,3 +55,4 @@ Push to `project_page` branch — GitHub Pages serves the site automatically.
 - **Experience entries**: Add a `<div class="timeline-item">` with logo + info.
 - **FOMO digest**: Generated externally by the `no-more-fomo` skill/cron. Follow date-naming convention.
 - **Dark mode**: Handled via CSS variables + `[data-theme="dark"]` selectors. JS toggles the attribute and saves to localStorage.
+- **Updating CV**: Edit `data/Yuanbo_CV.tex`, run `pdflatex` twice, commit both `.tex` and `.pdf`. Keep content in sync with `index.html` (papers, experience, bio).
