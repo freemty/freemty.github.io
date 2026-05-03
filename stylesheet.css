@@ -141,6 +141,78 @@ section {
   text-decoration: none;
 }
 
+/* ===== FONT PICKER ===== */
+.font-picker {
+  position: relative;
+}
+
+.font-picker-btn {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--text-tertiary);
+  font-size: 14px;
+  padding: 4px 10px;
+  font-family: var(--font-display);
+  transition: all var(--transition);
+}
+
+.font-picker-btn:hover {
+  color: var(--text);
+  border-color: var(--text-tertiary);
+}
+
+.font-picker-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 8px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 8px 0;
+  min-width: 180px;
+  z-index: 200;
+}
+
+.font-picker-dropdown.open {
+  display: block;
+}
+
+.font-picker-dropdown .font-picker-group {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-tertiary);
+  padding: 8px 14px 4px;
+}
+
+.font-picker-dropdown button[data-font] {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 6px 14px;
+  font-size: 14px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.font-picker-dropdown button[data-font]:hover {
+  color: var(--text);
+  background: var(--border-light);
+}
+
+.font-picker-dropdown button[data-font].active {
+  color: var(--accent);
+  font-weight: 600;
+}
+
 /* ===== THEME TOGGLE ===== */
 .theme-toggle {
   background: none;
@@ -415,7 +487,7 @@ section {
 
 
 [data-theme="dark"] .hero-photo img {
-  filter: brightness(0.55);
+  filter: brightness(0.75);
 }
 
 [data-theme="dark"] .hero-photo:hover img,
@@ -424,7 +496,7 @@ section {
 }
 
 [data-theme="dark"] .paper-media img {
-  filter: brightness(0.5);
+  filter: brightness(0.7);
 }
 
 [data-theme="dark"] .paper-card:hover .paper-media img {
@@ -432,8 +504,8 @@ section {
 }
 
 [data-theme="dark"] .timeline-logo {
-  opacity: 0.5;
-  filter: brightness(0.6);
+  opacity: 0.65;
+  filter: brightness(0.8);
 }
 
 [data-theme="dark"] .timeline-item:hover .timeline-logo {

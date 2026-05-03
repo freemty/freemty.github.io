@@ -10,7 +10,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&family=Noto+Serif+SC:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Noto+Serif+SC:wght@300;400;500&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="stylesheet.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text x=%2210%22 y=%2272%22 font-family=%22Georgia,serif%22 font-size=%2280%22 font-weight=%22400%22 fill=%22%23000%22>Y</text><circle cx=%2278%22 cy=%2278%22 r=%228%22 fill=%22%23C6011F%22/></svg>">
@@ -31,6 +31,18 @@
         <a href="#research">Research</a>
         <a href="#experience">Experience</a>
         <a href="mailto:yangyuanbo04@gmail.com">Contact</a>
+        <div class="font-picker" id="fontPicker">
+          <button class="font-picker-btn" id="fontBtn" aria-label="Switch font">Ag</button>
+          <div class="font-picker-dropdown" id="fontDropdown">
+            <div class="font-picker-group">Serif</div>
+            <button data-font="garamond" style="font-family:'EB Garamond',serif">EB Garamond</button>
+            <button data-font="crimson" style="font-family:'Crimson Pro',serif">Crimson Pro</button>
+            <button data-font="newsreader" style="font-family:'Newsreader',serif">Newsreader</button>
+            <div class="font-picker-group">Sans</div>
+            <button data-font="inter" style="font-family:'Inter',sans-serif">Inter</button>
+            <button data-font="dm" style="font-family:'DM Sans',sans-serif">DM Sans</button>
+          </div>
+        </div>
         <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
           <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
           <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
@@ -546,6 +558,40 @@
       const current = root.getAttribute('data-theme');
       setTheme(current === 'dark' ? 'light' : 'dark');
     });
+
+    // Font picker
+    var fonts = {
+      garamond:   "'EB Garamond', 'Noto Serif SC', Georgia, serif",
+      crimson:    "'Crimson Pro', 'Noto Serif SC', Georgia, serif",
+      newsreader: "'Newsreader', 'Noto Serif SC', Georgia, serif",
+      inter:      "'Inter', system-ui, sans-serif",
+      dm:         "'DM Sans', system-ui, sans-serif"
+    };
+    var fontBtn = document.getElementById('fontBtn');
+    var fontDropdown = document.getElementById('fontDropdown');
+    var fontItems = fontDropdown.querySelectorAll('button[data-font]');
+    var savedFont = localStorage.getItem('font') || 'garamond';
+
+    function setFont(key) {
+      root.style.setProperty('--font-display', fonts[key]);
+      fontBtn.style.fontFamily = fonts[key];
+      fontItems.forEach(function(b) { b.classList.toggle('active', b.dataset.font === key); });
+      localStorage.setItem('font', key);
+    }
+    setFont(savedFont);
+
+    fontBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      fontDropdown.classList.toggle('open');
+    });
+    fontItems.forEach(function(b) {
+      b.addEventListener('click', function(e) {
+        e.stopPropagation();
+        setFont(b.dataset.font);
+        fontDropdown.classList.remove('open');
+      });
+    });
+    document.addEventListener('click', function() { fontDropdown.classList.remove('open'); });
 
     // Nav scroll effect
     const nav = document.getElementById('nav');
