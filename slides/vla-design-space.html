@@ -169,7 +169,27 @@ ul.clean li strong { color: var(--text); }
 </div>
 </div>
 
-<!-- S3: 散点图 -->
+<!-- S3: Experimental Setup -->
+<div class="slide">
+<div class="slide-inner">
+  <div class="section-rule"></div>
+  <h2>Experimental Setup</h2>
+  <table style="font-size:14px;max-width:700px;">
+    <tbody>
+      <tr><td class="mono small muted" style="width:100px;">硬件</td><td>RTX 5880 Ada 48GB × 1 (xdlab23)</td></tr>
+      <tr><td class="mono small muted">精度</td><td>bf16, sdpa (OpenVLA: eager attn)</td></tr>
+      <tr><td class="mono small muted">输入</td><td>224×224 synthetic tensor, batch=1</td></tr>
+      <tr><td class="mono small muted">统计</td><td>warmup=15, iter=20, 报 median</td></tr>
+      <tr><td class="mono small muted">计时</td><td>CUDA event (torch.cuda.Event, enable_timing=True)</td></tr>
+      <tr><td class="mono small muted">阶段</td><td>E (vision encode) / C (LLM prefill) / A (action head)</td></tr>
+      <tr><td class="mono small muted">权重</td><td>real: Pi-Zero, Cosmos, OpenVLA-OFT<br>random: 其余 6 个 (验证 Δ&lt;12%, exp07b)</td></tr>
+    </tbody>
+  </table>
+  <p class="small muted" style="margin-top:12px;">warmup=15 来自 exp07a: 前 12 次 GPU 功率爬坡导致 bimodal 分布 (1.25x)。nvidia-smi -pm 1 后仍需 warmup。</p>
+</div>
+</div>
+
+<!-- S4: 散点图 -->
 <div class="slide">
 <div class="slide-inner">
   <div class="section-rule"></div>
