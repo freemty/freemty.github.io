@@ -125,36 +125,7 @@ td strong { font-weight: 600; }
 </div>
 </div>
 
-<!-- S1: Eight Systems + VLA vs VA -->
-<div class="slide">
-<div class="slide-inner">
-  <div class="section-rule"></div>
-  <h2>Eight Systems</h2>
-  <table style="font-size:12px;">
-    <thead><tr><th>System</th><th>Summary</th><th>Target Task</th><th>Our Data</th></tr></thead>
-    <tbody>
-      <tr><td><strong>π0.7</strong></td><td>Cascaded WAM: planner → WM → VLA → Expert</td><td>ALOHA bimanual, DROID</td><td class="mono">200ms / 5Hz</td></tr>
-      <tr><td><strong>GEN-1</strong></td><td>99% from scratch, 500K hr wearable data</td><td>Tabletop / kitchen (proprietary)</td><td class="muted">N/A</td></tr>
-      <tr><td><strong>GENE-26.5</strong></td><td>Flow matching + custom 20-DoF hand</td><td>Dexterous manipulation</td><td class="muted">N/A</td></tr>
-      <tr><td><strong>Skild Brain</strong></td><td>100K morphology sim pretrain</td><td>Multi-morphology locomotion+manip</td><td class="muted">N/A</td></tr>
-      <tr><td><strong>Cosmos Policy</strong></td><td>Joint WAM: 2B DiT, action = latent frame</td><td><strong>LIBERO</strong> 98.5% / RoboCasa</td><td class="mono">659ms / <span style="color:var(--green);">97.4%</span></td></tr>
-      <tr><td><strong>DreamZero</strong></td><td>Joint WAM: 14B video DiT, zero-shot</td><td>DROID kitchen (zero-shot)</td><td class="muted">N/A</td></tr>
-      <tr><td><strong>LingBot-VA</strong></td><td>Joint WAM: video + action DiT, 34x slower</td><td><strong>LIBERO</strong> / RoboTwin</td><td class="mono">2518ms / <span class="muted">eval pending</span></td></tr>
-      <tr><td><strong>Rhoda DVA</strong></td><td>Cascaded WAM: causal video → IDM</td><td>Industrial deployment (1.5hr+)</td><td class="muted">N/A</td></tr>
-    </tbody>
-  </table>
-  <div class="two-col" style="margin-top:4px;">
-    <div style="font-size:11px;color:var(--text-tertiary);"><span class="badge blue" style="font-size:9px;">VLA</span> No video gen: PI, Generalist, Figure, Google, NVIDIA</div>
-    <div style="font-size:11px;color:var(--text-tertiary);"><span class="badge red" style="font-size:9px;">VA/WAM</span> Video at inference: 1X, Rhoda, NVIDIA, Cosmos</div>
-  </div>
-  <p class="mono small muted" style="text-align:center;">VLA ~5Hz vs WAM ~0.4Hz</p>
-  <div style="position:absolute;bottom:16px;left:72px;right:72px;font-size:9px;font-family:var(--font-mono);color:var(--text-tertiary);opacity:0.5;line-height:1.5;">
-    <a href="https://www.physicalintelligence.company/blog/pi0-7" style="color:inherit;text-decoration:none;border-bottom:1px dotted var(--text-tertiary);">π0.7 PI 2026-04</a><br><a href="https://generalistai.com/blog/apr-02-2026-GEN-1" style="color:inherit;text-decoration:none;border-bottom:1px dotted var(--text-tertiary);">GEN-1 Generalist AI 2026-04</a><br><a href="https://arxiv.org/abs/2601.16163" style="color:inherit;text-decoration:none;border-bottom:1px dotted var(--text-tertiary);">Cosmos Policy arXiv:2601.16163</a><br><a href="https://arxiv.org/abs/2505.04622" style="color:inherit;text-decoration:none;border-bottom:1px dotted var(--text-tertiary);">DreamZero NVIDIA GEAR 2026</a><br><a href="https://www.rhoda.ai/research/direct-video-action" style="color:inherit;text-decoration:none;border-bottom:1px dotted var(--text-tertiary);">Rhoda AI 2026-03</a>
-  </div>
-</div>
-</div>
-
-<!-- S2: Recent Industry Progress -->
+<!-- S1: Recent Industry Progress -->
 <div class="slide">
 <div class="slide-inner">
   <div class="section-rule"></div>
@@ -188,7 +159,8 @@ td strong { font-weight: 600; }
 </div>
 
 
-<!-- S3: WAM Roadmap Coverage -->
+
+<!-- S2: WAM Roadmap Coverage -->
 <div class="slide">
 <div class="slide-inner" style="gap:12px;">
   <div class="section-rule"></div>
@@ -220,6 +192,37 @@ td strong { font-weight: 600; }
   <p class="small muted" style="text-align:center;">64 papers, no latency benchmark. Profiling gap confirmed by academic survey.</p>
   <div style="position:absolute;bottom:16px;left:72px;right:72px;font-size:9px;font-family:var(--font-mono);color:var(--text-tertiary);opacity:0.5;line-height:1.5;">
     <a href="https://arxiv.org/abs/2605.12090" style="color:inherit;text-decoration:none;border-bottom:1px dotted var(--text-tertiary);">Awesome-WAM: arXiv:2605.12090</a>
+  </div>
+</div>
+</div>
+
+
+
+<!-- S3: Eight Systems + VLA vs VA -->
+<div class="slide">
+<div class="slide-inner">
+  <div class="section-rule"></div>
+  <h2>Eight Systems</h2>
+  <table style="font-size:12px;">
+    <thead><tr><th>System</th><th>Summary</th><th>Target Task</th><th>Our Data</th></tr></thead>
+    <tbody>
+      <tr><td><strong>π0.7</strong></td><td>Cascaded WAM: planner → WM → VLA → Expert</td><td>ALOHA bimanual, DROID</td><td class="mono">200ms / 5Hz</td></tr>
+      <tr><td><strong>GEN-1</strong></td><td>99% from scratch, 500K hr wearable data</td><td>Tabletop / kitchen (proprietary)</td><td class="muted">N/A</td></tr>
+      <tr><td><strong>GENE-26.5</strong></td><td>Flow matching + custom 20-DoF hand</td><td>Dexterous manipulation</td><td class="muted">N/A</td></tr>
+      <tr><td><strong>Skild Brain</strong></td><td>100K morphology sim pretrain</td><td>Multi-morphology locomotion+manip</td><td class="muted">N/A</td></tr>
+      <tr><td><strong>Cosmos Policy</strong></td><td>Joint WAM: 2B DiT, action = latent frame</td><td><strong>LIBERO</strong> 98.5% / RoboCasa</td><td class="mono">659ms / <span style="color:var(--green);">97.4%</span></td></tr>
+      <tr><td><strong>DreamZero</strong></td><td>Joint WAM: 14B video DiT, zero-shot</td><td>DROID kitchen (zero-shot)</td><td class="muted">N/A</td></tr>
+      <tr><td><strong>LingBot-VA</strong></td><td>Joint WAM: video + action DiT, 34x slower</td><td><strong>LIBERO</strong> / RoboTwin</td><td class="mono">2518ms / <span class="muted">eval pending</span></td></tr>
+      <tr><td><strong>Rhoda DVA</strong></td><td>Cascaded WAM: causal video → IDM</td><td>Industrial deployment (1.5hr+)</td><td class="muted">N/A</td></tr>
+    </tbody>
+  </table>
+  <div class="two-col" style="margin-top:4px;">
+    <div style="font-size:11px;color:var(--text-tertiary);"><span class="badge blue" style="font-size:9px;">VLA</span> No video gen: PI, Generalist, Figure, Google, NVIDIA</div>
+    <div style="font-size:11px;color:var(--text-tertiary);"><span class="badge red" style="font-size:9px;">VA/WAM</span> Video at inference: 1X, Rhoda, NVIDIA, Cosmos</div>
+  </div>
+  <p class="mono small muted" style="text-align:center;">VLA ~5Hz vs WAM ~0.4Hz</p>
+  <div style="position:absolute;bottom:16px;left:72px;right:72px;font-size:9px;font-family:var(--font-mono);color:var(--text-tertiary);opacity:0.5;line-height:1.5;">
+    <a href="https://www.physicalintelligence.company/blog/pi0-7" style="color:inherit;text-decoration:none;border-bottom:1px dotted var(--text-tertiary);">π0.7 PI 2026-04</a><br><a href="https://generalistai.com/blog/apr-02-2026-GEN-1" style="color:inherit;text-decoration:none;border-bottom:1px dotted var(--text-tertiary);">GEN-1 Generalist AI 2026-04</a><br><a href="https://arxiv.org/abs/2601.16163" style="color:inherit;text-decoration:none;border-bottom:1px dotted var(--text-tertiary);">Cosmos Policy arXiv:2601.16163</a><br><a href="https://arxiv.org/abs/2505.04622" style="color:inherit;text-decoration:none;border-bottom:1px dotted var(--text-tertiary);">DreamZero NVIDIA GEAR 2026</a><br><a href="https://www.rhoda.ai/research/direct-video-action" style="color:inherit;text-decoration:none;border-bottom:1px dotted var(--text-tertiary);">Rhoda AI 2026-03</a>
   </div>
 </div>
 </div>
@@ -483,6 +486,7 @@ td strong { font-weight: 600; }
 
 </div><!-- end .deck -->
 
+<a href="https://freemty.github.io" style="position:fixed;top:16px;left:24px;font-family:var(--font-display);font-size:22px;font-weight:600;color:var(--text);text-decoration:none;z-index:100;transition:color 0.2s ease;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text)'">Y<span style="color:var(--accent)">.</span></a>
 <div class="counter"><span id="current">1</span> / <span id="total">13</span></div>
 <button class="theme-toggle" onclick="toggleTheme()">light/dark</button>
 
