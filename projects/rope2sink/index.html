@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,14 +9,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&amp;family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>🌀</text></svg>">
-<script>
-(function() {
-  try {
-    var saved = localStorage.getItem('theme');
-    if (saved) document.documentElement.setAttribute('data-theme', saved);
-  } catch (e) {}
-})();
-</script>
 <noscript><style>.fade-in{opacity:1!important;transform:none!important}</style></noscript>
 <style>
 /* ===== VARIABLES ===== */
@@ -36,19 +28,6 @@
   --font-mono: 'JetBrains Mono', 'Menlo', monospace;
   --transition: 0.2s ease;
   --max-width: 900px;
-}
-
-[data-theme="dark"] {
-  --bg: #0A0A0A;
-  --bg-card: #111111;
-  --bg-code: #1A1A1A;
-  --text: #F0F0F0;
-  --text-secondary: #B0B0B0;
-  --text-tertiary: #777777;
-  --accent: #E53935;
-  --accent-light: rgba(229, 57, 53, 0.1);
-  --border: #222222;
-  --border-light: #1A1A1A;
 }
 
 /* ===== RESET ===== */
@@ -75,7 +54,6 @@ img { max-width: 100%; display: block; }
   border-bottom: 1px solid transparent;
   transition: border-color 0.3s ease;
 }
-[data-theme="dark"] .nav { background: rgba(10,10,10,0.92); }
 .nav.scrolled { border-bottom-color: var(--border); }
 .nav-inner {
   max-width: var(--max-width); margin: 0 auto; padding: 0 32px;
@@ -89,15 +67,6 @@ img { max-width: 100%; display: block; }
   letter-spacing: 0.04em;
 }
 .nav-links a:hover { color: var(--accent); text-decoration: none; }
-.theme-toggle {
-  background: none; border: none; cursor: pointer;
-  color: var(--text-tertiary); padding: 6px; font-size: 12px;
-  font-family: var(--font-body); letter-spacing: 0.04em;
-  transition: color var(--transition);
-}
-.theme-toggle:hover { color: var(--accent); }
-.theme-toggle[aria-pressed="true"] { color: var(--text); }
-
 /* ===== LAYOUT ===== */
 .container { max-width: var(--max-width); margin: 0 auto; padding: 0 32px; }
 section { padding: 48px 0; scroll-margin-top: 60px; }
@@ -178,7 +147,6 @@ section { padding: 48px 0; scroll-margin-top: 60px; }
 .teaser-pill.active {
   background: var(--bg); color: var(--text); box-shadow: 0 1px 3px rgba(0,0,0,0.15);
 }
-[data-theme="dark"] .teaser-pill.active { background: #222; }
 .teaser-grid {
   display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px;
   background: #000; border-radius: 4px; overflow: hidden; margin-bottom: 12px;
@@ -339,7 +307,6 @@ code {
   border-radius: 4px; background: rgba(255,255,255,0.94);
   backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
 }
-[data-theme="dark"] .findings-timeline { background: rgba(10,10,10,0.94); }
 .findings-now {
   display: flex; align-items: baseline; gap: 8px;
   padding-bottom: 8px; margin-bottom: 8px;
@@ -393,7 +360,6 @@ code {
   color: var(--border); line-height: 1; margin-bottom: 8px;
   transition: color var(--transition);
 }
-[data-theme="dark"] .finding-number { color: #2A2A2A; }
 .finding.is-active .finding-number { color: var(--accent); }
 .finding-question {
   font-family: var(--font-display); font-size: 22px; font-weight: 500;
@@ -426,11 +392,7 @@ code {
   display: grid; place-items: center; height: var(--fig-stage-h);
   background: var(--bg); padding: 10px; overflow: hidden;
 }
-[data-theme="light"] .finding-fig .fig-img-wrap img { mix-blend-mode: multiply; }
-[data-theme="dark"] .finding-fig .fig-img-wrap img {
-  filter: invert(1) hue-rotate(180deg) saturate(0.9) contrast(0.96);
-  mix-blend-mode: screen;
-}
+.finding-fig .fig-img-wrap img { mix-blend-mode: multiply; }
 .finding-fig.fig-short .fig-img-wrap { --fig-stage-h: clamp(300px, 34vw, 360px); }
 .finding-fig.fig-ribbon .fig-img-wrap { --fig-stage-h: clamp(170px, 22vw, 230px); }
 .finding-fig.fig-medium .fig-img-wrap { --fig-stage-h: clamp(300px, 44vw, 500px); }
@@ -703,7 +665,7 @@ code {
     flex: 1; flex-wrap: wrap; justify-content: flex-end;
     gap: 4px 12px; min-width: 0;
   }
-  .nav-links a, .theme-toggle { font-size: 11px; padding: 2px 0; line-height: 1.4; }
+  .nav-links a { font-size: 11px; padding: 2px 0; line-height: 1.4; }
   .hero { padding: 96px 0 20px; }
   .hero h1 { font-size: 22px; }
   .hero-links a, .hero-link { padding: 6px 12px; font-size: 12px; }
@@ -744,7 +706,6 @@ code {
       <a href="#findings">Findings</a>
       <a href="#application">Application</a>
       <a href="#bibtex">BibTeX</a>
-      <button class="theme-toggle" type="button" onclick="toggleTheme()" aria-label="Toggle theme">Theme</button>
     </div>
   </div>
 </nav>
@@ -1259,23 +1220,6 @@ code {
 </footer>
 
 <script>
-// Theme toggle
-function toggleTheme() {
-  const html = document.documentElement;
-  const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-  html.setAttribute('data-theme', next);
-  try { localStorage.setItem('theme', next); } catch (e) {}
-  updateThemeToggle();
-}
-function updateThemeToggle() {
-  const btn = document.querySelector('.theme-toggle');
-  if (!btn) return;
-  const isLight = document.documentElement.getAttribute('data-theme') !== 'dark';
-  btn.setAttribute('aria-pressed', String(isLight));
-  btn.setAttribute('aria-label', isLight ? 'Switch to dark theme' : 'Switch to light theme');
-}
-// Theme init moved to <head> to prevent FOUC
-
 // Progressive abstract
 function bindAbstractProgression() {
   const steps = Array.from(document.querySelectorAll('.abstract-step'));
@@ -1429,7 +1373,6 @@ function updateTeaser() {
 buildStepPills();
 buildModelPills();
 updateTeaser();
-updateThemeToggle();
 
 // Sink dynamics chart
 const dynamicsModes = {
