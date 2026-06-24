@@ -1,0 +1,1847 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>From a Spiral to a Sink — How Positional Encoding Shapes Attention Sinks in Diffusion Transformers</title>
+<meta name="description" content="We study attention sinks in Diffusion Transformers: how they form via Frequency-Aware Concentration, and how comma padding redistributes attention to improve generation.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&amp;family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>🌀</text></svg>">
+<script>
+(function() {
+  try {
+    var saved = localStorage.getItem('theme');
+    if (saved) document.documentElement.setAttribute('data-theme', saved);
+  } catch (e) {}
+})();
+</script>
+<noscript><style>.fade-in{opacity:1!important;transform:none!important}</style></noscript>
+<style>
+/* ===== VARIABLES ===== */
+:root {
+  --bg: #FFFFFF;
+  --bg-card: #FFFFFF;
+  --bg-code: #F5F5F5;
+  --text: #000000;
+  --text-secondary: #333333;
+  --text-tertiary: #666666;
+  --accent: #C6011F;
+  --accent-light: rgba(198, 1, 31, 0.08);
+  --border: #E0E0E0;
+  --border-light: #F0F0F0;
+  --font-display: 'EB Garamond', 'Georgia', serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Menlo', monospace;
+  --transition: 0.2s ease;
+  --max-width: 900px;
+}
+
+[data-theme="dark"] {
+  --bg: #0A0A0A;
+  --bg-card: #111111;
+  --bg-code: #1A1A1A;
+  --text: #F0F0F0;
+  --text-secondary: #B0B0B0;
+  --text-tertiary: #777777;
+  --accent: #E53935;
+  --accent-light: rgba(229, 57, 53, 0.1);
+  --border: #222222;
+  --border-light: #1A1A1A;
+}
+
+/* ===== RESET ===== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+body {
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text);
+  background: var(--bg);
+  overflow-x: hidden;
+}
+a { color: var(--text); text-decoration: none; transition: all var(--transition); }
+a:hover { color: var(--accent); }
+img { max-width: 100%; display: block; }
+::selection { background: rgba(198, 1, 31, 0.25); color: var(--text); }
+
+/* ===== NAV ===== */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s ease;
+}
+[data-theme="dark"] .nav { background: rgba(10,10,10,0.92); }
+.nav.scrolled { border-bottom-color: var(--border); }
+.nav-inner {
+  max-width: var(--max-width); margin: 0 auto; padding: 0 32px;
+  height: 52px; display: flex; align-items: center; justify-content: space-between;
+}
+.nav-brand { font-family: var(--font-display); font-size: 16px; font-weight: 500; color: var(--text); }
+.nav-brand span { color: var(--accent); }
+.nav-links { display: flex; gap: 24px; align-items: center; }
+.nav-links a {
+  font-size: 12px; font-weight: 500; color: var(--text-tertiary);
+  letter-spacing: 0.04em;
+}
+.nav-links a:hover { color: var(--accent); text-decoration: none; }
+.theme-toggle {
+  background: none; border: none; cursor: pointer;
+  color: var(--text-tertiary); padding: 6px; font-size: 12px;
+  font-family: var(--font-body); letter-spacing: 0.04em;
+  transition: color var(--transition);
+}
+.theme-toggle:hover { color: var(--accent); }
+.theme-toggle[aria-pressed="true"] { color: var(--text); }
+
+/* ===== LAYOUT ===== */
+.container { max-width: var(--max-width); margin: 0 auto; padding: 0 32px; }
+section { padding: 48px 0; scroll-margin-top: 60px; }
+
+/* ===== HERO ===== */
+.hero { padding: 80px 0 24px; text-align: center; }
+.hero h1 {
+  font-family: var(--font-display); font-size: 34px; font-weight: 400;
+  line-height: 1.25; letter-spacing: -0.01em; color: var(--text);
+  margin: 0 auto 16px;
+}
+.hero-venue {
+  display: inline-block; font-size: 13px; font-weight: 700;
+  background: var(--accent); color: #FFFFFF; padding: 3px 12px;
+  letter-spacing: 0.05em; margin-bottom: 20px;
+}
+.hero-authors {
+  font-size: 15px; color: var(--text-secondary);
+  line-height: 1.8; margin-bottom: 6px;
+}
+.hero-authors .me { color: var(--text); font-weight: 600; }
+.hero-authors a { text-decoration: underline; text-decoration-color: var(--border); text-underline-offset: 2px; }
+.hero-authors a:hover { text-decoration-color: var(--accent); }
+.hero-authors .author-name { color: var(--text-secondary); }
+.hero-affil {
+  font-size: 13px; color: var(--text-tertiary);
+  margin-bottom: 20px; line-height: 1.6;
+}
+.hero-links { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 0; }
+.hero-links a, .hero-link {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 7px 18px; font-size: 13px; font-weight: 500;
+  border: 1px solid var(--border); color: var(--text-secondary);
+  transition: all var(--transition);
+}
+.hero-links a:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+.hero-link[aria-disabled="true"] { opacity: 0.55; cursor: default; }
+.hero-links a svg, .hero-link svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+/* ===== SECTION HEADERS ===== */
+.section-header {
+  margin-bottom: 24px; padding-bottom: 10px;
+  border-bottom: 2px solid var(--text); position: relative;
+}
+.section-header h2 {
+  font-family: var(--font-display); font-size: 26px; font-weight: 400;
+  letter-spacing: -0.01em; color: var(--text);
+}
+.section-header::after {
+  content: ''; position: absolute; bottom: -2px; left: 0;
+  width: 32px; height: 2px; background: var(--accent);
+}
+
+/* ===== TEASER ===== */
+.teaser { padding: 32px 0; }
+.teaser-controls {
+  display: flex; gap: 24px; align-items: center; justify-content: center;
+  margin-bottom: 16px; flex-wrap: wrap;
+}
+.teaser-control-group { display: flex; align-items: center; gap: 8px; }
+.teaser-control-group label {
+  font-size: 11px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.05em; color: var(--text-tertiary);
+}
+.teaser-pills {
+  display: flex; gap: 2px; background: var(--border-light); border-radius: 4px;
+  padding: 2px;
+}
+.model-pills { flex-wrap: wrap; max-width: 520px; }
+.teaser-pill {
+  font-family: var(--font-mono); font-size: 12px; font-weight: 500;
+  padding: 4px 12px; border: none; border-radius: 3px; cursor: pointer;
+  background: transparent; color: var(--text-tertiary);
+  white-space: nowrap;
+  transition: all var(--transition);
+}
+.teaser-pill:hover { color: var(--text); }
+.teaser-pill.active {
+  background: var(--bg); color: var(--text); box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+[data-theme="dark"] .teaser-pill.active { background: #222; }
+.teaser-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px;
+  background: #000; border-radius: 4px; overflow: hidden; margin-bottom: 12px;
+}
+.teaser-grid[data-count="1"] {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-width: 560px; margin-left: auto; margin-right: auto;
+}
+.teaser-cell {
+  position: relative; aspect-ratio: 1; overflow: hidden; cursor: pointer;
+  display: block; width: 100%; border: 0; padding: 0; background: #000;
+  color: inherit; font: inherit; text-align: left;
+}
+.teaser-cell img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.3s ease;
+}
+.teaser-cell:hover img { transform: scale(1.05); }
+.teaser-cell:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; z-index: 1; }
+.teaser-cell-label {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 4px 8px; font-size: 10px; font-weight: 600;
+  color: #ccc; background: linear-gradient(transparent, rgba(0,0,0,0.8));
+  letter-spacing: 0.03em;
+}
+.teaser-cell-label span { color: #fff; }
+.teaser-zoom {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 200;
+  background: rgba(0,0,0,0.92); display: none; align-items: center;
+  justify-content: center; cursor: zoom-out;
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+}
+.teaser-zoom.open { display: flex; }
+.teaser-zoom img {
+  max-width: 90vw; max-height: 85vh; border-radius: 4px;
+}
+.teaser-zoom-close {
+  position: absolute; top: 18px; right: 22px;
+  width: 34px; height: 34px; border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 4px; background: rgba(0,0,0,0.35); color: #fff;
+  font-size: 22px; line-height: 1; cursor: pointer;
+}
+.teaser-zoom-close:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.teaser-zoom-label {
+  position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+  font-size: 14px; font-weight: 500; color: #aaa;
+  font-family: var(--font-mono);
+}
+.teaser-caption {
+  font-size: 13px; color: var(--text-tertiary); line-height: 1.6; text-align: center;
+}
+.teaser-caption strong { color: var(--text-secondary); }
+.teaser-summary {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px; margin: 14px 0 12px; border: 1px solid var(--border);
+  border-left: 3px solid var(--accent); border-radius: 4px;
+  overflow: hidden; background: var(--border-light);
+}
+.teaser-summary-item {
+  min-width: 0; padding: 10px 12px; background: var(--bg-card);
+}
+.teaser-summary-label {
+  display: block; margin-bottom: 3px; font-size: 10px; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-tertiary);
+}
+.teaser-summary-value {
+  display: block; overflow-wrap: anywhere;
+  font-family: var(--font-mono); font-size: 13px; color: var(--text);
+}
+
+/* ===== ABSTRACT ===== */
+.abstract-text {
+  font-size: 15px; line-height: 1.8; color: var(--text-secondary);
+}
+.abstract-lead { margin-bottom: 18px; }
+.abstract-progressive {
+  border: 1px solid var(--border); border-left: 3px solid var(--accent);
+  border-radius: 4px; overflow: hidden; background: var(--bg-card);
+}
+.abstract-step {
+  border-top: 1px solid var(--border-light);
+  background: var(--bg-card);
+}
+.abstract-step:first-child { border-top: none; }
+.abstract-step summary {
+  display: grid; grid-template-columns: 44px minmax(120px, 0.5fr) minmax(0, 1fr) 18px;
+  gap: 10px; align-items: center; padding: 13px 16px;
+  cursor: pointer; list-style: none; color: var(--text-secondary);
+}
+.abstract-step summary::-webkit-details-marker { display: none; }
+.abstract-step summary::after {
+  content: '+'; justify-self: end; font-family: var(--font-mono);
+  color: var(--text-tertiary); font-size: 14px;
+}
+.abstract-step[open] summary::after { content: '−'; color: var(--accent); }
+.abstract-step[open] summary {
+  color: var(--text); background: var(--border-light);
+}
+.abstract-step summary:focus-visible {
+  outline: 2px solid var(--accent); outline-offset: -2px;
+}
+.abstract-step-num {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+  letter-spacing: 0.08em; color: var(--accent);
+}
+.abstract-step-title {
+  font-weight: 700; color: var(--text);
+}
+.abstract-step-kicker {
+  color: var(--text-tertiary); overflow-wrap: anywhere;
+}
+.abstract-step-body {
+  padding: 14px 18px 16px 70px;
+  border-top: 1px solid var(--border-light);
+  font-size: 14px; line-height: 1.75; color: var(--text-secondary);
+}
+.abstract-step-body strong { color: var(--text); }
+.abstract-next {
+  margin-top: 12px; padding: 6px 10px; border: 1px solid var(--border);
+  border-radius: 4px; background: var(--bg); color: var(--text-tertiary);
+  font-family: var(--font-body); font-size: 12px; font-weight: 600;
+  cursor: pointer; transition: border-color var(--transition), color var(--transition);
+}
+.abstract-next:hover, .abstract-next:focus-visible {
+  border-color: var(--accent); color: var(--text); outline: none;
+}
+
+/* ===== MODEL TABLE ===== */
+.model-table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 16px 0; }
+.model-table th {
+  text-align: left; font-weight: 600; font-size: 12px;
+  text-transform: uppercase; letter-spacing: 0.04em;
+  color: var(--text-tertiary); padding: 8px 12px;
+  border-bottom: 2px solid var(--text);
+}
+.model-table td {
+  padding: 10px 12px; border-bottom: 1px solid var(--border-light);
+  color: var(--text-secondary);
+}
+.model-table tr:hover td { background: var(--accent-light); }
+.model-table .peak { font-weight: 600; color: var(--text); font-variant-numeric: tabular-nums; }
+.model-table code {
+  font-family: var(--font-mono); font-size: 12px;
+  background: var(--bg-code); padding: 1px 6px; border-radius: 2px;
+}
+
+/* Global code style (outside tables too) */
+code {
+  font-family: var(--font-mono); font-size: 0.88em;
+  background: var(--bg-code); padding: 1px 5px; border-radius: 2px;
+}
+
+/* ===== FINDINGS ===== */
+.findings-timeline {
+  position: sticky; top: 52px; z-index: 80;
+  margin: 0 0 34px; padding: 10px 12px;
+  border: 1px solid var(--border); border-left: 3px solid var(--accent);
+  border-radius: 4px; background: rgba(255,255,255,0.94);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+}
+[data-theme="dark"] .findings-timeline { background: rgba(10,10,10,0.94); }
+.findings-now {
+  display: flex; align-items: baseline; gap: 8px;
+  padding-bottom: 8px; margin-bottom: 8px;
+  border-bottom: 1px solid var(--border-light);
+  font-size: 12px; color: var(--text-tertiary);
+}
+.findings-now-label {
+  font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.08em; color: var(--accent); text-transform: uppercase;
+}
+.findings-now-text { color: var(--text-secondary); font-weight: 600; }
+.findings-track {
+  position: relative; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 8px;
+}
+.findings-track::before {
+  content: ''; position: absolute; left: 8px; right: 8px; top: 11px;
+  height: 1px; background: var(--border); z-index: -1;
+}
+.finding-step {
+  display: grid; grid-template-columns: 18px minmax(0, 1fr);
+  gap: 6px; align-items: center; min-width: 0;
+  color: var(--text-tertiary); font-size: 11px; line-height: 1.25;
+}
+.finding-step:hover { color: var(--text); text-decoration: none; }
+.finding-step-dot {
+  display: grid; place-items: center; width: 18px; height: 18px;
+  border: 1px solid var(--border); border-radius: 50%;
+  background: var(--bg); font-family: var(--font-mono);
+  font-size: 9px; color: var(--text-tertiary);
+}
+.finding-step-title {
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.finding-step.active { color: var(--text); }
+.finding-step.active .finding-step-dot {
+  border-color: var(--accent); color: #fff; background: var(--accent);
+}
+.finding {
+  position: relative; padding: 58px 0 68px;
+  border-top: 1px solid var(--border); scroll-margin-top: 130px;
+}
+.finding:first-child { border-top: none; }
+.finding::before {
+  content: ''; position: absolute; left: -18px; top: 58px; bottom: 68px;
+  width: 2px; background: var(--border); opacity: 0.7;
+}
+.finding.is-active::before { background: var(--accent); opacity: 1; }
+.finding-number {
+  font-family: var(--font-mono); font-size: 48px; font-weight: 700;
+  color: var(--border); line-height: 1; margin-bottom: 8px;
+  transition: color var(--transition);
+}
+[data-theme="dark"] .finding-number { color: #2A2A2A; }
+.finding.is-active .finding-number { color: var(--accent); }
+.finding-question {
+  font-family: var(--font-display); font-size: 22px; font-weight: 500;
+  line-height: 1.3; color: var(--text); margin-bottom: 16px;
+}
+.finding-body { font-size: 14px; line-height: 1.8; color: var(--text-secondary); margin-bottom: 20px; }
+.finding-body strong { color: var(--text); font-weight: 600; }
+.finding-fig {
+  margin: 22px 0 26px; border: 1px solid var(--border);
+  border-radius: 4px; overflow: hidden; background: var(--bg-card);
+}
+.figure-cue {
+  display: flex; gap: 10px; align-items: baseline;
+  padding: 9px 12px; border-bottom: 1px solid var(--border-light);
+  font-size: 12px; line-height: 1.55; color: var(--text-secondary);
+}
+.figure-cue-label {
+  font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.08em; color: var(--accent); text-transform: uppercase;
+  flex-shrink: 0;
+}
+.finding-fig img {
+  width: auto; height: auto; max-width: 100%; max-height: calc(var(--fig-stage-h) - 20px);
+  display: block; object-fit: contain;
+  cursor: zoom-in;
+}
+.finding-fig img:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.finding-fig .fig-img-wrap {
+  --fig-stage-h: clamp(260px, 42vw, 430px);
+  display: grid; place-items: center; height: var(--fig-stage-h);
+  background: var(--bg); padding: 10px; overflow: hidden;
+}
+[data-theme="light"] .finding-fig .fig-img-wrap img { mix-blend-mode: multiply; }
+[data-theme="dark"] .finding-fig .fig-img-wrap img {
+  filter: invert(1) hue-rotate(180deg) saturate(0.9) contrast(0.96);
+  mix-blend-mode: screen;
+}
+.finding-fig.fig-short .fig-img-wrap { --fig-stage-h: clamp(300px, 34vw, 360px); }
+.finding-fig.fig-ribbon .fig-img-wrap { --fig-stage-h: clamp(170px, 22vw, 230px); }
+.finding-fig.fig-medium .fig-img-wrap { --fig-stage-h: clamp(300px, 44vw, 500px); }
+.finding-fig.fig-tall .fig-img-wrap { --fig-stage-h: clamp(360px, 52vw, 620px); }
+.finding-fig.fig-dense .fig-img-wrap { --fig-stage-h: clamp(360px, 46vw, 520px); }
+.fig-row .finding-fig {
+  display: flex; flex-direction: column; margin: 0;
+}
+.fig-row .finding-fig .fig-img-wrap {
+  --fig-stage-h: clamp(270px, 30vw, 360px);
+  flex: 1 0 auto;
+}
+.fig-row .finding-fig figcaption { min-height: 82px; }
+.finding-fig figcaption {
+  font-size: 12px; color: var(--text-tertiary); padding: 10px 14px;
+  line-height: 1.6; border-top: 1px solid var(--border-light);
+}
+.finding-fig figcaption strong { color: var(--text-secondary); }
+.insight-box {
+  display: flex; align-items: baseline; gap: 10px;
+  padding: 10px 14px; margin: 16px 0 0;
+  border-left: 2px solid var(--accent);
+  font-size: 13px; font-style: italic;
+  color: var(--text-secondary);
+}
+.insight-box::before {
+  content: '→'; font-style: normal; color: var(--accent);
+  font-weight: 600; flex-shrink: 0;
+}
+.fig-row {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+}
+.fig-row.three { grid-template-columns: 1fr 1fr 1fr; }
+.fig-row.fig-stack { grid-template-columns: 1fr; }
+.fig-row.fig-stack .finding-fig .fig-img-wrap {
+  --fig-stage-h: clamp(320px, 44vw, 440px);
+}
+
+/* ===== RESULTS TABLE ===== */
+.results-table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 16px 0; }
+.results-table th {
+  text-align: left; font-weight: 600; font-size: 12px;
+  text-transform: uppercase; letter-spacing: 0.04em;
+  color: var(--text-tertiary); padding: 8px 12px;
+  border-bottom: 2px solid var(--text);
+}
+.results-table td {
+  padding: 8px 12px; border-bottom: 1px solid var(--border-light);
+  color: var(--text-secondary); font-variant-numeric: tabular-nums;
+}
+.results-table .positive { color: var(--accent); font-weight: 600; }
+.metric-diff {
+  position: relative; display: inline-flex; min-width: 58px;
+  padding-bottom: 3px; color: var(--accent); font-weight: 600;
+}
+.metric-diff::after {
+  content: ''; position: absolute; left: 0; bottom: 0; height: 2px;
+  width: 0; max-width: 100%; background: var(--accent);
+  transition: width 0.85s cubic-bezier(.2,.8,.2,1);
+}
+.results-table.reveal-bars .metric-diff::after { width: var(--bar); }
+
+/* ===== DYNAMICS CHART ===== */
+.dynamics-panel {
+  border: 1px solid var(--border); border-left: 3px solid var(--accent);
+  border-radius: 4px; background: var(--bg-card); padding: 16px;
+}
+.dynamics-head {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 16px; margin-bottom: 14px;
+}
+.dynamics-title {
+  font-family: var(--font-display); font-size: 20px; font-weight: 500;
+  line-height: 1.25; color: var(--text);
+}
+.dynamics-summary {
+  margin-top: 4px; font-size: 13px; line-height: 1.6; color: var(--text-tertiary);
+}
+.chart-toolbar { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+.chart-button, .chart-legend-button {
+  border: 1px solid var(--border); border-radius: 4px; background: var(--bg);
+  color: var(--text-tertiary); cursor: pointer; font-family: var(--font-body);
+  font-size: 12px; font-weight: 600; transition: border-color var(--transition), color var(--transition), background var(--transition);
+}
+.chart-button { padding: 6px 10px; }
+.chart-button:hover, .chart-legend-button:hover { border-color: var(--accent); color: var(--text); }
+.chart-button.active {
+  color: var(--text); border-color: var(--text); background: var(--border-light);
+}
+.chart-legend {
+  display: flex; flex-wrap: wrap; gap: 6px 10px;
+  padding: 10px 0 12px; border-top: 1px solid var(--border-light);
+}
+.chart-legend-button {
+  display: inline-flex; align-items: center; gap: 7px; padding: 5px 9px;
+}
+.chart-legend-button::before {
+  content: ''; width: 18px; height: 2px; background: var(--legend-color);
+  opacity: 0.95;
+}
+.chart-legend-button:not(.active) { opacity: 0.45; }
+.chart-wrap {
+  position: relative; min-height: 320px; border-top: 1px solid var(--border-light);
+  padding-top: 10px;
+}
+.dynamics-chart {
+  width: 100%; aspect-ratio: 16 / 8.5; min-height: 300px; display: block;
+  overflow: visible; touch-action: pan-y;
+}
+.chart-grid-line { stroke: var(--border-light); stroke-width: 1; }
+.chart-axis { stroke: var(--text-tertiary); stroke-width: 1; }
+.chart-axis-label, .chart-tick-label {
+  fill: var(--text-tertiary); font-family: var(--font-mono); font-size: 11px;
+}
+.chart-line {
+  fill: none; stroke-width: 2.3; stroke-linecap: round; stroke-linejoin: round;
+  stroke-dasharray: var(--line-length); stroke-dashoffset: var(--line-length);
+  transition: stroke-dashoffset 1.25s cubic-bezier(.18,.82,.22,1), opacity var(--transition);
+}
+.dynamics-panel.chart-ready .chart-line { stroke-dashoffset: 0; }
+.chart-point {
+  opacity: 0; transform-box: fill-box; transform-origin: center;
+  transform: scale(0.35);
+  transition: opacity 0.25s ease var(--point-delay), transform 0.35s ease var(--point-delay);
+}
+.dynamics-panel.chart-ready .chart-point { opacity: 1; transform: scale(1); }
+.chart-focus-line { stroke: var(--accent); stroke-width: 1; stroke-dasharray: 4 5; }
+.chart-tooltip {
+  position: absolute; min-width: 156px; padding: 8px 10px;
+  border: 1px solid var(--border); border-left: 2px solid var(--accent);
+  border-radius: 4px; background: var(--bg); color: var(--text-secondary);
+  font-size: 12px; line-height: 1.5; pointer-events: none;
+}
+.chart-tooltip strong { color: var(--text); font-weight: 600; }
+
+/* ===== GALLERY ===== */
+.gallery-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+}
+.gallery-pair {
+  position: relative; overflow: hidden; border-radius: 2px; cursor: pointer;
+  aspect-ratio: 1; background: var(--bg-code);
+}
+.gallery-pair img {
+  width: 100%; height: 100%; display: block; transition: opacity 0.3s ease;
+  object-fit: cover;
+}
+.gallery-pair .overlay {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  opacity: 0; transition: opacity 0.3s ease;
+}
+.gallery-pair:hover .overlay, .gallery-pair.toggled .overlay { opacity: 1; }
+.gallery-pair:hover .base, .gallery-pair.toggled .base { opacity: 0; }
+.gallery-pair:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.gallery-label {
+  position: absolute; bottom: 6px; right: 6px;
+  font-size: 10px; font-weight: 600; letter-spacing: 0.05em;
+  padding: 2px 8px; background: rgba(0,0,0,0.7); color: #fff;
+  transition: background 0.2s ease;
+}
+.gallery-label.active { background: var(--accent); }
+.gallery-pair::before {
+  content: attr(data-prompt); display: none;
+  position: absolute; top: 0; left: 0; right: 0; z-index: 2;
+  padding: 6px 8px; font-size: 10px; line-height: 1.4;
+  color: #fff; background: linear-gradient(rgba(0,0,0,0.78), rgba(0,0,0,0));
+  pointer-events: none;
+}
+.gallery-prompt {
+  grid-column: span 1; font-size: 11px; color: var(--text-tertiary);
+  line-height: 1.5; padding: 8px 4px; text-align: center; font-style: italic;
+}
+.gallery-prompt strong { color: var(--text-secondary); font-weight: 600; }
+
+/* ===== BIBTEX ===== */
+.bibtex-block {
+  position: relative; background: var(--bg-code);
+  border: 1px solid var(--border); border-radius: 4px;
+  padding: 16px 20px; font-family: var(--font-mono);
+  font-size: 12px; line-height: 1.7; overflow-x: auto;
+  color: var(--text-secondary);
+}
+.bibtex-block pre { margin: 0; }
+.bibtex-copy {
+  position: absolute; top: 8px; right: 8px;
+  background: var(--bg); border: 1px solid var(--border);
+  padding: 4px 12px; font-size: 11px; font-weight: 500;
+  cursor: pointer; font-family: var(--font-body);
+  color: var(--text-tertiary); transition: all var(--transition);
+}
+.bibtex-copy:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ===== FOOTER ===== */
+.footer {
+  padding: 40px 0; border-top: 1px solid var(--border);
+  text-align: center;
+}
+.footer p { font-size: 12px; color: var(--text-tertiary); }
+.footer a { color: var(--text-tertiary); }
+.footer a:hover { color: var(--accent); }
+
+/* ===== FADE IN ===== */
+.fade-in {
+  opacity: 0; transform: translateY(12px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .container { padding: 0 20px; }
+  .nav-inner { padding: 0 20px; }
+  .nav-links { gap: 14px; }
+  .nav-links a { font-size: 11px; }
+  .hero { padding: 70px 0 20px; }
+  .hero h1 { font-size: 26px; }
+  .hero-authors { font-size: 14px; }
+  .findings-timeline { top: 48px; margin-bottom: 20px; padding: 9px 10px; }
+  .findings-track {
+    display: flex; gap: 10px; overflow-x: auto; padding-bottom: 2px;
+    scroll-snap-type: x proximity;
+  }
+  .findings-track::before { display: none; }
+  .finding-step {
+    flex: 0 0 128px; scroll-snap-align: start;
+    grid-template-columns: 18px minmax(0, 1fr);
+  }
+  .finding { padding: 44px 0 54px; scroll-margin-top: 150px; }
+  .finding::before { left: -10px; top: 44px; bottom: 54px; }
+  .fig-row { grid-template-columns: 1fr; }
+  .fig-row.three { grid-template-columns: 1fr; }
+  .finding-fig .fig-img-wrap,
+  .fig-row .finding-fig .fig-img-wrap {
+    --fig-stage-h: clamp(220px, 62vw, 360px);
+  }
+  .finding-fig.fig-short .fig-img-wrap { --fig-stage-h: clamp(250px, 68vw, 360px); }
+  .finding-fig.fig-ribbon .fig-img-wrap { --fig-stage-h: clamp(150px, 38vw, 220px); }
+  .finding-fig.fig-medium .fig-img-wrap,
+  .finding-fig.fig-tall .fig-img-wrap,
+  .finding-fig.fig-dense .fig-img-wrap {
+    --fig-stage-h: clamp(260px, 76vw, 430px);
+  }
+  .fig-row .finding-fig figcaption { min-height: 0; }
+  .figure-cue { align-items: flex-start; }
+  .gallery-grid { grid-template-columns: repeat(3, 1fr); }
+  .gallery-pair .gallery-label { font-size: 8px; padding: 1px 5px; }
+  .finding-number { font-size: 36px; }
+  .finding-question { font-size: 19px; }
+  .abstract-step summary {
+    grid-template-columns: 34px minmax(0, 1fr) 18px;
+    gap: 4px 10px;
+  }
+  .abstract-step summary::after { grid-column: 3; grid-row: 1 / span 2; }
+  .abstract-step-title { grid-column: 2; }
+  .abstract-step-kicker { grid-column: 2; font-size: 13px; line-height: 1.5; }
+  .abstract-step-body { padding: 12px 14px 14px 60px; }
+  .teaser-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .dynamics-head { flex-direction: column; }
+  .chart-toolbar { justify-content: flex-start; }
+  .dynamics-chart { min-height: 260px; }
+}
+
+@media (max-width: 480px) {
+  .container { padding: 0 16px; }
+  .nav-inner {
+    height: auto; min-height: 48px; padding: 8px 16px;
+    align-items: flex-start; gap: 4px 12px;
+  }
+  .nav-links {
+    flex: 1; flex-wrap: wrap; justify-content: flex-end;
+    gap: 4px 12px; min-width: 0;
+  }
+  .nav-links a, .theme-toggle { font-size: 11px; padding: 2px 0; line-height: 1.4; }
+  .hero { padding: 96px 0 20px; }
+  .hero h1 { font-size: 22px; }
+  .hero-links a, .hero-link { padding: 6px 12px; font-size: 12px; }
+  .teaser-grid { grid-template-columns: repeat(2, 1fr); }
+  .teaser-controls { align-items: stretch; justify-content: flex-start; gap: 10px; }
+  .teaser-control-group { align-items: flex-start; flex-direction: column; width: 100%; }
+  .teaser-pills { width: 100%; }
+  .teaser-pill { flex: 1; padding: 5px 8px; }
+  .model-pills .teaser-pill { flex: 1 1 calc(33.333% - 4px); }
+  .teaser-summary { grid-template-columns: 1fr; }
+  .dynamics-panel { padding: 12px; }
+  .chart-wrap { min-height: 240px; }
+  .dynamics-chart { min-height: 230px; }
+  .chart-tooltip { display: none; }
+  .gallery-grid { grid-template-columns: 1fr; gap: 10px; }
+  .gallery-prompt-row { display: none !important; }
+  .gallery-pair::before { display: block; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-in { opacity: 1; transform: none; transition: none; }
+  .chart-line { stroke-dashoffset: 0; transition: none; }
+  .chart-point { opacity: 1; transform: scale(1); transition: none; }
+  .metric-diff::after { transition: none; }
+  html { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body id="top">
+
+<!-- ===== NAV ===== -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="nav-brand" href="#top" aria-label="Back to top"><span style="font-family:var(--font-display);font-weight:600">Y</span><span>.</span></a>
+    <div class="nav-links">
+      <a href="#abstract">Abstract</a>
+      <a href="#dynamics">Dynamics</a>
+      <a href="#findings">Findings</a>
+      <a href="#application">Application</a>
+      <a href="#bibtex">BibTeX</a>
+      <button class="theme-toggle" type="button" onclick="toggleTheme()" aria-label="Toggle theme">Theme</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="container">
+    <h1 class="fade-in">From a Spiral to a Sink: How Positional Encoding Shapes Attention Sinks in Diffusion Transformers</h1>
+    <div class="hero-venue fade-in">Under Review</div>
+    <div class="hero-authors fade-in">
+      <a class="me" href="https://freemty.github.io/">Yuanbo Yang</a><sup>1</sup>,
+      <a class="author-name" href="https://jiahao-shao1.github.io/">Jiahao Shao</a><sup>1</sup>,
+      <a class="author-name" href="http://www.cs.toronto.edu/~jungao/">Jun Gao</a><sup>2</sup>,
+      <a class="author-name" href="https://yiyiliao.github.io/">Yiyi Liao</a><sup>1</sup>
+    </div>
+    <div class="hero-affil fade-in">
+      <sup>1</sup>Zhejiang University &nbsp;&nbsp; <sup>2</sup>University of Toronto
+    </div>
+    <div class="hero-links fade-in">
+      <span class="hero-link" title="Available after release" aria-disabled="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        Paper
+      </span>
+      <span class="hero-link" title="Available after release" aria-disabled="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+        arXiv
+      </span>
+      <span class="hero-link" title="Available after release" aria-disabled="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+        Code
+      </span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TEASER ===== -->
+<section class="teaser" id="teaser">
+  <div class="container">
+    <div class="teaser-controls fade-in">
+      <div class="teaser-control-group">
+        <label>Step</label>
+        <div class="teaser-pills" id="step-pills"></div>
+      </div>
+      <div class="teaser-control-group">
+        <label>Model</label>
+        <div class="teaser-pills model-pills" id="model-pills"></div>
+      </div>
+    </div>
+
+    <div class="teaser-grid fade-in" id="teaser-grid"></div>
+    <div class="teaser-summary fade-in" id="teaser-summary" aria-live="polite"></div>
+
+    <p class="teaser-caption fade-in">
+      <strong>Interactive.</strong> Attention maps at the selected denoising step. Bright vertical columns = <em>attention sinks</em>. Click any cell to zoom; use the model filter to inspect one architecture at a time.
+    </p>
+
+    <div class="teaser-zoom" id="teaser-zoom" role="dialog" aria-modal="true" aria-label="Zoomed attention map" tabindex="-1">
+      <button class="teaser-zoom-close" type="button" aria-label="Close zoom" onclick="closeTeaserZoom()">×</button>
+      <img id="teaser-zoom-img" alt="Zoomed attention map">
+      <div class="teaser-zoom-label" id="teaser-zoom-label"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ABSTRACT ===== -->
+<section id="abstract">
+  <div class="container">
+    <div class="section-header fade-in"><h2>Abstract</h2></div>
+    <div class="abstract-text fade-in">
+      <p class="abstract-lead">
+        We study the <em>attention sink</em> phenomenon — where a few tokens monopolize attention regardless of content — in Diffusion Transformers (DiTs). This has been widely studied in large language models but remains underexplored in DiTs, whose architectural differences prevent existing explanations from directly transferring.
+      </p>
+      <div class="abstract-progressive" id="abstract-progressive">
+        <details class="abstract-step" open>
+          <summary>
+            <span class="abstract-step-num">01</span>
+            <span class="abstract-step-title">Universal</span>
+            <span class="abstract-step-kicker">Sinks appear across six DiT architectures</span>
+          </summary>
+          <div class="abstract-step-body">
+            Sinks form early in denoising, persist throughout generation, and concentrate in the deeper half of the network.
+            <br>
+            <button class="abstract-next" type="button" data-abstract-next="1">Next: mechanism</button>
+          </div>
+        </details>
+        <details class="abstract-step">
+          <summary>
+            <span class="abstract-step-num">02</span>
+            <span class="abstract-step-title">Mechanism</span>
+            <span class="abstract-step-kicker">RoPE and AbsPE choose different empty anchors</span>
+          </summary>
+          <div class="abstract-step-body">
+            In RoPE-based models, sink tokens concentrate Key energy in low-frequency channels that do not decay with distance (<strong>Frequency-Aware Concentration</strong>). In AbsPE models, learned embeddings at corner positions directly create sinks.
+            <br>
+            <button class="abstract-next" type="button" data-abstract-next="2">Next: practical fix</button>
+          </div>
+        </details>
+        <details class="abstract-step">
+          <summary>
+            <span class="abstract-step-num">03</span>
+            <span class="abstract-step-title">Practical fix</span>
+            <span class="abstract-step-kicker">Comma padding redistributes wasted attention</span>
+          </summary>
+          <div class="abstract-step-body">
+            In FLUX.1, padding tokens become sinks and absorb over half of total attention. Replacing padding with commas redistributes the budget and improves compositional generation without retraining.
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MODEL COVERAGE ===== -->
+<section id="models">
+  <div class="container">
+    <div class="section-header fade-in"><h2>Models Studied</h2></div>
+    <p class="fade-in" style="font-size:14px; color:var(--text-secondary); margin-bottom:16px;">
+      Six DiT architectures spanning three PE types and two attention designs.
+    </p>
+    <div class="fade-in" style="overflow-x:auto;">
+      <table class="model-table">
+        <thead>
+          <tr>
+            <th>Model</th>
+            <th>PE Type</th>
+            <th>Sink Region</th>
+            <th>Peak Ratio</th>
+            <th>Unique Sinks</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>PixArt-&alpha;</td>
+            <td><code>AbsPE</code></td>
+            <td>Spatial corners</td>
+            <td class="peak">85&times;</td>
+            <td>20</td>
+          </tr>
+          <tr>
+            <td>FLUX.1</td>
+            <td><code>2D RoPE</code></td>
+            <td>Text <code>&lt;PAD&gt;</code></td>
+            <td class="peak">214&times;</td>
+            <td>7</td>
+          </tr>
+          <tr>
+            <td>Qwen-Image</td>
+            <td><code>2D RoPE</code></td>
+            <td>Text tokens</td>
+            <td class="peak">240&times;</td>
+            <td>7</td>
+          </tr>
+          <tr>
+            <td>Z-Image</td>
+            <td><code>3D RoPE</code></td>
+            <td>Text <code>&lt;PAD&gt;</code></td>
+            <td class="peak">212&times;</td>
+            <td>5</td>
+          </tr>
+          <tr>
+            <td>Wan2.1</td>
+            <td><code>3D RoPE</code></td>
+            <td>1st-frame patches</td>
+            <td class="peak">477&times;</td>
+            <td>48</td>
+          </tr>
+          <tr>
+            <td>LTX Video</td>
+            <td><code>3D RoPE</code></td>
+            <td>1st-frame patches</td>
+            <td class="peak">65&times;</td>
+            <td>91</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="fade-in" style="font-size:12px; color:var(--text-tertiary); margin-top:8px;">
+      Peak = max sink-to-random &mu;<sub>k</sub> ratio across all layers. Unique = number of distinct top-1 sink tokens across &ge;100 prompts (low = deterministic, high = stochastic).
+    </p>
+  </div>
+</section>
+
+<!-- ===== SINK DYNAMICS ===== -->
+<section id="dynamics" class="dynamics-section">
+  <div class="container">
+    <div class="section-header fade-in"><h2>Sink Dynamics</h2></div>
+    <div class="dynamics-panel fade-in chart-watch" id="dynamics-panel">
+      <div class="dynamics-head">
+        <div>
+          <h3 class="dynamics-title" id="dynamics-chart-title">Key Importance Ratio</h3>
+          <p class="dynamics-summary" id="dynamics-summary">Sink-to-random &mu;<sub>k</sub> ratio across network depth for representative DiTs.</p>
+        </div>
+        <div class="chart-toolbar" role="group" aria-label="Dynamics mode">
+          <button class="chart-button active" type="button" data-chart-mode="layer" aria-pressed="true">Layer depth</button>
+          <button class="chart-button" type="button" data-chart-mode="step" aria-pressed="false">Denoising step</button>
+        </div>
+      </div>
+      <div class="chart-legend" id="chart-legend" aria-label="Visible model series"></div>
+      <div class="chart-wrap" id="chart-wrap">
+        <svg class="dynamics-chart" id="dynamics-chart" viewBox="0 0 720 380" role="img" aria-labelledby="dynamics-chart-title dynamics-summary"></svg>
+        <div class="chart-tooltip" id="chart-tooltip" hidden></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== KEY FINDINGS ===== -->
+<section id="findings">
+  <div class="container">
+    <div class="section-header fade-in"><h2>Key Findings</h2></div>
+    <nav class="findings-timeline fade-in" aria-label="Finding timeline">
+      <div class="findings-now">
+        <span class="findings-now-label">Now</span>
+        <span class="findings-now-text" id="findings-now-text">01 · When and where do sinks emerge?</span>
+      </div>
+      <div class="findings-track">
+        <a class="finding-step active" href="#finding-01" data-finding-link="finding-01">
+          <span class="finding-step-dot">01</span><span class="finding-step-title">Emergence</span>
+        </a>
+        <a class="finding-step" href="#finding-02" data-finding-link="finding-02">
+          <span class="finding-step-dot">02</span><span class="finding-step-title">Identity</span>
+        </a>
+        <a class="finding-step" href="#finding-03" data-finding-link="finding-03">
+          <span class="finding-step-dot">03</span><span class="finding-step-title">Activations</span>
+        </a>
+        <a class="finding-step" href="#finding-04" data-finding-link="finding-04">
+          <span class="finding-step-dot">04</span><span class="finding-step-title">RoPE</span>
+        </a>
+        <a class="finding-step" href="#finding-05" data-finding-link="finding-05">
+          <span class="finding-step-dot">05</span><span class="finding-step-title">FAC</span>
+        </a>
+        <a class="finding-step" href="#finding-06" data-finding-link="finding-06">
+          <span class="finding-step-dot">06</span><span class="finding-step-title">Selection</span>
+        </a>
+      </div>
+    </nav>
+
+    <!-- Finding 01 -->
+    <div class="finding fade-in" id="finding-01" data-finding-title="01 · When and where do sinks emerge?">
+      <div class="finding-number" aria-hidden="true">01</div>
+      <h3 class="finding-question">When and where do sinks emerge?</h3>
+      <div class="finding-body">
+        <p>We track sink strength along two axes: denoising progress and network depth. All three representative models develop sinks within the first few steps. <strong>FLUX.1</strong> shows high Key Importance from step 1; <strong>PixArt</strong> locks onto a fixed sink around step 6; <strong>Wan</strong> grows exponentially over the first 20 steps.</p>
+        <p style="margin-top:10px;">Across layers, a sharp transition occurs in the second half of the network: attention concentrates onto a few tokens, reaching <strong>85&times;</strong> (PixArt), <strong>214&times;</strong> (FLUX.1), and <strong>477&times;</strong> (Wan) at peak. Shallow layers show uniform attention.</p>
+      </div>
+      <figure class="finding-fig fig-short">
+        <div class="figure-cue"><span class="figure-cue-label">Read</span><span>Left: sinks appear early in denoising. Right: the same sink strength is concentrated in deep layers.</span></div>
+        <div class="fig-img-wrap"><img src="assets/figures/fig_when_where_optionC.png" width="998" height="439" alt="When and where sinks emerge — Key Importance over denoising steps and layer depth" loading="lazy" decoding="async"></div>
+        <figcaption><strong>Figure 2.</strong> (a) Top-1 Key Importance at each denoising step: all models develop sinks early. Shaded bands = &plusmn;1 std across 100 prompts. (b) Sink-to-random ratio at each layer: shallow layers show no sink; deep layers reach up to 477&times; concentration.</figcaption>
+      </figure>
+      <div class="insight-box">Sinks are intrinsic to model weights, not driven by any particular input. Once formed, they persist regardless of prompt or noise seed.</div>
+    </div>
+
+    <!-- Finding 02 -->
+    <div class="finding fade-in" id="finding-02" data-finding-title="02 · Which tokens become sinks?">
+      <div class="finding-number" aria-hidden="true">02</div>
+      <h3 class="finding-question">Which tokens become sinks?</h3>
+      <div class="finding-body">
+        <p>The sink identity is determined by the positional encoding type. In <strong>AbsPE</strong> models (PixArt-&alpha;), sinks are corner tokens whose learned embedding has extreme coordinate values. In <strong>2D RoPE</strong> models (FLUX.1, Qwen-Image), sinks land on text tokens. <strong>Z-Image</strong> uses 3-axis RoPE and also selects text <code>&lt;PAD&gt;</code> tokens, while <strong>3D RoPE</strong> video models (Wan2.1, LTX Video) cluster sinks on first-frame patches.</p>
+        <p style="margin-top:10px;">Across all PE types, sink tokens share two properties: they occupy <strong>stable positions</strong> (present in every forward pass) and carry <strong>minimal content</strong> (not directly supervised by the training loss).</p>
+      </div>
+      <figure class="finding-fig fig-ribbon">
+        <div class="figure-cue"><span class="figure-cue-label">Read</span><span>The tallest bars identify which token type becomes the sink for each architecture.</span></div>
+        <div class="fig-img-wrap"><img src="assets/figures/key_importance.png" width="1700" height="314" alt="Key Importance per token for four DiTs — showing which tokens become sinks" loading="lazy" decoding="async"></div>
+        <figcaption><strong>Figure 3.</strong> Key Importance &mu;<sub>k</sub> at the final denoising step for four DiTs. Tall bars = tokens receiving 100&ndash;200&times; more attention. <strong>PixArt:</strong> corner token. <strong>FLUX.1:</strong> &lt;PAD&gt; tokens. <strong>Wan2.1:</strong> first-frame patches. <strong>LTX Video:</strong> similar first-frame pattern.</figcaption>
+      </figure>
+      <div class="insight-box">The emptier the content, the stronger the sink. DiTs repurpose whichever tokens the positional encoding makes available as implicit registers.</div>
+    </div>
+
+    <!-- Finding 03 -->
+    <div class="finding fade-in" id="finding-03" data-finding-title="03 · Can massive activations explain sinks?">
+      <div class="finding-number" aria-hidden="true">03</div>
+      <h3 class="finding-question">Can massive activations explain sinks?</h3>
+      <div class="finding-body">
+        <p>In LLMs, attention sinks co-occur with <em>massive activations</em> — outlier hidden-state dimensions that appear in the same tokens. We observe the same co-occurrence in DiTs: sink tokens exhibit activation spikes <strong>~50&times;</strong> above average.</p>
+        <p style="margin-top:10px;">However, DiTs typically apply <strong>QK-Normalization</strong>, which projects all Key vectors to the same &ell;<sub>2</sub>-norm. After normalization, sink and non-sink tokens have identical Key magnitudes. The cause must lie in the <em>direction</em> of the Key vectors rather than their magnitude.</p>
+      </div>
+      <div class="fig-row fig-stack">
+        <figure class="finding-fig">
+          <div class="figure-cue"><span class="figure-cue-label">Read</span><span>Hidden states spike, but normalized Keys have comparable magnitude.</span></div>
+          <div class="fig-img-wrap"><img src="assets/figures/fig_sink_anatomy_3d_clean.png" width="1326" height="662" alt="3D line plots showing massive activations in sink tokens vs normal tokens" loading="lazy" decoding="async"></div>
+          <figcaption><strong>Figure 4.</strong> Layer input (left): sink tokens show 50&times; activation spikes. Key vectors (right): after QK-Norm, all norms are equal (~15.9).</figcaption>
+        </figure>
+        <figure class="finding-fig">
+          <div class="figure-cue"><span class="figure-cue-label">Read</span><span>The activation spike happens first; attention concentration rises later.</span></div>
+          <div class="fig-img-wrap"><img src="assets/figures/fig_massact_sink_cooccurrence.png" width="773" height="528" alt="Co-occurrence of massive activations and attention sinks across layers" loading="lazy" decoding="async"></div>
+          <figcaption><strong>Figure 5.</strong> Massive activations (red) peak near depth 0.3; attention sinks (blue) emerge afterward in deeper layers.</figcaption>
+        </figure>
+      </div>
+      <div class="insight-box">QK-Normalization equalizes Key norms — the cause of attention dominance lies in Key direction, not magnitude.</div>
+    </div>
+
+    <!-- Finding 04 -->
+    <div class="finding fade-in" id="finding-04" data-finding-title="04 · How does RoPE create sinks?">
+      <div class="finding-number" aria-hidden="true">04</div>
+      <h3 class="finding-question">How does RoPE create sinks?</h3>
+      <div class="finding-body">
+        <p>RoPE is the only operation between QK-Normalization and the dot product. We compute the mean &langle;q, k&rangle; for a sink key versus a random image key, before and after RoPE:</p>
+        <p style="margin-top:10px;"><strong>Pre-RoPE:</strong> both keys score similarly (123 vs 134) — no sink would form. <strong>Post-RoPE:</strong> the sink key retains its score (112) while the random key drops to &minus;62. RoPE does not boost the sink; it <em>suppresses non-sink keys</em> by rotating their channels in ways that reduce dot products with distant queries.</p>
+      </div>
+      <figure class="finding-fig fig-medium">
+        <div class="figure-cue"><span class="figure-cue-label">Read</span><span>Before RoPE, sink and random keys score similarly; after RoPE, the random key collapses.</span></div>
+        <div class="fig-img-wrap"><img src="assets/figures/dit_attention_block.png" width="843" height="655" alt="DiT attention block diagram showing pre/post RoPE dot products" loading="lazy" decoding="async"></div>
+        <figcaption><strong>Figure 6.</strong> Left: signal flow in a DiT attention block. Right: mean QK dot product for a sink key vs. a random key, before and after RoPE (FLUX.1, layer 28, step 27). Pre-RoPE scores are comparable; post-RoPE, only the sink survives.</figcaption>
+      </figure>
+      <div class="insight-box">RoPE does not boost the sink — it suppresses non-sink keys. Sink keys survive because their energy distribution is immune to the rotation.</div>
+    </div>
+
+    <!-- Finding 05 -->
+    <div class="finding fade-in" id="finding-05" data-finding-title="05 · What is Frequency-Aware Concentration?">
+      <div class="finding-number" aria-hidden="true">05</div>
+      <h3 class="finding-question">What is Frequency-Aware Concentration?</h3>
+      <div class="finding-body">
+        <p>RoPE assigns each channel pair a rotation frequency &theta;<sub>c</sub>. High-frequency channels rotate rapidly and their contributions cancel out for distant tokens. Low-frequency channels barely rotate: cos(&Delta;&theta;<sub>c</sub>) &asymp; 1 regardless of distance — a <strong>"Safe Harbor"</strong>.</p>
+        <p style="margin-top:10px;">Sink keys concentrate the majority of their energy into these low-frequency channels, while normal keys spread energy uniformly and lose it to high-frequency cancellation. We call this <strong>Frequency-Aware Concentration (FAC)</strong>. It deepens with layer depth, reaching &gt;200&times; attention gap in the deepest layers. On the Value side, sink tokens carry near-zero magnitudes — they absorb attention without adding signal.</p>
+      </div>
+      <figure class="finding-fig fig-dense">
+        <div class="figure-cue"><span class="figure-cue-label">Read</span><span>Low-frequency channels stay aligned across distance; sink keys place their energy there.</span></div>
+        <div class="fig-img-wrap"><img src="assets/figures/fig_fac_compact_smooth.png" width="1317" height="798" alt="FAC mechanism: cosine heatmap and per-channel Key energy" loading="lazy" decoding="async"></div>
+        <figcaption><strong>Figure 7.</strong> (a) Per-channel cos(&theta;<sub>c</sub>&middot;&Delta;): high-freq channels (top) decay rapidly; low-freq "Safe Harbor" channels (bottom) stay near 1. (b) Per-channel Key energy: sink keys (pink) concentrate in low-freq; normal keys (gray) spread uniformly.</figcaption>
+      </figure>
+      <figure class="finding-fig fig-dense">
+        <div class="figure-cue"><span class="figure-cue-label">Read</span><span>Top row: Key energy moves into low-frequency channels. Bottom row: sink Values carry almost no signal.</span></div>
+        <div class="fig-img-wrap"><img src="assets/figures/fig_same_norm_diff_dist.png" width="1598" height="910" alt="2x3 heatmap showing FAC deepening across layers and near-zero sink Values" loading="lazy" decoding="async"></div>
+        <figcaption><strong>Figure 8.</strong> FAC deepens with layer depth. Top row: Sink Key energy shifts to low-freq channels; attention gap grows to &gt;200&times;. Bottom row: Sink Value channels go to near-zero — sinks absorb attention without adding signal ("no-op" targets).</figcaption>
+      </figure>
+      <div class="insight-box">Sink keys survive by placing energy in "Safe Harbor" channels where rotation barely changes. They win by surviving, not by dominating.</div>
+    </div>
+
+    <!-- Finding 06 -->
+    <div class="finding fade-in" id="finding-06" data-finding-title="06 · How does PE type determine sink selection?">
+      <div class="finding-number" aria-hidden="true">06</div>
+      <h3 class="finding-question">How does PE type determine sink selection?</h3>
+      <div class="finding-body">
+        <p>FAC explains <em>how</em> a token wins attention, but <em>which</em> tokens acquire this advantage depends on the PE type:</p>
+        <p style="margin-top:10px;"><strong>RoPE models:</strong> semantically empty tokens (<code>&lt;PAD&gt;</code>, <code>&lt;EOS&gt;</code>) that carry no content become sinks. In FLUX.1, <code>&lt;EOS&gt;</code> receives 1165&times; uniform attention, <code>&lt;PAD&gt;</code> 117&times;, commas only 29&times;.</p>
+        <p style="margin-top:8px;"><strong>AbsPE models:</strong> the learned positional embedding itself controls sink identity. We verify this causally: zeroing the corner PE and copying it to 20 positions arranged in a smiley-face pattern redirects attention to those positions (8.6&times; higher &mu;<sub>k</sub>).</p>
+      </div>
+      <div class="fig-row">
+        <figure class="finding-fig">
+          <div class="figure-cue"><span class="figure-cue-label">Read</span><span>Empty text tokens attract more attention than image or comma tokens.</span></div>
+          <div class="fig-img-wrap"><img src="assets/figures/fig_token_selection_bars.png" width="771" height="326" alt="FLUX.1 attention by token type: EOS > PAD > comma > image" loading="lazy" decoding="async"></div>
+          <figcaption><strong>Figure 9a.</strong> FLUX.1 (RoPE): semantically empty tokens attract far more attention. Same positions, same seed — only token content changes.</figcaption>
+        </figure>
+        <figure class="finding-fig">
+          <div class="figure-cue"><span class="figure-cue-label">Read</span><span>Copying one positional embedding relocates the sink pattern.</span></div>
+          <div class="fig-img-wrap"><img src="assets/figures/fig_ape_sink_control_v2.png" width="1058" height="342" alt="PixArt PE manipulation — smiley face pattern in attention" loading="lazy" decoding="async"></div>
+          <figcaption><strong>Figure 9b.</strong> PixArt (AbsPE): copying the corner PE to a smiley-face pattern redirects attention. The positional embedding alone controls which tokens become sinks.</figcaption>
+        </figure>
+      </div>
+      <div class="insight-box">In RoPE models, content determines sink strength. In AbsPE models, position determines it. Both types share the same principle: stable, empty positions become sinks.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== APPLICATION ===== -->
+<section id="application">
+  <div class="container">
+    <div class="section-header fade-in"><h2>Application: Redistributing Attention via Comma Padding</h2></div>
+
+    <div class="finding-body fade-in">
+      <p>FLUX.1 uses a T5 encoder that packs every prompt into a fixed 512-token sequence. A typical short prompt fills ~17 slots; the remaining ~494 are <code>&lt;PAD&gt;</code> tokens. These empty tokens satisfy the FAC condition and become strong sinks: <strong><code>&lt;PAD&gt;</code> tokens collectively absorb 55% of the total attention budget</strong>, while the 4,096 image tokens (89% of the sequence) receive only 22%.</p>
+      <p style="margin-top:12px;">Since comma tokens attract only 29&times; uniform attention versus 117&times; for <code>&lt;PAD&gt;</code>, simply <strong>appending 200 commas to the prompt</strong> displaces most padding tokens and redistributes attention toward image tokens. No retraining or architectural change is needed.</p>
+    </div>
+
+    <figure class="finding-fig fig-tall fade-in">
+      <div class="figure-cue"><span class="figure-cue-label">Read</span><span>Most of the top attention receivers are empty padding tokens; comma padding replaces that wasted budget.</span></div>
+      <div class="fig-img-wrap"><img src="assets/figures/puppy_attention_budget.png" width="1237" height="1102" alt="Attention budget of FLUX.1 — top-32 tokens ranked by Key Importance" loading="lazy" decoding="async"></div>
+      <figcaption><strong>Figure 10.</strong> Attention budget of FLUX.1: Top-32 tokens ranked by mean &mu;<sub>k</sub> (N=100 prompts). <span style="color:var(--accent);font-weight:600;">&lt;EOS&gt;</span> dominates; 22 of 32 are <strong>&lt;PAD&gt;</strong>. Empty tokens absorb 55% of total attention; image tokens (89% of sequence) get only 22%.</figcaption>
+    </figure>
+
+    <!-- Results table -->
+    <div class="fade-in results-block" style="margin-top:32px;">
+      <h3 style="font-family:var(--font-display); font-size:20px; font-weight:500; margin-bottom:16px;">Quantitative Results</h3>
+      <p style="font-size:14px; color:var(--text-secondary); margin-bottom:12px;">
+        Evaluated on FLUX.1-dev (12 steps, 1024&sup2;, guidance 3.5). Comma padding improves compositional categories while maintaining general quality (TIIF overall: 66.8% &rarr; 67.7%).
+      </p>
+      <div style="overflow-x:auto;">
+        <table class="results-table results-bars">
+          <thead>
+            <tr>
+              <th>Benchmark</th>
+              <th>Category</th>
+              <th>Baseline</th>
+              <th>+Comma</th>
+              <th>Diff</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Concept Mixing</td>
+              <td>Conflicting concepts</td>
+              <td>3.65</td>
+              <td>4.55</td>
+              <td class="positive"><span class="metric-diff" style="--bar:67%;">+0.90</span></td>
+            </tr>
+            <tr>
+              <td>Concept Mixing</td>
+              <td>Hybrid fusion</td>
+              <td>4.37</td>
+              <td>5.71</td>
+              <td class="positive"><span class="metric-diff" style="--bar:100%;">+1.34</span></td>
+            </tr>
+            <tr>
+              <td>TIIF-Bench</td>
+              <td>Diff. + texture</td>
+              <td>43.0%</td>
+              <td>50.5%</td>
+              <td class="positive"><span class="metric-diff" style="--bar:100%;">+7.5%</span></td>
+            </tr>
+            <tr>
+              <td>TIIF-Bench</td>
+              <td>Comparison</td>
+              <td>55.6%</td>
+              <td>61.6%</td>
+              <td class="positive"><span class="metric-diff" style="--bar:80%;">+6.0%</span></td>
+            </tr>
+            <tr>
+              <td>TIIF-Bench</td>
+              <td>Action + 2D</td>
+              <td>80.4%</td>
+              <td>86.0%</td>
+              <td class="positive"><span class="metric-diff" style="--bar:75%;">+5.6%</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:12px; color:var(--text-tertiary); margin-top:8px;">
+        CM = GPT-scored alignment (0&ndash;10). TIIF = VQA accuracy. Trade-off: aesthetic scores decrease ~19% on Concept Mixing (comma padding shifts the alignment&ndash;aesthetics frontier).
+      </p>
+    </div>
+
+    <!-- Gallery -->
+    <div class="fade-in" style="margin-top:40px;">
+      <h3 style="font-family:var(--font-display); font-size:20px; font-weight:500; margin-bottom:16px;">Qualitative Comparison</h3>
+      <p style="font-size:13px; color:var(--text-tertiary); margin-bottom:16px;">Hover, focus, or tap to compare the <strong style="color:var(--text-secondary);">+Comma</strong> result. Same model weights, same seeds — only the prompt suffix differs.</p>
+
+      <!-- Prompt labels -->
+      <div class="gallery-prompt-row" style="display:grid; grid-template-columns:repeat(3,1fr); gap:2px; margin-bottom:4px;">
+        <div class="gallery-prompt">"A <strong>pyramid</strong> built inside a modern <strong>stadium</strong>"</div>
+        <div class="gallery-prompt">"An <strong>astronaut</strong> riding a horse on a tennis court watching a <strong>shark</strong> flying..."</div>
+        <div class="gallery-prompt">"A <strong>puppy</strong> living inside a computer <strong>screen</strong> displaying a <strong>cat</strong>..."</div>
+      </div>
+
+      <!-- Row 1: seed A -->
+      <div class="gallery-grid" style="margin-bottom:2px;">
+        <div class="gallery-pair" data-prompt="Pyramid inside stadium">
+          <img class="base" src="assets/figures/gallery/pyramid_bl_s40.jpg" width="1024" height="1024" alt="Pyramid baseline seed 40" loading="lazy" decoding="async">
+          <img class="overlay" src="assets/figures/gallery/pyramid_comma_s40.jpg" width="1024" height="1024" alt="Pyramid +comma seed 40" loading="lazy" decoding="async">
+          <div class="gallery-label baseline-label">Baseline</div>
+        </div>
+        <div class="gallery-pair" data-prompt="Astronaut, horse, shark">
+          <img class="base" src="assets/figures/gallery/astronaut_bl_s40.jpg" width="1024" height="1024" alt="Astronaut baseline seed 40" loading="lazy" decoding="async">
+          <img class="overlay" src="assets/figures/gallery/astronaut_comma_s40.jpg" width="1024" height="1024" alt="Astronaut +comma seed 40" loading="lazy" decoding="async">
+          <div class="gallery-label baseline-label">Baseline</div>
+        </div>
+        <div class="gallery-pair" data-prompt="Puppy, screen, cat">
+          <img class="base" src="assets/figures/gallery/puppy_bl_s42.jpg" width="1024" height="1024" alt="Puppy baseline seed 42" loading="lazy" decoding="async">
+          <img class="overlay" src="assets/figures/gallery/puppy_comma_s42.jpg" width="1024" height="1024" alt="Puppy +comma seed 42" loading="lazy" decoding="async">
+          <div class="gallery-label baseline-label">Baseline</div>
+        </div>
+      </div>
+
+      <!-- Row 2: seed B -->
+      <div class="gallery-grid">
+        <div class="gallery-pair" data-prompt="Pyramid inside stadium">
+          <img class="base" src="assets/figures/gallery/pyramid_bl_s41.jpg" width="1024" height="1024" alt="Pyramid baseline seed 41" loading="lazy" decoding="async">
+          <img class="overlay" src="assets/figures/gallery/pyramid_comma_s41.jpg" width="1024" height="1024" alt="Pyramid +comma seed 41" loading="lazy" decoding="async">
+          <div class="gallery-label baseline-label">Baseline</div>
+        </div>
+        <div class="gallery-pair" data-prompt="Astronaut, horse, shark">
+          <img class="base" src="assets/figures/gallery/astronaut_bl_s42.jpg" width="1024" height="1024" alt="Astronaut baseline seed 42" loading="lazy" decoding="async">
+          <img class="overlay" src="assets/figures/gallery/astronaut_comma_s42.jpg" width="1024" height="1024" alt="Astronaut +comma seed 42" loading="lazy" decoding="async">
+          <div class="gallery-label baseline-label">Baseline</div>
+        </div>
+        <div class="gallery-pair" data-prompt="Puppy, screen, cat">
+          <img class="base" src="assets/figures/gallery/puppy_bl_s43.jpg" width="1024" height="1024" alt="Puppy baseline seed 43" loading="lazy" decoding="async">
+          <img class="overlay" src="assets/figures/gallery/puppy_comma_s43.jpg" width="1024" height="1024" alt="Puppy +comma seed 43" loading="lazy" decoding="async">
+          <div class="gallery-label baseline-label">Baseline</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== BIBTEX ===== -->
+<section id="bibtex">
+  <div class="container">
+    <div class="section-header fade-in"><h2>BibTeX</h2></div>
+    <div class="bibtex-block fade-in">
+      <button class="bibtex-copy" type="button" onclick="copyBibtex()">Copy</button>
+<pre id="bibtex-text">@misc{yang2026spiral2sink,
+  title     = {From a Spiral to a Sink: How Positional Encoding
+               Shapes Attention Sinks in Diffusion Transformers},
+  author    = {Yang, Yuanbo and Shao, Jiahao and Gao, Jun and Liao, Yiyi},
+  note      = {Manuscript under review},
+  year      = {2026}
+}</pre>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="container">
+    <p>
+      <span style="font-family:var(--font-display);font-size:16px;font-weight:500;">Y<span style="color:var(--accent);">.</span></span>
+      &nbsp;&middot;&nbsp;
+      Yuanbo Yang &middot; Zhejiang University
+    </p>
+  </div>
+</footer>
+
+<script>
+// Theme toggle
+function toggleTheme() {
+  const html = document.documentElement;
+  const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  try { localStorage.setItem('theme', next); } catch (e) {}
+  updateThemeToggle();
+}
+function updateThemeToggle() {
+  const btn = document.querySelector('.theme-toggle');
+  if (!btn) return;
+  const isLight = document.documentElement.getAttribute('data-theme') !== 'dark';
+  btn.setAttribute('aria-pressed', String(isLight));
+  btn.setAttribute('aria-label', isLight ? 'Switch to dark theme' : 'Switch to light theme');
+}
+// Theme init moved to <head> to prevent FOUC
+
+// Progressive abstract
+function bindAbstractProgression() {
+  const steps = Array.from(document.querySelectorAll('.abstract-step'));
+  if (!steps.length) return;
+
+  steps.forEach((step) => {
+    step.addEventListener('toggle', () => {
+      if (!step.open) return;
+      steps.forEach((other) => {
+        if (other !== step) other.open = false;
+      });
+    });
+  });
+
+  document.querySelectorAll('[data-abstract-next]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const next = steps[Number(btn.dataset.abstractNext)];
+      if (!next) return;
+      next.open = true;
+      next.querySelector('summary')?.focus({ preventScroll: true });
+    });
+  });
+}
+
+bindAbstractProgression();
+
+// Interactive teaser
+const teaserData = {
+  flux:   { label: 'FLUX.1',    layers: [28, 38], steps: [14, 27], totalSteps: 50, totalLayers: 57 },
+  pixart: { label: 'PixArt-α',  layers: [18, 20], steps: [10, 19], totalSteps: 20, totalLayers: 28 },
+  wan21:  { label: 'Wan2.1',    layers: [18, 22], steps: [25, 49], totalSteps: 50, totalLayers: 40 },
+  ltx:    { label: 'LTX-Video', layers: [14, 16], steps: [25, 49], totalSteps: 50, totalLayers: 28 }
+};
+const teaserMeta = {
+  pixart: { pe: 'AbsPE', sink: 'Spatial corners', peak: '85×', unique: '20' },
+  flux:   { pe: '2D RoPE', sink: 'Text &lt;PAD&gt;', peak: '214×', unique: '7' },
+  wan21:  { pe: '3D RoPE', sink: '1st-frame patches', peak: '477×', unique: '48' },
+  ltx:    { pe: '3D RoPE', sink: '1st-frame patches', peak: '65×', unique: '91' }
+};
+const modelOrder = ['pixart', 'flux', 'wan21', 'ltx'];
+let currentStepIdx = 1;
+let currentModelFilter = 'all';
+
+function teaserPath(model, stepIdx, layerIdx) {
+  const d = teaserData[model];
+  return `assets/figures/teaser/${model}_step${String(d.steps[stepIdx]).padStart(2,'0')}_layer${d.layers[layerIdx]}.jpg`;
+}
+
+function buildStepPills() {
+  const c = document.getElementById('step-pills');
+  ['Early', 'Late'].forEach((label, i) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'teaser-pill' + (i === currentStepIdx ? ' active' : '');
+    btn.textContent = label;
+    btn.setAttribute('aria-pressed', String(i === currentStepIdx));
+    btn.onclick = () => { currentStepIdx = i; updateTeaser(); };
+    c.appendChild(btn);
+  });
+}
+
+function buildModelPills() {
+  const c = document.getElementById('model-pills');
+  const filters = [{ key: 'all', label: 'All' }, ...modelOrder.map(key => ({ key, label: teaserData[key].label }))];
+  filters.forEach(filter => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'teaser-pill' + (filter.key === currentModelFilter ? ' active' : '');
+    btn.textContent = filter.label;
+    btn.setAttribute('aria-pressed', String(filter.key === currentModelFilter));
+    btn.onclick = () => { currentModelFilter = filter.key; updateTeaser(); };
+    c.appendChild(btn);
+  });
+}
+
+function selectedTeaserModels() {
+  return currentModelFilter === 'all' ? modelOrder : [currentModelFilter];
+}
+
+function updateTeaserSummary(models) {
+  const summary = document.getElementById('teaser-summary');
+  if (!summary) return;
+  const labels = models.map(model => teaserData[model].label).join(' / ');
+  const peaks = models.map(model => `${teaserData[model].label} ${teaserMeta[model].peak}`).join(' · ');
+  const sinkRegions = [...new Set(models.map(model => teaserMeta[model].sink))].join(' / ');
+  const peTypes = [...new Set(models.map(model => teaserMeta[model].pe))].join(' / ');
+  const unique = models.length === 1 ? teaserMeta[models[0]].unique : `${models.length} models`;
+  summary.innerHTML = `
+    <div class="teaser-summary-item">
+      <span class="teaser-summary-label">Selection</span>
+      <span class="teaser-summary-value">${labels}</span>
+    </div>
+    <div class="teaser-summary-item">
+      <span class="teaser-summary-label">PE / Sink</span>
+      <span class="teaser-summary-value">${peTypes} · ${sinkRegions}</span>
+    </div>
+    <div class="teaser-summary-item">
+      <span class="teaser-summary-label">Peak Ratio</span>
+      <span class="teaser-summary-value">${peaks}</span>
+    </div>
+    <div class="teaser-summary-item">
+      <span class="teaser-summary-label">Unique Sinks</span>
+      <span class="teaser-summary-value">${unique}</span>
+    </div>
+  `;
+}
+
+function updateTeaser() {
+  document.querySelectorAll('#step-pills .teaser-pill').forEach((p, i) => {
+    p.classList.toggle('active', i === currentStepIdx);
+    p.setAttribute('aria-pressed', String(i === currentStepIdx));
+  });
+  document.querySelectorAll('#model-pills .teaser-pill').forEach((p) => {
+    const active = p.textContent === 'All'
+      ? currentModelFilter === 'all'
+      : teaserData[currentModelFilter] && p.textContent === teaserData[currentModelFilter].label;
+    p.classList.toggle('active', active);
+    p.setAttribute('aria-pressed', String(active));
+  });
+  const grid = document.getElementById('teaser-grid');
+  grid.innerHTML = '';
+  const models = selectedTeaserModels();
+  grid.dataset.count = String(models.length);
+  models.forEach(model => {
+    const d = teaserData[model];
+    d.layers.forEach((layer, li) => {
+      const cell = document.createElement('button');
+      cell.type = 'button';
+      cell.className = 'teaser-cell';
+      const stepPct = Math.round(d.steps[currentStepIdx] / d.totalSteps * 100);
+      const depthPct = Math.round(layer / d.totalLayers * 100);
+      cell.setAttribute('aria-label', `${d.label}, ${currentStepIdx === 0 ? 'early' : 'late'} step, layer ${layer}, depth ${depthPct} percent`);
+      const img = document.createElement('img');
+      img.src = teaserPath(model, currentStepIdx, li);
+      img.alt = `${d.label} Step ${d.steps[currentStepIdx]} Layer ${layer}`;
+      img.loading = li === 0 && currentStepIdx === 1 ? 'eager' : 'lazy';
+      cell.appendChild(img);
+      const lbl = document.createElement('div');
+      lbl.className = 'teaser-cell-label';
+      lbl.innerHTML = li === 0
+        ? `<span>${d.label}</span> · L${layer} (${depthPct}%)`
+        : `L${layer} (${depthPct}%)`;
+      cell.appendChild(lbl);
+      cell.onclick = () => openTeaserZoom(img.src, `${d.label} — Step ${stepPct}%, Layer ${layer} (depth ${depthPct}%)`);
+      grid.appendChild(cell);
+    });
+  });
+  updateTeaserSummary(models);
+}
+
+buildStepPills();
+buildModelPills();
+updateTeaser();
+updateThemeToggle();
+
+// Sink dynamics chart
+const dynamicsModes = {
+  layer: {
+    label: 'Layer depth',
+    axis: 'Depth',
+    suffix: '%',
+    summary: 'Sink-to-random μk ratio across network depth for representative DiTs.',
+    x: [0, 20, 40, 60, 80, 100],
+    yLabel: 'Sink / random μk'
+  },
+  step: {
+    label: 'Denoising step',
+    axis: 'Step',
+    suffix: '%',
+    summary: 'Sink-to-random μk ratio over denoising progress, normalized by each model schedule.',
+    x: [0, 20, 40, 60, 80, 100],
+    yLabel: 'Sink / random μk'
+  }
+};
+const dynamicsSeries = {
+  layer: {
+    pixart: [1, 2, 8, 28, 68, 85],
+    flux:   [1, 6, 35, 118, 180, 214],
+    wan21:  [1, 2, 12, 80, 260, 477],
+    ltx:    [1, 2, 6, 18, 44, 65]
+  },
+  step: {
+    pixart: [1, 4, 48, 78, 84, 85],
+    flux:   [90, 130, 170, 198, 210, 214],
+    wan21:  [1, 10, 75, 220, 380, 477],
+    ltx:    [1, 5, 22, 42, 58, 65]
+  }
+};
+const dynamicsStyle = {
+  pixart: { color: 'var(--text-tertiary)', dash: '5 6' },
+  flux:   { color: 'var(--accent)', dash: '' },
+  wan21:  { color: 'var(--text)', dash: '' },
+  ltx:    { color: '#888888', dash: '2 5' }
+};
+let currentChartMode = 'layer';
+let dynamicsHasEntered = false;
+const visibleChartSeries = new Set(modelOrder);
+
+function svgEl(tag, attrs = {}) {
+  const node = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  Object.entries(attrs).forEach(([key, value]) => {
+    if (key === 'text') node.textContent = value;
+    else node.setAttribute(key, value);
+  });
+  return node;
+}
+
+function pointsToPath(points) {
+  return points.map((point, i) => `${i === 0 ? 'M' : 'L'}${point.x.toFixed(1)},${point.y.toFixed(1)}`).join(' ');
+}
+
+function buildChartLegend() {
+  const legend = document.getElementById('chart-legend');
+  if (!legend) return;
+  legend.innerHTML = '';
+  modelOrder.forEach(model => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'chart-legend-button' + (visibleChartSeries.has(model) ? ' active' : '');
+    btn.style.setProperty('--legend-color', dynamicsStyle[model].color);
+    btn.textContent = teaserData[model].label;
+    btn.setAttribute('aria-pressed', String(visibleChartSeries.has(model)));
+    btn.onclick = () => {
+      if (visibleChartSeries.has(model) && visibleChartSeries.size === 1) return;
+      if (visibleChartSeries.has(model)) visibleChartSeries.delete(model);
+      else visibleChartSeries.add(model);
+      buildChartLegend();
+      renderDynamicsChart(true);
+    };
+    legend.appendChild(btn);
+  });
+}
+
+function renderDynamicsChart(animate) {
+  const svg = document.getElementById('dynamics-chart');
+  const panel = document.getElementById('dynamics-panel');
+  const summary = document.getElementById('dynamics-summary');
+  if (!svg || !panel) return;
+  panel.classList.remove('chart-ready');
+  svg.replaceChildren();
+  if (summary) summary.innerHTML = dynamicsModes[currentChartMode].summary;
+
+  const mode = dynamicsModes[currentChartMode];
+  const values = dynamicsSeries[currentChartMode];
+  const xVals = mode.x;
+  const yMax = 500;
+  const plot = { left: 64, top: 24, width: 620, height: 292 };
+  const yTicks = [0, 100, 200, 300, 400, 500];
+  const chartCache = { plot, xVals, yMax, points: {} };
+
+  yTicks.forEach(tick => {
+    const y = plot.top + plot.height - (tick / yMax) * plot.height;
+    svg.appendChild(svgEl('line', { class: 'chart-grid-line', x1: plot.left, y1: y, x2: plot.left + plot.width, y2: y }));
+    svg.appendChild(svgEl('text', { class: 'chart-tick-label', x: 52, y: y + 4, 'text-anchor': 'end', text: tick }));
+  });
+  xVals.forEach(xVal => {
+    const x = plot.left + (xVal / 100) * plot.width;
+    svg.appendChild(svgEl('line', { class: 'chart-grid-line', x1: x, y1: plot.top, x2: x, y2: plot.top + plot.height }));
+    svg.appendChild(svgEl('text', { class: 'chart-tick-label', x, y: plot.top + plot.height + 26, 'text-anchor': 'middle', text: `${xVal}${mode.suffix}` }));
+  });
+  svg.appendChild(svgEl('line', { class: 'chart-axis', x1: plot.left, y1: plot.top + plot.height, x2: plot.left + plot.width, y2: plot.top + plot.height }));
+  svg.appendChild(svgEl('line', { class: 'chart-axis', x1: plot.left, y1: plot.top, x2: plot.left, y2: plot.top + plot.height }));
+  svg.appendChild(svgEl('text', { class: 'chart-axis-label', x: plot.left + plot.width / 2, y: 370, 'text-anchor': 'middle', text: `${mode.axis} (${mode.suffix})` }));
+  const yAxis = svgEl('text', { class: 'chart-axis-label', x: 16, y: plot.top + plot.height / 2, 'text-anchor': 'middle', text: mode.yLabel });
+  yAxis.setAttribute('transform', `rotate(-90 16 ${plot.top + plot.height / 2})`);
+  svg.appendChild(yAxis);
+
+  modelOrder.forEach((model, modelIndex) => {
+    if (!visibleChartSeries.has(model)) return;
+    const pts = values[model].map((v, i) => ({
+      x: plot.left + (xVals[i] / 100) * plot.width,
+      y: plot.top + plot.height - (v / yMax) * plot.height,
+      value: v
+    }));
+    chartCache.points[model] = pts;
+
+    const path = svgEl('path', {
+      class: 'chart-line',
+      d: pointsToPath(pts),
+      stroke: dynamicsStyle[model].color,
+      'stroke-dasharray': dynamicsStyle[model].dash || null
+    });
+    if (!dynamicsStyle[model].dash) path.removeAttribute('stroke-dasharray');
+    svg.appendChild(path);
+    const len = Math.max(path.getTotalLength(), 1);
+    path.style.setProperty('--line-length', len);
+
+    pts.forEach((point, pointIndex) => {
+      const dot = svgEl('circle', {
+        class: 'chart-point',
+        cx: point.x,
+        cy: point.y,
+        r: 3.8,
+        fill: dynamicsStyle[model].color,
+        stroke: 'var(--bg)',
+        'stroke-width': 1.4
+      });
+      dot.style.setProperty('--point-delay', `${120 + modelIndex * 70 + pointIndex * 55}ms`);
+      svg.appendChild(dot);
+    });
+  });
+
+  const focus = svgEl('g', { class: 'chart-focus' });
+  focus.style.display = 'none';
+  focus.appendChild(svgEl('line', { class: 'chart-focus-line', x1: plot.left, y1: plot.top, x2: plot.left, y2: plot.top + plot.height }));
+  svg.appendChild(focus);
+
+  const hit = svgEl('rect', {
+    x: plot.left,
+    y: plot.top,
+    width: plot.width,
+    height: plot.height,
+    fill: 'transparent',
+    'pointer-events': 'all'
+  });
+  hit.addEventListener('mousemove', event => updateChartFocus(event, chartCache, focus));
+  hit.addEventListener('mouseleave', () => hideChartFocus(focus));
+  hit.addEventListener('focus', event => updateChartFocus(event, chartCache, focus));
+  hit.setAttribute('tabindex', '0');
+  hit.setAttribute('aria-label', 'Inspect chart values');
+  svg.appendChild(hit);
+
+  if (dynamicsHasEntered || animate) {
+    requestAnimationFrame(() => {
+      panel.classList.add('chart-ready');
+    });
+  }
+}
+
+function updateChartFocus(event, chartCache, focus) {
+  const svg = document.getElementById('dynamics-chart');
+  const tooltip = document.getElementById('chart-tooltip');
+  const wrap = document.getElementById('chart-wrap');
+  if (!svg || !tooltip || !wrap) return;
+
+  const ctm = svg.getScreenCTM();
+  if (!ctm) return;
+  const p = svg.createSVGPoint();
+  p.x = event.clientX || svg.getBoundingClientRect().left + 64;
+  p.y = event.clientY || svg.getBoundingClientRect().top + 24;
+  const local = p.matrixTransform(ctm.inverse());
+  const rel = Math.max(0, Math.min(1, (local.x - chartCache.plot.left) / chartCache.plot.width));
+  const idx = Math.round(rel * (chartCache.xVals.length - 1));
+  const focusX = chartCache.plot.left + (chartCache.xVals[idx] / 100) * chartCache.plot.width;
+
+  focus.style.display = 'block';
+  focus.querySelector('.chart-focus-line').setAttribute('x1', focusX);
+  focus.querySelector('.chart-focus-line').setAttribute('x2', focusX);
+  focus.querySelectorAll('.chart-focus-dot').forEach(dot => dot.remove());
+
+  const rows = [];
+  modelOrder.forEach(model => {
+    const pts = chartCache.points[model];
+    if (!pts) return;
+    const dot = svgEl('circle', {
+      class: 'chart-focus-dot',
+      cx: pts[idx].x,
+      cy: pts[idx].y,
+      r: 5.2,
+      fill: dynamicsStyle[model].color,
+      stroke: 'var(--bg)',
+      'stroke-width': 2
+    });
+    focus.appendChild(dot);
+    rows.push(`${teaserData[model].label}: ${pts[idx].value}×`);
+  });
+
+  tooltip.hidden = false;
+  tooltip.innerHTML = `<strong>${dynamicsModes[currentChartMode].axis} ${chartCache.xVals[idx]}%</strong><br>${rows.join('<br>')}`;
+  const wrapRect = wrap.getBoundingClientRect();
+  const tooltipX = Math.min(wrapRect.width - 170, Math.max(8, event.clientX - wrapRect.left + 12));
+  const tooltipY = Math.max(8, event.clientY - wrapRect.top - 34);
+  tooltip.style.left = `${tooltipX}px`;
+  tooltip.style.top = `${tooltipY}px`;
+}
+
+function hideChartFocus(focus) {
+  const tooltip = document.getElementById('chart-tooltip');
+  focus.style.display = 'none';
+  if (tooltip) tooltip.hidden = true;
+}
+
+function bindDynamicsControls() {
+  document.querySelectorAll('[data-chart-mode]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      currentChartMode = btn.dataset.chartMode;
+      document.querySelectorAll('[data-chart-mode]').forEach(other => {
+        const active = other.dataset.chartMode === currentChartMode;
+        other.classList.toggle('active', active);
+        other.setAttribute('aria-pressed', String(active));
+      });
+      renderDynamicsChart(true);
+    });
+  });
+  buildChartLegend();
+  renderDynamicsChart(false);
+}
+
+bindDynamicsControls();
+
+function openTeaserZoom(src, label) {
+  const zoom = document.getElementById('teaser-zoom');
+  document.getElementById('teaser-zoom-img').src = src;
+  document.getElementById('teaser-zoom-img').alt = label || 'Zoomed figure';
+  document.getElementById('teaser-zoom-label').textContent = label;
+  zoom.classList.add('open');
+  zoom.focus();
+}
+
+function closeTeaserZoom() {
+  document.getElementById('teaser-zoom').classList.remove('open');
+}
+
+document.getElementById('teaser-zoom').addEventListener('click', (e) => {
+  if (e.target.id === 'teaser-zoom') closeTeaserZoom();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeTeaserZoom();
+});
+
+document.querySelectorAll('.finding-fig img').forEach(img => {
+  img.setAttribute('tabindex', '0');
+  img.setAttribute('role', 'button');
+  img.setAttribute('aria-label', `${img.alt}. Open larger view.`);
+  img.addEventListener('click', () => {
+    const caption = img.closest('figure')?.querySelector('figcaption')?.textContent.replace(/\s+/g, ' ').trim() || img.alt;
+    openTeaserZoom(img.currentSrc || img.src, caption);
+  });
+  img.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      img.click();
+    }
+  });
+});
+
+function bindFindingTimeline() {
+  const sections = Array.from(document.querySelectorAll('.finding[id]'));
+  const links = Array.from(document.querySelectorAll('[data-finding-link]'));
+  const now = document.getElementById('findings-now-text');
+  if (!sections.length || !links.length || !now) return;
+  let ticking = false;
+
+  function setActive(id) {
+    const section = document.getElementById(id);
+    if (!section) return;
+    sections.forEach(el => el.classList.toggle('is-active', el.id === id));
+    links.forEach(link => {
+      const active = link.dataset.findingLink === id;
+      link.classList.toggle('active', active);
+      link.setAttribute('aria-current', active ? 'step' : 'false');
+      if (active) {
+        const track = link.closest('.findings-track');
+        if (track && track.scrollWidth > track.clientWidth) {
+          const left = link.offsetLeft - (track.clientWidth - link.clientWidth) / 2;
+          track.scrollTo({ left, behavior: 'smooth' });
+        }
+      }
+    });
+    now.textContent = section.dataset.findingTitle || id;
+  }
+
+  function update() {
+    const marker = window.innerHeight * 0.34;
+    let active = sections[0];
+    sections.forEach(section => {
+      if (section.getBoundingClientRect().top <= marker) active = section;
+    });
+    setActive(active.id);
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(update);
+  }, { passive: true });
+  window.addEventListener('resize', update);
+  links.forEach(link => {
+    link.addEventListener('click', () => setActive(link.dataset.findingLink));
+  });
+  update();
+}
+
+bindFindingTimeline();
+
+// Nav scroll effect
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 20);
+});
+
+// Fade-in on scroll
+if ('IntersectionObserver' in window) {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        if (entry.target.classList.contains('chart-watch')) {
+          dynamicsHasEntered = true;
+          entry.target.classList.add('chart-ready');
+        }
+        if (entry.target.classList.contains('results-bars')) {
+          entry.target.classList.add('reveal-bars');
+        }
+        if (entry.target.classList.contains('results-block')) {
+          entry.target.querySelector('.results-bars')?.classList.add('reveal-bars');
+        }
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.fade-in, .chart-watch, .results-bars, .results-block').forEach(el => observer.observe(el));
+} else {
+  document.querySelectorAll('.fade-in').forEach(el => el.classList.add('visible'));
+  document.querySelectorAll('.chart-watch').forEach(el => {
+    dynamicsHasEntered = true;
+    el.classList.add('chart-ready');
+  });
+  document.querySelectorAll('.results-bars').forEach(el => el.classList.add('reveal-bars'));
+  document.querySelectorAll('.results-block .results-bars').forEach(el => el.classList.add('reveal-bars'));
+}
+
+// Gallery hover + click/tap toggle
+document.querySelectorAll('.gallery-pair').forEach(pair => {
+  const label = pair.querySelector('.gallery-label');
+  if (!label) return;
+  pair.setAttribute('tabindex', '0');
+  pair.setAttribute('role', 'button');
+  pair.setAttribute('aria-label', `${pair.dataset.prompt || 'Gallery comparison'}: toggle baseline and +Comma result`);
+  pair.setAttribute('aria-pressed', 'false');
+
+  function renderState() {
+    const locked = pair.classList.contains('toggled');
+    const preview = locked || pair.matches(':hover') || document.activeElement === pair;
+    label.textContent = preview ? '+Comma' : 'Baseline';
+    label.classList.toggle('active', preview);
+    pair.setAttribute('aria-pressed', String(pair.classList.contains('toggled')));
+  }
+
+  pair.addEventListener('mouseenter', renderState);
+  pair.addEventListener('mouseleave', renderState);
+  pair.addEventListener('focus', renderState);
+  pair.addEventListener('blur', renderState);
+
+  pair.addEventListener('click', () => {
+    pair.classList.toggle('toggled');
+    renderState();
+  });
+  pair.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pair.click(); }
+  });
+});
+
+// Copy BibTeX
+function copyBibtex() {
+  const text = document.getElementById('bibtex-text').textContent;
+  const btn = document.querySelector('.bibtex-copy');
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'Copied!';
+    setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+  }).catch(() => {
+    btn.textContent = 'Failed';
+    setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+  });
+}
+</script>
+</body>
+</html>
