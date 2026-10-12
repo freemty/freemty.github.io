@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>ORA — Appendix</title>
+</head>
+<body>
+<title>ORA Appendix</title>
+<style>
+:root{
+  --paper:#fff; --surface:#fff; --ink:#1e1e1e; --ink-2:#464646; --ink-3:#6c6c6c; --rule:#ececec; --rule-2:#d6d6d6;
+  --tint:#f5f5f4; --code:#f3f3f3; --link:#0f33b5; --brand:#8E2C24; --ok:#1f7a45; --ok-bg:#e5f4ea;
+  --bar-ours:var(--brand); --bar-rpent:#8a8a8a; --bar-ref:#cfcfcf; --strong:#1e1e1e;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --col:720px; --wide:1040px; --gut:20px; --display:var(--sans); --body:var(--sans);
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#1d1e20; --surface:#26272a; --ink:#f2f2f2; --ink-2:#c4c4c5; --ink-3:#9b9c9d; --rule:#333436; --rule-2:#4a4b4e;
+  --tint:#2a2b2e; --code:#323337; --link:#8ea4f0; --brand:#E07A6E; --ok:#7fd3a0; --ok-bg:#1f3a2a;
+  --bar-rpent:#9c9c9c; --bar-ref:#55565a; --strong:#f0f0f0; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#1d1e20; --surface:#26272a; --ink:#f2f2f2; --ink-2:#c4c4c5; --ink-3:#9b9c9d; --rule:#333436; --rule-2:#4a4b4e;
+  --tint:#2a2b2e; --code:#323337; --link:#8ea4f0; --brand:#E07A6E; --ok:#7fd3a0; --ok-bg:#1f3a2a;
+  --bar-rpent:#9c9c9c; --bar-ref:#55565a; --strong:#f0f0f0; color-scheme:dark}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.65 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:var(--link);text-decoration:none}a:hover{text-decoration:underline}
+a:focus-visible,summary:focus-visible,button:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:2px}
+.col,.wide{margin-inline:auto;padding-inline:var(--gut)}
+.col{max-width:calc(var(--col) + 2 * var(--gut))}
+.wide{max-width:calc(var(--wide) + 2 * var(--gut))}
+p{margin:0 0 16px}
+h2{font:700 1.75rem/1.25 var(--sans);letter-spacing:-.01em;margin:72px 0 16px;text-wrap:balance}
+h3{font:700 1.18rem/1.35 var(--sans);margin:28px 0 8px;text-wrap:balance}
+h4{font:700 1rem/1.4 var(--sans);margin:22px 0 8px}
+section>h2:first-child{margin-top:0}
+.sec{padding-top:72px}
+.sec>.col>h2:first-child{margin-top:0}
+.ora-name{color:var(--brand)}
+code{font:400 .84em var(--mono);background:var(--code);padding:1px 5px;border-radius:3px;overflow-wrap:anywhere}
+.note{font-size:.9rem;line-height:1.55;color:var(--ink-3)}
+.todo{border:1px dashed var(--rule-2);border-radius:10px;padding:12px 14px;color:var(--ink-3);font-size:.95rem}
+sup.cite{font-size:.7em;line-height:0;margin-left:1px}sup.cite a{scroll-margin-top:80px}
+
+/* template switch */
+.skin-switch{display:flex;gap:2px;padding:3px;border:1px solid var(--rule);border-radius:999px;background:var(--surface);font:500 .78rem/1 var(--sans)}
+.skin-switch button{font:inherit;border:0;border-radius:999px;padding:6px 10px;background:transparent;color:var(--ink-3);cursor:pointer}
+.skin-switch button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.pm-only{display:none}
+:root[data-skin="lab"] p.pm-only{display:block}:root[data-skin="lab"] b.pm-only{display:inline}
+:root[data-skin="lab"] .pp-only{display:none}
+@media (max-width:760px){.topbar{flex-wrap:wrap}.skin-switch{order:3}}
+
+/* Hao AI Lab (Hugo PaperMod) template: values read from the live haoailab.com stylesheet (see README).
+   A blog post: left-aligned title, subtitle and meta line, shields-style badges, the wall as a cover figure
+   under the title, an 860 px column with justified prose, smaller section spacing, centred small footer. */
+:root[data-skin="lab"]{--col:860px;--wide:860px;--gut:24px}
+:root[data-skin="lab"] body{font:400 18px/1.6 var(--sans);-webkit-font-smoothing:auto}
+:root[data-skin="lab"] .topbar{max-width:1024px;height:60px;margin-top:10px;padding-block:0}
+:root[data-skin="lab"] .topbar .mark{font-size:24px}
+:root[data-skin="lab"] .topbar nav{font-size:16px;gap:24px}
+:root[data-skin="lab"] main{display:flex;flex-direction:column}
+:root[data-skin="lab"] main>*{order:3;width:100%}
+:root[data-skin="lab"] .titleblock{order:1;text-align:left;padding-top:24px}
+:root[data-skin="lab"] .hero{order:2;width:calc(100% - 2 * var(--gut));max-width:var(--col);height:auto;aspect-ratio:1536/720;margin:4px auto 64px;overflow:visible;border-radius:2px;background:#000}
+:root[data-skin="lab"] .hero::after,:root[data-skin="lab"] .hero-text{display:none}
+:root[data-skin="lab"] .hero video,:root[data-skin="lab"] .hero img{border-radius:2px}
+:root[data-skin="lab"] .hero-cap{display:block;position:absolute;inset:calc(100% + 8px) 0 auto 0;text-align:center;font-size:14px;color:var(--ink)}
+:root[data-skin="lab"] .titleblock h1{font:700 40px/1.3 var(--sans);letter-spacing:0;margin:0 0 2px;text-wrap:wrap}
+:root[data-skin="lab"] .pm-sub{margin:4px 0 6px;font-size:22px;line-height:1.35;color:var(--ink-2)}
+:root[data-skin="lab"] .pm-meta{color:var(--ink-3);font-size:14px;margin:0 0 20px}
+:root[data-skin="lab"] .buttons{justify-content:flex-start;gap:10px 14px;margin:0 0 14px;padding-left:2px}
+:root[data-skin="lab"] .btn{height:30px;padding:0 9px;border:1px solid #d5d5d5;border-radius:4px;background:linear-gradient(#fcfcfc,#eee);color:#333;font:700 16px/28px Helvetica,Arial,sans-serif;gap:6px}
+:root[data-skin="lab"] .btn.off{opacity:.6}
+:root[data-skin="lab"] .overview p{font-size:18px;line-height:1.6}
+:root[data-skin="lab"] .col>p,:root[data-skin="lab"] .overview p,:root[data-skin="lab"] .row>div>p,:root[data-skin="lab"] .ctx-text p{text-align:justify}
+:root[data-skin="lab"] .row{grid-template-columns:minmax(0,1fr);gap:14px}:root[data-skin="lab"] .row .row-media{order:2}
+:root[data-skin="lab"] .ctx-text{max-width:none}
+:root[data-skin="lab"] .sec{padding-top:8px}
+:root[data-skin="lab"] h2{font:700 32px/1.25 var(--sans);margin:32px 0 24px}
+:root[data-skin="lab"] h3{font:700 24px/1.3 var(--sans);margin:24px 0 16px}
+:root[data-skin="lab"] .row h3{margin-top:0}
+:root[data-skin="lab"] .rows{gap:32px;margin-top:32px}
+:root[data-skin="lab"] figure.sfx{max-width:calc(1100px + 2 * var(--gut))}
+:root[data-skin="lab"] .bib pre{border-radius:8px;font-size:15px}
+:root[data-skin="lab"] footer{justify-content:center;border-top:0;font-size:12px;margin-top:48px}
+:root[data-skin="lab"] footer span:last-child{display:none}
+@media (max-width:760px){:root[data-skin="lab"] .titleblock h1{font-size:30px}:root[data-skin="lab"] h2{font-size:26px}:root[data-skin="lab"] h3{font-size:21px}
+  :root[data-skin="lab"] body{font-size:17px}:root[data-skin="lab"] .col>p,:root[data-skin="lab"] .overview p,:root[data-skin="lab"] .row>div>p,:root[data-skin="lab"] .ctx-text p{text-align:left}
+  :root[data-skin="lab"] .btn{height:26px;font-size:14px;line-height:24px}}
+
+/* top bar and hero */
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;max-width:calc(var(--wide) + 2 * var(--gut));margin:0 auto;padding:14px var(--gut)}
+.topbar .mark{font-weight:700;color:var(--ink);font-size:1.05rem}
+.topbar nav{display:flex;gap:18px;flex-wrap:wrap;font-size:.92rem}
+.topbar nav a{color:var(--ink-3)}.topbar nav a:hover{color:var(--ink);text-decoration:none}
+.hero{position:relative;height:clamp(300px,56vh,560px);overflow:hidden;background:#0b0c0e;color:#fff}
+.hero video,.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;margin:0;border-radius:0}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,9,11,.52) 0%,rgba(8,9,11,.62) 55%,rgba(8,9,11,.86) 100%)}
+.hero-text{position:absolute;inset:auto 0 0 0;z-index:1;max-width:calc(var(--wide) + 2 * var(--gut));margin:0 auto;padding:0 var(--gut) clamp(28px,6vh,56px)}
+.hero-name{font:800 clamp(2.8rem,9vw,6rem)/.95 var(--sans);letter-spacing:-.03em;margin:0 0 14px}
+.hero-line{font:400 clamp(1.05rem,2.4vw,1.45rem)/1.35 var(--sans);color:#e4e4e4;margin:0;max-width:34em}
+.hero-cap{position:absolute;z-index:1;right:var(--gut);top:14px;margin:0;font-size:.75rem;color:#b9b9b9}
+.titleblock{text-align:center;padding-top:44px}
+.titleblock h1{font:700 clamp(1.7rem,4vw,2.35rem)/1.2 var(--sans);letter-spacing:-.01em;margin:0 0 12px;text-wrap:balance}
+.authors{margin:0 0 4px;font-size:1.02rem;color:var(--ink)}
+.meta{margin:0 0 18px;font-size:.9rem;color:var(--ink-3)}
+.buttons{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin:0 0 30px}
+.btn{display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 16px;border-radius:8px;background:var(--ink);color:var(--paper);font:600 .92rem/1 var(--sans)}
+.btn:hover{text-decoration:none;opacity:.88}
+.btn.off{background:var(--tint);color:var(--ink-3);border:1px solid var(--rule)}
+.btn svg{width:16px;height:16px;fill:currentColor}
+.overview p{font-size:1.04rem;line-height:1.7}
+
+/* method rows */
+.rows{display:grid;gap:44px;margin:44px 0 0}
+.row-more{grid-column:1/-1;margin:4px 0 0;order:3}
+table.mtab{font-size:.86rem}table.mtab td:first-child{white-space:nowrap;font-weight:600}table.mtab td code{font-size:.82em}
+.mlist{padding-left:1.1em;margin:4px 0 10px}.mlist li{margin:6px 0;font-size:.95rem}
+
+.ctx-text{margin-top:44px}.ctx-text>p{max-width:calc(50% - 18px)}
+@media (max-width:760px){.ctx-text{max-width:none}}.ctx-text h3{margin-top:0}
+.row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:36px;align-items:center}
+.row:nth-child(even) .row-media{order:2}
+.row h3{margin-top:0}
+.row p{margin:0}
+.row-media{min-width:0}
+.doc{background:var(--tint);border:1px solid var(--rule);border-radius:12px;padding:16px 18px;font-size:.9rem;line-height:1.5}
+.doc-k{font:600 .72rem/1.2 var(--mono);color:var(--ink-3);text-transform:none;margin:0 0 4px}
+.doc blockquote{margin:0 0 14px;padding:0 0 0 12px;border-left:2px solid var(--rule-2);color:var(--ink)}
+.doc blockquote:last-of-type{margin-bottom:8px}
+.rstrip{display:grid;gap:0;margin:16px 0 8px;border-top:1px solid var(--rule)}
+.rs{display:grid;grid-template-columns:132px minmax(0,1fr);gap:16px;align-items:center;padding:12px 0;border-bottom:1px solid var(--rule)}
+.rs img{width:132px;aspect-ratio:4/3;object-fit:cover;border-radius:8px;margin:0;border:1px solid var(--rule)}
+.rs-k{display:flex;align-items:center;gap:10px;margin:0 0 4px!important}.rs-k .badge{margin:0}.rs-k small{color:var(--ink-3);font-size:.8rem}
+.rs-q{margin:0!important;font-size:.95rem;line-height:1.5;text-align:left!important}
+.rs-lesson{grid-template-columns:132px minmax(0,1fr);padding:8px 0}.rs-lesson span{font-size:.76rem;color:var(--ink-3);text-align:right}.rs-lesson .rs-q{font-weight:600}
+.thumbs{display:grid;grid-template-columns:repeat(3,minmax(0,150px));gap:12px;margin-bottom:8px}
+.thumbs figure{margin:0;min-width:0}.thumbs img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:8px;border:1px solid var(--rule);margin:0 0 6px}
+.thumbs figcaption{font-size:.74rem;line-height:1.35;color:var(--ink-3)}.thumbs figcaption code{display:block;font-size:.72rem;color:var(--ink);background:none;padding:0;margin-bottom:1px}
+.bodycard{display:grid;grid-template-columns:84px minmax(0,1fr);gap:4px 10px;align-items:start}
+.bodycard img{grid-row:1/3;aspect-ratio:4/3!important;margin:0!important}
+:root[data-skin="lab"] .row-media{max-width:600px}
+@media (max-width:520px){.rs,.rs-lesson{grid-template-columns:96px minmax(0,1fr)}.rs img{width:96px}}
+.bodycards{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;margin-bottom:8px}
+.bodycard{background:var(--tint);border:1px solid var(--rule);border-radius:12px;padding:6px 6px 10px;min-width:0}
+.bodycard img{display:block;width:100%;aspect-ratio:2/1;object-fit:cover;border-radius:8px;margin:0 0 6px}
+.bodycard-k{font:700 .8rem/1.2 var(--sans);margin:0 4px 4px}.bodycard-k span{font-weight:400;color:var(--ink-3);margin-left:5px}
+.bodycard-t{font-size:.72rem;line-height:1.4;color:var(--ink-2);margin:0 4px}.bodycard-t code{font-size:.92em}
+@media (max-width:760px){.bodycards{grid-template-columns:minmax(0,1fr)}.bodycard{display:grid;grid-template-columns:104px minmax(0,1fr);gap:4px 10px;align-items:start}.bodycard img{grid-row:1/3;aspect-ratio:4/3;margin:0}}
+.doc-src,.media figcaption{font-size:.78rem;color:var(--ink-3);margin:0}
+.media{margin:0}.media img{display:block;width:100%;border-radius:12px;margin:0 0 8px;border:1px solid var(--rule)}
+.media figcaption code{font-size:.92em}
+
+/* episodes */
+.deftab th{white-space:nowrap;vertical-align:top;text-align:left;padding-right:16px;color:var(--ink);font-weight:600}
+.deftab td{vertical-align:top}
+.prov td:last-child,.prov th:last-child{white-space:nowrap}
+.lessons{grid-column:1/-1;order:2;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px 26px;margin:0}
+.ctx-text .lessons{margin:14px 0 12px}
+.lesson{font-size:.92rem;line-height:1.55;color:var(--ink-2);border-left:2px solid var(--rule);padding-left:12px;margin:0;min-width:0}
+.lesson b{color:var(--ink)}
+.shotpair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:20px 0 6px}
+.shotpair figure{margin:0;min-width:0}.shotpair img{display:block;width:100%;aspect-ratio:16/9;object-fit:contain;background:#fff;border:1px solid var(--rule);border-radius:8px;margin:0}
+.shotpair figcaption,.tuifig figcaption{font-size:.84rem;line-height:1.45;color:var(--ink-3);margin:6px 0 0}
+.shotpair figcaption b,.tuifig figcaption b{color:var(--ink-2);font-weight:600}
+@media (max-width:640px){.shotpair{grid-template-columns:minmax(0,1fr)}}
+.tuifig{margin:22px 0 6px}.tuifig video{display:block;width:100%;aspect-ratio:16/9;background:#0b0c0f;border-radius:10px;margin:0}
+.tuifig figcaption{font-size:.88rem;line-height:1.45;color:var(--ink-3);margin:8px 0 0}
+.clips{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:26px 22px;margin:24px 0 0}
+.clip{min-width:0;margin:0}
+.clip video{display:block;width:100%;aspect-ratio:16/9;background:#111;border-radius:10px;margin:0}
+.clip-k{font:700 1rem/1.3 var(--sans);margin:10px 0 2px}
+.clip-k span{font-weight:400;color:var(--ink-3);margin-left:8px;font-size:.88rem}
+.clip-d{font-size:.92rem;line-height:1.45;color:var(--ink-2);margin:0}
+.clip-i{font-size:.84rem;line-height:1.4;color:var(--ink-3);margin:0 0 4px}
+.pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;margin:20px 0 14px}
+.pair figure{margin:0;min-width:0}
+.pair img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:10px;margin:0 0 10px;border:1px solid var(--rule)}
+.badge{display:inline-block;font:600 .74rem/1 var(--sans);padding:5px 8px;border-radius:5px;margin:0 0 8px}
+.badge.fail{background:var(--tint);color:var(--ink-3);border:1px solid var(--rule)}
+.badge.ok{background:var(--ok-bg);color:var(--ok)}
+.pair figcaption{font-size:.94rem;line-height:1.5;color:var(--ink)}
+.pair figcaption small{display:block;color:var(--ink-3);font-size:.8rem;margin-top:4px}
+.lesson{border-left:2px solid var(--ink);padding:2px 0 2px 14px;color:var(--ink);font-size:.98rem}
+.lesson span{display:block;font-size:.78rem;color:var(--ink-3)}
+.vid{margin-top:22px;margin-bottom:0}.vid video{display:block;width:100%;border-radius:10px;background:#111;margin:0}
+.vid figcaption,.cap{font-size:.86rem;line-height:1.5;color:var(--ink-3);margin-top:8px}
+
+/* results */
+table{border-collapse:collapse;width:100%;font-size:.9rem;line-height:1.45}
+th,td{text-align:left;padding:8px 10px 8px 0;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-weight:600}
+td.num,th.num{text-align:right;font-family:var(--mono);font-size:.84rem;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr.ours td,tr.ours th{font-weight:600}
+.scroll{overflow-x:auto}
+table.taxo{margin:8px 0 18px;font-size:.84rem}table.taxo th{font-size:.78rem;color:var(--ink-3);vertical-align:bottom}table.taxo tr.ora td{border-top:2px solid var(--ink)}
+table.syskey{margin:8px 0 22px;font-size:.84rem}table.syskey tr.ora td:last-child{font-weight:400}
+table.syskey th{font-size:.78rem;color:var(--ink-3);font-weight:600;vertical-align:bottom}
+table.syskey td small{display:block;color:var(--ink-3);font-size:.78rem;margin-top:2px}
+table.syskey td.no{color:var(--ink-3)}
+table.syskey tr.ora td{font-weight:700;border-top:2px solid var(--ink)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:.84rem;color:var(--ink-2);margin:26px 0 4px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:2px;margin-right:7px;vertical-align:-1px}
+.k-ours{background:var(--bar-ours)}.k-rpent{background:var(--bar-rpent)}.k-ref{background:var(--bar-ref)}
+.benchpair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 44px}
+.benchpair .bars li{grid-template-columns:minmax(0,12.5rem) minmax(0,1fr) 3.9rem;gap:10px}
+.topbench{margin-top:8px}.topbench .legend{margin-top:12px}
+@media (max-width:900px){.benchpair{grid-template-columns:minmax(0,1fr)}}
+.bench{margin:18px 0 0;padding:20px 0 6px;border-top:1px solid var(--rule)}
+.bench-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin:0 0 10px}
+.bench-title{font:700 1.08rem/1.3 var(--sans);margin:0}
+.bench-head span{font-size:.84rem;color:var(--ink-3)}
+.bars{list-style:none;margin:0;padding:0}
+.bars li{display:grid;grid-template-columns:minmax(0,16rem) minmax(0,1fr) 4.6rem;gap:16px;align-items:center;padding:6px 0}
+.b-name{font-size:.9rem;line-height:1.25;color:var(--ink-2);min-width:0}
+.b-name small{display:block;font-size:.74rem;color:var(--ink-3);margin-top:1px}
+.b-track{height:10px;background:linear-gradient(90deg,transparent calc(25% - .5px),var(--rule) 25%,transparent calc(25% + .5px),transparent calc(50% - .5px),var(--rule) 50%,transparent calc(50% + .5px),transparent calc(75% - .5px),var(--rule) 75%,transparent calc(75% + .5px));border-radius:2px}
+.b-track i{display:block;height:100%;border-radius:0 2px 2px 0;background:var(--bar-ref)}
+.b-val{font:500 .86rem/1 var(--mono);text-align:right;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.b-rpent .b-track i{background:var(--bar-rpent)}
+.b-ours .b-track i{background:var(--bar-ours)}
+.b-ours .b-name{color:var(--ink);font-weight:700}.b-ours .b-val{color:var(--ink);font-weight:700}
+.b-ours{border-bottom:1px solid var(--rule);margin-bottom:4px;padding-bottom:10px!important}
+.bench-note{font-size:.8rem;color:var(--ink-3);margin:6px 0 0}
+.costline{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:10px;overflow:hidden;margin:14px 0 10px}
+.costline div{background:var(--surface);padding:14px 16px}
+.costline b{display:block;font:700 1.5rem/1.1 var(--sans);font-variant-numeric:tabular-nums}
+.costline span{font-size:.84rem;color:var(--ink-3)}
+
+/* limitations */
+.limits{list-style:none;padding:0;margin:0 0 18px}
+.limits li{position:relative;padding:0 0 0 18px;margin:0 0 12px}
+.limits li::before{content:"";position:absolute;left:0;top:.62em;width:7px;height:7px;background:var(--ink);border-radius:1px}
+table.fixes td{color:var(--ink-2)}table.fixes td:last-child{color:var(--ink);font-weight:600;min-width:11em}
+table.fixes th{font-size:.78rem;color:var(--ink-3)}
+table.six{margin:10px 0 8px}table.six tr.ours td{font-weight:700}table.six th{font-size:.78rem;color:var(--ink-3)}
+
+/* evaluation details */
+.details h3{margin-top:34px}
+details{border:1px solid var(--rule);border-radius:10px;padding:0 16px;margin:16px 0}
+summary{cursor:pointer;font:600 .96rem/1.4 var(--sans);padding:12px 0;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"+";display:inline-block;width:1.2em;color:var(--ink-3);font-family:var(--mono)}
+details[open] summary::before{content:"−"}
+details[open] summary{border-bottom:1px solid var(--rule);margin-bottom:10px}
+.tb{display:grid;gap:10px;margin:14px 0}
+.tb-row{display:grid;grid-template-columns:minmax(0,15rem) minmax(0,1fr) 5rem;gap:14px;align-items:center;font-size:.9rem;color:var(--ink-2)}
+.tb-track{height:10px;background:var(--tint);border-radius:2px;overflow:hidden}
+.tb-track i{display:block;height:100%;background:var(--bar-ref)}
+.tb-row.hi{color:var(--ink);font-weight:600}.tb-row.hi .tb-track i{background:var(--strong)}
+.tb-val{font:500 .86rem var(--mono);text-align:right;font-variant-numeric:tabular-nums}
+.tb-val small{display:block;color:var(--ink-3);font-size:.72rem}
+figure.chart{margin:14px 0}.chart-title{font-weight:600;font-size:.92rem;margin:0 0 6px}.chart-note{font-size:.8rem;color:var(--ink-3);margin:6px 0 0}
+table.fam th,table.fam td{padding:8px 14px 8px 0}
+table.fam .cellbar{display:inline-block;width:80px;height:9px;background:var(--tint);border-radius:2px;vertical-align:middle;margin-right:10px;overflow:hidden}
+table.fam .cellbar i{display:block;height:100%;background:var(--strong)}
+table.fam .cellval{font:500 .84rem var(--mono);font-variant-numeric:tabular-nums}
+ol.refs{padding-left:1.6em;font-size:.9rem;line-height:1.5}ol.refs li{margin:6px 0;scroll-margin-top:24px}ol.refs a{overflow-wrap:anywhere}ol.refs a.back{margin-left:4px}
+.bib{position:relative}
+.bib pre{background:#272822;color:#f8f8f2;border-radius:10px;padding:16px 18px;overflow-x:auto;font:400 .84rem/1.55 var(--mono);margin:0}
+.bib pre code{background:none;padding:0;color:inherit;font-size:inherit;border-radius:0}
+.bib button{position:absolute;top:10px;right:10px;font:600 .78rem/1 var(--sans);padding:7px 10px;border-radius:6px;border:1px solid #555;background:#3a3b35;color:#f8f8f2;cursor:pointer}
+footer{max-width:calc(var(--col) + 2 * var(--gut));margin:72px auto 0;padding:20px var(--gut) 40px;border-top:1px solid var(--rule);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:.8rem;color:var(--ink-3)}
+
+
+@media (max-width:760px){
+  body{font-size:16px}
+  h2{font-size:1.45rem;margin-top:56px}
+  .sec{padding-top:56px}
+  .row{grid-template-columns:minmax(0,1fr);gap:16px}.row:nth-child(even) .row-media{order:0}
+  .clips,.pair{grid-template-columns:minmax(0,1fr)}
+  .bars li{grid-template-columns:minmax(0,1fr) 4.2rem;gap:4px 12px}
+  .b-name{grid-column:1/-1}.b-track{grid-column:1}
+  .tb-row{grid-template-columns:minmax(0,1fr) 4.5rem}.tb-track{grid-column:1/-1;grid-row:2}
+  .costline{grid-template-columns:minmax(0,1fr)}
+  .hero-cap{display:none}
+  .topbar nav a.opt{display:none}
+}
+</style>
+<div class="topbar"><a class="mark" href="../">ORA</a>
+<nav><a href="../">Blog</a><a href="https://claude.ai/artifact/Tv1e3ocrH6qEj8ynB4q8rx">Gallery</a><a href="https://github.com/freemty/robot-harness">Code</a></nav></div>
+<main id="top">
+<header class="col titleblock"><h1><span class="ora-name">ORA</span> Appendix</h1>
+<p class="meta">Evaluation details, failure audit and provenance for <a href="../">ORA: Open Robot-Use Agents</a>.</p></header>
+<section class="sec details" id="protocol" style="padding-top:8px">
+<div class="col">
+<h3>Protocol</h3>
+<div class="scroll"><table class="deftab"><tbody>
+<tr><th scope="row">RoboTwin</th><td>Cohort <code>rpent-zeroshot-v4-g004</code>, source <code>654d265b</code>; all 250 cases of the published C2R list, run directly on the randomized scenes with no clean-scene pass.</td></tr>
+<tr><th scope="row">LIBERO-Pro</th><td>Refreshed cohort <code>rpent-zeroshot-overhead-g005</code>, run source <code>a5ed51d8</code>; 800 Task and Swap cases on the current LIBERO default.</td></tr>
+<tr><th scope="row">LIBERO</th><td>The same g005 cohort reruns all 400 cases using official base-suite instructions. The previous table combined g003 with g004's 60 instruction-corrected cases (48/60 to 56/60 on those cases).</td></tr>
+<tr><th scope="row">Model and budget</th><td>Self-hosted DeepSeek-V4.1-Flash, low reasoning effort, task memory off. One scored outcome per case; at most 80 robot decisions, 200 model calls, 10,000 simulator steps and six hours. Five g005 cases had an infrastructure failure without a verdict and were rerun once as explicit <code>-r1</code> replacements. The original attempts remain in the evidence; scores use their replacements.</td></tr>
+<tr><th scope="row">Terms</th><td>Task: a benchmark task. Case: a task with one seed from the published list. Episode: one attempt at a case. Round: one attempt within a session of several rounds on the same scene. Decision: one call that moves the robot.</td></tr>
+<tr><th scope="row">Success check</th><td>The model may call <code>check_task</code>, which returns the official success result for the current state without ending the episode. It never sees the check's code. We have not confirmed whether RPent's agents have an equivalent query.</td></tr>
+<tr><th scope="row">Success</th><td>The environment's own verdict, from a sealed, valid evaluation. A case without a valid outcome counts as a failure in the charts; the exact tables also give the rate over valid outcomes.</td></tr>
+<tr><th scope="row">Versus RPent</th><td>Same cases, different conditions: RGB-D images, geometry and grasp tools, ORA's task text (RPent's seed-specific wording for nine <code>place_a2b</code> cases), different action and time budgets. RPent's C2R protocol explores the clean scenes first and carries task memory to the randomized ones, with LingBot-VLA as its primitive.</td></tr>
+<tr><th scope="row">Harness version</th><td>RoboTwin retains g004. LIBERO and LIBERO-Pro use g005 after the overhead-footprint change (integration 0084), with official base-suite instructions and restored observation rules. Several changes separate g005 from the old tables, so the rerun is not an ablation of overhead localization.</td></tr>
+<tr><th scope="row">Leaderboard notes</th><td>RPent lists GR00T-N1.7, π0.5 and StarVLA without stating how they were run. RPent / GPT-5.5's 62.4% is the repository's update; the paper's Codex row reports 58.0%.</td></tr>
+</tbody></table></div>
+<h3>What changed in the full rerun</h3>
+<p>On the 399 cases with valid outcomes in both LIBERO tables, the refreshed run rescued 36 failures and lost 34 previous successes (exact McNemar p = 0.91). On 796 LIBERO-Pro pairs, it rescued 67 and lost 52 (p = 0.20). The small overall increases do not establish a reliable gain. This rerun includes several harness changes and cannot isolate the effect of overhead localization. It replaces the earlier, incomplete progress readout.</p>
+<h3>Study identifiers</h3>
+<div class="scroll"><table><thead><tr><th>Identifier</th><th>What it refers to</th><th>Source</th></tr></thead><tbody>
+<tr><td>g003</td><td>Earlier LIBERO and LIBERO-Pro evaluation</td><td><code>b35f5fee</code></td></tr>
+<tr><td>g004</td><td>The retained RoboTwin cohort and the earlier 60-case LIBERO instruction correction</td><td><code>654d265b</code></td></tr>
+<tr><td>g005</td><td>The full 1,200-case LIBERO / LIBERO-Pro rerun used in this page</td><td><code>a5ed51d8</code></td></tr>
+<tr><td>EXP11C</td><td>The 42-task, three-round RoboDojo scan and stacking replay</td><td><code>c6b08a06</code></td></tr>
+<tr><td>EXP12B g002</td><td>The separate 79-episode timing sample</td><td>Figure A2</td></tr>
+<tr><td>Delivery trim v1 / v2</td><td>Observation-shortening tests before and after six rules were restored</td><td>Integrations 0063 / 0068</td></tr>
+<tr><td>EXP11A g012</td><td>Earlier RoboDojo runs audited for rejected orientations and geometry errors</td><td>Reachability and geometry findings below</td></tr>
+<tr><td>Placement-centre test</td><td>The narrower paired test of overhead localization</td><td><code>c1911864</code>, integration 0084</td></tr>
+</tbody></table></div>
+<h3>Sources</h3>
+<p>RPent percentages and available denominators, including contributor corrections and the updated GPT-5.5 Long results, come from <a href="https://github.com/RLinf/RPent/blob/068cd64f4f175179a13c67d429a4d00ca56fb196/docs/source-en/rst_source/leaderboard/performance.rst">the pinned leaderboard page</a> and its <a href="https://raw.githubusercontent.com/RLinf/misc/705bd44bfc8ad7586b76239de13167db35abcce7/rpent/benchmarks/results.json">versioned result data</a> (revision <code>705bd44b</code>, checked 2026-09-22). ORA counts come from queue records, with each counted run's plan, result, evaluation and seal hashes checked; snapshot 2026-10-12 11:25 PDT. Data and export scripts: <a href="https://github.com/freemty/robot-harness/tree/blog/page">page source</a>.</p>
+<h3>Exact values by benchmark and suite</h3>
+<h4>RoboTwin C2R</h4><div class="scroll"><table><thead><tr><th>Method</th><th class="num">Success</th><th>Count</th></tr></thead><tbody><tr class="ours"><th scope="row">ORA · DeepSeek-V4.1-Flash</th><td class="num">69.2%</td><td>173/250 cases; 0 without a valid outcome; 69.2% of valid outcomes</td></tr><tr><td>RPent / GPT-5.5 (xhigh)</td><td class="num">62.4%</td><td>156/250</td></tr><tr><td>RPent / Opus-4.7 (max)</td><td class="num">58.4%</td><td>250 cases</td></tr><tr><td>LingBot-VLA</td><td class="num">50.4%</td><td>—</td></tr><tr><td>π0.5</td><td class="num">47.9%</td><td>—</td></tr><tr><td>GR00T-N1.7</td><td class="num">20.7%</td><td>—</td></tr><tr><td>StarVLA</td><td class="num">10.6%</td><td>—</td></tr></tbody></table></div>
+<h4>LIBERO-Pro</h4><div class="scroll"><table><thead><tr><th>Method</th><th class="num">Success</th><th>Count</th></tr></thead><tbody><tr class="ours"><th scope="row">ORA · DeepSeek-V4.1-Flash</th><td class="num">81.4%</td><td>651/800 cases; 0 without a valid outcome; 81.4% of valid outcomes</td></tr><tr><td>RPent / GPT-6 Astra (low) [a]</td><td class="num">92.63%</td><td>741/800</td></tr><tr><td>RPent / Opus-4.7 (max)</td><td class="num">82.4%</td><td>800 cases</td></tr><tr><td>RPent / GPT-5.5 (xhigh)</td><td class="num">75.13%</td><td>800 cases</td></tr><tr><td>RPent Flash Mode / Molmo2-8B [b]</td><td class="num">72.63%</td><td>581/800</td></tr><tr><td>RPent / Qwen3.6 27B (no reasoning)</td><td class="num">70.63%</td><td>565/800</td></tr><tr><td>ASPIRE [c]</td><td class="num">61.36%</td><td>—</td></tr><tr><td>π_RLinf</td><td class="num">50.0%</td><td>—</td></tr><tr><td>π0.5</td><td class="num">11.0%</td><td>—</td></tr><tr><td>AtomVLA</td><td class="num">6.3%</td><td>—</td></tr><tr><td>X-VLA</td><td class="num">3.8%</td><td>—</td></tr><tr><td>MolmoAct</td><td class="num">1.5%</td><td>—</td></tr><tr><td>π0</td><td class="num">0.3%</td><td>—</td></tr></tbody></table></div>
+<div class="scroll"><table class="suites"><thead><tr><th>By suite</th><th class="num">Spatial Task</th><th class="num">Spatial Swap</th><th class="num">Object Task</th><th class="num">Object Swap</th><th class="num">Goal Task</th><th class="num">Goal Swap</th><th class="num">Long Task</th><th class="num">Long Swap</th></tr></thead><tbody><tr class="ours"><th scope="row">ORA · DeepSeek-V4.1-Flash</th><td class="num">98/100</td><td class="num">91/100</td><td class="num">93/100</td><td class="num">98/100</td><td class="num">77/100</td><td class="num">78/100</td><td class="num">52/100</td><td class="num">64/100</td></tr><tr><td>RPent / GPT-6 Astra (low) [a]</td><td class="num">100%</td><td class="num">98%</td><td class="num">100%</td><td class="num">99%</td><td class="num">88%</td><td class="num">99%</td><td class="num">85%</td><td class="num">72%</td></tr><tr><td>RPent / GPT-5.5 (xhigh)</td><td class="num">81.0%</td><td class="num">69.0%</td><td class="num">94.0%</td><td class="num">91.0%</td><td class="num">75.0%</td><td class="num">66.0%</td><td class="num">70.00%</td><td class="num">55.00%</td></tr><tr><td>RPent Flash Mode / Molmo2-8B [b]</td><td class="num">79.00%</td><td class="num">70.00%</td><td class="num">86.00%</td><td class="num">93.00%</td><td class="num">74.00%</td><td class="num">65.00%</td><td class="num">60.00%</td><td class="num">54.00%</td></tr><tr><td>RPent / Qwen3.6 27B (no reasoning)</td><td class="num">82.00%</td><td class="num">78.00%</td><td class="num">83.00%</td><td class="num">84.00%</td><td class="num">68.00%</td><td class="num">68.00%</td><td class="num">61.00%</td><td class="num">41.00%</td></tr><tr><td>ASPIRE [c]</td><td class="num">60.0%</td><td class="num">51.0%</td><td class="num">95.0%</td><td class="num">98.0%</td><td class="num">45.0%</td><td class="num">81.0%</td><td class="num">38.3%</td><td class="num">22.6%</td></tr><tr><td>π_RLinf</td><td class="num">42.0%</td><td class="num">59.0%</td><td class="num">71.0%</td><td class="num">78.0%</td><td class="num">45.0%</td><td class="num">42.0%</td><td class="num">49.0%</td><td class="num">14.0%</td></tr><tr><td>π0.5</td><td class="num">1.0%</td><td class="num">20.0%</td><td class="num">1.0%</td><td class="num">17.0%</td><td class="num">2.0%</td><td class="num">38.0%</td><td class="num">1.0%</td><td class="num">8.0%</td></tr><tr><td>AtomVLA</td><td class="num">1.0%</td><td class="num">16.0%</td><td class="num">0.0%</td><td class="num">10.0%</td><td class="num">11.0%</td><td class="num">2.0%</td><td class="num">9.0%</td><td class="num">1.0%</td></tr><tr><td>X-VLA</td><td class="num">0.0%</td><td class="num">0.0%</td><td class="num">8.0%</td><td class="num">2.0%</td><td class="num">9.0%</td><td class="num">1.0%</td><td class="num">10.0%</td><td class="num">0.0%</td></tr><tr><td>MolmoAct</td><td class="num">0.0%</td><td class="num">0.0%</td><td class="num">0.0%</td><td class="num">6.0%</td><td class="num">0.0%</td><td class="num">0.0%</td><td class="num">6.0%</td><td class="num">0.0%</td></tr><tr><td>π0</td><td class="num">0.0%</td><td class="num">0.0%</td><td class="num">0.0%</td><td class="num">2.0%</td><td class="num">0.0%</td><td class="num">0.0%</td><td class="num">0.0%</td><td class="num">0.0%</td></tr><tr><td>Cap-X</td><td class="num">14.0%</td><td class="num">12.0%</td><td class="num">18.0%</td><td class="num">22.0%</td><td class="num">17.0%</td><td class="num">26.0%</td><td class="num">—</td><td class="num">—</td></tr><tr><td>RPent / GPT-6 Motor Only (low)</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">38.0%</td><td class="num">—</td></tr><tr><td>RATS</td><td class="num">31.0%</td><td class="num">29.0%</td><td class="num">63.0%</td><td class="num">61.0%</td><td class="num">36.0%</td><td class="num">43.0%</td><td class="num">—</td><td class="num">—</td></tr></tbody></table></div>
+<h4>LIBERO</h4><div class="scroll"><table><thead><tr><th>Method</th><th class="num">Success</th><th>Count</th></tr></thead><tbody><tr class="ours"><th scope="row">ORA · DeepSeek-V4.1-Flash</th><td class="num">83.5%</td><td>334/400 cases; 0 without a valid outcome; 83.5% of valid outcomes</td></tr><tr><td>AtomVLA</td><td class="num">97.0%</td><td>—</td></tr><tr><td>RPent / Opus-4.7 (max)</td><td class="num">96.0%</td><td>384/400</td></tr><tr><td>π_RLinf</td><td class="num">95.3%</td><td>—</td></tr><tr><td>π0</td><td class="num">94.2%</td><td>—</td></tr><tr><td>NORA</td><td class="num">79.5%</td><td>—</td></tr><tr><td>OpenVLA</td><td class="num">76.5%</td><td>—</td></tr></tbody></table></div>
+<div class="scroll"><table class="suites"><thead><tr><th>By suite</th><th class="num">Spatial</th><th class="num">Object</th><th class="num">Goal</th><th class="num">Long</th></tr></thead><tbody><tr class="ours"><th scope="row">ORA · DeepSeek-V4.1-Flash</th><td class="num">95/100</td><td class="num">92/100</td><td class="num">84/100</td><td class="num">63/100</td></tr><tr><td>AtomVLA</td><td class="num">96.4%</td><td class="num">99.6%</td><td class="num">97.6%</td><td class="num">94.4%</td></tr><tr><td>RPent / Opus-4.7 (max)</td><td class="num">97.0%</td><td class="num">100.0%</td><td class="num">94.0%</td><td class="num">93.0%</td></tr><tr><td>π_RLinf</td><td class="num">99.0%</td><td class="num">96.0%</td><td class="num">97.0%</td><td class="num">89.0%</td></tr><tr><td>π0</td><td class="num">96.8%</td><td class="num">98.8%</td><td class="num">95.8%</td><td class="num">85.2%</td></tr><tr><td>NORA</td><td class="num">85.6%</td><td class="num">89.4%</td><td class="num">80.0%</td><td class="num">63.0%</td></tr><tr><td>OpenVLA</td><td class="num">84.7%</td><td class="num">88.4%</td><td class="num">79.2%</td><td class="num">53.7%</td></tr></tbody></table></div>
+<p class="note">Ours: rate over all cases, a case without a valid outcome counting as a failure; suite cells are successes / valid outcomes. — not reported; missing suites are not inferred. [a] Astra uses separately frozen exploration-memory snapshots for Long (157/200) and the other six suites (584/600). [b] Flash Mode uses released GPT-5.5 exploration memory and reports the best-performing seed from s0–s9. [c] ASPIRE's 61.36% is the board's mean of eight reported percentages; its Long results use zero-shot transfer from a LIBERO-90 skill library<sup class="cite"><a href="#ref-aspire" id="cite-aspire">[1]</a></sup>. The suite table also keeps RPent's motor-only Astra result (38% on Long Task only), which uses neither VLA primitives nor Memory.</p>
+
+<figure class="chart"><figcaption class="chart-title">Success by task family, our runs only</figcaption><div class="chart-scroll"><table class="fam"><thead><tr><th></th><th>LIBERO</th><th>Pro · Task</th><th>Pro · Swap</th></tr></thead><tbody><tr class=""><th scope="row">Spatial</th><td><span class="cellbar"><i style="width:95.0%"></i></span><span class="cellval">95/100</span></td><td><span class="cellbar"><i style="width:98.0%"></i></span><span class="cellval">98/100</span></td><td><span class="cellbar"><i style="width:91.0%"></i></span><span class="cellval">91/100</span></td></tr><tr class=""><th scope="row">Object</th><td><span class="cellbar"><i style="width:92.0%"></i></span><span class="cellval">92/100</span></td><td><span class="cellbar"><i style="width:93.0%"></i></span><span class="cellval">93/100</span></td><td><span class="cellbar"><i style="width:98.0%"></i></span><span class="cellval">98/100</span></td></tr><tr class=""><th scope="row">Goal</th><td><span class="cellbar"><i style="width:84.0%"></i></span><span class="cellval">84/100</span></td><td><span class="cellbar"><i style="width:77.0%"></i></span><span class="cellval">77/100</span></td><td><span class="cellbar"><i style="width:78.0%"></i></span><span class="cellval">78/100</span></td></tr><tr class="weak"><th scope="row">Long</th><td><span class="cellbar"><i style="width:63.0%"></i></span><span class="cellval">63/100</span></td><td><span class="cellbar"><i style="width:52.0%"></i></span><span class="cellval">52/100</span></td><td><span class="cellbar"><i style="width:64.0%"></i></span><span class="cellval">64/100</span></td></tr></tbody></table></div><p class="chart-note">Successes / valid official outcomes. Long is the weakest family in all three settings.</p></figure>
+<h3>Cost</h3>
+<p>Historical cost samples cover the earlier g003/g004 benchmark cohorts and the RoboDojo scan. They do not estimate the refreshed g005 cohort. Token usage is priced at CNY 0.02 / 1.00 / 4.00 per million cached input, uncached input and output tokens, with 7.1 CNY per USD (recorded September 17 rates). The self-hosted service does not report cache hits. The cost script infers cacheable tokens from request lengths, so the estimated 84% to 86% cached-input share is an assumption, not a measured hit rate. Simulator and GPU costs are excluded.</p>
+<div class="scroll"><table><thead><tr><th>Benchmark</th><th class="num">Episodes</th><th class="num">Median episode</th><th class="num">Mean episode</th><th class="num">Spend per solved task</th></tr></thead><tbody><tr><td>RoboTwin</td><td class="num">250</td><td class="num">$0.12</td><td class="num">$0.23</td><td class="num">$0.33</td></tr><tr><td>LIBERO-Pro</td><td class="num">800</td><td class="num">$0.10</td><td class="num">$0.28</td><td class="num">$0.35</td></tr><tr><td>LIBERO</td><td class="num">400</td><td class="num">$0.10</td><td class="num">$0.24</td><td class="num">$0.29</td></tr><tr><td>RoboDojo scan</td><td class="num">126</td><td class="num">$0.33</td><td class="num">$0.37</td><td class="num">$2.57</td></tr></tbody></table></div>
+<p class="note">Earlier API runs in September: $0.38 per randomized RoboTwin episode at off-peak list prices ($0.76 at peak, 44 episodes), $0.29 per clean episode (391) and $0.37 per LIBERO-Pro episode (164).</p>
+<h3>Failure audit and time</h3>
+<div class="tb" role="img" aria-label="Main cause of the 108 failed RoboDojo rounds"><div class="tb-row hi"><span class="tb-lab">Motion execution on a reasonable target</span><span class="tb-track"><i style="width:59.3%"></i></span><span class="tb-val">64<small>rounds</small></span></div><div class="tb-row"><span class="tb-lab">Strategy, order or tool use</span><span class="tb-track"><i style="width:26.9%"></i></span><span class="tb-val">29<small>rounds</small></span></div><div class="tb-row"><span class="tb-lab">Perception or localization</span><span class="tb-track"><i style="width:6.5%"></i></span><span class="tb-val">7<small>rounds</small></span></div><div class="tb-row"><span class="tb-lab">Simulator anomaly</span><span class="tb-track"><i style="width:2.8%"></i></span><span class="tb-val">3<small>rounds</small></span></div><div class="tb-row"><span class="tb-lab">Gave up while recovery was still possible</span><span class="tb-track"><i style="width:2.8%"></i></span><span class="tb-val">3<small>rounds</small></span></div><div class="tb-row"><span class="tb-lab">Undetermined</span><span class="tb-track"><i style="width:1.9%"></i></span><span class="tb-val">2<small>rounds</small></span></div></div>
+<p class="note"><b>Figure A1. Main cause of each failed RoboDojo round.</b> EXP11C scan, source <code>c6b08a06</code>, one auditor judgement per round; 27 of the 64 motion cases are low-confidence. No round exhausted its decision budget. Most failed rounds ended when the model stopped immediately after a failed motion. The auditor judged recovery still possible in only three rounds. In two earlier scans, 91% of 746 failed inverse-kinematics attempts found no solution from 32 seeds although the targets were inside the workspace bounds.</p>
+<div class="tb" role="img" aria-label="Where episode time goes"><div class="tb-row hi"><span class="tb-lab">Waiting for the model</span><span class="tb-track"><i style="width:63.2%"></i></span><span class="tb-val">63%<small>58.0 h</small></span></div><div class="tb-row"><span class="tb-lab">Executing an action until the next observation</span><span class="tb-track"><i style="width:24.8%"></i></span><span class="tb-val">25%<small>22.7 h</small></span></div><div class="tb-row"><span class="tb-lab">Running tools, including closed-loop grasps</span><span class="tb-track"><i style="width:7.2%"></i></span><span class="tb-val">7%<small>6.6 h</small></span></div><div class="tb-row"><span class="tb-lab">Everything else</span><span class="tb-track"><i style="width:4.8%"></i></span><span class="tb-val">5%<small>4.4 h</small></span></div></div>
+<p class="note"><b>Figure A2. Where episode time goes.</b> Time shares come from EXP12B g002: 79 episodes, 12,206 model calls and 91.7 episode-hours, using paired trace timestamps. The episode medians come from different, later cohorts (RoboTwin g004; LIBERO and LIBERO-Pro g005): RoboTwin 25.0 min, LIBERO-Pro 15.9 min, LIBERO 13.8 min. A paragraph-level classifier labelled 58% of reasoning paragraphs as concerning geometry, a broader category and a different unit from responses that compute geometry by hand. The audit estimated that batching independent read-only calls could remove at most 7% of model calls in this sample.</p>
+<h3 id="media-notes">Media and case provenance</h3>
+<div class="scroll"><table class="prov"><thead><tr><th>Item</th><th>Episode</th><th>Run</th><th>Source</th></tr></thead><tbody>
+<tr><td>Terminal replay (top)</td><td>RoboDojo stack blocks by language, round 3 of 3</td><td><code>robodojo-fsmbz-v2-sweep-robodojo-648308b8c5c4</code></td><td><code>c6b08a06</code></td></tr>
+<tr><td>Look before acting</td><td>LIBERO-Pro object swap, task 4, seed 4</td><td><code>rpent-zeroshot-hdev-libero-pro-729b0ef3dd0f</code> (g003)</td><td><code>b35f5fee</code></td></tr>
+<tr><td>Trial and error</td><td>RoboDojo match and pick from conveyor</td><td><code>robodojo-fsmbz-v2-sweep-robodojo-bd2b69f14ecb</code></td><td><code>c6b08a06</code></td></tr>
+<tr><td>Learning across rounds</td><td>RoboDojo stack blocks by language, rounds 1–2</td><td><code>robodojo-fsmbz-v2-sweep-robodojo-648308b8c5c4</code></td><td><code>c6b08a06</code></td></tr>
+<tr><td>Check before done</td><td>RoboTwin press stapler, clean scene, October trial cohort (not evaluated above)</td><td><code>rpent-trial-hdev-robotwin-3d9edce7e882</code></td><td><code>c58d6b00</code></td></tr>
+<tr><td>Screenshots in Why</td><td>Slide photo by D. Mishkin; Robocurve video still</td><td><a href="https://x.com/ducha_aiki/status/2062653228802515047">X post</a>, <a href="https://x.com/chooi_jeq/status/2096064315115839904">X post</a></td><td>—</td></tr>
+</tbody></table></div>
+<p class="note">Clips and the replay use original captured frames, not simulator reconstructions, at simulation time with model and tool waiting removed. Text panels show visible model text, tool calls, results and receipts only. Hero tiles run from reset to official success at native resolution or above: RoboTwin tiles are clean scenes from EXP12B warm-up sessions (not evaluation runs), LIBERO and LIBERO-Pro from g003, RoboDojo from the first scans, frame-interpolated from 10 Hz. Manifests and hashes: <code>page/assets/fresh-v41/media-manifest.json</code>, <code>teaser/v12/panels.json</code>.</p>
+<div class='scroll'><table><thead><tr><th>Case</th><th>Run</th><th>Rounds</th></tr></thead><tbody><tr><td>Bread to skillet</td><td><code>rpent-trial-hdev-robotwin-a767c785acb0--20261006T023137Z</code><br>October 5, 19:31 PDT</td><td>23 decisions, failed → 8, succeeded</td></tr><tr><td>Open laptop</td><td><code>rpent-trial-hdev-robotwin-c61fb78d64c5--20261006T022806Z</code><br>October 5, 19:28 PDT</td><td>23 decisions, failed → 6, succeeded</td></tr></tbody></table></div><p>Both are two-round sessions on a repeated seed (source <code>c58d6b0</code>), task memory off, chosen after inspecting outcomes rather than sampled. The laptop quotes are the model's visible text, events 59, 348, 396 and 426; receipt hashes are in <code>page/cases-v41.json</code>.</p>
+
+</div>
+</section>
+
+<section class="sec" id="audit">
+<div class="col">
+<h2>Evidence for the findings</h2>
+<div class="scroll"><table><thead><tr><th>Finding</th><th>Evidence</th><th>Kind</th></tr></thead><tbody>
+<tr><td>Overhead footprint localization</td><td>Overhead footprint centre vs mask median, LIBERO libero_10 t04/t06: 29 → 42 of 59 paired states, McNemar p = 0.011; 30 states from other families 25 → 21, p = 0.13. Source <code>c1911864</code>, integration 0084.</td><td>paired A/B</td></tr>
+<tr><td>Observation shortening and restored rules</td><td>Delivery trim v1 vs untrimmed, RoboDojo, same commit: 10 vs 17 of 27 rounds, 24% more model calls. Trim v2 (six rules restored): 15 vs 13 of 24 complete pairs. Integrations 0063, 0068.</td><td>same-commit A/B</td></tr>
+<tr><td>Guessed robot constants</td><td>28 of 46 runs guessed the controlled-point-to-fingertip offset (0–0.103 m) although <code>grasp_plan</code> had returned it; three ALOHA runs estimated the jaw opening at 45, 50 and 55 mm against 94.9 mm.</td><td>run audit</td></tr>
+<tr><td>Reachability feedback after refusals</td><td>EXP11A g012 runs abandoned refused poses as unreachable. Offline sweeps found tilted alternatives; in a replay of 77 refusals, nearest reachable orientations resolved 69 (<code>098655fa</code>). Bare argument errors: 14 identical GPT-6 Astra calls in five minutes (<code>dde39f75</code>).</td><td>run audit, offline replay</td></tr>
+<tr><td>Geometry calculations in model responses</td><td>A corpus audit labelled 12.2% of 35,270 responses as manual geometry derivations. A separate prompt-only test on 11 completed pairs of previously failed RoboTwin cases found arithmetic in 76.2% of baseline reasoning calls and 76.3% with calculator-routing instructions (<code>912f4f10</code>). These are different populations and measures. Three g012 runs wrote an upward quaternion for “approach from above”; world-axes poses added in <code>7cc9e9eb</code>.</td><td>corpus count, run audit</td></tr>
+</tbody></table></div>
+<p>Two controlled tests did not establish an improvement: RoboDojo motion-safety fixes, 12 rounds with the fixes against 11 without, of 102 each (same commit <code>b08e706f</code>). A closed grasp skill on LIBERO: 35 with the skill against 41 without, of 60 paired states (p = 0.18). Single LIBERO reruns are noisy: 15 of 30 control failures succeeded on a plain rerun.</p>
+<h3>Still open</h3>
+<p>Long tasks: 52–64% on LIBERO-Long and the two LIBERO-Pro long suites, against 91–98% on Spatial and Object. RoboDojo: a first scan of 42 two-arm tasks<sup class="cite"><a href="#ref-robodojo" id="cite-robodojo">[2]</a></sup> on October 6, on an earlier harness, solved 18 of 126 rounds and 9 tasks at least once. In 64 of the 108 failed rounds the target was reasonable and the motion went wrong (27 of these judgements are low-confidence). The benchmark tables compare complete systems in simulation using one ORA language model. The component tests above evaluate individual changes under narrower conditions.</p>
+<div class="scroll"><table class="fixes"><thead><tr><th>What goes wrong</th><th>Harness change it points to</th></tr></thead><tbody>
+<tr><td>Free-space moves and the return home ignore objects on the table and allow joint jumps of about 3&nbsp;rad; an arm can sweep away a block it just placed.</td><td>Check the path, not only the end point.</td></tr>
+<tr><td>A grasp slips in transport and the receipt does not say so; the model places with an empty gripper.</td><td>Report a dropped object.</td></tr>
+<tr><td>Many requested orientations have no inverse-kinematics solution across 32 solver seeds, leading to refused requests.</td><td>Answer with the nearest reachable pose.</td></tr>
+<tr><td>In the timing sample, a classifier labelled 58% of reasoning paragraphs as geometry-related.</td><td>Hand the model derived geometry.</td></tr>
+</tbody></table></div>
+</div>
+</section>
+<section class="sec" id="appx-refs"><div class="col"><h2>References</h2><ol class="refs"><li id="ref-aspire">ASPIRE: Agentic Skills Discovery for Robotics. <a href="https://arxiv.org/html/2607.00272v1">arxiv.org/html/2607.00272v1</a> <a class="back" href="#cite-aspire" aria-label="Back to the text">↩</a></li><li id="ref-robodojo">RoboDojo benchmark. <a href="https://github.com/RoboDojo-Benchmark/RoboDojo">github.com/RoboDojo-Benchmark/RoboDojo</a> <a class="back" href="#cite-robodojo" aria-label="Back to the text">↩</a></li></ol></div></section>
+</main>
+<footer><span>© 2026 Yuanbo Yang · ORA</span><span>Results snapshot 2026-10-12 11:25 PDT</span></footer>
+
+</body>
+</html>
