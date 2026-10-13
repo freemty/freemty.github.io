@@ -40,7 +40,8 @@ h2{font:700 1.75rem/1.25 var(--sans);letter-spacing:-.01em;margin:72px 0 16px;te
 h3{font:700 1.18rem/1.35 var(--sans);margin:28px 0 8px;text-wrap:balance}
 h4{font:700 1rem/1.4 var(--sans);margin:22px 0 8px}
 section>h2:first-child{margin-top:0}
-.sec{padding-top:72px}
+.sec{position:relative;margin-top:40px;padding-top:40px}
+main>.sec::before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);width:min(var(--wide),calc(100% - 2 * var(--gut)));border-top:1px solid var(--rule-2)}
 .sec>.col>h2:first-child{margin-top:0}
 .ora-name{color:var(--brand)}
 code{font:400 .84em var(--mono);background:var(--code);padding:1px 5px;border-radius:3px;overflow-wrap:anywhere}
@@ -82,7 +83,7 @@ sup.cite{font-size:.7em;line-height:0;margin-left:1px}sup.cite a{scroll-margin-t
 :root[data-skin="lab"] .col>p,:root[data-skin="lab"] .overview p,:root[data-skin="lab"] .row>div>p,:root[data-skin="lab"] .ctx-text p{text-align:justify}
 :root[data-skin="lab"] .row{grid-template-columns:minmax(0,1fr);gap:14px}:root[data-skin="lab"] .row .row-media{order:2}
 :root[data-skin="lab"] .ctx-text{max-width:none}
-:root[data-skin="lab"] .sec{padding-top:8px}
+:root[data-skin="lab"] .sec{margin-top:32px;padding-top:32px}
 :root[data-skin="lab"] h2{font:700 32px/1.25 var(--sans);margin:32px 0 24px}
 :root[data-skin="lab"] h3{font:700 24px/1.3 var(--sans);margin:24px 0 16px}
 :root[data-skin="lab"] .row h3{margin-top:0}
@@ -119,18 +120,23 @@ sup.cite{font-size:.7em;line-height:0;margin-left:1px}sup.cite a{scroll-margin-t
 .overview p{font-size:1.04rem;line-height:1.7}
 
 /* method rows */
-.rows{display:grid;gap:44px;margin:44px 0 0}
+.rows{display:grid;gap:32px;margin:44px 0 0}
+.rows>.row+.row{border-top:1px solid var(--rule-2);padding-top:32px}
 .row-more{grid-column:1/-1;margin:4px 0 0;order:3}
 table.mtab{font-size:.86rem}table.mtab td:first-child{white-space:nowrap;font-weight:600}table.mtab td code{font-size:.82em}
 .mlist{padding-left:1.1em;margin:4px 0 10px}.mlist li{margin:6px 0;font-size:.95rem}
 
-.ctx-text{margin-top:44px}.ctx-text>p{max-width:calc(50% - 18px)}
+.ctx-text{margin-top:32px;padding-top:32px;border-top:1px solid var(--rule-2)}.ctx-text>p{max-width:calc(50% - 18px)}
 @media (max-width:760px){.ctx-text{max-width:none}}.ctx-text h3{margin-top:0}
 .row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:36px;align-items:center}
 .row:nth-child(even) .row-media{order:2}
 .row h3{margin-top:0}
 .row p{margin:0}
 .row-media{min-width:0}
+.row.manual-row{grid-template-columns:minmax(0,1fr);gap:24px;align-items:start}
+.manual-heading,.manual-intro{width:100%;max-width:var(--col);justify-self:center}
+.manual-heading h3{margin:0}
+.manual-media{min-width:0}
 .doc{background:var(--tint);border:1px solid var(--rule);border-radius:12px;padding:16px 18px;font-size:.9rem;line-height:1.5}
 .doc-k{font:600 .72rem/1.2 var(--mono);color:var(--ink-3);text-transform:none;margin:0 0 4px}
 .doc blockquote{margin:0 0 14px;padding:0 0 0 12px;border-left:2px solid var(--rule-2);color:var(--ink)}
@@ -144,16 +150,14 @@ table.mtab{font-size:.86rem}table.mtab td:first-child{white-space:nowrap;font-we
 .thumbs{display:grid;grid-template-columns:repeat(3,minmax(0,150px));gap:12px;margin-bottom:8px}
 .thumbs figure{margin:0;min-width:0}.thumbs img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:8px;border:1px solid var(--rule);margin:0 0 6px}
 .thumbs figcaption{font-size:.74rem;line-height:1.35;color:var(--ink-3)}.thumbs figcaption code{display:block;font-size:.72rem;color:var(--ink);background:none;padding:0;margin-bottom:1px}
-.bodycard{display:grid;grid-template-columns:84px minmax(0,1fr);gap:4px 10px;align-items:start}
-.bodycard img{grid-row:1/3;aspect-ratio:4/3!important;margin:0!important}
 :root[data-skin="lab"] .row-media{max-width:600px}
 @media (max-width:520px){.rs,.rs-lesson{grid-template-columns:96px minmax(0,1fr)}.rs img{width:96px}}
-.bodycards{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;margin-bottom:8px}
-.bodycard{background:var(--tint);border:1px solid var(--rule);border-radius:12px;padding:6px 6px 10px;min-width:0}
-.bodycard img{display:block;width:100%;aspect-ratio:2/1;object-fit:cover;border-radius:8px;margin:0 0 6px}
-.bodycard-k{font:700 .8rem/1.2 var(--sans);margin:0 4px 4px}.bodycard-k span{font-weight:400;color:var(--ink-3);margin-left:5px}
-.bodycard-t{font-size:.72rem;line-height:1.4;color:var(--ink-2);margin:0 4px}.bodycard-t code{font-size:.92em}
-@media (max-width:760px){.bodycards{grid-template-columns:minmax(0,1fr)}.bodycard{display:grid;grid-template-columns:104px minmax(0,1fr);gap:4px 10px;align-items:start}.bodycard img{grid-row:1/3;aspect-ratio:4/3;margin:0}}
+.bodycards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-bottom:12px}
+.bodycard{display:grid;grid-template-columns:84px minmax(0,1fr);gap:12px;align-content:start;align-items:center;background:var(--tint);border:1px solid var(--rule);border-radius:12px;padding:12px;min-width:0}
+.bodycard img{display:block;width:84px;aspect-ratio:4/3;object-fit:cover;border-radius:6px;margin:0}
+.bodycard-k{font:700 .9rem/1.25 var(--sans);margin:0}.bodycard-k span{display:block;font-weight:400;color:var(--ink-3);margin-top:4px}
+.bodycard-t{grid-column:1/-1;font-size:.82rem;line-height:1.5;color:var(--ink-2);margin:0}.bodycard-t code{font-size:.92em}
+@media (max-width:760px){.bodycards{grid-template-columns:minmax(0,1fr);gap:12px}.bodycard{align-items:start}.bodycard img{grid-row:1/3}.bodycard-t{grid-column:2}.bodycard-k span{display:inline;margin:0 0 0 5px}}
 .doc-src,.media figcaption{font-size:.78rem;color:var(--ink-3);margin:0}
 .media{margin:0}.media img{display:block;width:100%;border-radius:12px;margin:0 0 8px;border:1px solid var(--rule)}
 .media figcaption code{font-size:.92em}
@@ -273,7 +277,7 @@ footer{max-width:calc(var(--col) + 2 * var(--gut));margin:72px auto 0;padding:20
 @media (max-width:760px){
   body{font-size:16px}
   h2{font-size:1.45rem;margin-top:56px}
-  .sec{padding-top:56px}
+  .sec{margin-top:32px;padding-top:28px}
   .row{grid-template-columns:minmax(0,1fr);gap:16px}.row:nth-child(even) .row-media{order:0}
   .clips,.pair{grid-template-columns:minmax(0,1fr)}
   .bars li{grid-template-columns:minmax(0,1fr) 4.2rem;gap:4px 12px}
