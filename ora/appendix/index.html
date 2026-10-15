@@ -9,7 +9,7 @@
 <style>
 :root{
   --paper:#fff; --surface:#fff; --ink:#1e1e1e; --content:#1f1f1f; --ink-2:#464646; --ink-3:#6c6c6c; --rule:#eee; --rule-2:#d6d6d6;
-  --tint:#f5f5f5; --code:#fff; --code-block:#1c1d21; --link:#0f33b5; --brand:#8E2C24;
+  --tint:#f5f5f5; --code:#fff; --code-block:#1c1d21; --link:#0f33b5; --brand:#2c4366;
   --bar-ours:var(--ink); --bar-rpent:#8a8a8a; --bar-ref:#cfcfcf; --strong:#1e1e1e;
   --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Open Sans","Helvetica Neue",sans-serif;
   --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
@@ -17,11 +17,11 @@
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --paper:#1d1e20; --surface:#2e2e33; --ink:#fff; --content:#c4c4c5; --ink-2:#c4c4c5; --ink-3:#9b9c9d; --rule:#333; --rule-2:#414244;
-  --tint:#2e2e33; --code:#37383e; --code-block:#2e2e33; --link:#4ecdc4; --brand:#E07A6E;
+  --tint:#2e2e33; --code:#37383e; --code-block:#2e2e33; --link:#4ecdc4; --brand:#9fb4d8;
   --bar-rpent:#9c9c9c; --bar-ref:#55565a; --strong:#fff; color-scheme:dark}}
 :root[data-theme="dark"]{
   --paper:#1d1e20; --surface:#2e2e33; --ink:#fff; --content:#c4c4c5; --ink-2:#c4c4c5; --ink-3:#9b9c9d; --rule:#333; --rule-2:#414244;
-  --tint:#2e2e33; --code:#37383e; --code-block:#2e2e33; --link:#4ecdc4; --brand:#E07A6E;
+  --tint:#2e2e33; --code:#37383e; --code-block:#2e2e33; --link:#4ecdc4; --brand:#9fb4d8;
   --bar-rpent:#9c9c9c; --bar-ref:#55565a; --strong:#fff; color-scheme:dark}
 *,*::before,*::after{box-sizing:border-box}
 [hidden]{display:none!important}
@@ -42,7 +42,8 @@ section>h2:first-child{margin-top:0}
 .sec{position:relative;margin-top:40px;padding-top:40px}
 main>.sec::before{content:none}
 .sec>.col>h2:first-child{margin-top:0}
-.ora-name{color:inherit;font-weight:inherit}
+.ora-name{color:inherit;font-weight:700}
+.ptoc .ora-name,h2 .ora-name,h3 .ora-name,h4 .ora-name,.toc .ora-name{font-weight:inherit}
 .titleblock h1 .ora-name,.tldr .ora-name{color:var(--brand);font-weight:700}
 .hero-name .ora-name{color:inherit;font-weight:inherit}
 code{font:400 .84em var(--mono);background:var(--code);padding:1px 5px;border-radius:3px;overflow-wrap:anywhere}
