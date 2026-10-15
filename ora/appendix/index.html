@@ -63,7 +63,7 @@ sup.cite{font-size:.7em;line-height:0;margin-left:1px}sup.cite a{scroll-margin-t
 /* Hao AI Lab (Hugo PaperMod) template: values read from the live haoailab.com stylesheet (see README).
    A blog post: left-aligned title, subtitle and meta line, shields-style badges, the wall as a cover figure
    under the title, an 860 px column with justified prose, smaller section spacing, centred small footer. */
-:root[data-skin="lab"]{--col:900px;--wide:900px;--gut:24px}
+:root[data-skin="lab"]{--col:876px;--wide:876px;--gut:24px}
 :root[data-skin="lab"] body{font:400 18px/1.6 var(--sans);-webkit-font-smoothing:auto}
 :root[data-skin="lab"] .topbar{max-width:1024px;height:60px;margin-top:10px;padding-block:0}
 :root[data-skin="lab"] .topbar .mark{font-size:24px}
@@ -364,14 +364,15 @@ footer{max-width:calc(var(--col) + 2 * var(--gut));margin:72px auto 0;padding:20
 :root[data-skin="lab"] .topbar{max-width:calc(876px + 48px);height:auto;line-height:60px;margin:10px auto 0;padding:0}
 :root[data-skin="lab"] .topbar .logo{display:flex;align-items:center;margin:auto var(--gut)}
 :root[data-skin="lab"] .topbar .mark{font-size:24px;font-weight:700;color:var(--ink)}
-:root[data-skin="lab"] .topbar nav{margin:auto var(--gut);gap:24px;font-size:16px}
+:root[data-skin="lab"] .topbar nav{display:flex;align-items:center;margin:auto var(--gut);gap:24px;font-size:16px}
 :root[data-skin="lab"] .topbar nav a{color:var(--ink)}:root[data-skin="lab"] .topbar nav a:hover{opacity:.75;text-decoration:none}
-#theme-toggle{display:inline-grid;place-items:center;margin:auto 4px auto 10px;padding:0;border:0;background:none;color:var(--ink);cursor:pointer;line-height:1}
+#theme-toggle{display:inline-grid;place-items:center;margin:auto -4px auto 0;padding:0;border:0;background:none;color:var(--ink);cursor:pointer;line-height:1}
 #theme-toggle svg{display:block}#theme-toggle #sun{display:none}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) #theme-toggle #moon{display:none}:root:not([data-theme="light"]) #theme-toggle #sun{display:block}}
 :root[data-theme="dark"] #theme-toggle #moon{display:none}:root[data-theme="dark"] #theme-toggle #sun{display:block}
 :root[data-skin="lab"] main>*{order:6}
-:root[data-skin="lab"] .titleblock{order:1}:root[data-skin="lab"] .hero{order:2}:root[data-skin="lab"] .herocap{order:3}:root[data-skin="lab"] .ptoc{order:4}:root[data-skin="lab"] .overview{order:5}
+:root[data-skin="lab"] .titleblock{order:1}:root[data-skin="lab"] .ptoc{order:2}:root[data-skin="lab"] .overview{order:3}:root[data-skin="lab"] .hero{order:4}:root[data-skin="lab"] .herocap{order:5}
+:root[data-skin="lab"] .titleblock{padding-top:48px}:root[data-skin="lab"] .titleblock h1{line-height:1.2}:root[data-skin="lab"] .ptoc .tocbox{margin-bottom:40px}.ptoc .tocbox summary{margin-left:20px!important;padding:0!important}:root[data-skin="lab"] .hero{margin-top:8px}
 .ptoc .tocbox{margin:0 2px 40px;border:1px solid var(--rule);background:var(--code);border-radius:8px;padding:.4em;font-size:18px;line-height:1.6}
 :root[data-theme="dark"] .ptoc .tocbox{background:var(--surface)}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .ptoc .tocbox{background:var(--surface)}}
@@ -391,8 +392,8 @@ footer{max-width:calc(var(--col) + 2 * var(--gut));margin:72px auto 0;padding:20
 
 </style>
 <script>(function(){var r=document.documentElement;r.setAttribute("data-skin","lab");try{var p=localStorage.getItem("pref-theme");if(p==="dark"||p==="light")r.setAttribute("data-theme",p)}catch(e){}})();</script>
-<div class="topbar"><div class="logo"><a class="mark" href="https://haoailab.com/blogs/ora/"><span class="ora-name">ORA</span></a><button id="theme-toggle" type="button" accesskey="t" title="Toggle theme (Alt + T)" aria-label="Toggle theme"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg></button></div>
-<nav><a href="https://haoailab.com/blogs/ora/">Blog</a><a href="https://freemty.github.io/ora/gallery/">Gallery</a></nav></div>
+<div class="topbar"><div class="logo"><a class="mark" href="https://haoailab.com/blogs/ora/"><span class="ora-name">ORA</span></a></div>
+<nav><button id="theme-toggle" type="button" accesskey="t" title="Toggle theme (Alt + T)" aria-label="Toggle theme"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg></button><a href="https://haoailab.com/blogs/ora/">Blog</a><a href="https://freemty.github.io/ora/gallery/">Gallery</a></nav></div>
 <main id="top">
 <header class="col titleblock"><h1><span class="ora-name">ORA</span> Appendix</h1>
 <p class="meta">Evaluation details, failure audit and provenance for <a href="https://haoailab.com/blogs/ora/"><span class="ora-name">ORA</span>: Open Robot-Use Agents</a>.</p></header>
