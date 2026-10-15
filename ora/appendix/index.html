@@ -299,7 +299,7 @@ table.syskey tr.ora td{font-weight:700;border-top:2px solid var(--ink)}
 .bench-note{font-size:.8rem;color:var(--ink-3);margin:6px 0 0}
 [id^="fig-"],[id^="tab-"]{scroll-margin-top:72px}.figref{color:var(--link);text-decoration:none;white-space:nowrap}.figref:hover{text-decoration:underline}
 .figcap{font-size:.88rem;line-height:1.55;color:var(--ink-2);text-align:left;margin:12px auto 0}.figcap b.fl{color:var(--ink);font-weight:700}.col>.figcap{margin-bottom:22px}
-.herocap{margin-top:10px;margin-bottom:8px}:root[data-skin="lab"] .herocap{order:3;margin:10px auto 44px;width:calc(100% - 2 * var(--gut));max-width:var(--col);padding:0}
+.herocap{margin-top:10px;margin-bottom:8px}:root[data-skin="lab"] .hero.teaser{aspect-ratio:16/9}.hero.teaser video{object-fit:contain;background:#0b0c0f}:root[data-skin="lab"] .herocap{order:3;margin:10px auto 44px;width:calc(100% - 2 * var(--gut));max-width:var(--col);padding:0}
 .costline{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:10px;overflow:hidden;margin:14px 0 10px}
 .costline div{background:var(--surface);padding:14px 16px}
 .costline b{display:block;font:700 1.5rem/1.1 var(--sans);font-variant-numeric:tabular-nums}
@@ -443,7 +443,7 @@ footer{max-width:calc(var(--col) + 2 * var(--gut));margin:72px auto 0;padding:20
 <p class="figcap"><b class="fl">Figure A2.</b> Where episode time goes. Time shares come from a separate timing sample of 79 episodes, 12,206 model calls and 91.7 episode-hours, using paired trace timestamps. The episode medians come from the later evaluation runs on the main page: RoboTwin 25.0 min, LIBERO-Pro 15.9 min, LIBERO 13.8 min. A paragraph-level classifier labelled 58% of reasoning paragraphs as concerning geometry, a broader category and a different unit from responses that compute geometry by hand. The audit estimated that batching independent read-only calls could remove at most 7% of model calls in this sample.</p>
 <h3 id="media-notes">Media and case provenance</h3>
 <div class="scroll" id="tab-media"><table class="prov"><thead><tr><th>Item</th><th>Episode</th></tr></thead><tbody>
-<tr><td>Figure 1 (montage)</td><td>40 solved rounds across LIBERO, LIBERO-Pro, RoboTwin and RoboDojo</td></tr>
+<tr><td>Figure 1 (overview video)</td><td><span class="ora-name">ORA</span>'s own runs only: RoboDojo episodes in the terminal UI and the 40 solved rounds across LIBERO, LIBERO-Pro, RoboTwin and RoboDojo</td></tr>
 <tr><td>Figure 3 (terminal replay)</td><td>RoboDojo stack blocks by language, round 2</td></tr>
 <tr><td>Figure 14, Learning across rounds</td><td>Top: RoboDojo stack blocks by language, rounds 1–2 of one session from the 42-task scan. Bottom: RoboTwin open laptop, rounds 1–2 of one trial session outside the reported evaluation. All panes at one simulated-time speed</td></tr>
 <tr><td>Figure 15, task wording</td><td>LIBERO-Spatial task 4, seeds 1 and 2; left from the earlier evaluation with our paraphrased instruction, right from the later evaluation with the benchmark's instruction</td></tr>
