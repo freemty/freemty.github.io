@@ -8,8 +8,8 @@ Yuanbo Yang's personal academic website, hosted at https://freemty.github.io/. S
 
 ## Branch Structure
 
-- `project_page` — main branch (default remote), serves the live site
-- `personal` — personal/development branch
+- `personal` — default branch; GitHub Pages serves the live site from it (root `/`)
+- `project_page` — older branch, no longer the Pages source
 - `master` — legacy branch
 
 ## Design System
@@ -30,7 +30,7 @@ The site uses the **Swiss Knife Design System** (`/swiss-knife-design` skill). K
 - `fomo/` — "No More FOMO" daily AI news digest. Auto-generated HTML files named by date (`YYYY-MM-DD.html`, `YYYY-MM-DD-zh.html`). Has its own `index.html` archive page with dark/light theme and zh/en language toggle.
 - `build/` — Viser 3D viewer client (pre-built React app, do not modify directly)
 - `data/` — Media assets (images, videos, PDFs, logos)
-- `data/Yuanbo_CV.tex` + `data/Yuanbo_CV.pdf` — LaTeX CV source and compiled PDF. Uses Swiss Knife Red accent on section rules. Compile with `pdflatex data/Yuanbo_CV.tex` (run twice for refs).
+- `data/Yuanbo_CV.tex` + `data/Yuanbo_cv.pdf` — LaTeX CV source and compiled PDF (the homepage links the lowercase `Yuanbo_cv.pdf`). Uses Swiss Knife Red accent on section rules. Compile with `pdflatex data/Yuanbo_CV.tex` (run twice for refs).
 - `data/logo/` — Institution logos (padded PNGs: ant, zju, hdu, ucsd, umich, analemma)
 - `scripts/` — Python image processing utilities
 - `cc-research-playbook.html`, `steam-steel-infinite-minds.html` — Standalone presentation pages
@@ -45,7 +45,7 @@ python3 -m http.server 8000
 
 ## Deployment
 
-Push to `project_page` branch — GitHub Pages serves the site automatically.
+Push to `personal` branch — GitHub Pages serves the site automatically.
 
 ## Key Patterns
 
