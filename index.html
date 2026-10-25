@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Yuanbo Yang</title>
   <meta name="author" content="Yuanbo Yang">
-  <meta name="description" content="Yuanbo Yang - Researcher in Vision Foundation Models">
+  <meta name="description" content="Yuanbo Yang, PhD student at UC San Diego working on LLM agents for robots">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -58,17 +58,21 @@
       <div class="hero-content">
         <div class="hero-text">
           <h1>Yuanbo Yang <span class="name-zh">杨渊博</span></h1>
-          <p class="hero-tagline">Understanding and Improving Vision Foundation Models</p>
+          <p class="hero-tagline">Bringing LLMs into the physical world</p>
           <p class="hero-bio">
-            I am an incoming PhD student at <a href="https://ucsd.edu/">UC San Diego</a>, advised by <a href="https://cseweb.ucsd.edu/~haozhang/">Prof. Hao Zhang</a>.
-            Previously, I was a research intern at <a href="https://www.umich.edu/">University of Michigan</a> with <a href="https://www.cs.toronto.edu/~jungao/">Prof. Jun Gao</a>.
-            I got my Master's degree at <a href="https://www.zju.edu.cn/english/">Zhejiang University</a>,
-            working with <a href="https://yiyiliao.github.io/">Prof. Yiyi Liao</a>.
-            I am also lucky to have collaborated with <a href="https://www.cvlibs.net/">Prof. Andreas Geiger</a>.
-            I obtained my B.Eng. degree from <a href="https://en.hdu.edu.cn/">Hangzhou Dianzi University</a> in 2022.
+            I'm a first-year PhD student at <a href="https://ucsd.edu/">UC San Diego</a>, advised by <a href="https://cseweb.ucsd.edu/~haozhang/">Prof. Hao Zhang</a>.
+            I work on getting LLMs to act in the physical world. Right now I'm building <a href="https://github.com/hao-ai-lab/ORA">ORA</a>, an open harness that lets language models operate robots.
           </p>
+          <p class="hero-bio" style="margin-bottom:4px">
+            Two things I want to build:
+          </p>
+          <ul class="hero-bio" style="padding-left:1.2em">
+            <li>real-time, LLM-centric robot agents that people can talk to, interrupt and play with;</li>
+            <li>robot-use agents that pick up new skills on their own and keep improving in the physical world.</li>
+          </ul>
           <p class="hero-bio">
-            My research focuses on understanding and improving vision foundation models. Previously, I worked on 3D generative models. Feel free to reach out!
+            Before UCSD, I did my Master's at <a href="https://www.zju.edu.cn/english/">Zhejiang University</a> with <a href="https://yiyiliao.github.io/">Prof. Yiyi Liao</a>, working on 3D and video generation, and collaborated with <a href="https://www.cvlibs.net/">Prof. Andreas Geiger</a>.
+            I was also a research intern with <a href="https://www.cs.toronto.edu/~jungao/">Prof. Jun Gao</a> at the <a href="https://www.umich.edu/">University of Michigan</a>, and got my B.Eng. from <a href="https://en.hdu.edu.cn/">Hangzhou Dianzi University</a> in 2022.
           </p>
           <div class="hero-links">
             <a href="mailto:yangyuanbo04@gmail.com">
@@ -107,36 +111,16 @@
     <div class="container">
       <div class="news-list">
         <div class="news-item">
-          <span class="news-date">Mar 2026</span>
-          <span class="news-text">One paper accepted to <b>SIGGRAPH 2026</b>.</span>
+          <span class="news-date">Oct 2026</span>
+          <span class="news-text">Released <a href="https://github.com/hao-ai-lab/ORA"><b>ORA</b></a>: open-weight LLMs operating robots, zero-shot.</span>
         </div>
         <div class="news-item">
-          <span class="news-date">Feb 2026</span>
-          <span class="news-text">One paper accepted to <b>CVPR 2026</b>.</span>
+          <span class="news-date">Sep 2026</span>
+          <span class="news-text">Started my PhD at <b>UC San Diego</b> with Prof. Hao Zhang.</span>
         </div>
         <div class="news-item">
-          <span class="news-date">Aug 2025</span>
-          <span class="news-text">UrbanGen accepted to <b>TPAMI 2025</b>.</span>
-        </div>
-        <div class="news-item">
-          <span class="news-date">Jul 2025</span>
-          <span class="news-text">One paper accepted to <b>NeurIPS 2025</b>.</span>
-        </div>
-        <div class="news-item">
-          <span class="news-date">Feb 2025</span>
-          <span class="news-text">Prometheus and ChronoDepth accepted to <b>CVPR 2025</b>.</span>
-        </div>
-        <div class="news-item">
-          <span class="news-date">Jul 2024</span>
-          <span class="news-text">One paper accepted to <b>ECCV 2024</b>.</span>
-        </div>
-        <div class="news-item">
-          <span class="news-date">May 2024</span>
-          <span class="news-text">One paper accepted to <b>SIGGRAPH 2024</b>.</span>
-        </div>
-        <div class="news-item">
-          <span class="news-date">Jul 2023</span>
-          <span class="news-text">One paper accepted to <b>ICCV 2023</b>.</span>
+          <span class="news-date">2023 &ndash; 26</span>
+          <span class="news-text">Earlier work on 3D and video generation at SIGGRAPH, CVPR, ICCV, ECCV, NeurIPS and T-PAMI.</span>
         </div>
       </div>
     </div>
@@ -150,13 +134,43 @@
       </div>
 
       <div class="papers-toggle">
-        <button id="toggle-papers" onclick="document.querySelector('.papers').classList.toggle('expanded'); this.textContent = this.textContent === 'Show all' ? 'Show selected' : 'Show all'; document.querySelectorAll('.paper-card.fade-in:not(.visible)').forEach(el => observer.observe(el));">Show all</button>
+        <button id="toggle-papers" onclick="document.querySelector('.papers').classList.toggle('expanded'); this.textContent = this.textContent === 'Earlier work: 3D and video generation' ? 'Hide earlier work' : 'Earlier work: 3D and video generation'; document.querySelectorAll('.paper-card.fade-in:not(.visible)').forEach(el => observer.observe(el));">Earlier work: 3D and video generation</button>
       </div>
 
       <div class="papers">
 
-        <!-- ReRoPE -->
+        <!-- ORA -->
         <article class="paper-card highlight wide-teaser fade-in">
+          <div class="paper-media">
+            <img src="data/ora.jpg" alt="ORA: an open-weight LLM operating a dual-arm robot">
+            <video muted autoplay loop playsinline>
+              <source src="data/ora.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="paper-info">
+            <a class="paper-title" href="https://haoailab.com/blogs/ora/">
+              ORA: Open Robot-Use Agents
+            </a>
+            <p class="paper-authors">
+              <span class="me">Yuanbo Yang</span>,
+              Siyi Chen,
+              <a href="https://www.cs.toronto.edu/~jungao/">Jun Gao</a>,
+              <a href="https://cseweb.ucsd.edu/~haozhang/">Hao Zhang</a>
+            </p>
+            <p class="paper-venue">2026</p>
+            <div class="paper-links">
+              <a href="https://haoailab.com/blogs/ora/">Blog</a>
+              <a href="https://github.com/hao-ai-lab/ORA">Code</a>
+              <a href="ora/gallery/">Gallery</a>
+            </div>
+            <p class="paper-desc">
+              <strong>ORA</strong> lets open-weight LLMs operate robots zero-shot through perception and motion tools, with no VLA and no robot training.
+            </p>
+          </div>
+        </article>
+
+        <!-- ReRoPE -->
+        <article class="paper-card wide-teaser fade-in">
           <div class="paper-media">
             <img src="data/rerope.png" alt="ReRoPE">
             <video muted autoplay loop playsinline>
@@ -187,7 +201,7 @@
         </article>
 
         <!-- Gen3R -->
-        <article class="paper-card highlight fade-in">
+        <article class="paper-card fade-in">
           <div class="paper-media">
             <img src="data/gen3r.png" alt="Gen3R">
           </div>
@@ -209,13 +223,13 @@
               <a href="https://arxiv.org/abs/2601.04090">arXiv</a>
             </div>
             <p class="paper-desc">
-              <strong>Gen3R</strong> bridges foundational reconstruction models and video diffusion models for scene-level 3D generation.
+              <strong>Gen3R</strong> combines feed-forward reconstruction models with video diffusion models to generate 3D scenes.
             </p>
           </div>
         </article>
 
         <!-- Prometheus -->
-        <article class="paper-card highlight fade-in">
+        <article class="paper-card fade-in">
           <div class="paper-media">
             <img src="data/prometheus.png" alt="Prometheus">
             <video muted autoplay loop playsinline>
@@ -241,13 +255,13 @@
               <a href="https://github.com/XDimLab/Prometheus">Code</a>
             </div>
             <p class="paper-desc">
-              <strong>Prometheus</strong> introduces feed-forward scene-level 3D generation in seconds, harnessing pre-trained 2D priors for generalizable and efficient 3D synthesis.
+              <strong>Prometheus</strong> generates 3D scenes from text in seconds, building on pretrained 2D diffusion models.
             </p>
           </div>
         </article>
 
         <!-- UrbanGen -->
-        <article class="paper-card highlight fade-in">
+        <article class="paper-card fade-in">
           <div class="paper-media">
             <img src="data/urbangen.jpg" alt="UrbanGen">
             <video muted autoplay loop playsinline>
@@ -271,13 +285,13 @@
               <a href="data/urbangen_paper.pdf">Paper</a>
             </div>
             <p class="paper-desc">
-              <strong>UrbanGen</strong> generates 3D urban radiance fields with photorealistic rendering, accurate geometry, high controllability, and diverse city styles.
+              <strong>UrbanGen</strong> generates controllable 3D city scenes with realistic rendering and geometry.
             </p>
           </div>
         </article>
 
         <!-- ChronoDepth -->
-        <article class="paper-card highlight fade-in">
+        <article class="paper-card fade-in">
           <div class="paper-media">
             <img src="data/chronodepth.jpg" alt="ChronoDepth">
             <video muted autoplay loop playsinline>
@@ -306,7 +320,7 @@
               <a href="https://github.com/jiahao-shao1/ChronoDepth">Code</a>
             </div>
             <p class="paper-desc">
-              <strong>ChronoDepth</strong> addresses temporally consistent video depth estimation using video diffusion model priors.
+              <strong>ChronoDepth</strong> uses video diffusion priors to estimate temporally consistent video depth.
             </p>
           </div>
         </article>
@@ -358,7 +372,7 @@
               <a href="https://arxiv.org/abs/2512.04619">arXiv</a>
             </div>
             <p class="paper-desc">
-              <strong>HeFT</strong> is a zero-shot point tracking framework leveraging visual priors of pretrained video diffusion models.
+              <strong>HeFT</strong> uses pretrained video diffusion models for zero-shot point tracking.
             </p>
           </div>
         </article>
@@ -451,7 +465,7 @@
         </article>
 
         <!-- UrbanGIRAFFE -->
-        <article class="paper-card highlight fade-in">
+        <article class="paper-card fade-in">
           <div class="paper-media">
             <img src="data/urbangiraffe.gif" alt="UrbanGIRAFFE">
           </div>
@@ -473,7 +487,7 @@
               <a href="https://arxiv.org/abs/2303.14167">arXiv</a>
             </div>
             <p class="paper-desc">
-              <strong>UrbanGIRAFFE</strong> leverages coarse 3D panoptic priors to guide a 3D-aware generative model for photorealistic urban scene synthesis with diverse controllability.
+              <strong>UrbanGIRAFFE</strong> uses coarse 3D panoptic layouts to guide a 3D-aware generator for controllable urban scenes.
             </p>
           </div>
         </article>
@@ -495,7 +509,7 @@
             <img class="timeline-logo" src="data/logo/padded_ucsd.png" alt="UC San Diego">
             <div class="timeline-info">
               <h3>UC San Diego</h3>
-              <div class="timeline-period">2026</div>
+              <div class="timeline-period">2026 &mdash;</div>
             </div>
           </div>
           <div class="timeline-item fade-in">
@@ -543,7 +557,7 @@
   <!-- FOOTER -->
   <footer class="footer">
     <div class="container">
-      <p>Last updated Apr. 2026</p>
+      <p>Last updated Oct. 2026</p>
     </div>
   </footer>
 
