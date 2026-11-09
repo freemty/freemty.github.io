@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>ORA Blog</title>
+<meta name="description" content="Posts from the ORA project.">
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+:root{
+  --paper:#fff; --surface:#fff; --ink:#1e1e1e; --ink-2:#464646; --ink-3:#6c6c6c; --rule:#ececec; --rule-2:#d6d6d6;
+  --tint:#f5f5f4; --code:#f3f3f3; --link:#0f33b5; --brand:#8E2C24; --ok:#1f7a45; --ok-bg:#e5f4ea; --strong:#1e1e1e;
+  --tbd:#fff4d6; --tbd-ink:#7a5200;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --col:720px; --wide:1040px; --gut:20px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#1d1e20; --surface:#26272a; --ink:#f2f2f2; --ink-2:#c4c4c5; --ink-3:#9b9c9d; --rule:#333436; --rule-2:#4a4b4e;
+  --tint:#2a2b2e; --code:#323337; --link:#8ea4f0; --brand:#E07A6E; --ok:#7fd3a0; --ok-bg:#1f3a2a; --strong:#f0f0f0;
+  --tbd:#3a3020; --tbd-ink:#f0c870; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#1d1e20; --surface:#26272a; --ink:#f2f2f2; --ink-2:#c4c4c5; --ink-3:#9b9c9d; --rule:#333436; --rule-2:#4a4b4e;
+  --tint:#2a2b2e; --code:#323337; --link:#8ea4f0; --brand:#E07A6E; --ok:#7fd3a0; --ok-bg:#1f3a2a; --strong:#f0f0f0;
+  --tbd:#3a3020; --tbd-ink:#f0c870; color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.65 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:var(--link);text-decoration:none}a:hover{text-decoration:underline}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:2px}
+.col,.wide{margin-inline:auto;padding-left:max(var(--gut),env(safe-area-inset-left,0px));padding-right:max(var(--gut),env(safe-area-inset-right,0px))}
+.col{max-width:calc(var(--col) + 2 * var(--gut))}
+.wide{max-width:calc(var(--wide) + 2 * var(--gut))}
+p{margin:0 0 16px}
+h1{font:700 clamp(1.7rem,4vw,2.35rem)/1.2 var(--sans);letter-spacing:-.01em;margin:0 0 12px;text-wrap:balance}
+h2{font:700 1.45rem/1.25 var(--sans);letter-spacing:-.01em;margin:56px 0 16px;text-wrap:balance}
+h3{font:700 1.18rem/1.35 var(--sans);margin:28px 0 8px;text-wrap:balance}
+.ora-name{color:var(--brand);font-weight:700}
+.note{font-size:.9rem;line-height:1.55;color:var(--ink-3)}
+code{font:400 .84em var(--mono);background:var(--code);padding:1px 5px;border-radius:3px;overflow-wrap:anywhere}
+pre{background:var(--code);border:1px solid var(--rule);border-radius:8px;padding:12px 14px;overflow-x:auto;font:400 .84rem/1.55 var(--mono)}
+pre code{background:none;padding:0}
+/* top bar, as on the October post */
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;max-width:calc(var(--wide) + 2 * var(--gut));margin:0 auto;
+  padding:14px max(var(--gut),env(safe-area-inset-right,0px)) 14px max(var(--gut),env(safe-area-inset-left,0px))}
+.topbar .mark{font-weight:700;color:var(--ink);font-size:1.05rem}
+.topbar nav{display:flex;gap:18px;flex-wrap:wrap;font-size:.92rem}
+.topbar nav a{color:var(--ink-3)}
+.topbar nav a:hover,.topbar nav a[aria-current="page"]{color:var(--ink);text-decoration:none}
+.topbar nav a[aria-current="page"]{font-weight:600}
+/* hero, as on the October post */
+.hero{position:relative;height:clamp(300px,52vh,520px);overflow:hidden;background:#0b0c0e;color:#fff}
+.hero video,.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;margin:0}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,9,11,.52) 0%,rgba(8,9,11,.62) 55%,rgba(8,9,11,.86) 100%)}
+.hero-text{position:absolute;inset:auto 0 0 0;z-index:1;max-width:calc(var(--wide) + 2 * var(--gut));margin:0 auto;padding:0 var(--gut) clamp(28px,6vh,56px)}
+.hero-name{font:800 clamp(2.8rem,9vw,6rem)/.95 var(--sans);letter-spacing:-.03em;margin:0 0 14px}
+.hero-line{font:400 clamp(1.05rem,2.4vw,1.45rem)/1.35 var(--sans);color:#e4e4e4;margin:0;max-width:34em}
+.hero-cap{position:absolute;z-index:1;right:var(--gut);top:14px;margin:0;font-size:.75rem;color:#b9b9b9}
+.buttons{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 28px}
+.btn{display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 16px;border-radius:8px;background:var(--ink);color:var(--paper);font:600 .92rem/1 var(--sans)}
+.btn:hover{text-decoration:none;opacity:.88}
+.btn.off{background:var(--tint);color:var(--ink-3);border:1px solid var(--rule)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--rule-2)}
+.lede{font-size:1.08rem;line-height:1.7;color:var(--ink)}
+.sec{position:relative;margin-top:48px;padding-top:40px}
+.sec::before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);width:min(var(--wide),calc(100% - 2 * var(--gut)));border-top:1px solid var(--rule-2)}
+.sec>h2:first-child,.sec h2.first{margin-top:0}
+.kicker{font:600 .74rem/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin:0 0 10px}
+/* post cards */
+.posts{display:grid;gap:18px}
+.post{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:22px;align-items:start;color:inherit}
+.post:hover{text-decoration:none}.post:hover h3{color:var(--link)}
+.post img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px;border:1px solid var(--rule);display:block}
+.post h3{margin:2px 0 6px}
+.post .meta{font-size:.84rem;color:var(--ink-3);margin:0 0 8px;display:flex;gap:10px;flex-wrap:wrap}
+.post p{font-size:.98rem;color:var(--ink-2);margin:0}
+.pill{font:600 .72rem/1 var(--mono);padding:4px 7px;border-radius:999px;background:var(--tint);color:var(--ink-3);border:1px solid var(--rule)}
+.pill.draft{background:var(--tbd);color:var(--tbd-ink);border-color:transparent}
+@media (max-width:640px){.post{grid-template-columns:1fr;gap:10px}}
+/* principles */
+.prin{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:12px}
+.prin>div{border:1px solid var(--rule);border-top:3px solid var(--brand);border-radius:8px;padding:14px 16px;background:var(--surface)}
+.prin h3{margin:0 0 6px;font-size:1.02rem}
+.prin p{margin:0;font-size:.94rem;color:var(--ink-2)}
+.prin .k{font:600 .72rem/1 var(--mono);color:var(--ink-3);letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:6px}
+/* tables */
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.92rem}
+th,td{text-align:left;padding:8px 12px 8px 0;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-weight:600;font-size:.8rem;color:var(--ink-3)}
+td.num,th.num{text-align:right;font-family:var(--mono);font-size:.86rem;font-variant-numeric:tabular-nums;white-space:nowrap}
+td b{color:var(--ink)}
+footer{max-width:calc(var(--wide) + 2 * var(--gut));margin:72px auto 0;padding:20px var(--gut) 40px;border-top:1px solid var(--rule);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:.8rem;color:var(--ink-3)}
+footer a{color:var(--ink-3)}
+/* post body (blog no. 2) */
+.post-head{padding-top:36px}
+.post-head .meta{font-size:.9rem;color:var(--ink-3);margin:0 0 22px}
+.draftbar{font:500 .8rem/1.5 var(--mono);background:var(--tbd);color:var(--tbd-ink);border-radius:6px;padding:8px 12px;margin:18px 0 0;display:flex;flex-wrap:wrap;gap:6px 16px}
+.draftbar a{color:inherit;text-decoration:underline}
+article h1{margin-top:0}
+article li{margin:0 0 6px}
+article table{display:block;overflow-x:auto}
+article figure{margin:28px 0}
+article figure img{width:100%;border-radius:8px;border:1px solid var(--rule);display:block}
+article figcaption{font-size:.88rem;color:var(--ink-3);margin-top:8px;line-height:1.55}
+.slot{font:600 .7rem/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--brand)}
+.callout{border:1px solid var(--rule);border-left:3px solid var(--brand);border-radius:8px;padding:14px 16px;margin:24px 0;background:var(--tint)}
+.callout a{font-weight:600}
+.tbd{background:var(--tbd);color:var(--tbd-ink);border-radius:4px;padding:1px 6px;font-size:.88em}
+article hr{border:0;border-top:1px solid var(--rule-2);margin:48px 0}
+blockquote{margin:0;border-left:3px solid var(--rule-2);padding-left:14px;color:var(--ink-3)}
+</style>
+</head>
+<body>
+<header class="topbar"><a class="mark" href="../index.html">ORA</a><nav aria-label="Site"><a href="../index.html">About</a><a href="../blog/index.html" aria-current="page">Blog</a><a href="../gallery/index.html">Gallery</a><a href="https://github.com/hao-ai-lab/ORA">GitHub</a></nav></header>
+
+<main class="wide" style="padding-top:36px">
+  <p class="kicker">Blog</p>
+  <h1>Notes from the ORA project</h1>
+  <p class="lede" style="max-width:var(--col)">Short, frequent posts: results as they land, what we changed in the harness and why, and the runs behind them. Major releases also appear on the <a href="https://haoailab.com/blogs/ora/">Hao AI Lab blog</a>.</p>
+  <div style="margin-top:28px"><div class="posts"><a class="post" href="../blog/2026-11-code-mode/index.html"><img src="../blog/posters/post2.jpg" alt=""><div><p class="meta"><span>No. 2</span><span>November 2026</span><span class="pill draft">draft</span></p><h3>Open models can drive robots now. The interface decides how well.</h3><p>The Pi agent core; code mode against tool calls on the same harness, and why tool calls fail on long tasks; other agent systems with the same model; and 40.4% of RoboDojo cases solved, counting successes after the step limit.</p></div></a><a class="post" href="../blog/2026-10-ora/index.html"><img src="../blog/posters/post1.jpg" alt=""><div><p class="meta"><span>No. 1</span><span>October 2026</span></p><h3>ORA: Open Robot-Use Agents</h3><p>An open-weight model operating robots through perception and motion tools, with no VLA and no robot training: 69.2% of RoboTwin and 81.4% of LIBERO-Pro zero-shot, and what the harness does to get there.</p></div></a></div></div>
+</main>
+
+<footer><span>ORA · Open Robot-Use Agents · Hao AI Lab, UC San Diego</span><span><a href="../blog/index.html">Blog</a> · <a href="https://haoailab.com/blogs/ora/">Hao AI Lab blog</a> · <a href="https://github.com/hao-ai-lab/ORA">GitHub</a></span></footer>
+</body>
+</html>
