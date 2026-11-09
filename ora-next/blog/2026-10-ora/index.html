@@ -706,8 +706,8 @@ figure.sfx.sfx-flat#fig-system{max-width:calc(1000px + 2 * var(--gut))}
 .hero.teaser::after{display:none}.hero.teaser .hero-text{display:none}
 </style>
 
-<script>(function(){var r=document.documentElement;r.setAttribute("data-skin","project");try{var p=localStorage.getItem("pref-theme");if(p==="dark"||p==="light")r.setAttribute("data-theme",p)}catch(e){}})();</script>
-<div class="topbar"><a class="mark" href="../../index.html">ORA</a><nav><a href="../../index.html">About</a><a href="../index.html" aria-current="page">Blog</a><a href="https://github.com/hao-ai-lab/ORA">GitHub</a></nav></div>
+<script>(function(){var r=document.documentElement;r.setAttribute("data-skin","project");if(!r.getAttribute("data-theme"))r.setAttribute("data-theme","dark");try{var p=localStorage.getItem("pref-theme");if(p==="dark"||p==="light")r.setAttribute("data-theme",p)}catch(e){}})();</script>
+<div class="topbar"><a class="mark" href="../../index.html">ORA</a><nav><a href="../../index.html">Overview</a><a href="../index.html" aria-current="page">Blog</a><a href="https://github.com/hao-ai-lab/ORA">Code ↗</a></nav></div>
 
 
 <main id="top">
