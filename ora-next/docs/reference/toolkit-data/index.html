@@ -1,0 +1,604 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Categorized toolkit data API · ORA docs</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2032%2032%27%3E%3Crect%20x%3D%273%27%20y%3D%273%27%20width%3D%2726%27%20height%3D%2726%27%20rx%3D%277%27%20fill%3D%27%2311787B%27/%3E%3C/svg%3E">
+<meta name="description" content="ORA documentation: Categorized toolkit data API.">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  /* Swiss neutrals plus one deep accent: the personal homepage's scheme, its red #C6011F swapped for the teal of the
+     same OKLCH lightness (0.52). --teal-hi only for small accent text on dark. No gradients or glows on the accent. */
+  --bg:#0A0A0A; --bg-2:#0E0E0E; --panel:#111111; --panel-2:#161616; --line:#1A1A1A; --line-2:#222222;
+  --text:#F0F0F0; --text-2:#B0B0B0; --text-3:#777777; --text-body:#D4D4D4;
+  --teal:#11787B; --teal-hi:#48B0B4; --teal-deep:#05585B; --teal-ink:#012526;
+  --amber:#C45C1C; --amber-bg:#2B1609;
+  --sans:"Geist",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:"Geist Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --max:1120px; --max-wide:1360px; --read:700px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font:400 16px/1.65 var(--sans);-webkit-font-smoothing:antialiased;letter-spacing:-.005em}
+a{color:var(--teal-hi);text-decoration:none}a:hover{text-decoration:underline;text-underline-offset:3px}
+:focus-visible{outline:2px solid var(--teal);outline-offset:3px;border-radius:4px}
+.wrap{max-width:var(--max);margin:0 auto;padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px))}
+.read{max-width:var(--read);margin:0 auto;padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px))}
+/* nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(10,10,10,.82);backdrop-filter:saturate(140%) blur(14px);-webkit-backdrop-filter:saturate(140%) blur(14px);border-bottom:1px solid var(--line-2)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--text);font:600 18px/1 var(--sans);letter-spacing:.02em}
+.brand:hover{text-decoration:none}
+.brand i{width:14px;height:14px;border-radius:3px;background:var(--teal)}
+.nav nav{display:flex;gap:30px;font-size:15px}
+.nav nav a{color:var(--text-2)}
+.nav nav a:hover,.nav nav a[aria-current="page"]{color:var(--text);text-decoration:none}
+.ext::after{content:" \2197";font-size:.85em;color:var(--text-3)}
+.nav .wrap,.foot .wrap,.wide .wrap{max-width:var(--max-wide)}
+@media (max-width:560px){.nav nav{gap:14px;font-size:13.5px}.brand{font-size:16px;gap:8px}}
+@media (max-width:360px){.nav nav{gap:11px;font-size:13px}}
+/* blog cards */
+.posts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+@media (max-width:760px){.posts{grid-template-columns:1fr}}
+.post{display:block;border:1px solid var(--line-2);border-radius:16px;overflow:hidden;background:var(--bg-2);color:inherit;transition:border-color .2s,transform .2s}
+.post:hover{text-decoration:none;border-color:var(--teal-deep);transform:translateY(-2px)}
+.post img{display:block;width:100%;aspect-ratio:16/8;object-fit:cover;border-bottom:1px solid var(--line)}
+.post .body{padding:20px 22px 22px}
+.post .meta{display:flex;gap:10px;align-items:center;font:400 12.5px/1 var(--mono);color:var(--text-3);margin:0 0 12px}
+.post h3{font:600 1.25rem/1.25 var(--sans);letter-spacing:-.02em;margin:0 0 10px;color:var(--text)}
+.post p{margin:0;color:var(--text-2);font-size:14.5px}
+.draft{font:500 11px/1 var(--mono);letter-spacing:.06em;color:var(--amber);background:var(--amber-bg);padding:4px 7px;border-radius:999px}
+.sechead{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin:0 0 24px}
+.sechead h2{text-align:left;margin:0}
+.sechead a{font-size:14px}
+/* footer */
+.foot{border-top:1px solid var(--line);margin-top:112px;background:var(--bg-2)}
+.foot .wrap{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,2fr);gap:32px 48px;padding-top:48px;padding-bottom:40px}
+.foot .fb p{margin:14px 0 0;max-width:22em;color:var(--text-3);font-size:14px;line-height:1.6}
+.fcols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.fcols p{margin:0 0 12px;font:500 11.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--text-3)}
+.fcols a{display:block;color:var(--text-2);font-size:14px;padding:4px 0}
+.fcols a:hover{color:var(--text)}
+.fbase{grid-column:1 / -1;margin:8px 0 0;padding-top:22px;border-top:1px solid var(--line);color:var(--text-3);font-size:13px}
+@media (max-width:760px){.foot .wrap{grid-template-columns:1fr}.fcols{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* article: blog posts and docs pages share these */
+.posthead{padding:72px 0 28px;text-align:center}
+.posthead .meta{font:400 13px/1 var(--mono);color:var(--text-3);display:flex;gap:12px;justify-content:center;align-items:center;flex-wrap:wrap;margin:0}
+.posthead h1{font:600 clamp(2.2rem,5vw,3.6rem)/1.06 var(--sans);letter-spacing:-.035em;margin:20px auto 0;max-width:15em;text-wrap:balance}
+.prose{font-size:17px;line-height:1.75;color:var(--text-body);overflow-wrap:break-word}
+.prose h1{display:none}
+.prose h2{font:600 1.75rem/1.2 var(--sans);letter-spacing:-.025em;color:var(--text);margin:64px 0 16px;text-wrap:balance}
+.prose h3{font:600 1.22rem/1.3 var(--sans);letter-spacing:-.015em;color:var(--text);margin:40px 0 10px}
+.prose h4{font:600 1.02rem/1.4 var(--sans);color:var(--text);margin:28px 0 8px}
+.prose h2 small,.prose h3 small{font:500 11.5px/1 var(--mono);color:var(--text-3);margin-left:8px;letter-spacing:.04em}
+.prose [id]{scroll-margin-top:84px}
+.prose p{margin:0 0 18px}
+.prose a,.lede a,.callout a{color:var(--text);text-decoration:underline;text-decoration-color:var(--teal);text-decoration-thickness:1px;text-underline-offset:3px;overflow-wrap:break-word}
+.prose a:hover,.lede a:hover,.callout a:hover{color:var(--teal-hi);text-decoration-color:var(--teal-hi)}
+.prose a.md-button{text-decoration:none}
+.prose strong{color:var(--text);font-weight:600}
+.prose ul,.prose ol{padding-left:1.2em;margin:0 0 18px}
+.prose li{margin:0 0 6px}
+.prose li>ul,.prose li>ol{margin:6px 0 0}
+.prose li>p{margin:0 0 8px}
+.prose li::marker{color:var(--teal)}
+.prose code{font:400 .86em var(--mono);background:var(--panel-2);border:1px solid var(--line);padding:1px 6px;border-radius:5px;color:var(--text);overflow-wrap:break-word}
+.prose a code{color:inherit}
+.prose pre{margin:0 0 22px;padding:15px 18px;border:1px solid var(--line-2);border-radius:12px;background:var(--panel);overflow-x:auto;font:400 13.5px/1.65 var(--mono);color:var(--text);tab-size:4}
+.prose pre code{font:inherit;background:none;border:0;padding:0;border-radius:0;overflow-wrap:normal;color:inherit}
+.prose pre.mermaid{background:var(--bg-2);text-align:center;color:var(--text-3)}
+.prose pre.mermaid svg{max-width:100%;height:auto}
+.codewrap{position:relative}
+.cbtn{position:absolute;top:9px;right:9px;height:26px;padding:0 9px;border:1px solid var(--line-2);border-radius:7px;background:var(--panel);color:var(--text-2);font:500 11.5px var(--mono);cursor:pointer;opacity:0;transition:opacity .15s}
+.codewrap:hover .cbtn,.cbtn:focus-visible{opacity:1}
+@media (hover:none){.cbtn{opacity:.85}}
+.prose kbd{font:500 .82em var(--mono);border:1px solid var(--line-2);border-bottom-width:2px;border-radius:5px;padding:0 5px;color:var(--text)}
+.prose img{max-width:100%;height:auto;border-radius:12px;border:1px solid var(--line-2)}
+.prose blockquote{margin:0 0 36px;border:1px solid var(--line-2);border-left:3px solid var(--teal);border-radius:12px;background:var(--panel);padding:18px 22px;color:var(--text)}
+.prose blockquote p{margin:0 0 8px}.prose blockquote ol{margin:0;padding-left:1.2em}
+.prose .admonition{margin:24px 0;border:1px solid var(--line-2);border-left:3px solid var(--teal);border-radius:10px;background:var(--bg-2);padding:14px 18px;font-size:15.5px}
+.prose .admonition>:last-child{margin-bottom:0}
+.prose .admonition-title{font:600 13.5px/1.3 var(--sans);color:var(--teal-hi);margin:0 0 8px}
+.prose .admonition.warning,.prose .admonition.caution,.prose .admonition.danger{border-left-color:var(--amber)}
+.prose .admonition.warning .admonition-title,.prose .admonition.caution .admonition-title,.prose .admonition.danger .admonition-title{color:var(--amber)}
+.prose .tbl{overflow-x:auto;margin:22px 0 26px}
+.prose table{border-collapse:collapse;width:100%;font-size:14.5px;line-height:1.55}
+.prose th,.prose td{text-align:left;vertical-align:top;padding:9px 16px 9px 0;border-bottom:1px solid var(--line)}
+.prose th{font:500 12.5px/1.4 var(--mono);color:var(--text-3);white-space:nowrap}
+.prose td code{font-size:.82em}
+@media (max-width:620px){.prose table:has(th:nth-child(4)){min-width:620px}}
+.prose hr{border:0;border-top:1px solid var(--line);margin:56px 0}
+.prose figure{margin:30px 0}
+.prose figure img{display:block;width:100%;border-radius:12px;border:1px solid var(--line-2)}
+.prose figcaption{font-size:13.5px;color:var(--text-3);margin-top:10px}
+/* code colours (Pygments classes) */
+.hl .c,.hl .c1,.hl .cm,.hl .ch,.hl .cs,.hl .cp,.hl .cpf{color:var(--text-3)}
+.hl .k,.hl .kn,.hl .kd,.hl .kc,.hl .kr,.hl .kt,.hl .kp,.hl .ow{color:var(--teal-hi)}
+.hl .s,.hl .s1,.hl .s2,.hl .sb,.hl .sd,.hl .se,.hl .sh,.hl .si,.hl .sx,.hl .sa,.hl .sc,.hl .ss,.hl .dl{color:var(--text-2)}
+.hl .nf,.hl .fm,.hl .nc,.hl .nn,.hl .nd,.hl .nt,.hl .na{color:var(--text)}
+.hl .o,.hl .p{color:var(--text-3)}
+.hl .gp{color:var(--text-3);user-select:none}
+.hl .go{color:var(--text-2)}
+.hl .err{color:inherit;background:none}
+.slot{font:500 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--teal-hi)}
+.callout{border:1px solid var(--line-2);border-radius:12px;padding:16px 18px;margin:26px 0;background:var(--bg-2)}
+.callout a{font-weight:600}
+.tbd{background:var(--amber-bg);color:var(--amber);border-radius:5px;padding:1px 7px;font-size:.88em}
+.postvid{margin:8px auto 48px;max-width:1008px}
+.postvid .frame{border-radius:14px;overflow:hidden;border:1px solid var(--line-2)}
+.postvid video{display:block;width:100%;aspect-ratio:1600/750}
+.postvid .cap{font-size:12.5px;color:var(--text-3);margin-top:12px;text-align:center}
+.draftbar{font:400 12.5px/1.6 var(--mono);color:var(--amber);background:var(--amber-bg);border-radius:10px;padding:10px 14px;margin:0 0 36px;display:flex;flex-wrap:wrap;gap:6px 18px}
+.draftbar a{color:inherit;text-decoration:underline}
+</style>
+<style>
+/* docs layout: sidebar, content, on-page contents */
+.docs{display:grid;grid-template-columns:240px minmax(0,1fr) 200px;gap:0 52px;max-width:var(--max-wide);margin:0 auto;padding:0 max(24px,env(safe-area-inset-right,0px)) 0 max(24px,env(safe-area-inset-left,0px))}
+.docs>main{grid-column:2;grid-row:1;min-width:0;padding:44px 0 0;max-width:760px}
+.docs.home>main{grid-column:2 / 4;max-width:none}
+.side{grid-column:1;grid-row:1;position:sticky;top:64px;align-self:start;max-height:calc(100vh - 64px);overflow-y:auto;padding:36px 8px 48px 0;font-size:14px;scrollbar-width:thin;scrollbar-color:var(--line-2) transparent}
+.side a{display:block;color:var(--text-2);padding:5px 10px;border-radius:7px;line-height:1.4}
+.side a:hover{color:var(--text);background:var(--panel);text-decoration:none}
+.side a[aria-current="page"]{color:var(--teal-hi);background:var(--teal-ink)}
+.side .top{font-weight:500;color:var(--text)}
+.side .grp{margin:22px 0 0}
+.side .grp>p{margin:0 0 6px;padding:0 10px;font:500 11.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--text-3)}
+.side ul{list-style:none;margin:0;padding:0}
+.side details{margin:2px 0}
+.side summary{cursor:pointer;color:var(--text-2);padding:5px 10px;border-radius:7px;list-style:none}
+.side summary::-webkit-details-marker{display:none}
+.side summary::before{content:"\203A";display:inline-block;width:14px;color:var(--text-3);transition:transform .15s}
+.side details[open]>summary::before{transform:rotate(90deg)}
+.side summary:hover{color:var(--text);background:var(--panel)}
+.side details ul{margin-left:14px;border-left:1px solid var(--line);padding-left:4px}
+.toc{grid-column:3;grid-row:1;position:sticky;top:64px;align-self:start;max-height:calc(100vh - 64px);overflow-y:auto;padding:52px 0 40px;font-size:13px;scrollbar-width:thin}
+.toc p{margin:0 0 10px;font:500 11.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--text-3)}
+.toc a{display:block;color:var(--text-3);padding:4px 0 4px 12px;border-left:1px solid var(--line);line-height:1.4}
+.toc a.h3{padding-left:24px}
+.toc a:hover{color:var(--text);text-decoration:none}
+.toc a[aria-current="true"]{color:var(--teal-hi);border-left-color:var(--teal-hi)}
+.toc code{font:400 .92em var(--mono)}
+.menu{display:none}
+.crumb{margin:0 0 14px;font:500 12px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--teal-hi)}
+.doctitle{font:600 clamp(2rem,4vw,2.75rem)/1.1 var(--sans);letter-spacing:-.03em;margin:0 0 28px;text-wrap:balance;overflow-wrap:break-word}
+.doctitle code{font-size:.85em}
+.docs .prose>:first-child{margin-top:0}
+.docs .prose h2{margin-top:52px}
+.pager{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:64px 0 0;padding-top:28px;border-top:1px solid var(--line)}
+.pager a{display:block;border:1px solid var(--line-2);border-radius:12px;padding:14px 16px;color:var(--text);background:var(--bg-2)}
+.pager a:hover{border-color:var(--teal-deep);text-decoration:none}
+.pager small{display:block;font:400 12px/1 var(--mono);color:var(--text-3);margin-bottom:8px}
+.pager .next{text-align:right;grid-column:2}
+.srcline{margin:22px 0 0;font-size:13px;color:var(--text-3)}
+.srcline a{color:var(--text-2)}
+/* the Docs landing */
+.dochero{padding:24px 0 8px;max-width:760px}
+.dochero h1{font:600 clamp(2.4rem,5vw,3.4rem)/1.05 var(--sans);letter-spacing:-.035em;margin:0 0 18px}
+.dochero .ora-intro{font-size:clamp(1.05rem,1.8vw,1.18rem);color:var(--text-2);font-weight:300;margin:0 0 12px;line-height:1.6}
+.dochero .ora-meta{font:400 13px/1.5 var(--mono);color:var(--text-3);margin:0 0 26px}
+.btns p{display:flex;flex-wrap:wrap;gap:10px;margin:0}
+.md-button{display:inline-flex;align-items:center;height:40px;padding:0 16px;border:1px solid var(--line-2);border-radius:10px;color:var(--text);background:var(--panel);font-size:14.5px;font-weight:500}
+.md-button:hover{text-decoration:none;border-color:var(--teal-deep)}
+.md-button--primary{background:var(--teal);border-color:var(--teal);color:var(--text)}
+.md-button--primary:hover{background:var(--teal-deep);border-color:var(--teal-deep)}
+.groups{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:44px 0 12px}
+@media (max-width:1180px){.groups{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:620px){.groups{grid-template-columns:1fr}}
+.gcard{border:1px solid var(--line-2);border-radius:14px;background:var(--bg-2);padding:20px 20px 18px;display:flex;flex-direction:column}
+.gcard:hover{border-color:var(--teal-deep)}
+.gcard h3{margin:0 0 8px;font:600 1.08rem/1.3 var(--sans);letter-spacing:-.01em}
+.gcard h3 a{color:var(--text)}
+.gcard>p{margin:0 0 14px;color:var(--text-2);font-size:14px;line-height:1.55}
+.gcard ul{list-style:none;margin:auto 0 0;padding:12px 0 0;border-top:1px solid var(--line);display:grid;gap:5px;font-size:13.5px}
+.gcard li a{color:var(--text-2)}
+.gcard li a:hover{color:var(--teal-hi)}
+.gcard .more{color:var(--text-3);font:400 12.5px var(--mono)}
+.home .prose{max-width:760px;margin-top:40px}
+@media (max-width:1240px){.docs{grid-template-columns:232px minmax(0,1fr);gap:0 44px}.toc{display:none}.docs.home>main{grid-column:2}}
+@media (max-width:900px){
+  .docs{grid-template-columns:minmax(0,1fr);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  .docs>main,.docs.home>main,.side{grid-column:1;grid-row:auto}
+  .docs>main{padding-top:6px}
+  .menu{display:flex;align-items:center;gap:8px;width:100%;margin:20px 0 16px;height:42px;padding:0 14px;border:1px solid var(--line-2);border-radius:10px;background:var(--bg-2);color:var(--text-2);font:500 14px var(--sans);cursor:pointer}
+  .menu b{color:var(--text);font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .menu::after{content:"\203A";margin-left:auto;transform:rotate(90deg);color:var(--text-3)}
+  .side{display:none;position:static;max-height:none;padding:0 0 18px;margin:0 0 18px;border-bottom:1px solid var(--line)}
+  .docs.open .side{display:block}
+  .pager{grid-template-columns:1fr}.pager .next{grid-column:1}
+}
+</style>
+</head>
+<body class="wide">
+<header class="nav"><div class="wrap"><a class="brand" href="../../../index.html"><i></i>ORA</a><nav aria-label="Site"><a href="../../../index.html">Overview</a><a href="../../../blog/index.html">Blog</a><a href="../../../docs/index.html" aria-current="page">Docs</a><a class="ext" href="../../../paper/ora-two-page.pdf" target="_blank" rel="noopener">Paper</a><a class="ext" href="https://github.com/hao-ai-lab/ORA" target="_blank" rel="noopener">Code</a></nav></div></header>
+<div class="docs"><button class="menu" type="button" aria-controls="docnav" aria-expanded="false">Menu · <b>Toolkit data API</b></button><aside class="side" id="docnav" aria-label="Documentation"><a class="top" href="../../index.html">Welcome</a><a class="top" href="../../how-ora-works/index.html">How ORA works</a><div class="grp"><p>Get started</p><ul><li><a href="../../getting-started/installation/index.html">Installation</a></li><li><a href="../../quickstart/index.html">First episode</a></li><li><a href="../../getting-started/model-apis/index.html">Model APIs</a></li><li><a href="../../getting-started/single-gpu/index.html">Run on one GPU</a></li><li><a href="../../getting-started/local/index.html">Run on your computer (CPU)</a></li><li><a href="../../getting-started/libero/index.html">LIBERO / LIBERO-Pro quick run</a></li><li><a href="../../getting-started/robotwin/index.html">RoboTwin quick run</a></li><li><a href="../../getting-started/robodojo/index.html">RoboDojo quick run</a></li><li><a href="../../getting-started/robocasa/index.html">RoboCasa365 quick run</a></li><li><a href="../../getting-started/robolab/index.html">RoboLab quick run</a></li><li><a href="../../getting-started/official-suite/index.html">Official suites on a cluster</a></li><li><a href="../../support/index.html">Supported setups</a></li><li><a href="../../getting-started/troubleshooting/index.html">Troubleshooting</a></li></ul></div><div class="grp"><p>Use ORA</p><ul><li><a href="../../usage/runs/index.html">Run and inspect</a></li><li><a href="../../usage/play/index.html">Free play</a></li><li><a href="../../usage/real-cells/index.html">Run a real robot cell</a></li><li><a href="../../usage/interactive/index.html">Interactive sessions</a></li><li><a href="../../usage/remote/index.html">Remote GPU server and web view</a></li><li><a href="../../usage/safety/index.html">Run ORA safely</a></li><li><a href="../../usage/rl-interface/index.html">Connect a training loop</a></li><li><a href="../../usage/viewer/index.html">Evidence viewer</a></li><li><a href="../../usage/examples/index.html">Examples</a></li><li><a href="../../usage/official-suite/index.html">Official-suite cookbook</a></li><li><a href="../../usage/compute-usage/index.html">Compute tool</a></li><li><a href="../../usage/commands/index.html">Commands and what they write</a></li><li><a href="../../usage/cli-reference/index.html">Command-line reference</a></li></ul></div><div class="grp"><p>Environments</p><ul><li><a href="../../environments/index.html">Overview</a></li><li><a href="../../environments/common/index.html">Host and perception setup</a></li><li><a href="../../environments/libero/index.html">LIBERO / LIBERO-Pro</a></li><li><a href="../../environments/robotwin/index.html">RoboTwin</a></li><li><a href="../../environments/robodojo/index.html">RoboDojo</a></li><li><a href="../../environments/robodojo-installation/index.html">RoboDojo installation reference</a></li><li><a href="../../environments/robocasa/index.html">RoboCasa365</a></li><li><a href="../../environments/robolab/index.html">RoboLab</a></li></ul></div><div class="grp"><p>Robots and tasks</p><ul><li><a href="../../robots/frames-and-units/index.html">Frames and units</a></li><li><a href="../../robots/embodiments/franka-panda/index.html">Franka Panda (LIBERO)</a></li><li><a href="../../robots/embodiments/aloha-agilex/index.html">ALOHA-AgileX (RoboTwin)</a></li><li><a href="../../robots/embodiments/arx-x5/index.html">ARX X5 (RoboDojo)</a></li><li><a href="../../robots/embodiments/panda-omron/index.html">PandaOmron (RoboCasa365)</a></li><li><a href="../../robots/embodiments/droid-franka-robotiq/index.html">DROID Franka with Robotiq (RoboLab)</a></li><li><a href="../../robots/embodiments/yam-station/index.html">Dual I2RT YAM (real cell)</a></li><li><a href="../../robots/tasks/libero/index.html">LIBERO / LIBERO-Pro tasks</a></li><li><a href="../../robots/tasks/robotwin/index.html">RoboTwin tasks</a></li><li><a href="../../robots/tasks/robodojo/index.html">RoboDojo tasks</a></li><li><a href="../../robots/tasks/robocasa/index.html">RoboCasa365 tasks</a></li><li><a href="../../robots/tasks/robolab/index.html">RoboLab tasks</a></li></ul></div><div class="grp"><p>Evaluation</p><ul><li><a href="../../evaluation/protocol/index.html">Evaluation protocol</a></li></ul></div><div class="grp"><p>Concepts</p><ul><li><a href="../../architecture/index.html">Architecture</a></li><li><a href="../../context-assembly/index.html">Context assembly</a></li><li><a href="../runtime-lifecycle/index.html">Runtime lifecycle</a></li><li><a href="../../glossary/index.html">Glossary</a></li></ul></div><div class="grp"><p>Reference</p><ul><li><a href="../index.html">Overview</a></li><li><a href="../public-interfaces/index.html">Public interfaces</a></li><li><a href="../toolkit-io/index.html">Toolkit I/O evidence</a></li><li><a href="../toolkit-protocol/index.html">Toolkit protocol and replay compatibility</a></li><li><a href="index.html" aria-current="page">Toolkit data API</a></li><li><a href="../toolkit-execution/index.html">Toolkit synchronous execution</a></li><li><a href="../toolkit-state/index.html">Toolkit state and admission</a></li><li><a href="../toolkit-surface/index.html">File-backed toolkit surfaces</a></li><li><a href="../context-schemes/index.html">Context schemes and policy selection</a></li><li><a href="../append-only-context/index.html">Append-only context (management v8)</a></li><li><a href="../exchange-aging-context/index.html">Exchange aging (management v9)</a></li><li><a href="../keep-written-context/index.html">Keep what the model wrote (management v10)</a></li><li><a href="../tasks/index.html">Task files</a></li><li><a href="../source-overlay/index.html">Source overlays</a></li><li><a href="../policy-io/index.html">Policy I/O</a></li><li><a href="../configuration-and-evidence/index.html">Configuration and evidence</a></li><li><a href="../context-packs/index.html">Context packs</a></li><li><a href="../experiment-identity/index.html">Experiment identity</a></li><li><a href="../robotwin-contact-recovery/index.html">RoboTwin contact recovery</a></li><li><a href="../robotwin-qualification/index.html">RoboTwin seed and scene qualification</a></li><li><a href="../motion-speed/index.html">Motion speed and wrist checks</a></li><li><a href="../latency-profile/index.html">Latency profile</a></li><li><a href="../robodojo-motion-qualification/index.html">RoboDojo motion qualification</a></li><li><a href="../provider-replay/index.html">Recorded-provider tape replay</a></li><li><a href="../robodojo-reset-diagnostics/index.html">RoboDojo reset crash diagnostics</a></li><li><a href="../ora-local-cpu-compatibility/index.html">Local CPU compatibility</a></li><li><a href="../robocasa-robolab-backends/index.html">RoboCasa365 and RoboLab</a></li><li><a href="../robolab-tasks/index.html">RoboLab tasks and contracts</a></li></ul></div><div class="grp"><p>Python API</p><ul><li><a href="../../api/index.html">Overview</a></li><li><a href="../../api/plans/index.html">Plans and benchmark cells</a></li><li><a href="../../api/policy/index.html">Policy sessions</a></li><li><a href="../../api/environment/index.html">Environment sessions</a></li><li><a href="../../api/actions/index.html">Action contracts</a></li></ul></div><div class="grp"><p>Contribute</p><ul><li><a href="../../developer/onboarding/index.html">Start contributing</a></li><li><a href="../../developer/contributing/index.html">Contributing</a></li><li><a href="../../code-map/index.html">Code map</a></li><li><a href="../../developer/repository-structure/index.html">Repository structure</a></li><li><a href="../../developer/documentation/index.html">Documentation</a></li><li><a href="../../developer/docs-style/index.html">Docs style guide</a></li><li><a href="../../developer/testing/index.html">Testing</a></li><li><details><summary>Authoring guides</summary><ul><li><a href="../../developer/add-backend/index.html">Add an environment</a></li><li><a href="../../developer/authoring/environment-compatibility/index.html">Environment compatibility</a></li><li><a href="../../developer/authoring/tool-surface/index.html">Tool surfaces</a></li><li><a href="../../developer/authoring/prompt-bundle/index.html">Prompt bundles</a></li><li><a href="../../developer/authoring/task-contract/index.html">Task contracts</a></li><li><a href="../../developer/authoring/qualification/index.html">Qualification</a></li><li><a href="../../developer/authoring/trajectory-capture/index.html">Trajectory and viewer integration</a></li><li><a href="../../developer/authoring/frontend-style/index.html">Viewer style</a></li></ul></details></li><li><details><summary>Templates</summary><ul><li><a href="../../templates/environment-compatibility-record/index.html">Environment compatibility record</a></li><li><a href="../../templates/task-contract-review/index.html">Task contract review</a></li></ul></details></li></ul></div></aside><main id="content"><p class="crumb">Reference</p><h1 class="doctitle">Categorized toolkit data API</h1><article class="prose"><p>Architecture v1 phase 1 step 2 assembles immutable capabilities for tools.
+Tools and lib call the categories directly. No category caches observations,
+receipts, controller holds or recovery anchors. The Supervisor owns the state
+store; a data read resolves its current value on every call.</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Prefix</th>
+<th>Package under <code>interface/</code></th>
+<th>Source</th>
+<th>Without simulator</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>perception</code></td>
+<td><code>perception</code></td>
+<td>Explicit external model services</td>
+<td>Recompute from verified published inputs</td>
+</tr>
+<tr>
+<td><code>state</code></td>
+<td><code>state_access</code></td>
+<td>Current state owner; native publication references</td>
+<td>Read loaded snapshot, original bytes</td>
+</tr>
+<tr>
+<td><code>planner</code></td>
+<td><code>sim_query</code></td>
+<td>Worker planner: probe_motion, align_plan, reach_check, kinematics (<code>ora.kinematics-request.v1</code>: SDK CuRobo IK chains seeded from the previous solution, FK, sphere screens; the shared base's <code>plan_path</code>, <code>pace_path</code> and <code>contact_path</code>)</td>
+<td><code>SimulatorRequired</code> (需要仿真器), even with historical answers</td>
+</tr>
+<tr>
+<td><code>act</code></td>
+<td><code>sim_exec</code></td>
+<td>Validated host execution boundary</td>
+<td>Refused in phase one</td>
+</tr>
+<tr>
+<td><code>episode</code></td>
+<td><code>lifecycle</code></td>
+<td>Supervisor lifecycle control</td>
+<td>Replay output only</td>
+</tr>
+<tr>
+<td><code>privileged</code></td>
+<td><code>privileged</code></td>
+<td>Published privileged state</td>
+<td>RSI only</td>
+</tr>
+<tr>
+<td><code>artifacts</code></td>
+<td><code>artifacts</code></td>
+<td>Granted source blobs and output artifact repository</td>
+<td>Read source, write independent output</td>
+</tr>
+<tr>
+<td><code>compute</code></td>
+<td><code>compute</code></td>
+<td>Bounded pure numeric evaluator</td>
+<td>Recompute</td>
+</tr>
+<tr>
+<td><code>context</code></td>
+<td><code>context</code></td>
+<td>Attachment declaration callback from context owner</td>
+<td>Only if explicitly supplied</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>assemble_robot</code> returns eight categories and has no <code>privileged</code> attribute.
+<code>assemble_rsi</code> includes that ninth category. Both accept only appropriately
+scoped state accessors, never a supervisor writer. <code>state.read(key)</code> refuses
+privileged keys; <code>state.write(key, value)</code> accepts finite JSON under <code>tool.*</code>
+only. Loaded snapshots remain read-only. These are same-process API boundaries,
+not Python isolation or protection against introspection.</p>
+<p>The transitional <code>state.check_task()</code> entry requires both a <code>check_task</code> tool
+grant and a <code>privileged.task_check</code> key grant. Runtime assembly obtains these
+from the selected tool list and the <code>faithful_check_task</code> capability,
+respectively. Either grant alone refuses. The trusted adapter reads only the
+single state key; it exposes no general privileged namespace. Assembly writes
+<code>native/toolkit-state-grants.json</code> (<code>ora.toolkit.state-grants.v1</code>) with
+<code>reader</code>, <code>privileged_category</code>, <code>tool_grants</code>, <code>key_grants</code>, <code>effective_keys</code>,
+<code>source</code>, and <code>transitional</code>. This evidence does not enter model content.
+RoboDojo's default surface, <code>robodojo_placement_toolkit_v6</code>, has no <code>check_task</code>
+tool, so neither grant exists there and the entry refuses.</p>
+<p>Stateful owners are explicit:</p>
+<ul>
+<li><code>toolkit/recording.py</code>: per-parent invocation ordinal and recording-failure flag;
+the shared Journal owns ordered durable events. All categories share one ordinal.</li>
+<li><code>toolkit/replay_session.py</code>: historical cursor and diagnostic proposals/missing requests.</li>
+<li><code>interface/tool_data.py</code>: the artifact repository owns immutable input/configuration
+bytes and derived-output lookup. Trusted host assembly generates and writes the
+input/configuration table before the tool runs; the category does not generate it.</li>
+<li><code>toolkit/state/</code>: all changing environment and execution values. Production
+episodes inject their existing owner. Standalone tool hosts import their public
+publication into a host-owned store; that import never happens inside a category.</li>
+</ul>
+<p>The flat methods on Runtime/Replay remain internal wire adapters for recorder
+instrumentation and historical evidence tests. Live dispatch hands tools only the
+classified facade. Library and tool source use category prefixes throughout.
+The existing replay CLI keeps its diagnostic recorded/live semantics, including
+explicit live execution, for existing consumers. New step/native-action snapshot
+selectors are a separate path and cannot grant execution. <code>assemble_snapshot</code>
+provides snapshot reads, current external services and explicit planner/action
+refusals. Lifecycle intents use an explicitly supplied output-only recorder;
+without one they refuse, never fall back to a live Supervisor. It does not grant
+live simulator authority.</p>
+<h2 id="synchronous-execution-receipts-step-3">Synchronous execution receipts (step 3)</h2>
+<p>The synchronous toolkit surface (v5; the layered v2 was retired on 2026-11-01)
+uses <code>act.execute_action(action, budget)</code>; toolkit-v1 retained its frozen
+submission path until it was retired on 2026-10-31. See <a href="../toolkit-execution/index.html">execution</a> for
+budgets, independent check_task grants and the trusted execution ledger.
+The data return has only <code>receipt</code> and <code>remaining_budget</code>; observations are read
+separately after each publication.</p>
+<p><code>receipt</code> contains the original minimal action effect, <code>native_actions</code>,
+<code>action_id</code>, and a narrow <code>stage_evidence</code> projection for tool-local predicates:</p>
+<ul>
+<li><code>execution_status</code>: the controller endpoint status (also represented in the
+minimal effect; retained here for the original stage predicate).</li>
+<li><code>consumed</code>: whether the controller consumed the request.</li>
+<li><code>command_invariant_verified</code>: <code>command_invariant.verified</code>, as a boolean.</li>
+<li><code>gripper_directives</code>: numeric <code>left</code>/<code>right</code> directives only.</li>
+<li><code>failure_code</code>: the controller failure code, or null.</li>
+</ul>
+<p>This is an explicit semantic projection, not serialization of a worker object.
+Default tools use this evidence to preserve the original continue/stop and jaw
+verification rules, then strip <code>stage_evidence</code> from their model-visible results.
+The complete semantic receipt remains in toolkit-io and the execution ledger;
+RSI-authored tools can use it through the same data API. Observation receipts and
+their derived summaries have a separate Q18 delivery switch, default off in v2.
+Attachment delivery retains the context owner's existing result projection.</p>
+<p>With <code>toolkit_observation_receipts=true</code>, a synchronous <code>grasp_execute</code> also
+projects the complete stage prefix and read-only verification into the next
+observation's <code>last_action_effect</code>, using the same projection as the released
+composite skill. If lift was attempted, up to two historical baseline images
+come from the existing post-close publication. No extra render or physical
+action occurs. The final current views and lossless input-view retention are
+unchanged. With the switch off, neither this summary nor baseline images are
+delivered. A zero-spend grasp does not create a synthetic action observation.</p>
+<p>The tool's private <code>_runtime.skill_feedback</code> carries sequence/arm/verification
+metadata and is removed by live dispatch before returning the public tool
+result. The execution owner validates stage identities and receipt contents
+against its own ledger; publication roots never come from the tool. This is
+tool-derived semantic feedback, not a new worker execution receipt. Its
+provenance is stored in <code>native/tool-observation-feedback/&lt;parent-hash&gt;.json</code>
+(<code>ora.tool-skill-observation-feedback.v1</code>): model/tool call IDs, immutable
+<code>feedback_ref</code>, and the contributing action IDs, receipt event IDs/references
+and after-observation identities. The last real environment receipt binding
+and all ledger actions remain unchanged. Refused stages remain visible in
+the prefix; verification is present only if actually computed.</p>
+<h2 id="tool-owned-holding-intentions">Tool-owned holding intentions</h2>
+<p>Synchronous tools store <code>tool.held.left</code> / <code>tool.held.right</code> as null or an object
+with <code>source</code>, <code>target_ref</code>, <code>attach_pose_xyz_xyzw</code> (episode-local metres / xyzw),
+and <code>role: dispatch_intent_not_grasp_evidence</code>. These are intentions about jaw
+contents, never contact, attachment, retention or official-success evidence.
+<code>set_gripper</code> preserves the old annotation rules: opening clears the selected
+arm; an annotated close on one arm stores its measured pose; an unannotated or
+ambiguous two-arm close keeps prior intentions. Public target geometry supplies
+clearance estimates without a hidden runtime cache. The geometry is read from
+verified <code>files[&quot;manifest.json&quot;].localization</code>, not artifact-index metadata.
+Free-text annotations, candidate IDs, missing or failed target records keep an
+unknown extent, as in the released tools; optional extent lookup cannot block
+motion.</p>
+<p>Tools write intentions <strong>before dispatch</strong>. Each action-completion snapshot
+therefore contains dispatch-time intent. A rejected/zero-native-action request
+restores the prior value. A pre-intent validation failure may also restore it:
+the execution owner emits <code>ActionNotStarted</code>, projected in the data error as
+<code>execution: {status: &quot;not_started&quot;, native_actions: 0, stage: &quot;before_intent&quot;}</code>.
+An intent-write failure before dispatch can carry the same evidence with
+<code>stage: &quot;begin&quot;</code>; a partially persisted intent still blocks the session until
+its evidence is resolved, even though the owner knows this request never ran.
+Tools may not infer zero spend from an arbitrary exception. After begin returns,
+errors keep the staged intention and incomplete execution is
+terminated as <code>world_state_unknown</code>; no subsequent physical action is allowed.
+Grasp clears before open, writes its commitment before close, and may clear after verify when existing jaw evidence says <code>unlikely</code>.
+On a normal stopped grasp, any positive spend preserves the commitment intent,
+including a stop before close; an entirely unspent grasp restores its original
+intention. Unknown evidence is not a negative verdict. Verify changes no physical state
+and adds no publication; that correction appears in the <strong>next</strong> completed
+snapshot. Round reset clears both intentions.</p>
+<h2 id="explicit-recovery-anchors-step-5">Explicit recovery anchors (step 5)</h2>
+<p><code>recover_motion</code> in <code>ora-motion-action.v3</code> accepts an optional
+<code>arguments.recovery_targets</code> object alongside <code>targets</code>. It has exactly the
+same arms as <code>targets</code>; each value has <code>strategy</code> (<code>home</code> or
+<code>backtrack_last_safe</code>), <code>arm_joint_qpos</code> (six finite radians), and
+<code>pose_xyz_xyzw</code> (seven finite numbers, episode-local metres / xyzw). The strategy
+must match <code>targets</code>. The new recover_pose tool reads
+<code>exec.recovery.&lt;arm&gt;.home/previous</code> and restates those values explicitly.</p>
+<p>Before any worker dispatch the execution owner compares them without tolerance
+to its current selected anchors. A missing, changed or invented anchor produces
+a completed zero-spend refusal, <code>stale_or_mismatched_recovery_target</code>, in the
+trusted ledger; it consumes no action budget, publishes no new observation, and
+does not poison the session as world-state-unknown. The owner checks again when
+assembling the worker request. This is not an arbitrary joint-target capability.
+Worker recovery and safety routes remain unchanged. Older action envelopes omit
+the field and retain the original owner lookup; their schema and bytes do not
+change. Explicit joint values are internal data, not added to model tool inputs
+or public strategy/compilation results.</p>
+<h2 id="named-public-marks-and-geometry-step-5">Named public marks and geometry (step 5)</h2>
+<p><code>tool.kept_plans</code> holds the plans a dry run made for the current observation, keyed by the observation and every input
+of the plan, at most four (<code>lib/motion_plan/kept.py</code>): a real call with the same inputs runs the kept plan, so replay
+reads it here and asks the kinematics nothing.</p>
+<p><code>tool.marks</code> is a JSON name-to-record map. Using a single map permits the old
+point-name alphabet (including spaces and punctuation) without interpreting
+names as state key paths. Each record retains its status, world <code>xyz_m</code> in
+metres, observation ID, source cameras/pixels, depth-support quality, workspace
+advisory and last cross-view verification. Repeating the exact same source
+reuses its measurement; another view/pixel verifies the stored coordinate and
+rejects a disagreement over 0.025 m. Individual failed pixels do not discard
+successful entries. <code>observe(history_point_ids=...)</code> reads this map for overlays.
+Round reset clears it. Tools use state accessors; the data layer caches no points.</p>
+<p>Geometry queries grant the requested verified policy-state publication and read
+its source depth/calibration, preserving current/saved-step hashes and refusal
+fields. They never query the simulator or mutate named marks.</p>
+<p>Both tools read a camera through <code>observation.load_pixels</code>, which assumes no pinhole
+or rigid pose. Each checks the calibration fields it uses, so a camera with no
+<code>extrinsic_cv</code> (a YAM camera with no calibration on file) answers a <code>region</code> query,
+and <code>mark_point</code> refuses it with <code>invalid_camera_calibration</code> at the first pixel whose
+depth it accepts. A view or camera the publication lacks is an argument refusal:
+<code>view is not markable</code> on each <code>mark_point</code> entry, <code>camera is not policy-visible</code> on
+<code>geometry_query</code>, <code>vision_ground</code> and <code>observe</code>.</p>
+<p>Full snapshots retain the existing observation-completion schedule. A tool-state
+write appears in the next completed snapshot. Exact replay <em>between</em> consecutive
+read-only calls also requires the delta protocol below; a snapshot alone does
+not reconstruct intermediate tool-state boundaries.</p>
+<h3 id="tool-state-delta-evidence-step-4">Tool-state delta evidence (step 4)</h3>
+<p><code>state/tool-deltas.jsonl</code> uses <code>ora.toolkit.tool-state-delta.v1</code>, independently
+of the optional toolkit I/O recorder. One state owner holds the only writer:
+RoboDojo's execution-state owner, or the tool host of a surface whose environment
+plans its moves (<code>toolkit-execution.md</code>), whose journal is its only tool-state
+evidence. <code>journal_state</code> gives the state before a parent from the journal alone,
+since it starts at the owner's <code>initialize</code> boundary.
+Each row contains <code>sequence</code>, <code>previous_sha256</code>, <code>sha256</code>, <code>kind</code> and <code>context</code>.
+The hash covers canonical finite JSON without its own <code>sha256</code> field. <code>begin</code>
+and <code>end</code> bracket every dispatched synchronous tool, including tools that do
+not write state. Parent context binds <code>model_call_id</code>, <code>tool_call_id</code>, run and
+round. Repeated provider tool IDs remain distinct by model call. Initialization
+and round reset instead use <code>kind=owner, operation=initialize|reset</code> contexts.</p>
+<p><code>write</code> contains <code>changes</code>: each key has its previous value's canonical-byte
+SHA (null means absent) and its new JSON value. Only <code>tool.*</code> is accepted.
+<code>interface_ordinal</code> is the next toolkit I/O position, with
+<code>interface_boundary=before</code>; it does <strong>not</strong> consume an I/O ordinal.
+<code>state_write_ordinal</code> starts at zero inside each boundary and distinguishes
+multiple writes between the same two I/O calls. Writes are flushed/fsynced.</p>
+<p>Complete snapshots optionally include <code>tool_state_watermark</code> with schema,
+count, last SHA and completeness. A snapshot can land in the middle of a
+multi-action parent. Reconstruction checks the chain and previous-value hashes,
+applies only rows after the watermark and before the selected parent's begin,
+and creates a private tool-writable overlay. Source snapshots/files stay intact.
+Older snapshots without a watermark cannot prove exact between-call state.</p>
+<p>Recording failure leaves the live state write and original tool return/exception
+unchanged, freezes the writer, and best-effort appends
+<code>state/tool-deltas.gaps.jsonl</code> (<code>ora.toolkit.tool-state-gap.v1</code>: stage, sequence,
+time_unix_s, model_call_id, tool_call_id, error.type/message). Even gap failure
+is swallowed. No later begin is written by the frozen writer; exact restoration
+of that interval reports missing evidence. Full snapshots still contain their
+actual complete state, with a non-complete watermark. Never infer lost deltas.</p>
+<h3 id="ik-generator-ledger">IK generator ledger</h3>
+<p><code>state/exec-ledger.jsonl</code> (<code>ora.toolkit.exec-ledger.v1</code>) keeps every change of
+<code>exec.ik_sampler_state</code>, the CuRobo seed generator the RoboDojo worker reports
+in the execution state of every RPC response, whichever request solved IK
+(<code>ik_chain</code>, <code>reach_check</code>, <code>align_plan</code>, <code>probe_motion</code> or a motion action),
+independently of toolkit I/O and without per-method seeding fields. The owner
+binds it with the tool-state journal; its first row (<code>kind: bound</code>) is the
+value in effect then, and each later row (<code>kind: change</code>) the value after the
+RPC <code>method</code> that changed it, with <code>previous_value_sha256</code>. Rows are
+hash-chained like <code>tool-deltas.jsonl</code> (<code>sequence</code>, <code>previous_sha256</code>, <code>sha256</code>
+over the canonical row body) and carry <code>key</code>, <code>value</code>, <code>value_sha256</code>, the
+tool scope (<code>context</code>: the parent <code>model_call_id</code>/<code>tool_call_id</code>, an owner
+boundary or <code>null</code>), <code>interface_ordinal</code> (the data-interface ordinal of the
+call in progress inside a parent) and <code>tool_delta_count</code> (the
+<code>tool-deltas.jsonl</code> row count when written, which orders the row against every
+tool call's <code>begin</code>). A failed write freezes the writer and appends
+<code>state/exec-ledger.gaps.jsonl</code> (<code>ora.toolkit.exec-ledger-gap.v1</code>). The seal
+inventory covers both files.</p>
+<p><code>ora.agent.toolkit.state.exec_ledger.read_rows(run_root)</code> validates the
+chain, the sequence and each value's hash, and refuses an absent ledger
+(<code>未记录</code>) or a mismatch. The ledger is evidence: nothing restores from it (a
+restore resumes the generators from the boundary snapshot's
+<code>exec.ik_sampler_state</code>). The per-row seeding inside <code>ik_chain</code> answers stays as
+it is.</p>
+<h3 id="independent-point-segmentation-artifacts">Independent point segmentation artifacts</h3>
+<p><code>vision_segment</code> uses <code>perception.segment_points</code> with RGB/depth blobs from the
+selected current-round publication. Candidate selection belongs to the tool;
+the interface preserves the full service pool. <code>segmentation_query</code> artifacts
+are identified by <code>segment-query-&lt;24 hex&gt;</code>, schema
+<code>ora.point-segmentation-batch.v2</code>; allowed members are manifest.json,
+raw-masks.npz, overview.png and candidate-T0.png through candidate-T4.png.
+Runtime publishes these atomically under segmentation-batches/ and verifies
+all manifest references when reusing them. Masks remain indexed public targets
+for subsequent tools. Replay ignores the query cache for inference and records
+fresh-service comparisons; no new simulator query is introduced.</p>
+<h3 id="keys-in-the-tool-context-for-the-other-backends">Keys in the tool context for the other backends</h3>
+<p>These keys are absent on RoboDojo and in every sealed tool context, and an absent key
+means RoboDojo's behaviour:</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Where</th>
+<th>Set when</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>overhead_view_pose: true</code></td>
+<td>Top level</td>
+<td>The surface declares <code>overhead_footprint_localization_v1</code></td>
+<td><code>vision_ground</code> and <code>vision_segment</code> read the current observation once more and add <code>overhead_view_pose</code> to each oblique footprint</td>
+</tr>
+<tr>
+<td><code>pointcloud</code> (<code>cameras</code>, <code>workspace_bounds_m</code>, <code>resolution</code>)</td>
+<td><code>observe</code> section</td>
+<td>The surface declares <code>two_view_pointcloud_v1</code></td>
+<td><code>observe</code> admits <code>pointcloud_top</code>, <code>pointcloud_front</code>, <code>pointcloud_side</code> on a current call, and refuses bad <code>views</code> as <code>views must be a non-empty unique list</code> or <code>unknown observe view</code></td>
+</tr>
+<tr>
+<td><code>camera_list</code></td>
+<td><code>observe</code> section</td>
+<td>RoboTwin (<code>RoboTwin</code>), YAM (<code>station</code>)</td>
+<td>Names the backend in <code>views must be a non-empty unique &lt;name&gt; camera list</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>A point-cloud view is recomputed from the published RGB-D on each call that names one
+and is pure, so <code>ora toolkit replay --tool observe</code> needs no record of it beyond the
+observation. Its image is published as an <code>observation_overlay</code>, at the overlay path and
+with the identity the handlers used. The two-view store the handlers wrote beside it
+(<code>points.npz</code>, the three bare views and their manifest, <code>pointcloud_materialized</code>,
+<code>pointcloud_requested</code>) has no reader and no toolkit counterpart.</p>
+<h3 id="alignment-rotation-wait-and-issue-tools">Alignment, rotation, wait and issue tools</h3>
+<p>Alignment measures only the current public target's mask/RGB-D, validates its
+source binding and depth quality, and submits all generated poses through
+<code>planner.align_plan</code>. Refusals retain public field/allowed-value details. New
+queries in recorded replay still fail NotRecorded. Rotations and hold-wait
+submit exactly one action through <code>act.execute_action</code>; completion, budget
+accounting and state publication remain owner responsibilities.</p>
+<p><code>episode.report_issue</code> validates its message and appends to the existing fixed
+issue evidence file. It preserves the round lifecycle and finish/abort evidence
+path. This is explicit episode evidence, not tool-local hidden memory. No new
+cross-call state was found beyond tool.held, tool.marks, tool.kept_plans and already recorded
+public artifacts/episode evidence in this migration wave.</p>
+</article><nav class="pager" aria-label="Previous and next"><a class="prev" href="../toolkit-protocol/index.html"><small>← Previous</small>Toolkit protocol and replay compatibility</a><a class="next" href="../toolkit-execution/index.html"><small>Next →</small>Toolkit synchronous execution</a></nav></main><aside class="toc" aria-label="On this page"><p>On this page</p><a class="h2" href="#synchronous-execution-receipts-step-3">Synchronous execution receipts (step 3)</a><a class="h2" href="#tool-owned-holding-intentions">Tool-owned holding intentions</a><a class="h2" href="#explicit-recovery-anchors-step-5">Explicit recovery anchors (step 5)</a><a class="h2" href="#named-public-marks-and-geometry-step-5">Named public marks and geometry (step 5)</a><a class="h3" href="#tool-state-delta-evidence-step-4">Tool-state delta evidence (step 4)</a><a class="h3" href="#ik-generator-ledger">IK generator ledger</a><a class="h3" href="#independent-point-segmentation-artifacts">Independent point segmentation artifacts</a><a class="h3" href="#keys-in-the-tool-context-for-the-other-backends">Keys in the tool context for the other backends</a><a class="h3" href="#alignment-rotation-wait-and-issue-tools">Alignment, rotation, wait and issue tools</a></aside></div><script>
+(function(){
+  var d=document.querySelector('.docs'), b=document.querySelector('.menu');
+  if(b)b.addEventListener('click',function(){var o=d.classList.toggle('open');b.setAttribute('aria-expanded',o?'true':'false')});
+  var side=document.querySelector('.side'), cur=side&&side.querySelector('[aria-current="page"]');
+  if(cur&&getComputedStyle(side).position==='sticky'){var r=cur.offsetTop-side.clientHeight/2;if(r>0)side.scrollTop=r}
+  document.querySelectorAll('.prose pre.hl').forEach(function(pre){
+    if(!navigator.clipboard)return;
+    var w=document.createElement('div');w.className='codewrap';pre.parentNode.insertBefore(w,pre);w.appendChild(pre);
+    var c=document.createElement('button');c.type='button';c.className='cbtn';c.textContent='copy';c.setAttribute('aria-label','Copy the code');
+    c.addEventListener('click',function(){navigator.clipboard.writeText(pre.innerText).then(function(){c.textContent='copied';setTimeout(function(){c.textContent='copy'},1200)},function(){})});
+    w.appendChild(c);
+  });
+  var links=[].slice.call(document.querySelectorAll('.toc a'));
+  if(links.length&&'IntersectionObserver' in window){
+    var map={};links.forEach(function(a){map[decodeURIComponent(a.hash.slice(1))]=a});
+    var hs=[].slice.call(document.querySelectorAll('.prose h2[id],.prose h3[id]')).filter(function(h){return map[h.id]});
+    var on=function(){var y=window.scrollY+120,best=null;hs.forEach(function(h){if(h.offsetTop<=y)best=h});
+      links.forEach(function(a){a.removeAttribute('aria-current')});if(best)map[best.id].setAttribute('aria-current','true')};
+    window.addEventListener('scroll',on,{passive:true});on();
+  }
+})();
+</script>
+<footer class="foot"><div class="wrap"><div class="fb"><a class="brand" href="../../../index.html"><i></i>ORA</a><p>Open Robot-Use Agents: an open harness that lets language models operate robots.</p></div><nav class="fcols" aria-label="Footer"><div><p>Project</p><a href="../../../index.html">Overview</a><a href="../../../blog/index.html">Blog</a><a href="../../../docs/index.html">Docs</a><a href="../../../paper/ora-two-page.pdf" target="_blank" rel="noopener">Paper (PDF)</a></div><div><p>Docs</p><a href="../../../docs/getting-started/installation/index.html">Installation</a><a href="../../../docs/quickstart/index.html">First episode</a><a href="../../../docs/how-ora-works/index.html">How ORA works</a><a href="../../../docs/reference/index.html">Reference</a></div><div><p>Elsewhere</p><a class="ext" href="https://github.com/hao-ai-lab/ORA" target="_blank" rel="noopener">GitHub</a><a class="ext" href="https://haoailab.com/blogs/ora/" target="_blank" rel="noopener">Hao AI Lab blog</a></div></nav><p class="fbase">© 2026 ORA contributors · Hao AI Lab, UC San Diego</p></div></footer>
+<script>
+document.querySelectorAll('[data-tabs]').forEach(function(box){
+  var tabs=box.querySelectorAll('.tabs button'), panes=box.querySelectorAll('[data-pane]');
+  tabs.forEach(function(t){t.addEventListener('click',function(){
+    tabs.forEach(function(x){x.setAttribute('aria-selected',x===t?'true':'false')});
+    panes.forEach(function(p){p.hidden=p.dataset.pane!==t.dataset.tab});
+  })});
+});
+document.querySelectorAll('.copy').forEach(function(b){b.addEventListener('click',function(){
+  var pane=b.closest('.code').querySelector('pre:not([hidden])');
+  var txt=pane.innerText.split('\n').map(function(l){return l.replace(/\s+#.*$/,'')}).join('\n');
+  var done=function(){b.textContent='copied';setTimeout(function(){b.textContent='copy'},1200)};
+  try{navigator.clipboard.writeText(txt).then(done,function(){})}catch(e){}
+})});
+</script>
+</body>
+</html>

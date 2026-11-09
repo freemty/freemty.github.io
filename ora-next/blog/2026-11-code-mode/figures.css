@@ -1,0 +1,116 @@
+/* Shared style of blog no. 2's figures. build.py inlines it once per page, before the first figure.
+   Two series colours only: programs #008e8c (deep teal), tool calls #c45c1c (dark orange); validated with the
+   dataviz checker on #081012 and on white. Fills behind text are deep (dark page) or pale (light page).
+   Everything else is neutral, from the page's ink and line tokens: the site's --text/--text-2/--text-3/--line-2/--bg,
+   else the standalone draft's --ink/--content/--muted/--rule/--paper. Sans for words, mono for code, ids and numbers. */
+.ofig{--of-tool:#c45c1c;--of-code:#008e8c;--of-fill-tool:#f8ebe2;--of-fill-code:#e6f2f1;
+--of-ink:var(--text,var(--ink,#1e1e1e));--of-ink2:var(--text-2,var(--content,#3a3a3a));--of-mute:var(--text-3,var(--muted,#6b6b6b));
+--of-line:var(--line-2,var(--rule,#e2e2e2));--of-bg:var(--bg,var(--paper,#fff));
+--of-neutral:color-mix(in srgb,var(--of-ink) 6%,transparent);--of-gridc:color-mix(in srgb,var(--of-ink) 8%,transparent);
+--of-conn:color-mix(in srgb,var(--of-ink) 22%,transparent);
+--of-sans:var(--sans,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif);
+--of-mono:var(--mono,ui-monospace,SFMono-Regular,Menlo,Consolas,monospace);
+margin:44px 0 36px;padding-top:22px;border-top:1px solid var(--of-line)}
+/* On the site (always dark): the deep fills, and the site's neutral tokens with the site scheme's values as fallbacks. */
+article .ofig{--of-ink:var(--text,#f0f0f0);--of-ink2:var(--text-2,#b0b0b0);--of-mute:var(--text-3,#777);--of-line:var(--line-2,#222);--of-bg:var(--bg,#0a0a0a)}
+article .ofig,:root[data-theme="dark"] .ofig{--of-fill-tool:#2b1609;--of-fill-code:#062a2b}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .ofig{--of-fill-tool:#2b1609;--of-fill-code:#062a2b}}
+.ofig .of-box{display:grid;gap:18px;min-width:0}
+.ofig .of-title{font:600 14.5px/1.4 var(--of-sans);letter-spacing:-.005em;color:var(--of-ink);margin:0}
+.ofig .of-note{font:400 13px/1.55 var(--of-sans);color:var(--of-mute);margin:0;max-width:none}
+.ofig .mono{font-family:var(--of-mono);font-size:.92em}
+/* turn strips */
+.ofig .of-lane{display:grid;grid-template-columns:104px minmax(0,1fr);gap:14px;align-items:start}
+.ofig .of-who{font:600 13px/1.3 var(--of-sans);color:var(--of-ink);padding-top:7px;display:flex;gap:8px;align-items:center}
+.ofig .of-who i,.ofig .of-key i{display:inline-block;width:9px;height:9px;flex:none}
+.ofig .tl .of-who i,.ofig i.of-sw-t{background:var(--of-tool)}
+.ofig .cl .of-who i,.ofig i.of-sw-c{background:var(--of-code)}
+.ofig .of-strip{display:flex;flex-wrap:wrap;gap:6px;align-items:center;min-width:0}
+.ofig .of-turn{font:400 13px/1.4 var(--of-sans);padding:6px 10px 6px 12px;border:0;border-radius:2px;color:var(--of-ink);
+max-width:100%;background:var(--of-neutral);box-shadow:inset 3px 0 0 var(--of-mark,transparent)}
+.ofig .tl .of-turn{background:var(--of-fill-tool);--of-mark:var(--of-tool)}
+.ofig .cl .of-turn{background:var(--of-fill-code);--of-mark:var(--of-code)}
+.ofig .of-turn .n{display:block;font:400 11.5px/1.4 var(--of-sans);color:var(--of-mute)}
+.ofig .of-turn.dot{width:12px;height:12px;padding:0;background:var(--of-tool);box-shadow:none}
+.ofig .of-turn.wide{flex:1 1 260px}
+.ofig .tl .of-turn.end,.ofig .cl .of-turn.end{background:transparent;box-shadow:inset 3px 0 0 var(--of-mark),inset 0 0 0 1px var(--of-line)}
+.ofig .of-arrow{color:var(--of-mute);font:400 13px var(--of-sans)}
+.ofig .of-seg{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
+.ofig .of-seg b{font:500 12px/1.6 var(--of-sans);padding:0 8px;border-radius:2px;color:var(--of-ink2);background:var(--of-neutral)}
+.ofig .of-pair{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.ofig .of-pair>div{padding:10px 0 0;border-top:2px solid var(--of-line);font:400 13.5px/1.6 var(--of-sans);color:var(--of-ink2);min-width:0}
+.ofig .of-pair>.tl{border-top-color:var(--of-tool)}
+.ofig .of-pair>.cl{border-top-color:var(--of-code)}
+.ofig .nl .of-turn{background:var(--of-neutral)}
+.ofig .nl .of-turn .k{font-family:var(--of-mono);color:var(--of-mute);margin-right:6px}
+.ofig pre{margin:0;background:var(--of-neutral);color:var(--of-ink);border:0;border-radius:3px;padding:14px 16px;
+overflow-x:auto;font:400 12px/1.65 var(--of-mono)}
+.ofig pre .cm{color:var(--of-mute)}
+/* bars */
+.ofig .of-bars{display:grid;gap:20px}
+.ofig .of-bargroup{display:grid;gap:7px}
+.ofig .of-bargroup .lbl{font:500 13px/1.45 var(--of-sans);color:var(--of-ink)}
+.ofig .of-hb{display:grid;grid-template-columns:92px minmax(0,1fr) 52px;gap:12px;align-items:center;font:400 13px var(--of-sans);color:var(--of-ink2)}
+.ofig .of-hb .track{height:12px;background:var(--of-neutral);overflow:hidden}
+.ofig .of-hb .fill{height:100%}
+.ofig .of-hb .v{font:400 12.5px var(--of-mono);font-variant-numeric:tabular-nums;text-align:right;color:var(--of-ink)}
+/* tables */
+.ofig table{display:table;width:100%;border-collapse:collapse;font:400 13.5px/1.5 var(--of-sans);margin:0;min-width:560px}
+.ofig th,.ofig td{white-space:normal;text-align:left;vertical-align:top;padding:9px 14px 9px 0;border-bottom:1px solid var(--of-line)}
+.ofig th{font:600 12.5px/1.4 var(--of-sans);color:var(--of-mute);letter-spacing:0}
+.ofig th.t{box-shadow:inset 0 2px 0 var(--of-tool)}
+.ofig th.c{box-shadow:inset 0 2px 0 var(--of-code)}
+.ofig td{color:var(--of-ink2)}
+.ofig td.case,.ofig td.num{font-family:var(--of-mono);font-size:12px;white-space:nowrap;color:var(--of-ink)}
+.ofig td.case .sub{display:block;font-size:11px;color:var(--of-mute);white-space:nowrap}
+.ofig tr:last-child td{border-bottom:0}
+.ofig .of-scroll{overflow-x:auto;min-width:0}
+/* legends */
+.ofig .of-legend{display:flex;flex-wrap:wrap;gap:6px 20px;font:400 12.5px var(--of-sans);color:var(--of-mute)}
+.ofig .of-legend svg{display:inline-block;width:12px;height:12px;vertical-align:-1px;margin-right:6px}
+/* one turn, to scale */
+.ofig .of-ot{display:grid;gap:18px}
+.ofig .of-ot-row{display:grid;grid-template-columns:104px minmax(0,1fr);gap:14px;align-items:start}
+.ofig .of-ot-who{font:600 13px/1.3 var(--of-sans);color:var(--of-ink);display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.ofig .of-ot-who i{display:inline-block;width:9px;height:9px;flex:none}
+.ofig .of-ot-who small{display:block;width:100%;font:400 11.5px/1.4 var(--of-sans);color:var(--of-mute)}
+.ofig .of-ot-trk{display:flex;gap:2px;height:16px}
+.ofig .of-ot-trk b{display:block;height:100%;flex:none}
+.ofig .of-ot-lab{display:flex;flex-wrap:wrap;gap:2px 18px;margin-top:7px;font:400 12px/1.45 var(--of-sans);color:var(--of-ink2)}
+.ofig .of-ot-lab i{display:inline-block;width:9px;height:9px;margin-right:7px;vertical-align:0}
+.ofig .of-ot-seg{display:flex;gap:2px;margin-top:6px;font:400 11.5px/1.3 var(--of-mono);color:var(--of-ink2)}
+.ofig .of-ot-seg span{flex:none;text-align:center;white-space:nowrap}
+/* dot plots */
+.ofig .of-dp{display:grid;padding-right:8px}
+.ofig .of-dp.wide .of-dp-row{grid-template-columns:218px minmax(0,1fr)}
+.ofig .of-dp-row{display:grid;grid-template-columns:176px minmax(0,1fr);column-gap:14px;align-items:center}
+.ofig .of-dp-row>.lab{font:400 11.5px/1.3 var(--of-mono);color:var(--of-ink2);text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ofig .of-dp-row>.lab b{display:block;font:600 13px/1.35 var(--of-sans);color:var(--of-ink)}
+.ofig .of-dp-grp{font:600 13px/1.3 var(--of-sans);color:var(--of-ink);padding:14px 0 5px}
+.ofig .of-trk{position:relative;height:22px;background:linear-gradient(to right,var(--of-gridc) 1px,transparent 1px) 0 0/var(--of-grid,16.6667%) 100% repeat-x}
+.ofig .of-trk.tall{height:42px}
+.ofig .of-trk>i{position:absolute;top:50%;display:block}
+.ofig .of-trk .ln{height:2px;background:var(--of-conn);transform:translateY(-50%)}
+.ofig .of-trk .dia{width:9px;height:9px;background:var(--of-code);transform:translate(-50%,-50%) rotate(45deg);box-shadow:0 0 0 1.5px var(--of-bg)}
+.ofig .of-trk .o80{width:11px;height:11px;border-radius:50%;border:1.5px solid var(--of-tool);background:transparent;transform:translate(-50%,-50%);box-sizing:border-box}
+.ofig .of-trk .f{width:11px;height:11px;border-radius:50%;background:var(--of-tool);box-shadow:0 0 0 1.5px var(--of-bg);transform:translate(-50%,-50%)}
+.ofig .of-trk .f.big{width:13px;height:13px;top:64%}
+.ofig .of-trk .f.code{background:var(--of-code)}
+.ofig .of-trk .cap{top:0;bottom:0;border-left:1px dashed var(--of-mute);opacity:.8}
+.ofig .of-trk .cap.solid{border-left:1px solid var(--of-mute)}
+.ofig .of-trk .val{top:1px;transform:translateX(-50%);font:400 11.5px/1.2 var(--of-mono);font-style:normal;color:var(--of-ink)}
+.ofig .of-axis{position:relative;height:20px;font:400 11px/20px var(--of-mono);color:var(--of-mute)}
+.ofig .of-axis span{position:absolute;top:0;transform:translateX(-50%);white-space:nowrap}
+.ofig .of-axis span:last-child{transform:translateX(-100%)}
+.ofig .of-axis.top{font-family:var(--of-sans);font-size:12px}
+.ofig .of-axis.top span:first-child{transform:translateX(-50%)}
+.ofig .of-axttl{text-align:center;font:400 12px/1.4 var(--of-sans);color:var(--of-mute);margin-top:2px}
+/* stills */
+.ofig .of-imgs{display:grid;gap:14px}
+.ofig .of-imgs img{margin:0}
+.ofig .of-imgs p{margin:0;font:400 13.5px/1.55 var(--of-sans);color:var(--of-ink2);max-width:none}
+@media (max-width:560px){.ofig .of-lane,.ofig .of-ot-row{grid-template-columns:1fr;gap:8px}.ofig .of-pair{grid-template-columns:1fr;gap:16px}
+.ofig .of-hb{grid-template-columns:74px minmax(0,1fr) 46px}
+.ofig .of-ot-who small{display:inline;width:auto;margin-left:4px}
+.ofig .of-dp-row{grid-template-columns:1fr;row-gap:1px}.ofig .of-dp-row>.lab{text-align:left;margin-top:5px}
+.ofig .of-dp-row>.lab b{display:inline;margin-right:8px}.ofig .of-dp-row>.of-sp{display:none}}

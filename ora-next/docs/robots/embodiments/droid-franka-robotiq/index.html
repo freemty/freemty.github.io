@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>DROID Franka with Robotiq · ORA docs</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2032%2032%27%3E%3Crect%20x%3D%273%27%20y%3D%273%27%20width%3D%2726%27%20height%3D%2726%27%20rx%3D%277%27%20fill%3D%27%2311787B%27/%3E%3C/svg%3E">
+<meta name="description" content="ORA documentation: DROID Franka with Robotiq.">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  /* Swiss neutrals plus one deep accent: the personal homepage's scheme, its red #C6011F swapped for the teal of the
+     same OKLCH lightness (0.52). --teal-hi only for small accent text on dark. No gradients or glows on the accent. */
+  --bg:#0A0A0A; --bg-2:#0E0E0E; --panel:#111111; --panel-2:#161616; --line:#1A1A1A; --line-2:#222222;
+  --text:#F0F0F0; --text-2:#B0B0B0; --text-3:#777777; --text-body:#D4D4D4;
+  --teal:#11787B; --teal-hi:#48B0B4; --teal-deep:#05585B; --teal-ink:#012526;
+  --amber:#C45C1C; --amber-bg:#2B1609;
+  --sans:"Geist",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:"Geist Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --max:1120px; --max-wide:1360px; --read:700px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font:400 16px/1.65 var(--sans);-webkit-font-smoothing:antialiased;letter-spacing:-.005em}
+a{color:var(--teal-hi);text-decoration:none}a:hover{text-decoration:underline;text-underline-offset:3px}
+:focus-visible{outline:2px solid var(--teal);outline-offset:3px;border-radius:4px}
+.wrap{max-width:var(--max);margin:0 auto;padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px))}
+.read{max-width:var(--read);margin:0 auto;padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px))}
+/* nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(10,10,10,.82);backdrop-filter:saturate(140%) blur(14px);-webkit-backdrop-filter:saturate(140%) blur(14px);border-bottom:1px solid var(--line-2)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--text);font:600 18px/1 var(--sans);letter-spacing:.02em}
+.brand:hover{text-decoration:none}
+.brand i{width:14px;height:14px;border-radius:3px;background:var(--teal)}
+.nav nav{display:flex;gap:30px;font-size:15px}
+.nav nav a{color:var(--text-2)}
+.nav nav a:hover,.nav nav a[aria-current="page"]{color:var(--text);text-decoration:none}
+.ext::after{content:" \2197";font-size:.85em;color:var(--text-3)}
+.nav .wrap,.foot .wrap,.wide .wrap{max-width:var(--max-wide)}
+@media (max-width:560px){.nav nav{gap:14px;font-size:13.5px}.brand{font-size:16px;gap:8px}}
+@media (max-width:360px){.nav nav{gap:11px;font-size:13px}}
+/* blog cards */
+.posts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+@media (max-width:760px){.posts{grid-template-columns:1fr}}
+.post{display:block;border:1px solid var(--line-2);border-radius:16px;overflow:hidden;background:var(--bg-2);color:inherit;transition:border-color .2s,transform .2s}
+.post:hover{text-decoration:none;border-color:var(--teal-deep);transform:translateY(-2px)}
+.post img{display:block;width:100%;aspect-ratio:16/8;object-fit:cover;border-bottom:1px solid var(--line)}
+.post .body{padding:20px 22px 22px}
+.post .meta{display:flex;gap:10px;align-items:center;font:400 12.5px/1 var(--mono);color:var(--text-3);margin:0 0 12px}
+.post h3{font:600 1.25rem/1.25 var(--sans);letter-spacing:-.02em;margin:0 0 10px;color:var(--text)}
+.post p{margin:0;color:var(--text-2);font-size:14.5px}
+.draft{font:500 11px/1 var(--mono);letter-spacing:.06em;color:var(--amber);background:var(--amber-bg);padding:4px 7px;border-radius:999px}
+.sechead{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin:0 0 24px}
+.sechead h2{text-align:left;margin:0}
+.sechead a{font-size:14px}
+/* footer */
+.foot{border-top:1px solid var(--line);margin-top:112px;background:var(--bg-2)}
+.foot .wrap{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,2fr);gap:32px 48px;padding-top:48px;padding-bottom:40px}
+.foot .fb p{margin:14px 0 0;max-width:22em;color:var(--text-3);font-size:14px;line-height:1.6}
+.fcols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.fcols p{margin:0 0 12px;font:500 11.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--text-3)}
+.fcols a{display:block;color:var(--text-2);font-size:14px;padding:4px 0}
+.fcols a:hover{color:var(--text)}
+.fbase{grid-column:1 / -1;margin:8px 0 0;padding-top:22px;border-top:1px solid var(--line);color:var(--text-3);font-size:13px}
+@media (max-width:760px){.foot .wrap{grid-template-columns:1fr}.fcols{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* article: blog posts and docs pages share these */
+.posthead{padding:72px 0 28px;text-align:center}
+.posthead .meta{font:400 13px/1 var(--mono);color:var(--text-3);display:flex;gap:12px;justify-content:center;align-items:center;flex-wrap:wrap;margin:0}
+.posthead h1{font:600 clamp(2.2rem,5vw,3.6rem)/1.06 var(--sans);letter-spacing:-.035em;margin:20px auto 0;max-width:15em;text-wrap:balance}
+.prose{font-size:17px;line-height:1.75;color:var(--text-body);overflow-wrap:break-word}
+.prose h1{display:none}
+.prose h2{font:600 1.75rem/1.2 var(--sans);letter-spacing:-.025em;color:var(--text);margin:64px 0 16px;text-wrap:balance}
+.prose h3{font:600 1.22rem/1.3 var(--sans);letter-spacing:-.015em;color:var(--text);margin:40px 0 10px}
+.prose h4{font:600 1.02rem/1.4 var(--sans);color:var(--text);margin:28px 0 8px}
+.prose h2 small,.prose h3 small{font:500 11.5px/1 var(--mono);color:var(--text-3);margin-left:8px;letter-spacing:.04em}
+.prose [id]{scroll-margin-top:84px}
+.prose p{margin:0 0 18px}
+.prose a,.lede a,.callout a{color:var(--text);text-decoration:underline;text-decoration-color:var(--teal);text-decoration-thickness:1px;text-underline-offset:3px;overflow-wrap:break-word}
+.prose a:hover,.lede a:hover,.callout a:hover{color:var(--teal-hi);text-decoration-color:var(--teal-hi)}
+.prose a.md-button{text-decoration:none}
+.prose strong{color:var(--text);font-weight:600}
+.prose ul,.prose ol{padding-left:1.2em;margin:0 0 18px}
+.prose li{margin:0 0 6px}
+.prose li>ul,.prose li>ol{margin:6px 0 0}
+.prose li>p{margin:0 0 8px}
+.prose li::marker{color:var(--teal)}
+.prose code{font:400 .86em var(--mono);background:var(--panel-2);border:1px solid var(--line);padding:1px 6px;border-radius:5px;color:var(--text);overflow-wrap:break-word}
+.prose a code{color:inherit}
+.prose pre{margin:0 0 22px;padding:15px 18px;border:1px solid var(--line-2);border-radius:12px;background:var(--panel);overflow-x:auto;font:400 13.5px/1.65 var(--mono);color:var(--text);tab-size:4}
+.prose pre code{font:inherit;background:none;border:0;padding:0;border-radius:0;overflow-wrap:normal;color:inherit}
+.prose pre.mermaid{background:var(--bg-2);text-align:center;color:var(--text-3)}
+.prose pre.mermaid svg{max-width:100%;height:auto}
+.codewrap{position:relative}
+.cbtn{position:absolute;top:9px;right:9px;height:26px;padding:0 9px;border:1px solid var(--line-2);border-radius:7px;background:var(--panel);color:var(--text-2);font:500 11.5px var(--mono);cursor:pointer;opacity:0;transition:opacity .15s}
+.codewrap:hover .cbtn,.cbtn:focus-visible{opacity:1}
+@media (hover:none){.cbtn{opacity:.85}}
+.prose kbd{font:500 .82em var(--mono);border:1px solid var(--line-2);border-bottom-width:2px;border-radius:5px;padding:0 5px;color:var(--text)}
+.prose img{max-width:100%;height:auto;border-radius:12px;border:1px solid var(--line-2)}
+.prose blockquote{margin:0 0 36px;border:1px solid var(--line-2);border-left:3px solid var(--teal);border-radius:12px;background:var(--panel);padding:18px 22px;color:var(--text)}
+.prose blockquote p{margin:0 0 8px}.prose blockquote ol{margin:0;padding-left:1.2em}
+.prose .admonition{margin:24px 0;border:1px solid var(--line-2);border-left:3px solid var(--teal);border-radius:10px;background:var(--bg-2);padding:14px 18px;font-size:15.5px}
+.prose .admonition>:last-child{margin-bottom:0}
+.prose .admonition-title{font:600 13.5px/1.3 var(--sans);color:var(--teal-hi);margin:0 0 8px}
+.prose .admonition.warning,.prose .admonition.caution,.prose .admonition.danger{border-left-color:var(--amber)}
+.prose .admonition.warning .admonition-title,.prose .admonition.caution .admonition-title,.prose .admonition.danger .admonition-title{color:var(--amber)}
+.prose .tbl{overflow-x:auto;margin:22px 0 26px}
+.prose table{border-collapse:collapse;width:100%;font-size:14.5px;line-height:1.55}
+.prose th,.prose td{text-align:left;vertical-align:top;padding:9px 16px 9px 0;border-bottom:1px solid var(--line)}
+.prose th{font:500 12.5px/1.4 var(--mono);color:var(--text-3);white-space:nowrap}
+.prose td code{font-size:.82em}
+@media (max-width:620px){.prose table:has(th:nth-child(4)){min-width:620px}}
+.prose hr{border:0;border-top:1px solid var(--line);margin:56px 0}
+.prose figure{margin:30px 0}
+.prose figure img{display:block;width:100%;border-radius:12px;border:1px solid var(--line-2)}
+.prose figcaption{font-size:13.5px;color:var(--text-3);margin-top:10px}
+/* code colours (Pygments classes) */
+.hl .c,.hl .c1,.hl .cm,.hl .ch,.hl .cs,.hl .cp,.hl .cpf{color:var(--text-3)}
+.hl .k,.hl .kn,.hl .kd,.hl .kc,.hl .kr,.hl .kt,.hl .kp,.hl .ow{color:var(--teal-hi)}
+.hl .s,.hl .s1,.hl .s2,.hl .sb,.hl .sd,.hl .se,.hl .sh,.hl .si,.hl .sx,.hl .sa,.hl .sc,.hl .ss,.hl .dl{color:var(--text-2)}
+.hl .nf,.hl .fm,.hl .nc,.hl .nn,.hl .nd,.hl .nt,.hl .na{color:var(--text)}
+.hl .o,.hl .p{color:var(--text-3)}
+.hl .gp{color:var(--text-3);user-select:none}
+.hl .go{color:var(--text-2)}
+.hl .err{color:inherit;background:none}
+.slot{font:500 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--teal-hi)}
+.callout{border:1px solid var(--line-2);border-radius:12px;padding:16px 18px;margin:26px 0;background:var(--bg-2)}
+.callout a{font-weight:600}
+.tbd{background:var(--amber-bg);color:var(--amber);border-radius:5px;padding:1px 7px;font-size:.88em}
+.postvid{margin:8px auto 48px;max-width:1008px}
+.postvid .frame{border-radius:14px;overflow:hidden;border:1px solid var(--line-2)}
+.postvid video{display:block;width:100%;aspect-ratio:1600/750}
+.postvid .cap{font-size:12.5px;color:var(--text-3);margin-top:12px;text-align:center}
+.draftbar{font:400 12.5px/1.6 var(--mono);color:var(--amber);background:var(--amber-bg);border-radius:10px;padding:10px 14px;margin:0 0 36px;display:flex;flex-wrap:wrap;gap:6px 18px}
+.draftbar a{color:inherit;text-decoration:underline}
+</style>
+<style>
+/* docs layout: sidebar, content, on-page contents */
+.docs{display:grid;grid-template-columns:240px minmax(0,1fr) 200px;gap:0 52px;max-width:var(--max-wide);margin:0 auto;padding:0 max(24px,env(safe-area-inset-right,0px)) 0 max(24px,env(safe-area-inset-left,0px))}
+.docs>main{grid-column:2;grid-row:1;min-width:0;padding:44px 0 0;max-width:760px}
+.docs.home>main{grid-column:2 / 4;max-width:none}
+.side{grid-column:1;grid-row:1;position:sticky;top:64px;align-self:start;max-height:calc(100vh - 64px);overflow-y:auto;padding:36px 8px 48px 0;font-size:14px;scrollbar-width:thin;scrollbar-color:var(--line-2) transparent}
+.side a{display:block;color:var(--text-2);padding:5px 10px;border-radius:7px;line-height:1.4}
+.side a:hover{color:var(--text);background:var(--panel);text-decoration:none}
+.side a[aria-current="page"]{color:var(--teal-hi);background:var(--teal-ink)}
+.side .top{font-weight:500;color:var(--text)}
+.side .grp{margin:22px 0 0}
+.side .grp>p{margin:0 0 6px;padding:0 10px;font:500 11.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--text-3)}
+.side ul{list-style:none;margin:0;padding:0}
+.side details{margin:2px 0}
+.side summary{cursor:pointer;color:var(--text-2);padding:5px 10px;border-radius:7px;list-style:none}
+.side summary::-webkit-details-marker{display:none}
+.side summary::before{content:"\203A";display:inline-block;width:14px;color:var(--text-3);transition:transform .15s}
+.side details[open]>summary::before{transform:rotate(90deg)}
+.side summary:hover{color:var(--text);background:var(--panel)}
+.side details ul{margin-left:14px;border-left:1px solid var(--line);padding-left:4px}
+.toc{grid-column:3;grid-row:1;position:sticky;top:64px;align-self:start;max-height:calc(100vh - 64px);overflow-y:auto;padding:52px 0 40px;font-size:13px;scrollbar-width:thin}
+.toc p{margin:0 0 10px;font:500 11.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--text-3)}
+.toc a{display:block;color:var(--text-3);padding:4px 0 4px 12px;border-left:1px solid var(--line);line-height:1.4}
+.toc a.h3{padding-left:24px}
+.toc a:hover{color:var(--text);text-decoration:none}
+.toc a[aria-current="true"]{color:var(--teal-hi);border-left-color:var(--teal-hi)}
+.toc code{font:400 .92em var(--mono)}
+.menu{display:none}
+.crumb{margin:0 0 14px;font:500 12px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--teal-hi)}
+.doctitle{font:600 clamp(2rem,4vw,2.75rem)/1.1 var(--sans);letter-spacing:-.03em;margin:0 0 28px;text-wrap:balance;overflow-wrap:break-word}
+.doctitle code{font-size:.85em}
+.docs .prose>:first-child{margin-top:0}
+.docs .prose h2{margin-top:52px}
+.pager{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:64px 0 0;padding-top:28px;border-top:1px solid var(--line)}
+.pager a{display:block;border:1px solid var(--line-2);border-radius:12px;padding:14px 16px;color:var(--text);background:var(--bg-2)}
+.pager a:hover{border-color:var(--teal-deep);text-decoration:none}
+.pager small{display:block;font:400 12px/1 var(--mono);color:var(--text-3);margin-bottom:8px}
+.pager .next{text-align:right;grid-column:2}
+.srcline{margin:22px 0 0;font-size:13px;color:var(--text-3)}
+.srcline a{color:var(--text-2)}
+/* the Docs landing */
+.dochero{padding:24px 0 8px;max-width:760px}
+.dochero h1{font:600 clamp(2.4rem,5vw,3.4rem)/1.05 var(--sans);letter-spacing:-.035em;margin:0 0 18px}
+.dochero .ora-intro{font-size:clamp(1.05rem,1.8vw,1.18rem);color:var(--text-2);font-weight:300;margin:0 0 12px;line-height:1.6}
+.dochero .ora-meta{font:400 13px/1.5 var(--mono);color:var(--text-3);margin:0 0 26px}
+.btns p{display:flex;flex-wrap:wrap;gap:10px;margin:0}
+.md-button{display:inline-flex;align-items:center;height:40px;padding:0 16px;border:1px solid var(--line-2);border-radius:10px;color:var(--text);background:var(--panel);font-size:14.5px;font-weight:500}
+.md-button:hover{text-decoration:none;border-color:var(--teal-deep)}
+.md-button--primary{background:var(--teal);border-color:var(--teal);color:var(--text)}
+.md-button--primary:hover{background:var(--teal-deep);border-color:var(--teal-deep)}
+.groups{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:44px 0 12px}
+@media (max-width:1180px){.groups{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:620px){.groups{grid-template-columns:1fr}}
+.gcard{border:1px solid var(--line-2);border-radius:14px;background:var(--bg-2);padding:20px 20px 18px;display:flex;flex-direction:column}
+.gcard:hover{border-color:var(--teal-deep)}
+.gcard h3{margin:0 0 8px;font:600 1.08rem/1.3 var(--sans);letter-spacing:-.01em}
+.gcard h3 a{color:var(--text)}
+.gcard>p{margin:0 0 14px;color:var(--text-2);font-size:14px;line-height:1.55}
+.gcard ul{list-style:none;margin:auto 0 0;padding:12px 0 0;border-top:1px solid var(--line);display:grid;gap:5px;font-size:13.5px}
+.gcard li a{color:var(--text-2)}
+.gcard li a:hover{color:var(--teal-hi)}
+.gcard .more{color:var(--text-3);font:400 12.5px var(--mono)}
+.home .prose{max-width:760px;margin-top:40px}
+@media (max-width:1240px){.docs{grid-template-columns:232px minmax(0,1fr);gap:0 44px}.toc{display:none}.docs.home>main{grid-column:2}}
+@media (max-width:900px){
+  .docs{grid-template-columns:minmax(0,1fr);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  .docs>main,.docs.home>main,.side{grid-column:1;grid-row:auto}
+  .docs>main{padding-top:6px}
+  .menu{display:flex;align-items:center;gap:8px;width:100%;margin:20px 0 16px;height:42px;padding:0 14px;border:1px solid var(--line-2);border-radius:10px;background:var(--bg-2);color:var(--text-2);font:500 14px var(--sans);cursor:pointer}
+  .menu b{color:var(--text);font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .menu::after{content:"\203A";margin-left:auto;transform:rotate(90deg);color:var(--text-3)}
+  .side{display:none;position:static;max-height:none;padding:0 0 18px;margin:0 0 18px;border-bottom:1px solid var(--line)}
+  .docs.open .side{display:block}
+  .pager{grid-template-columns:1fr}.pager .next{grid-column:1}
+}
+</style>
+</head>
+<body class="wide">
+<header class="nav"><div class="wrap"><a class="brand" href="../../../../index.html"><i></i>ORA</a><nav aria-label="Site"><a href="../../../../index.html">Overview</a><a href="../../../../blog/index.html">Blog</a><a href="../../../../docs/index.html" aria-current="page">Docs</a><a class="ext" href="../../../../paper/ora-two-page.pdf" target="_blank" rel="noopener">Paper</a><a class="ext" href="https://github.com/hao-ai-lab/ORA" target="_blank" rel="noopener">Code</a></nav></div></header>
+<div class="docs"><button class="menu" type="button" aria-controls="docnav" aria-expanded="false">Menu · <b>DROID Franka with Robotiq (RoboLab)</b></button><aside class="side" id="docnav" aria-label="Documentation"><a class="top" href="../../../index.html">Welcome</a><a class="top" href="../../../how-ora-works/index.html">How ORA works</a><div class="grp"><p>Get started</p><ul><li><a href="../../../getting-started/installation/index.html">Installation</a></li><li><a href="../../../quickstart/index.html">First episode</a></li><li><a href="../../../getting-started/model-apis/index.html">Model APIs</a></li><li><a href="../../../getting-started/single-gpu/index.html">Run on one GPU</a></li><li><a href="../../../getting-started/local/index.html">Run on your computer (CPU)</a></li><li><a href="../../../getting-started/libero/index.html">LIBERO / LIBERO-Pro quick run</a></li><li><a href="../../../getting-started/robotwin/index.html">RoboTwin quick run</a></li><li><a href="../../../getting-started/robodojo/index.html">RoboDojo quick run</a></li><li><a href="../../../getting-started/robocasa/index.html">RoboCasa365 quick run</a></li><li><a href="../../../getting-started/robolab/index.html">RoboLab quick run</a></li><li><a href="../../../getting-started/official-suite/index.html">Official suites on a cluster</a></li><li><a href="../../../support/index.html">Supported setups</a></li><li><a href="../../../getting-started/troubleshooting/index.html">Troubleshooting</a></li></ul></div><div class="grp"><p>Use ORA</p><ul><li><a href="../../../usage/runs/index.html">Run and inspect</a></li><li><a href="../../../usage/play/index.html">Free play</a></li><li><a href="../../../usage/real-cells/index.html">Run a real robot cell</a></li><li><a href="../../../usage/interactive/index.html">Interactive sessions</a></li><li><a href="../../../usage/remote/index.html">Remote GPU server and web view</a></li><li><a href="../../../usage/safety/index.html">Run ORA safely</a></li><li><a href="../../../usage/rl-interface/index.html">Connect a training loop</a></li><li><a href="../../../usage/viewer/index.html">Evidence viewer</a></li><li><a href="../../../usage/examples/index.html">Examples</a></li><li><a href="../../../usage/official-suite/index.html">Official-suite cookbook</a></li><li><a href="../../../usage/compute-usage/index.html">Compute tool</a></li><li><a href="../../../usage/commands/index.html">Commands and what they write</a></li><li><a href="../../../usage/cli-reference/index.html">Command-line reference</a></li></ul></div><div class="grp"><p>Environments</p><ul><li><a href="../../../environments/index.html">Overview</a></li><li><a href="../../../environments/common/index.html">Host and perception setup</a></li><li><a href="../../../environments/libero/index.html">LIBERO / LIBERO-Pro</a></li><li><a href="../../../environments/robotwin/index.html">RoboTwin</a></li><li><a href="../../../environments/robodojo/index.html">RoboDojo</a></li><li><a href="../../../environments/robodojo-installation/index.html">RoboDojo installation reference</a></li><li><a href="../../../environments/robocasa/index.html">RoboCasa365</a></li><li><a href="../../../environments/robolab/index.html">RoboLab</a></li></ul></div><div class="grp"><p>Robots and tasks</p><ul><li><a href="../../frames-and-units/index.html">Frames and units</a></li><li><a href="../franka-panda/index.html">Franka Panda (LIBERO)</a></li><li><a href="../aloha-agilex/index.html">ALOHA-AgileX (RoboTwin)</a></li><li><a href="../arx-x5/index.html">ARX X5 (RoboDojo)</a></li><li><a href="../panda-omron/index.html">PandaOmron (RoboCasa365)</a></li><li><a href="index.html" aria-current="page">DROID Franka with Robotiq (RoboLab)</a></li><li><a href="../yam-station/index.html">Dual I2RT YAM (real cell)</a></li><li><a href="../../tasks/libero/index.html">LIBERO / LIBERO-Pro tasks</a></li><li><a href="../../tasks/robotwin/index.html">RoboTwin tasks</a></li><li><a href="../../tasks/robodojo/index.html">RoboDojo tasks</a></li><li><a href="../../tasks/robocasa/index.html">RoboCasa365 tasks</a></li><li><a href="../../tasks/robolab/index.html">RoboLab tasks</a></li></ul></div><div class="grp"><p>Evaluation</p><ul><li><a href="../../../evaluation/protocol/index.html">Evaluation protocol</a></li></ul></div><div class="grp"><p>Concepts</p><ul><li><a href="../../../architecture/index.html">Architecture</a></li><li><a href="../../../context-assembly/index.html">Context assembly</a></li><li><a href="../../../reference/runtime-lifecycle/index.html">Runtime lifecycle</a></li><li><a href="../../../glossary/index.html">Glossary</a></li></ul></div><div class="grp"><p>Reference</p><ul><li><a href="../../../reference/index.html">Overview</a></li><li><a href="../../../reference/public-interfaces/index.html">Public interfaces</a></li><li><a href="../../../reference/toolkit-io/index.html">Toolkit I/O evidence</a></li><li><a href="../../../reference/toolkit-protocol/index.html">Toolkit protocol and replay compatibility</a></li><li><a href="../../../reference/toolkit-data/index.html">Toolkit data API</a></li><li><a href="../../../reference/toolkit-execution/index.html">Toolkit synchronous execution</a></li><li><a href="../../../reference/toolkit-state/index.html">Toolkit state and admission</a></li><li><a href="../../../reference/toolkit-surface/index.html">File-backed toolkit surfaces</a></li><li><a href="../../../reference/context-schemes/index.html">Context schemes and policy selection</a></li><li><a href="../../../reference/append-only-context/index.html">Append-only context (management v8)</a></li><li><a href="../../../reference/exchange-aging-context/index.html">Exchange aging (management v9)</a></li><li><a href="../../../reference/keep-written-context/index.html">Keep what the model wrote (management v10)</a></li><li><a href="../../../reference/tasks/index.html">Task files</a></li><li><a href="../../../reference/source-overlay/index.html">Source overlays</a></li><li><a href="../../../reference/policy-io/index.html">Policy I/O</a></li><li><a href="../../../reference/configuration-and-evidence/index.html">Configuration and evidence</a></li><li><a href="../../../reference/context-packs/index.html">Context packs</a></li><li><a href="../../../reference/experiment-identity/index.html">Experiment identity</a></li><li><a href="../../../reference/robotwin-contact-recovery/index.html">RoboTwin contact recovery</a></li><li><a href="../../../reference/robotwin-qualification/index.html">RoboTwin seed and scene qualification</a></li><li><a href="../../../reference/motion-speed/index.html">Motion speed and wrist checks</a></li><li><a href="../../../reference/latency-profile/index.html">Latency profile</a></li><li><a href="../../../reference/robodojo-motion-qualification/index.html">RoboDojo motion qualification</a></li><li><a href="../../../reference/provider-replay/index.html">Recorded-provider tape replay</a></li><li><a href="../../../reference/robodojo-reset-diagnostics/index.html">RoboDojo reset crash diagnostics</a></li><li><a href="../../../reference/ora-local-cpu-compatibility/index.html">Local CPU compatibility</a></li><li><a href="../../../reference/robocasa-robolab-backends/index.html">RoboCasa365 and RoboLab</a></li><li><a href="../../../reference/robolab-tasks/index.html">RoboLab tasks and contracts</a></li></ul></div><div class="grp"><p>Python API</p><ul><li><a href="../../../api/index.html">Overview</a></li><li><a href="../../../api/plans/index.html">Plans and benchmark cells</a></li><li><a href="../../../api/policy/index.html">Policy sessions</a></li><li><a href="../../../api/environment/index.html">Environment sessions</a></li><li><a href="../../../api/actions/index.html">Action contracts</a></li></ul></div><div class="grp"><p>Contribute</p><ul><li><a href="../../../developer/onboarding/index.html">Start contributing</a></li><li><a href="../../../developer/contributing/index.html">Contributing</a></li><li><a href="../../../code-map/index.html">Code map</a></li><li><a href="../../../developer/repository-structure/index.html">Repository structure</a></li><li><a href="../../../developer/documentation/index.html">Documentation</a></li><li><a href="../../../developer/docs-style/index.html">Docs style guide</a></li><li><a href="../../../developer/testing/index.html">Testing</a></li><li><details><summary>Authoring guides</summary><ul><li><a href="../../../developer/add-backend/index.html">Add an environment</a></li><li><a href="../../../developer/authoring/environment-compatibility/index.html">Environment compatibility</a></li><li><a href="../../../developer/authoring/tool-surface/index.html">Tool surfaces</a></li><li><a href="../../../developer/authoring/prompt-bundle/index.html">Prompt bundles</a></li><li><a href="../../../developer/authoring/task-contract/index.html">Task contracts</a></li><li><a href="../../../developer/authoring/qualification/index.html">Qualification</a></li><li><a href="../../../developer/authoring/trajectory-capture/index.html">Trajectory and viewer integration</a></li><li><a href="../../../developer/authoring/frontend-style/index.html">Viewer style</a></li></ul></details></li><li><details><summary>Templates</summary><ul><li><a href="../../../templates/environment-compatibility-record/index.html">Environment compatibility record</a></li><li><a href="../../../templates/task-contract-review/index.html">Task contract review</a></li></ul></details></li></ul></div></aside><main id="content"><p class="crumb">Robots and tasks</p><h1 class="doctitle">DROID Franka with Robotiq</h1><article class="prose"><p>The robot in <a href="../../../environments/robolab/index.html">RoboLab</a>. This page is the robot manual ORA gives the model at the start of every episode, generated from <code>ora/policy/embodiments/droid-franka-robotiq/manual-public-geometry-v1.md</code>: what you read here is what the policy reads. Values measured during a run (poses, calibration, finger state) arrive with each observation instead; see <a href="../../../reference/policy-io/index.html">Policy I/O</a> and <a href="../../frames-and-units/index.html">Frames and units</a>.</p>
+<h2 id="identity-and-topology">Identity and topology</h2>
+<p>Fixed-base Franka Panda with Robotiq 2F-85: right 7-DoF arm; parallel-jaw grippers.</p>
+<h2 id="controlled-points">Controlled points</h2>
+<p><code>right_tcp</code> is the controlled reference, not a fingertip. Its local offset is [0,0,0.131] m from the declared end effector root; commands already target it. Do not add this offset again.</p>
+<h2 id="frames-and-units">Frames and units</h2>
+<p>Positions are world metres; measured quaternions are [x,y,z,w]. Transform local geometry by the current measured pose; local lengths are not world-Z corrections.</p>
+<h2 id="end-effector-axes">End-effector axes</h2>
+<p><code>right_tcp</code> local approach [0, 0, 1]; jaw-closing line [1, 0, 0]. Current world directions are supplied with measured state.
+Local +approach points out of the gripper, from the palm toward the fingertips.</p>
+<h2 id="motion-capabilities">Motion capabilities</h2>
+<p>The ToolSurface owns motion, workspace, window and acceptance limits. Holding a command does not freeze measured state.</p>
+<h2 id="gripper-semantics">Gripper semantics</h2>
+<p><code>right_gripper</code>: nominal maximum jaw separation 0.085 m.
+With the jaw fully open, the fingertips end 18.1 mm beyond the controlled point along +approach, and the fingers reach back 86.764 mm from it toward the wrist.
+The separate pads run from 19.9 mm behind to 18.1 mm beyond the controlled point along +approach; pad and whole-finger extrema differ. Each pad is 19.159 mm thick along the jaw-closing line and 22 mm wide along local Y.</p>
+<h2 id="sensors-and-cameras">Sensors and cameras</h2>
+<p><code>agentview</code>: fixed RGB-D; use calibration from the same observation.
+<code>wrist</code>: arm-mounted moving RGB-D; use calibration from the same observation.</p>
+<h2 id="preservation-and-evidence-limits">Preservation and evidence limits</h2>
+<p>Robot geometry, command closure and encoder aperture establish neither contact nor retention. Endpoint arrival is not collision clearance or task success.</p>
+<h2 id="dynamic-facts-and-provenance">Dynamic facts and provenance</h2>
+<p>Current pose, finger measurements versus command targets, world axes, calibration, remaining budgets and execution thresholds come from current observation, Runtime or ToolSurface. Asset hashes and review/verification stay manifest-only.</p>
+<h2 id="what-the-policy-is-told-about-the-environment">What the policy is told about the environment</h2>
+<p>The environment boundary paired with this robot, from <code>ora/policy/environments/robolab/boundary-v1.md</code>:</p>
+<p>This layer defines the environment boundary, not robot controls or a task
+strategy.</p>
+<p>The exact episode task is the objective. Current observations and advertised
+tool results are the only public evidence about the current tabletop scene.
+Camera mounting, command frames and robot geometry are defined by the
+embodiment and tool contracts.</p>
+<p>The following are private: the task class and its configuration, the scene
+file, object identities, object ground-truth poses, segmentation, contacts,
+demonstrations, expert actions, benchmark source and the success-predicate
+implementation. Do not request or reconstruct private state from task or file
+names.</p>
+<p>Only RoboLab's own success termination supplies the official Boolean verdict,
+and the episode ends the moment it holds. Motion results and the policy
+lifecycle report do not replace that verdict. The ToolSurface determines
+whether an official verdict is visible to the policy. An in-episode completion
+aid, where one is advertised, is advisory and does not bind that verdict in
+either direction.</p>
+<h3 id="what-this-boundary-does-not-guarantee">What this boundary does not guarantee</h3>
+<p>Measured robot and scene state can change without a command from you. Contact,
+gravity and settling all act between one observation and the next, so a changed
+measurement does not prove a command took effect and an unchanged one does not
+prove that nothing happened.</p>
+<p>A rendered view reports what that sensor sees from where it is. An object
+missing from one view may be outside its field, behind another object, or past
+the usable depth range. Missing from a view is not missing from the scene, and
+this boundary exposes no channel that could confirm a scene defect; change
+viewpoint rather than reasoning about whether the rendering is intact.</p>
+<p>Nothing here announces that the objective has become unreachable. The absence
+of such a signal is not evidence that the episode is still recoverable.</p>
+</article><nav class="pager" aria-label="Previous and next"><a class="prev" href="../panda-omron/index.html"><small>← Previous</small>PandaOmron (RoboCasa365)</a><a class="next" href="../yam-station/index.html"><small>Next →</small>Dual I2RT YAM (real cell)</a></nav></main><aside class="toc" aria-label="On this page"><p>On this page</p><a class="h2" href="#identity-and-topology">Identity and topology</a><a class="h2" href="#controlled-points">Controlled points</a><a class="h2" href="#frames-and-units">Frames and units</a><a class="h2" href="#end-effector-axes">End-effector axes</a><a class="h2" href="#motion-capabilities">Motion capabilities</a><a class="h2" href="#gripper-semantics">Gripper semantics</a><a class="h2" href="#sensors-and-cameras">Sensors and cameras</a><a class="h2" href="#preservation-and-evidence-limits">Preservation and evidence limits</a><a class="h2" href="#dynamic-facts-and-provenance">Dynamic facts and provenance</a><a class="h2" href="#what-the-policy-is-told-about-the-environment">What the policy is told about the environment</a><a class="h3" href="#what-this-boundary-does-not-guarantee">What this boundary does not guarantee</a></aside></div><script>
+(function(){
+  var d=document.querySelector('.docs'), b=document.querySelector('.menu');
+  if(b)b.addEventListener('click',function(){var o=d.classList.toggle('open');b.setAttribute('aria-expanded',o?'true':'false')});
+  var side=document.querySelector('.side'), cur=side&&side.querySelector('[aria-current="page"]');
+  if(cur&&getComputedStyle(side).position==='sticky'){var r=cur.offsetTop-side.clientHeight/2;if(r>0)side.scrollTop=r}
+  document.querySelectorAll('.prose pre.hl').forEach(function(pre){
+    if(!navigator.clipboard)return;
+    var w=document.createElement('div');w.className='codewrap';pre.parentNode.insertBefore(w,pre);w.appendChild(pre);
+    var c=document.createElement('button');c.type='button';c.className='cbtn';c.textContent='copy';c.setAttribute('aria-label','Copy the code');
+    c.addEventListener('click',function(){navigator.clipboard.writeText(pre.innerText).then(function(){c.textContent='copied';setTimeout(function(){c.textContent='copy'},1200)},function(){})});
+    w.appendChild(c);
+  });
+  var links=[].slice.call(document.querySelectorAll('.toc a'));
+  if(links.length&&'IntersectionObserver' in window){
+    var map={};links.forEach(function(a){map[decodeURIComponent(a.hash.slice(1))]=a});
+    var hs=[].slice.call(document.querySelectorAll('.prose h2[id],.prose h3[id]')).filter(function(h){return map[h.id]});
+    var on=function(){var y=window.scrollY+120,best=null;hs.forEach(function(h){if(h.offsetTop<=y)best=h});
+      links.forEach(function(a){a.removeAttribute('aria-current')});if(best)map[best.id].setAttribute('aria-current','true')};
+    window.addEventListener('scroll',on,{passive:true});on();
+  }
+})();
+</script>
+<footer class="foot"><div class="wrap"><div class="fb"><a class="brand" href="../../../../index.html"><i></i>ORA</a><p>Open Robot-Use Agents: an open harness that lets language models operate robots.</p></div><nav class="fcols" aria-label="Footer"><div><p>Project</p><a href="../../../../index.html">Overview</a><a href="../../../../blog/index.html">Blog</a><a href="../../../../docs/index.html">Docs</a><a href="../../../../paper/ora-two-page.pdf" target="_blank" rel="noopener">Paper (PDF)</a></div><div><p>Docs</p><a href="../../../../docs/getting-started/installation/index.html">Installation</a><a href="../../../../docs/quickstart/index.html">First episode</a><a href="../../../../docs/how-ora-works/index.html">How ORA works</a><a href="../../../../docs/reference/index.html">Reference</a></div><div><p>Elsewhere</p><a class="ext" href="https://github.com/hao-ai-lab/ORA" target="_blank" rel="noopener">GitHub</a><a class="ext" href="https://haoailab.com/blogs/ora/" target="_blank" rel="noopener">Hao AI Lab blog</a></div></nav><p class="fbase">© 2026 ORA contributors · Hao AI Lab, UC San Diego</p></div></footer>
+<script>
+document.querySelectorAll('[data-tabs]').forEach(function(box){
+  var tabs=box.querySelectorAll('.tabs button'), panes=box.querySelectorAll('[data-pane]');
+  tabs.forEach(function(t){t.addEventListener('click',function(){
+    tabs.forEach(function(x){x.setAttribute('aria-selected',x===t?'true':'false')});
+    panes.forEach(function(p){p.hidden=p.dataset.pane!==t.dataset.tab});
+  })});
+});
+document.querySelectorAll('.copy').forEach(function(b){b.addEventListener('click',function(){
+  var pane=b.closest('.code').querySelector('pre:not([hidden])');
+  var txt=pane.innerText.split('\n').map(function(l){return l.replace(/\s+#.*$/,'')}).join('\n');
+  var done=function(){b.textContent='copied';setTimeout(function(){b.textContent='copy'},1200)};
+  try{navigator.clipboard.writeText(txt).then(done,function(){})}catch(e){}
+})});
+</script>
+</body>
+</html>

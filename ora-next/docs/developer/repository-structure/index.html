@@ -1,0 +1,917 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Repository structure · ORA docs</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2032%2032%27%3E%3Crect%20x%3D%273%27%20y%3D%273%27%20width%3D%2726%27%20height%3D%2726%27%20rx%3D%277%27%20fill%3D%27%2311787B%27/%3E%3C/svg%3E">
+<meta name="description" content="ORA documentation: Repository structure.">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  /* Swiss neutrals plus one deep accent: the personal homepage's scheme, its red #C6011F swapped for the teal of the
+     same OKLCH lightness (0.52). --teal-hi only for small accent text on dark. No gradients or glows on the accent. */
+  --bg:#0A0A0A; --bg-2:#0E0E0E; --panel:#111111; --panel-2:#161616; --line:#1A1A1A; --line-2:#222222;
+  --text:#F0F0F0; --text-2:#B0B0B0; --text-3:#777777; --text-body:#D4D4D4;
+  --teal:#11787B; --teal-hi:#48B0B4; --teal-deep:#05585B; --teal-ink:#012526;
+  --amber:#C45C1C; --amber-bg:#2B1609;
+  --sans:"Geist",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:"Geist Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --max:1120px; --max-wide:1360px; --read:700px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font:400 16px/1.65 var(--sans);-webkit-font-smoothing:antialiased;letter-spacing:-.005em}
+a{color:var(--teal-hi);text-decoration:none}a:hover{text-decoration:underline;text-underline-offset:3px}
+:focus-visible{outline:2px solid var(--teal);outline-offset:3px;border-radius:4px}
+.wrap{max-width:var(--max);margin:0 auto;padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px))}
+.read{max-width:var(--read);margin:0 auto;padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px))}
+/* nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(10,10,10,.82);backdrop-filter:saturate(140%) blur(14px);-webkit-backdrop-filter:saturate(140%) blur(14px);border-bottom:1px solid var(--line-2)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--text);font:600 18px/1 var(--sans);letter-spacing:.02em}
+.brand:hover{text-decoration:none}
+.brand i{width:14px;height:14px;border-radius:3px;background:var(--teal)}
+.nav nav{display:flex;gap:30px;font-size:15px}
+.nav nav a{color:var(--text-2)}
+.nav nav a:hover,.nav nav a[aria-current="page"]{color:var(--text);text-decoration:none}
+.ext::after{content:" \2197";font-size:.85em;color:var(--text-3)}
+.nav .wrap,.foot .wrap,.wide .wrap{max-width:var(--max-wide)}
+@media (max-width:560px){.nav nav{gap:14px;font-size:13.5px}.brand{font-size:16px;gap:8px}}
+@media (max-width:360px){.nav nav{gap:11px;font-size:13px}}
+/* blog cards */
+.posts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+@media (max-width:760px){.posts{grid-template-columns:1fr}}
+.post{display:block;border:1px solid var(--line-2);border-radius:16px;overflow:hidden;background:var(--bg-2);color:inherit;transition:border-color .2s,transform .2s}
+.post:hover{text-decoration:none;border-color:var(--teal-deep);transform:translateY(-2px)}
+.post img{display:block;width:100%;aspect-ratio:16/8;object-fit:cover;border-bottom:1px solid var(--line)}
+.post .body{padding:20px 22px 22px}
+.post .meta{display:flex;gap:10px;align-items:center;font:400 12.5px/1 var(--mono);color:var(--text-3);margin:0 0 12px}
+.post h3{font:600 1.25rem/1.25 var(--sans);letter-spacing:-.02em;margin:0 0 10px;color:var(--text)}
+.post p{margin:0;color:var(--text-2);font-size:14.5px}
+.draft{font:500 11px/1 var(--mono);letter-spacing:.06em;color:var(--amber);background:var(--amber-bg);padding:4px 7px;border-radius:999px}
+.sechead{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin:0 0 24px}
+.sechead h2{text-align:left;margin:0}
+.sechead a{font-size:14px}
+/* footer */
+.foot{border-top:1px solid var(--line);margin-top:112px;background:var(--bg-2)}
+.foot .wrap{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,2fr);gap:32px 48px;padding-top:48px;padding-bottom:40px}
+.foot .fb p{margin:14px 0 0;max-width:22em;color:var(--text-3);font-size:14px;line-height:1.6}
+.fcols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.fcols p{margin:0 0 12px;font:500 11.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--text-3)}
+.fcols a{display:block;color:var(--text-2);font-size:14px;padding:4px 0}
+.fcols a:hover{color:var(--text)}
+.fbase{grid-column:1 / -1;margin:8px 0 0;padding-top:22px;border-top:1px solid var(--line);color:var(--text-3);font-size:13px}
+@media (max-width:760px){.foot .wrap{grid-template-columns:1fr}.fcols{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* article: blog posts and docs pages share these */
+.posthead{padding:72px 0 28px;text-align:center}
+.posthead .meta{font:400 13px/1 var(--mono);color:var(--text-3);display:flex;gap:12px;justify-content:center;align-items:center;flex-wrap:wrap;margin:0}
+.posthead h1{font:600 clamp(2.2rem,5vw,3.6rem)/1.06 var(--sans);letter-spacing:-.035em;margin:20px auto 0;max-width:15em;text-wrap:balance}
+.prose{font-size:17px;line-height:1.75;color:var(--text-body);overflow-wrap:break-word}
+.prose h1{display:none}
+.prose h2{font:600 1.75rem/1.2 var(--sans);letter-spacing:-.025em;color:var(--text);margin:64px 0 16px;text-wrap:balance}
+.prose h3{font:600 1.22rem/1.3 var(--sans);letter-spacing:-.015em;color:var(--text);margin:40px 0 10px}
+.prose h4{font:600 1.02rem/1.4 var(--sans);color:var(--text);margin:28px 0 8px}
+.prose h2 small,.prose h3 small{font:500 11.5px/1 var(--mono);color:var(--text-3);margin-left:8px;letter-spacing:.04em}
+.prose [id]{scroll-margin-top:84px}
+.prose p{margin:0 0 18px}
+.prose a,.lede a,.callout a{color:var(--text);text-decoration:underline;text-decoration-color:var(--teal);text-decoration-thickness:1px;text-underline-offset:3px;overflow-wrap:break-word}
+.prose a:hover,.lede a:hover,.callout a:hover{color:var(--teal-hi);text-decoration-color:var(--teal-hi)}
+.prose a.md-button{text-decoration:none}
+.prose strong{color:var(--text);font-weight:600}
+.prose ul,.prose ol{padding-left:1.2em;margin:0 0 18px}
+.prose li{margin:0 0 6px}
+.prose li>ul,.prose li>ol{margin:6px 0 0}
+.prose li>p{margin:0 0 8px}
+.prose li::marker{color:var(--teal)}
+.prose code{font:400 .86em var(--mono);background:var(--panel-2);border:1px solid var(--line);padding:1px 6px;border-radius:5px;color:var(--text);overflow-wrap:break-word}
+.prose a code{color:inherit}
+.prose pre{margin:0 0 22px;padding:15px 18px;border:1px solid var(--line-2);border-radius:12px;background:var(--panel);overflow-x:auto;font:400 13.5px/1.65 var(--mono);color:var(--text);tab-size:4}
+.prose pre code{font:inherit;background:none;border:0;padding:0;border-radius:0;overflow-wrap:normal;color:inherit}
+.prose pre.mermaid{background:var(--bg-2);text-align:center;color:var(--text-3)}
+.prose pre.mermaid svg{max-width:100%;height:auto}
+.codewrap{position:relative}
+.cbtn{position:absolute;top:9px;right:9px;height:26px;padding:0 9px;border:1px solid var(--line-2);border-radius:7px;background:var(--panel);color:var(--text-2);font:500 11.5px var(--mono);cursor:pointer;opacity:0;transition:opacity .15s}
+.codewrap:hover .cbtn,.cbtn:focus-visible{opacity:1}
+@media (hover:none){.cbtn{opacity:.85}}
+.prose kbd{font:500 .82em var(--mono);border:1px solid var(--line-2);border-bottom-width:2px;border-radius:5px;padding:0 5px;color:var(--text)}
+.prose img{max-width:100%;height:auto;border-radius:12px;border:1px solid var(--line-2)}
+.prose blockquote{margin:0 0 36px;border:1px solid var(--line-2);border-left:3px solid var(--teal);border-radius:12px;background:var(--panel);padding:18px 22px;color:var(--text)}
+.prose blockquote p{margin:0 0 8px}.prose blockquote ol{margin:0;padding-left:1.2em}
+.prose .admonition{margin:24px 0;border:1px solid var(--line-2);border-left:3px solid var(--teal);border-radius:10px;background:var(--bg-2);padding:14px 18px;font-size:15.5px}
+.prose .admonition>:last-child{margin-bottom:0}
+.prose .admonition-title{font:600 13.5px/1.3 var(--sans);color:var(--teal-hi);margin:0 0 8px}
+.prose .admonition.warning,.prose .admonition.caution,.prose .admonition.danger{border-left-color:var(--amber)}
+.prose .admonition.warning .admonition-title,.prose .admonition.caution .admonition-title,.prose .admonition.danger .admonition-title{color:var(--amber)}
+.prose .tbl{overflow-x:auto;margin:22px 0 26px}
+.prose table{border-collapse:collapse;width:100%;font-size:14.5px;line-height:1.55}
+.prose th,.prose td{text-align:left;vertical-align:top;padding:9px 16px 9px 0;border-bottom:1px solid var(--line)}
+.prose th{font:500 12.5px/1.4 var(--mono);color:var(--text-3);white-space:nowrap}
+.prose td code{font-size:.82em}
+@media (max-width:620px){.prose table:has(th:nth-child(4)){min-width:620px}}
+.prose hr{border:0;border-top:1px solid var(--line);margin:56px 0}
+.prose figure{margin:30px 0}
+.prose figure img{display:block;width:100%;border-radius:12px;border:1px solid var(--line-2)}
+.prose figcaption{font-size:13.5px;color:var(--text-3);margin-top:10px}
+/* code colours (Pygments classes) */
+.hl .c,.hl .c1,.hl .cm,.hl .ch,.hl .cs,.hl .cp,.hl .cpf{color:var(--text-3)}
+.hl .k,.hl .kn,.hl .kd,.hl .kc,.hl .kr,.hl .kt,.hl .kp,.hl .ow{color:var(--teal-hi)}
+.hl .s,.hl .s1,.hl .s2,.hl .sb,.hl .sd,.hl .se,.hl .sh,.hl .si,.hl .sx,.hl .sa,.hl .sc,.hl .ss,.hl .dl{color:var(--text-2)}
+.hl .nf,.hl .fm,.hl .nc,.hl .nn,.hl .nd,.hl .nt,.hl .na{color:var(--text)}
+.hl .o,.hl .p{color:var(--text-3)}
+.hl .gp{color:var(--text-3);user-select:none}
+.hl .go{color:var(--text-2)}
+.hl .err{color:inherit;background:none}
+.slot{font:500 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--teal-hi)}
+.callout{border:1px solid var(--line-2);border-radius:12px;padding:16px 18px;margin:26px 0;background:var(--bg-2)}
+.callout a{font-weight:600}
+.tbd{background:var(--amber-bg);color:var(--amber);border-radius:5px;padding:1px 7px;font-size:.88em}
+.postvid{margin:8px auto 48px;max-width:1008px}
+.postvid .frame{border-radius:14px;overflow:hidden;border:1px solid var(--line-2)}
+.postvid video{display:block;width:100%;aspect-ratio:1600/750}
+.postvid .cap{font-size:12.5px;color:var(--text-3);margin-top:12px;text-align:center}
+.draftbar{font:400 12.5px/1.6 var(--mono);color:var(--amber);background:var(--amber-bg);border-radius:10px;padding:10px 14px;margin:0 0 36px;display:flex;flex-wrap:wrap;gap:6px 18px}
+.draftbar a{color:inherit;text-decoration:underline}
+</style>
+<style>
+/* docs layout: sidebar, content, on-page contents */
+.docs{display:grid;grid-template-columns:240px minmax(0,1fr) 200px;gap:0 52px;max-width:var(--max-wide);margin:0 auto;padding:0 max(24px,env(safe-area-inset-right,0px)) 0 max(24px,env(safe-area-inset-left,0px))}
+.docs>main{grid-column:2;grid-row:1;min-width:0;padding:44px 0 0;max-width:760px}
+.docs.home>main{grid-column:2 / 4;max-width:none}
+.side{grid-column:1;grid-row:1;position:sticky;top:64px;align-self:start;max-height:calc(100vh - 64px);overflow-y:auto;padding:36px 8px 48px 0;font-size:14px;scrollbar-width:thin;scrollbar-color:var(--line-2) transparent}
+.side a{display:block;color:var(--text-2);padding:5px 10px;border-radius:7px;line-height:1.4}
+.side a:hover{color:var(--text);background:var(--panel);text-decoration:none}
+.side a[aria-current="page"]{color:var(--teal-hi);background:var(--teal-ink)}
+.side .top{font-weight:500;color:var(--text)}
+.side .grp{margin:22px 0 0}
+.side .grp>p{margin:0 0 6px;padding:0 10px;font:500 11.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--text-3)}
+.side ul{list-style:none;margin:0;padding:0}
+.side details{margin:2px 0}
+.side summary{cursor:pointer;color:var(--text-2);padding:5px 10px;border-radius:7px;list-style:none}
+.side summary::-webkit-details-marker{display:none}
+.side summary::before{content:"\203A";display:inline-block;width:14px;color:var(--text-3);transition:transform .15s}
+.side details[open]>summary::before{transform:rotate(90deg)}
+.side summary:hover{color:var(--text);background:var(--panel)}
+.side details ul{margin-left:14px;border-left:1px solid var(--line);padding-left:4px}
+.toc{grid-column:3;grid-row:1;position:sticky;top:64px;align-self:start;max-height:calc(100vh - 64px);overflow-y:auto;padding:52px 0 40px;font-size:13px;scrollbar-width:thin}
+.toc p{margin:0 0 10px;font:500 11.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--text-3)}
+.toc a{display:block;color:var(--text-3);padding:4px 0 4px 12px;border-left:1px solid var(--line);line-height:1.4}
+.toc a.h3{padding-left:24px}
+.toc a:hover{color:var(--text);text-decoration:none}
+.toc a[aria-current="true"]{color:var(--teal-hi);border-left-color:var(--teal-hi)}
+.toc code{font:400 .92em var(--mono)}
+.menu{display:none}
+.crumb{margin:0 0 14px;font:500 12px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--teal-hi)}
+.doctitle{font:600 clamp(2rem,4vw,2.75rem)/1.1 var(--sans);letter-spacing:-.03em;margin:0 0 28px;text-wrap:balance;overflow-wrap:break-word}
+.doctitle code{font-size:.85em}
+.docs .prose>:first-child{margin-top:0}
+.docs .prose h2{margin-top:52px}
+.pager{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:64px 0 0;padding-top:28px;border-top:1px solid var(--line)}
+.pager a{display:block;border:1px solid var(--line-2);border-radius:12px;padding:14px 16px;color:var(--text);background:var(--bg-2)}
+.pager a:hover{border-color:var(--teal-deep);text-decoration:none}
+.pager small{display:block;font:400 12px/1 var(--mono);color:var(--text-3);margin-bottom:8px}
+.pager .next{text-align:right;grid-column:2}
+.srcline{margin:22px 0 0;font-size:13px;color:var(--text-3)}
+.srcline a{color:var(--text-2)}
+/* the Docs landing */
+.dochero{padding:24px 0 8px;max-width:760px}
+.dochero h1{font:600 clamp(2.4rem,5vw,3.4rem)/1.05 var(--sans);letter-spacing:-.035em;margin:0 0 18px}
+.dochero .ora-intro{font-size:clamp(1.05rem,1.8vw,1.18rem);color:var(--text-2);font-weight:300;margin:0 0 12px;line-height:1.6}
+.dochero .ora-meta{font:400 13px/1.5 var(--mono);color:var(--text-3);margin:0 0 26px}
+.btns p{display:flex;flex-wrap:wrap;gap:10px;margin:0}
+.md-button{display:inline-flex;align-items:center;height:40px;padding:0 16px;border:1px solid var(--line-2);border-radius:10px;color:var(--text);background:var(--panel);font-size:14.5px;font-weight:500}
+.md-button:hover{text-decoration:none;border-color:var(--teal-deep)}
+.md-button--primary{background:var(--teal);border-color:var(--teal);color:var(--text)}
+.md-button--primary:hover{background:var(--teal-deep);border-color:var(--teal-deep)}
+.groups{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:44px 0 12px}
+@media (max-width:1180px){.groups{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:620px){.groups{grid-template-columns:1fr}}
+.gcard{border:1px solid var(--line-2);border-radius:14px;background:var(--bg-2);padding:20px 20px 18px;display:flex;flex-direction:column}
+.gcard:hover{border-color:var(--teal-deep)}
+.gcard h3{margin:0 0 8px;font:600 1.08rem/1.3 var(--sans);letter-spacing:-.01em}
+.gcard h3 a{color:var(--text)}
+.gcard>p{margin:0 0 14px;color:var(--text-2);font-size:14px;line-height:1.55}
+.gcard ul{list-style:none;margin:auto 0 0;padding:12px 0 0;border-top:1px solid var(--line);display:grid;gap:5px;font-size:13.5px}
+.gcard li a{color:var(--text-2)}
+.gcard li a:hover{color:var(--teal-hi)}
+.gcard .more{color:var(--text-3);font:400 12.5px var(--mono)}
+.home .prose{max-width:760px;margin-top:40px}
+@media (max-width:1240px){.docs{grid-template-columns:232px minmax(0,1fr);gap:0 44px}.toc{display:none}.docs.home>main{grid-column:2}}
+@media (max-width:900px){
+  .docs{grid-template-columns:minmax(0,1fr);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  .docs>main,.docs.home>main,.side{grid-column:1;grid-row:auto}
+  .docs>main{padding-top:6px}
+  .menu{display:flex;align-items:center;gap:8px;width:100%;margin:20px 0 16px;height:42px;padding:0 14px;border:1px solid var(--line-2);border-radius:10px;background:var(--bg-2);color:var(--text-2);font:500 14px var(--sans);cursor:pointer}
+  .menu b{color:var(--text);font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .menu::after{content:"\203A";margin-left:auto;transform:rotate(90deg);color:var(--text-3)}
+  .side{display:none;position:static;max-height:none;padding:0 0 18px;margin:0 0 18px;border-bottom:1px solid var(--line)}
+  .docs.open .side{display:block}
+  .pager{grid-template-columns:1fr}.pager .next{grid-column:1}
+}
+</style>
+</head>
+<body class="wide">
+<header class="nav"><div class="wrap"><a class="brand" href="../../../index.html"><i></i>ORA</a><nav aria-label="Site"><a href="../../../index.html">Overview</a><a href="../../../blog/index.html">Blog</a><a href="../../../docs/index.html" aria-current="page">Docs</a><a class="ext" href="../../../paper/ora-two-page.pdf" target="_blank" rel="noopener">Paper</a><a class="ext" href="https://github.com/hao-ai-lab/ORA" target="_blank" rel="noopener">Code</a></nav></div></header>
+<div class="docs"><button class="menu" type="button" aria-controls="docnav" aria-expanded="false">Menu · <b>Repository structure</b></button><aside class="side" id="docnav" aria-label="Documentation"><a class="top" href="../../index.html">Welcome</a><a class="top" href="../../how-ora-works/index.html">How ORA works</a><div class="grp"><p>Get started</p><ul><li><a href="../../getting-started/installation/index.html">Installation</a></li><li><a href="../../quickstart/index.html">First episode</a></li><li><a href="../../getting-started/model-apis/index.html">Model APIs</a></li><li><a href="../../getting-started/single-gpu/index.html">Run on one GPU</a></li><li><a href="../../getting-started/local/index.html">Run on your computer (CPU)</a></li><li><a href="../../getting-started/libero/index.html">LIBERO / LIBERO-Pro quick run</a></li><li><a href="../../getting-started/robotwin/index.html">RoboTwin quick run</a></li><li><a href="../../getting-started/robodojo/index.html">RoboDojo quick run</a></li><li><a href="../../getting-started/robocasa/index.html">RoboCasa365 quick run</a></li><li><a href="../../getting-started/robolab/index.html">RoboLab quick run</a></li><li><a href="../../getting-started/official-suite/index.html">Official suites on a cluster</a></li><li><a href="../../support/index.html">Supported setups</a></li><li><a href="../../getting-started/troubleshooting/index.html">Troubleshooting</a></li></ul></div><div class="grp"><p>Use ORA</p><ul><li><a href="../../usage/runs/index.html">Run and inspect</a></li><li><a href="../../usage/play/index.html">Free play</a></li><li><a href="../../usage/real-cells/index.html">Run a real robot cell</a></li><li><a href="../../usage/interactive/index.html">Interactive sessions</a></li><li><a href="../../usage/remote/index.html">Remote GPU server and web view</a></li><li><a href="../../usage/safety/index.html">Run ORA safely</a></li><li><a href="../../usage/rl-interface/index.html">Connect a training loop</a></li><li><a href="../../usage/viewer/index.html">Evidence viewer</a></li><li><a href="../../usage/examples/index.html">Examples</a></li><li><a href="../../usage/official-suite/index.html">Official-suite cookbook</a></li><li><a href="../../usage/compute-usage/index.html">Compute tool</a></li><li><a href="../../usage/commands/index.html">Commands and what they write</a></li><li><a href="../../usage/cli-reference/index.html">Command-line reference</a></li></ul></div><div class="grp"><p>Environments</p><ul><li><a href="../../environments/index.html">Overview</a></li><li><a href="../../environments/common/index.html">Host and perception setup</a></li><li><a href="../../environments/libero/index.html">LIBERO / LIBERO-Pro</a></li><li><a href="../../environments/robotwin/index.html">RoboTwin</a></li><li><a href="../../environments/robodojo/index.html">RoboDojo</a></li><li><a href="../../environments/robodojo-installation/index.html">RoboDojo installation reference</a></li><li><a href="../../environments/robocasa/index.html">RoboCasa365</a></li><li><a href="../../environments/robolab/index.html">RoboLab</a></li></ul></div><div class="grp"><p>Robots and tasks</p><ul><li><a href="../../robots/frames-and-units/index.html">Frames and units</a></li><li><a href="../../robots/embodiments/franka-panda/index.html">Franka Panda (LIBERO)</a></li><li><a href="../../robots/embodiments/aloha-agilex/index.html">ALOHA-AgileX (RoboTwin)</a></li><li><a href="../../robots/embodiments/arx-x5/index.html">ARX X5 (RoboDojo)</a></li><li><a href="../../robots/embodiments/panda-omron/index.html">PandaOmron (RoboCasa365)</a></li><li><a href="../../robots/embodiments/droid-franka-robotiq/index.html">DROID Franka with Robotiq (RoboLab)</a></li><li><a href="../../robots/embodiments/yam-station/index.html">Dual I2RT YAM (real cell)</a></li><li><a href="../../robots/tasks/libero/index.html">LIBERO / LIBERO-Pro tasks</a></li><li><a href="../../robots/tasks/robotwin/index.html">RoboTwin tasks</a></li><li><a href="../../robots/tasks/robodojo/index.html">RoboDojo tasks</a></li><li><a href="../../robots/tasks/robocasa/index.html">RoboCasa365 tasks</a></li><li><a href="../../robots/tasks/robolab/index.html">RoboLab tasks</a></li></ul></div><div class="grp"><p>Evaluation</p><ul><li><a href="../../evaluation/protocol/index.html">Evaluation protocol</a></li></ul></div><div class="grp"><p>Concepts</p><ul><li><a href="../../architecture/index.html">Architecture</a></li><li><a href="../../context-assembly/index.html">Context assembly</a></li><li><a href="../../reference/runtime-lifecycle/index.html">Runtime lifecycle</a></li><li><a href="../../glossary/index.html">Glossary</a></li></ul></div><div class="grp"><p>Reference</p><ul><li><a href="../../reference/index.html">Overview</a></li><li><a href="../../reference/public-interfaces/index.html">Public interfaces</a></li><li><a href="../../reference/toolkit-io/index.html">Toolkit I/O evidence</a></li><li><a href="../../reference/toolkit-protocol/index.html">Toolkit protocol and replay compatibility</a></li><li><a href="../../reference/toolkit-data/index.html">Toolkit data API</a></li><li><a href="../../reference/toolkit-execution/index.html">Toolkit synchronous execution</a></li><li><a href="../../reference/toolkit-state/index.html">Toolkit state and admission</a></li><li><a href="../../reference/toolkit-surface/index.html">File-backed toolkit surfaces</a></li><li><a href="../../reference/context-schemes/index.html">Context schemes and policy selection</a></li><li><a href="../../reference/append-only-context/index.html">Append-only context (management v8)</a></li><li><a href="../../reference/exchange-aging-context/index.html">Exchange aging (management v9)</a></li><li><a href="../../reference/keep-written-context/index.html">Keep what the model wrote (management v10)</a></li><li><a href="../../reference/tasks/index.html">Task files</a></li><li><a href="../../reference/source-overlay/index.html">Source overlays</a></li><li><a href="../../reference/policy-io/index.html">Policy I/O</a></li><li><a href="../../reference/configuration-and-evidence/index.html">Configuration and evidence</a></li><li><a href="../../reference/context-packs/index.html">Context packs</a></li><li><a href="../../reference/experiment-identity/index.html">Experiment identity</a></li><li><a href="../../reference/robotwin-contact-recovery/index.html">RoboTwin contact recovery</a></li><li><a href="../../reference/robotwin-qualification/index.html">RoboTwin seed and scene qualification</a></li><li><a href="../../reference/motion-speed/index.html">Motion speed and wrist checks</a></li><li><a href="../../reference/latency-profile/index.html">Latency profile</a></li><li><a href="../../reference/robodojo-motion-qualification/index.html">RoboDojo motion qualification</a></li><li><a href="../../reference/provider-replay/index.html">Recorded-provider tape replay</a></li><li><a href="../../reference/robodojo-reset-diagnostics/index.html">RoboDojo reset crash diagnostics</a></li><li><a href="../../reference/ora-local-cpu-compatibility/index.html">Local CPU compatibility</a></li><li><a href="../../reference/robocasa-robolab-backends/index.html">RoboCasa365 and RoboLab</a></li><li><a href="../../reference/robolab-tasks/index.html">RoboLab tasks and contracts</a></li></ul></div><div class="grp"><p>Python API</p><ul><li><a href="../../api/index.html">Overview</a></li><li><a href="../../api/plans/index.html">Plans and benchmark cells</a></li><li><a href="../../api/policy/index.html">Policy sessions</a></li><li><a href="../../api/environment/index.html">Environment sessions</a></li><li><a href="../../api/actions/index.html">Action contracts</a></li></ul></div><div class="grp"><p>Contribute</p><ul><li><a href="../onboarding/index.html">Start contributing</a></li><li><a href="../contributing/index.html">Contributing</a></li><li><a href="../../code-map/index.html">Code map</a></li><li><a href="index.html" aria-current="page">Repository structure</a></li><li><a href="../documentation/index.html">Documentation</a></li><li><a href="../docs-style/index.html">Docs style guide</a></li><li><a href="../testing/index.html">Testing</a></li><li><details><summary>Authoring guides</summary><ul><li><a href="../add-backend/index.html">Add an environment</a></li><li><a href="../authoring/environment-compatibility/index.html">Environment compatibility</a></li><li><a href="../authoring/tool-surface/index.html">Tool surfaces</a></li><li><a href="../authoring/prompt-bundle/index.html">Prompt bundles</a></li><li><a href="../authoring/task-contract/index.html">Task contracts</a></li><li><a href="../authoring/qualification/index.html">Qualification</a></li><li><a href="../authoring/trajectory-capture/index.html">Trajectory and viewer integration</a></li><li><a href="../authoring/frontend-style/index.html">Viewer style</a></li></ul></details></li><li><details><summary>Templates</summary><ul><li><a href="../../templates/environment-compatibility-record/index.html">Environment compatibility record</a></li><li><a href="../../templates/task-contract-review/index.html">Task contract review</a></li></ul></details></li></ul></div></aside><main id="content"><p class="crumb">Contribute</p><h1 class="doctitle">Repository structure</h1><article class="prose"><p>This page describes how the repository is laid out, the import rules that
+keep it that way, the files that may not move, and the decisions behind the
+layout. It records the tree as built by the October 2026 restructure; file
+counts are tracked files, and for Python directories the number of <code>.py</code>
+modules. <code>tests/repository/test_structure.py</code> checks the import rules, the
+test tree and the package READMEs on every change, statically, without
+importing <code>ora</code>.</p>
+<h2 id="0-finding-your-way-in">0. Finding your way in</h2>
+<pre class="hl" data-lang="text"><code>README.md                what ORA is, and one `ora run` episode
+docs/quickstart.md       install, one Synthetic episode, one simulator episode
+docs/how-ora-works.md    where the policy, the tools, the environment and the evidence sit in one run
+docs/architecture.md     the four layers and the two places a backend lives
+docs/code-map.md         one row per package, with a link to its README
+&lt;package&gt;/README.md      responsibility; what belongs here and what does not;
+                         dependency direction; entry points; documentation
+</code></pre>
+<p>After these six steps a reader can answer three questions. <strong>What is shared by
+every environment:</strong> <code>ora/contracts</code>, <code>ora/agent</code>, and the orchestrator and
+environment cores. <strong>What belongs to one simulator:</strong> only
+<code>ora/environment/backends/&lt;sim&gt;/</code> (the worker half, in the simulator's own
+interpreter) and <code>ora/orchestrator/backends/&lt;kind&gt;/</code> (the host half). <strong>Where a
+tool's code is:</strong> <code>ora/agent/toolkit/tools/&lt;name&gt;/</code>, one directory per tool.</p>
+<p>A new collaborator's first hour (install, the checks, one episode with and
+without a simulator, the three rules no change may break) is
+<a href="../onboarding/index.html">Start contributing</a>; <a href="../contributing/index.html">Contributing</a> is
+the path to a pull request, which <code>.github/pull_request_template.md</code> turns into
+a checklist.</p>
+<h2 id="1-top-level">1. Top level</h2>
+<pre class="hl" data-lang="text"><code>README.md  AGENTS.md  CLAUDE.md (imports AGENTS.md)  CONTRIBUTING.md  LICENSE  NOTICE  SECURITY.md  CITATION.cff
+pyproject.toml  uv.lock  policy.lock  .python-version
+ora/          1172  the Python package (707 modules; 414 files of policy data)
+ora-pi/        166  the TypeScript agent core (src/ 88) and ORA&#39;s web page (web/ 48)
+viewer/         42  the read-only run viewer and run dashboard, its own package (ora-viewer)
+tests/         651  the CPU-only suite (section 8)
+docs/           77  the documentation pages; docs-site/ builds them
+docs-site/      12  the documentation site&#39;s build (Blume)
+examples/        9  quickstart smoke, official-suite cells, host template
+scripts/         9  ora, ora-remote, docs and setup-robodojo wrappers; dev/ checks
+third_party/     3  license texts
+.github/         8  CI workflows, issue templates, the pull-request template
+</code></pre>
+<h2 id="2-layers-and-import-rules">2. Layers and import rules</h2>
+<pre class="hl" data-lang="text"><code>ora/app            the `ora` command: parse, ask, print, draw
+   |
+ora/orchestrator   RunSpec to RunPlan, preflight, leases, launch, the Supervisor&#39;s
+   |               episode loop, evaluation, sealing, reports;
+   |               backends/&lt;kind&gt;/ behind a string registry
+   +---------------------------+
+   |                           |
+ora/agent                   ora/environment
+the policy side             sessions, worker, Synthetic;
+                            backends/&lt;sim&gt;/ only in the isolated interpreter
+   |                           |
+   +---------------------------+
+   |
+ora/contracts      the action envelope and the contracts both sides share
+
+beside the layers: ora/policy (data, pinned by policy.lock), ora/robot_client
+(standard library only), ora/version.py, ora/cell (the real-cell kit)
+</code></pre>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Rule</th>
+<th>Statement</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>L1</td>
+<td>Layers import downward only: <code>app</code> &gt; <code>orchestrator</code> &gt; {<code>agent</code>, <code>environment</code>} &gt; <code>contracts</code>; <code>agent</code> and <code>environment</code> import nothing of each other; <code>policy</code> and <code>version</code> import no <code>ora</code> package; <code>robot_client</code> imports none and only <code>orchestrator</code> and <code>app</code> may import it; <code>cell</code> imports none (it reaches a robot's <code>cell_adapter</code> by a module-name string) and only <code>environment</code>, <code>orchestrator</code> and <code>app</code> may import it</td>
+<td>Holds</td>
+</tr>
+<tr>
+<td>L2</td>
+<td><code>ora</code> never imports <code>viewer</code> (the live world view moved into <code>ora/orchestrator/world_view.py</code>; <code>viewer</code> imports <code>ora</code>)</td>
+<td>Holds</td>
+</tr>
+<tr>
+<td>L3</td>
+<td>The orchestrator core reaches a backend only through <code>ora/orchestrator/backends/registry.py</code>, whose <code>BACKENDS</code> maps <code>runtime.kind</code> to <code>&quot;ora.orchestrator.backends.&lt;kind&gt;.backend:BACKEND&quot;</code>; the seven pinned <code>ora/orchestrator/robodojo_*.py</code> modules count as part of the RoboDojo backend</td>
+<td>Holds</td>
+</tr>
+<tr>
+<td>L4</td>
+<td>The environment core imports <code>ora/environment/backends/</code> only from the isolated-interpreter entry points <code>ora/environment/worker.py</code> and <code>replay_worker.py</code>; nothing outside <code>ora/environment/planners/</code> imports it (a planner worker is started by module name) and a planner imports no backend</td>
+<td>Holds</td>
+</tr>
+<tr>
+<td>L5</td>
+<td><code>ora/agent</code> never imports <code>ora/environment/backends</code>, <code>ora/orchestrator</code> or <code>ora/app</code></td>
+<td>Holds</td>
+</tr>
+<tr>
+<td>L6</td>
+<td>Inside <code>ora/agent</code>, a unit imports only lower units: <code>pi</code>, <code>tui</code> &gt; <code>session_core</code>, <code>scripted</code> &gt; <code>context</code> &gt; {<code>memory</code>, <code>code_mode</code>} &gt; <code>toolkit/host</code> &gt; {<code>composition</code>, <code>toolkit</code>} &gt; <code>providers</code>, <code>model_services</code> &gt; <code>evidence</code>, <code>sessions</code> &gt; <code>contracts</code>, <code>error_classes</code>; the toolkit's host, which holds the tool runtime frame (<code>host/runtime/</code>), counts as a unit of its own, so nothing else in <code>toolkit</code> imports it</td>
+<td>Holds</td>
+</tr>
+<tr>
+<td>L7</td>
+<td>Retired with the <code>ora/agent/tools</code> package (P21): it ordered that package's family sub-packages, and the tool runtime frame they held now sits in <code>ora/agent/toolkit/host/runtime/</code></td>
+<td>Retired</td>
+</tr>
+<tr>
+<td>L8</td>
+<td>Tests import only <code>ora</code>, <code>viewer</code>, <code>examples</code> and <code>tests.support</code>; no test module imports another</td>
+<td>Holds</td>
+</tr>
+<tr>
+<td>L9</td>
+<td>A package with sub-packages imports nothing eagerly in its <code>__init__.py</code> (lazy facades); allowed exceptions: <code>ora/agent/__init__.py</code> re-exports its contracts, and <code>ora/environment/backends/robodojo/__init__.py</code> imports <code>session.py</code> because it is a pinned kernel file</td>
+<td>Holds</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="3-oraenvironment-173-modules-506k-lines">3. <code>ora/environment/</code> (173 modules, 50.6k lines)</h2>
+<pre class="hl" data-lang="text"><code>ora/environment/                16  base, contracts, session, definitions, factory, rpc, worker,
+                                    replay_worker, synthetic, synthetic_capture, execution_capture,
+                                    controller_replay, graphics_probe, workspace_profiles,
+                                    robodojo_play_factory (+ lazy __init__)
+├── benchmarks/                 18  host-safe identities, rosters, pins, play-scene registries (+ 4 locked JSON)
+├── controllers/                26  host-safe motion-transaction, safety and per-embodiment contracts,
+│                                   the planner-neutral motion planning contract and the public-depth world
+├── planners/                    4  motion planner workers, each under its own interpreter: curobo_v2/, timing/
+└── backends/                       imported only inside the isolated worker
+    ├── libero_pro/             28  (+ installation/requirements)
+    ├── robotwin/               30  play_scenes/ 4, vendored/ 2 (copied into RoboTwin, not imported)
+    ├── robodojo/               30  play_scenes/ 6 (+ scenes/&lt;set&gt;/*.yml), installation/ 3
+    ├── robocasa/                7
+    └── robolab/                10  no __init__.py (a namespace package)
+</code></pre>
+<p>The layer kept its shape: the RoboDojo worker kernel and the RoboTwin seed-scan
+inputs live here, and moving them would void existing qualification records
+(section 12). The changes were the lazy <code>__init__.py</code> facade and a README per
+directory. <code>robodojo_play_factory.py</code> kept its name (decision 2).</p>
+<h2 id="4-oraagent-287-modules-533k-lines">4. <code>ora/agent/</code> (287 modules, 53.3k lines)</h2>
+<pre class="hl" data-lang="text"><code>ora/agent/                       4  contracts, error_classes (ToolError), scripted (+ __init__ facade)
+├── toolkit/host/               23  the trusted host the toolkit&#39;s tools run under: the adapters, I/O recording, observe&#39;s dual-arm image labels (+ README):
+│   ├── runtime/                16  the tool runtime frame: ToolRuntime protocol, factory, RobotToolRuntime base, ManipulationToolRuntime and the host state its mixins keep, the toolkit dispatch, publisher and input freezer (lazy __init__)
+│   ├── compute/                 5  the restricted geometry evaluator and its grammar
+│   ├── finish/                  5  finish_episode, check_task
+│   ├── grasp/                  12  grasp proposers, per-embodiment compilers and their identities, lift geometry, the Panda top-down fallback family
+│   ├── perception/             12  the segmented-target store, mask localization, grounding previews, the segmentation and grounding backend protocols, the fallback segmenter
+│   ├── reach/                   4  align_plan&#39;s candidates, jaw-centre offsets, probe feedback
+│   ├── motion_rules/            6  move_pose&#39;s argument reading, refusals, observed clearance
+│   ├── skills/                  8  grasp_execute&#39;s stage loop
+│   └── shared/                  7  saved steps, target / artifact / service refusals, artifact I/O, RGB-D fusion
+├── composition/                 5  baseline, ora_local, locked_assets, inspection (+ lazy facade)
+│   ├── surface/                16  ToolSurface resolution, tool names, units, view config, motion modes, compute grammar, robot_runtime definitions
+│   ├── schemas/                12  constants tool text shares with its runtime, the finish contract
+│   ├── embodiment/              8  descriptors, jaw models, control and geometry cards, environment context, moved sources
+│   ├── prompt/                  5  prompt bundles, policy layers, context packs, slots
+│   └── task_contract/           5  public completion contracts (generic and RoboDojo)
+├── context/                     2  causal_value (+ lazy facade)
+│   ├── observation/            10  one observation&#39;s projection (projector, contact points, public facts)
+│   ├── delivery/                7  capability-trimmed delivery (trims, dedup, round static facts)
+│   └── lossless/                7  Context v4-v6 contracts and the rollout compactor
+├── evidence/                   18  canonical, agent_events, trace_verify, trace_privacy, sft_export, wire_export, image binding, request archive, play trace
+├── memory/                      9  markers, read_tool, catalog, tool_runtime
+├── code_mode/                   9  code mode: contract, coding tools, runtime, sandbox, shell, workspace,
+│                                   runner and robot library (run inside the sandbox) (+ README)
+├── providers/                  22  openai_compatible, anthropic_*, fake, factory.build_provider, profiles, credentials, recovery
+├── model_services/              9  SAM3 / Contact-GraspNet resident services and their clients
+├── session_core/               16  the Python half of a native_api session
+├── sessions/                    3  PolicySession facade, scripted adapter
+├── pi/                         13  the Pi core&#39;s process, RPC, tool RPC, robot socket, code mode
+└── tui/                         6  the ora watch transcript
+</code></pre>
+<p><code>tests/data/published-limits.json</code> names its owners as
+<code>ora.agent...:NAME</code>, and six embodiment JSON files name module paths; both
+were rewritten with the moves, and the embodiment files re-pinned in
+<code>policy.lock</code>.</p>
+<h2 id="5-oraorchestrator-187-modules-387k-lines">5. <code>ora/orchestrator/</code> (187 modules, 38.7k lines)</h2>
+<pre class="hl" data-lang="text"><code>ora/orchestrator/               16  paths, leases, launch, supervise, faults, import_closure, progress,
+                                    world_view (+ world_view_assets/), identity-registry.json, lazy facade,
+                                    and the seven pinned robodojo_*.py (section 12)
+├── spec/                       26  RunSpec to RunPlan: run_spec and its section resolvers, values, benchmark
+│                                   builders, defaults, policy pins and lock, experiment identity, baselines
+├── preflight/                  11  launch gates, checks, resources and host storage, the provider probe
+├── episode/                    32  coordinator, loop, actions, action_executor, stage_outcome, rounds, play,
+│                                   trusted stops, operator control, script actions, agent core selection
+├── evaluation/                 24  evaluate / seal / export and their checks, metrics, context audit and
+│                                   manifests, ownership audit, model-visible identity, revalidation
+├── reports/                     6  run_report and its price table
+├── suite/                       3  official-suite cells and queue
+├── play/                        3  play scenes and their plan binding
+├── hosts/                          local-cpu and single-gpu host profiles
+└── backends/                    3  registry, synthetic (+ README)
+    ├── libero_pro/              8
+    ├── robotwin/               13  seed scans, seed manifests and admission, play audit
+    ├── robodojo/               23  motion/ 5
+    ├── robocasa/                6
+    └── robolab/                11  the RoboLab-120 roster and contract generator, the contract witness
+</code></pre>
+<p>An <code>OrchestratorBackend</code> has 24 fields besides its <code>kind</code>: only
+<code>resolve_runtime</code> and <code>preflight_runtime</code> are required, <code>capabilities</code> is
+data, and every other hook is optional with a core default. Each backend package's <code>__init__.py</code> holds a docstring only, and
+<code>registry.backends()</code> is the one call that imports all of them. The core
+sub-packages are not layered among themselves yet: <code>episode</code> and <code>evaluation</code>
+read each other's vocabularies, and <code>spec</code> and <code>preflight</code> read
+<code>episode/agent_core.py</code>.</p>
+<h2 id="6-oraapp-and-the-ora-command">6. <code>ora/app/</code> and the <code>ora</code> command</h2>
+<pre class="hl" data-lang="text"><code>ora/app/                        38  main (one parser, COMMANDS, GROUPS), one module per command group:
+                                    setup, doctor, run, play, replay, web, interactive, plan, runs,
+                                    evidence, report, spec, qualify, suite, providers, services,
+                                    catalog, ladder, dev, cli_reference; helpers: passthrough,
+                                    quickstart, local, local_setup, gpu_setup, gpu_recipes, env_file,
+                                    run_services, task_catalog, backend, world, web_gateway,
+                                    replay_export, remote, remote_session
+└── help/                        6  topic pages: runs, evidence, play, remote, safety, rl-interface
+</code></pre>
+<p><code>ora --help</code> groups the commands:</p>
+<pre class="hl" data-lang="text"><code>Run an episode                       setup doctor run play replay web interactive attach sessions local
+Formal runs and evidence             plan launch retry status stop watch workspace evaluate seal
+                                     revalidate export export-sft report metadata state metrics
+                                     ownership trace-validate
+Environment qualification and suites spec qualify suite &quot;play audit&quot;
+Configuration                        providers services baselines lock
+Developer                            ladder dev help
+</code></pre>
+<p>Help has three levels: <code>ora --help</code> (the groups, in English or Chinese),
+<code>ora &lt;command&gt; --help</code> (argparse), and <code>ora help &lt;topic&gt;</code> (the pages in
+<code>ora/app/help/</code>, package data). A topic wins over a command of the same name:
+<code>ora help play</code> prints the page, <code>ora play --help</code> the options.
+<code>docs/usage/cli-reference.md</code> is generated from the parser by <code>ora dev cli-reference --write</code>, and <code>tests/ora/app/test_cli_reference.py</code> fails on a
+stale page; <code>docs/usage/commands.md</code> is the hand-written guide.</p>
+<p>Operator tools a backend owns are reached by kind, not imported by the app:
+<code>ora spec ENV TOOL</code>, <code>ora qualify ENV TOOL</code> and <code>ora play audit --env ENV</code> run
+the tools the backend declares (<code>spec_tools</code>, <code>qualify_tools</code>, <code>play_audit</code>).
+<code>ora spec libero</code> covers LIBERO-Pro; the RoboTwin seed-scan tool is <code>ora qualify robotwin qualify</code>. The Viewer's offline builds are <code>ora-viewer compile previews|videos</code>.</p>
+<p>Twenty-five modules keep a <code>python -m</code> entry point or run by path because a
+process starts them (the simulator worker, the supervisor, probes, audits,
+installers, the robot client); ora/app/README.md
+lists them with who starts each, and <code>tests/ora/app/test_main.py</code> checks the
+list against the <code>__main__</code> guards. Folded tools left no compatibility shim at
+their old <code>python -m</code> path.</p>
+<p><code>scripts/</code> keeps <code>ora</code>, <code>ora-remote</code>, <code>docs</code>, <code>setup-robodojo</code> (the pinned
+RoboDojo installer's receipt names it), <code>lib/python.sh</code> and <code>dev/{check, compare-model-visible, refresh-vendored-pins}</code>; the other wrappers became <code>ora</code>
+or <code>ora-viewer</code> commands.</p>
+<h2 id="7-ora-pi">7. <code>ora-pi/</code></h2>
+<pre class="hl" data-lang="text"><code>ora-pi/
+├── bin/                         2  ora-rpc-attach, attach.sh
+├── src/                        88  main.ts, rpc.ts, jcs.ts, pyjson.ts
+│   ├── core/  context/ (+ memory/)  provider/  evidence/  play/  rpc/  tui/  watch/
+├── test/                           node --test unit tests
+└── web/                        48  ORA&#39;s web page: React client (src/), Node server (server/), tests
+</code></pre>
+<p>The directory layout did not change. <code>src/watch/index.mjs</code> now starts <code>python -m ora.app.backend</code>.</p>
+<h2 id="8-tests">8. <code>tests/</code></h2>
+<p>The test tree mirrors the code tree: <code>tests/ora/&lt;package path&gt;/test_*.py</code>
+covers <code>ora/&lt;package path&gt;/</code>, and <code>tests/viewer/</code> covers <code>viewer/</code>. Only
+<code>tests/support/</code> may be imported across directories (rule L8); fixed samples
+live in <code>tests/data/</code>. <code>tests/agent_core/</code> holds the TypeScript-core parity
+and sealed-replay tests, selected by the <code>agent_core</code> marker, and
+<code>tests/repository/</code> the repository-wide guards (canonical imports, module
+size ratchet, packaging, policy lock, this structure). Lanes are selected by
+marker, not by path. <a href="https://github.com/hao-ai-lab/ORA/blob/main/tests/README.md"><code>tests/README.md</code></a> maps each
+directory to the code it covers, and <a href="../testing/index.html">Testing</a> says which check
+to run for a change.</p>
+<pre class="hl" data-lang="text"><code>tests/                           2  conftest (+ __init__); README.md
+├── ora/                         1  the mirror of ora/
+│   ├── contracts/               3
+│   ├── agent/                   4  the ToolError envelope (error_classes)
+│   │   ├── composition/         3  surface/ 19, schemas/ 3, embodiment/ 7, prompt/ 4, task_contract/ 4
+│   │   ├── context/             2  observation/ 6, delivery/ 7, lossless/ 7
+│   │   ├── toolkit/host/       13  runtime/ 21, grasp/ 5, perception/ 6, compute/ 2, finish/ 3, skills/ 5, shared/ 1, reach/ 7
+│   │   ├── evidence/            7
+│   │   ├── memory/              2
+│   │   ├── code_mode/           4
+│   │   ├── providers/          11
+│   │   ├── model_services/      3
+│   │   └── session_core/       11
+│   ├── environment/             5  worker RPC, execution capture, local platform, wait
+│   │   ├── controllers/         7
+│   │   ├── planners/            0  curobo_v2/ 1 (the worker over a stand-in engine), timing/ (the real worker, skipped without its interpreter)
+│   │   └── backends/            1  libero_pro/ 14, robotwin/ 20, robodojo/ 30, robocasa/ 2, robolab/ 9
+│   ├── orchestrator/           10  leases, launch, supervise, paths and storage, world view, control plane
+│   │   ├── spec/               11
+│   │   ├── preflight/           4
+│   │   ├── episode/            15
+│   │   ├── evaluation/          8
+│   │   ├── reports/             2
+│   │   ├── suite/               3
+│   │   ├── play/                2
+│   │   └── backends/            3  libero_pro/ 2, robotwin/ 5, robodojo/ 18, robocasa/ 2, robolab/ 3
+│   ├── app/                    24  one module per command module, test_main, test_help, the CLI reference
+│   ├── robot_client/            2
+│   └── cell/                    7  config, calibration, lock, occupancy, geometry; operator/ 3, depth/ 2
+├── viewer/                      7  dashboard/ 3
+├── agent_core/                 21  the Pi core: parity, faults, crash resume, stops, sealed replays
+├── repository/                  9  canonical imports, module-size ratchet, packaging, policy lock,
+│                                   path-only references, undefined globals, dead state, test_structure
+├── support/                     1  agent/ 34, agent_core/ 11 (+ provider/ 10, replay/ 4), cell/ 2,
+│                                   context_pack/ 2, libero/ 3, orchestrator/ 13, robodojo/ 17, robotwin/ 7
+└── data/                      155  files: agent_core/ 24, context_differential/ 105, context_pack/ 5,
+                                    delivery_trim/ 6, hosts/ 3, prompts/ 5, robodojo/ 4, 3 JSON
+</code></pre>
+<p>Counts are <code>.py</code> modules per directory (test modules, <code>__init__.py</code> and
+<code>conftest.py</code>); <code>tests/data/</code> counts files. The suite has 328 test modules:
+295 under <code>tests/ora/</code>, 19 in <code>tests/agent_core/</code>, 8 in <code>tests/repository/</code>
+and 6 in <code>tests/viewer/</code>.</p>
+<h2 id="9-docs-and-the-package-readmes">9. <code>docs/</code> and the package READMEs</h2>
+<pre class="hl" data-lang="text"><code>docs/                         README (index), quickstart, how-ora-works, architecture, code-map,
+                              context-assembly, glossary, support
+├── getting-started/      11  installation, local, single-gpu, model-apis, &lt;env&gt; x 5,
+│                             official-suite, troubleshooting
+├── usage/                10  runs, play, real-cells, interactive, remote, safety, rl-interface,
+│                             compute-usage, commands (hand-written), cli-reference (generated)
+├── environments/          7  README, common, &lt;env&gt; x 5
+├── evaluation/            1  protocol
+├── reference/            12  public interfaces, configuration and evidence, runtime lifecycle,
+│                             policy I/O, context packs, experiment identity, RoboTwin seed and
+│                             scene qualification, RoboTwin contact recovery, RoboDojo motion
+│                             qualification, RoboCasa365 and RoboLab, local CPU compatibility
+├── api/                   5  actions, environment, plans, policy
+├── robots/                1  frames and units (the robot and task pages are generated)
+├── developer/             6  onboarding, testing, documentation, docs-style, add-backend,
+│   │                         repository-structure
+│   └── authoring/         7  tool-surface, prompt-bundle, qualification, task-contract,
+│                             environment-compatibility, trajectory-capture, frontend-style
+├── templates/             2
+├── design/                3  design records, not current contracts; not published
+└── assets/                5
+</code></pre>
+<p><code>docs/guides/</code> was split by reader: user-facing pages went to
+<code>getting-started/</code> and <code>usage/</code>, author-facing ones to <code>developer/authoring/</code>,
+and the test-suite navigation page folds into the developer testing page.
+<code>docs-site/navigation.json</code> lists every page; <code>./scripts/docs build</code> fails on
+a page missing from it, a broken link or anchor, and syntax the conversion
+does not handle, and <code>scripts/dev/check</code> runs it.</p>
+<p>Every package below carries a README in the same five sections
+(responsibility; what belongs here and what does not; dependency direction;
+entry points; documentation), and <code>test_every_package_has_readme</code> fails when
+one is missing: <code>ora/</code>, <code>ora/contracts</code>, <code>ora/environment</code>,
+<code>ora/environment/backends/&lt;sim&gt;</code> x 5, <code>ora/environment/benchmarks</code>,
+<code>ora/environment/controllers</code>, <code>ora/environment/planners</code>, <code>ora/agent</code>,
+<code>ora/agent/composition</code>, <code>ora/agent/context</code>, <code>ora/agent/code_mode</code>, <code>ora/orchestrator</code>,
+<code>ora/orchestrator/backends</code>, <code>ora/app</code>, <code>ora/policy</code>, <code>ora/robot_client</code>,
+<code>ora/cell</code>, <code>ora-pi</code>, <code>viewer</code>, <code>tests</code>, <code>scripts</code>, <code>examples</code>. Every <code>README.md</code> under
+<code>ora/</code> ships with the wheel as package data.</p>
+<h2 id="10-viewer-and-examples">10. <code>viewer/</code> and <code>examples/</code></h2>
+<ul>
+<li><code>viewer/</code> stays its own package (<code>ora-viewer</code>): it imports <code>ora</code>, <code>ora</code> never
+imports it, and it carries the HTML templates <code>ora</code> does not. The live world
+view moved into <code>ora/orchestrator/world_view.py</code>; the Viewer's offline
+builds are <code>ora-viewer compile previews|videos</code>. <code>ora-viewer dashboard</code>
+serves the run dashboard (<code>viewer/dashboard/</code>), which imports nothing from
+<code>ora</code>.</li>
+<li><code>examples/</code>: <code>quickstart_smoke.py</code>, <code>official_suite/</code> (<code>run.py</code>,
+<code>scheduler.py</code>, <code>experiment.yaml</code>; the scheduler takes its leases from
+<code>ora/orchestrator/leases.py</code>) and <code>hosts/example-host.yaml</code>.</li>
+</ul>
+<h2 id="11-removed-and-folded">11. Removed and folded</h2>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>The RoboTwin v1 closed-skill profile <code>robotwin_toolchain_b2_closed_noservo_v1</code> and the code only it reached (<code>tools/placement*.py</code>, <code>tools/runtime/holding.py</code>, <code>tools/retention*.py</code>, the place and stop branches of the skill driver, ledger, candidates and receipts)</td>
+<td>Only v1 advertised those tools; the default v2 excludes them. Shared components whose names say v1 stay, because v2 composes them</td>
+</tr>
+<tr>
+<td><code>context/projection.py</code>'s test-only inventory, externalize and checkpoint code (975 lines) and <code>context/preview_shortfall.py</code></td>
+<td>The TypeScript core is the implementation; the differential fixtures in <code>tests/data/context_differential</code> are frozen</td>
+</tr>
+<tr>
+<td><code>evidence/durability.py</code> and its always-<code>None</code> parameter</td>
+<td>Never wired into production; the TypeScript core owns write durability</td>
+</tr>
+<tr>
+<td><code>pi/jcs.py</code> (to <code>tests/support/agent/jcs.py</code>), <code>tui/__main__.py</code>, ten unused <code>__main__</code> guards</td>
+<td>Only tests used them, or nothing started them</td>
+</tr>
+<tr>
+<td><code>ora/orchestrator/cli.py</code>, <code>ora_cli.py</code> and the <code>ora_*</code> product modules</td>
+<td>One parser and one command table in <code>ora/app/</code></td>
+</tr>
+<tr>
+<td><code>ora/orchestrator/spec.py</code>'s <code>experiments.*</code> launch-gate path</td>
+<td>It named a package that does not exist here; every plan that used it failed</td>
+</tr>
+<tr>
+<td><code>scripts/model-services</code>, <code>run-report</code>, <code>open-viewer</code>, <code>dev/audit-prompt-bundle</code>, <code>dev/audit-task-contracts</code>, <code>dev/compile-libero-previews</code>, <code>dev/compile-viewer-videos</code></td>
+<td><code>ora services</code>, <code>ora report</code>, <code>ora dev …</code> and <code>ora-viewer</code> commands</td>
+</tr>
+<tr>
+<td>Renamed, kept: <code>context/codex.py</code> to <code>context/observation/projector.py</code>, <code>delivery_trim_native.py</code> to <code>delivery/trim_envelope.py</code>, <code>providers/native.py</code> split into one module per wire protocol (<code>build_native_provider</code> is <code>factory.build_provider</code>)</td>
+<td>The names were left over from the Codex and Native cores; the code serves the Pi path</td>
+</tr>
+</tbody>
+</table></div>
+<p>Not removed: <code>robotwin/vendored/{planner,robot}.py</code> (the payload copied into
+RoboTwin), <code>policy/planners/native/*.md</code> (locked prompt layers) and
+<code>policy/baselines/native-full-explicit-motion-direct-v4.json</code> (the default
+baseline's id).</p>
+<h2 id="12-files-that-may-not-move">12. Files that may not move</h2>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Files</th>
+<th>Why</th>
+<th>If moved or edited</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>The 82 RoboDojo worker-kernel files (<code>WORKER_KERNEL_PATHS</code> in <code>ora/orchestrator/robodojo_kernel.py</code>): 15 in <code>ora/contracts</code>, 5 in the <code>ora/environment</code> root (<code>base</code>, <code>execution_capture</code>, <code>factory</code>, <code>rpc</code>, <code>worker</code>), 2 in <code>environment/benchmarks</code> (<code>robodojo</code>, <code>robodojo_layouts</code>), 22 in <code>environment/controllers</code>, 38 in <code>environment/backends/robodojo</code></td>
+<td>Card and task qualification records hash them by path and bytes, comments included</td>
+<td>Every card and task record is void until the RoboDojo lanes are re-qualified on a healthy Isaac card</td>
+</tr>
+<tr>
+<td>The 9 RoboDojo play-kernel files (<code>PLAY_KERNEL_PATHS</code> in <code>ora/orchestrator/robodojo_play_kernel.py</code>): <code>robodojo/play_scenes/*.py</code>, <code>benchmarks/robodojo_play_layouts.py</code>, <code>benchmarks/robodojo_play_scenes.py</code>, <code>environment/robodojo_play_factory.py</code></td>
+<td>Every play-scene audit binds them</td>
+<td>The play audit runs again</td>
+</tr>
+<tr>
+<td><code>ora/orchestrator/episode/action_executor.py</code></td>
+<td>The one orchestrator member of <code>robodojo_revalidation.DEPENDENCIES</code>, read by path from the plan's commit</td>
+<td>Lane revalidation certificates made at another path or bytes do not load; the lane is re-signed (scene smoke, then revalidate)</td>
+</tr>
+<tr>
+<td><code>ora/orchestrator/robodojo_kernel.py</code>, <code>robodojo_qualification.py</code>, <code>robodojo_play_kernel.py</code>, <code>robodojo_play_audit.py</code></td>
+<td>Past commits are read at the first three paths for the kernel manifests (<code>WORKER_KERNEL_PATHS</code>, <code>PLAY_KERNEL_PATHS</code>) and their owner tuples; the play kernel's files name the fourth</td>
+<td>May move only with the new path added to the owner tuples and the old one kept; <code>WORKER_KERNEL_PATHS</code> stays a frozen literal</td>
+</tr>
+<tr>
+<td><code>ora/orchestrator/robodojo_revalidation.py</code>, <code>robodojo_scene_smoke.py</code>, <code>robodojo_layout_smoke.py</code></td>
+<td><code>CHECKER</code> and <code>CHECKER_FILES</code> name these paths</td>
+<td>May move with those constants; their algorithms' output is frozen</td>
+</tr>
+<tr>
+<td>Everything else under <code>ora/environment/backends/robodojo/</code></td>
+<td>Its installer writes <code>scripts/setup-robodojo</code> into its receipt, and its scene YAMLs are bound per scene</td>
+<td>Re-sign the matching records</td>
+</tr>
+<tr>
+<td><code>ora/environment/backends/robotwin/{qualification,session,common}.py</code>, <code>ora/environment/benchmarks/robotwin.py</code>, <code>uv.lock</code>, <code>pyproject.toml</code> (the whole file)</td>
+<td>The RoboTwin seed scans' <code>producer_dependency_hash</code> and <code>checker_hash</code></td>
+<td>New scans do not merge with older segments, and a running scan cannot resume</td>
+</tr>
+<tr>
+<td>Module paths inside JSON (<code>tests/data/published-limits.json</code> owners, <code>policy.lock</code>-pinned embodiment descriptors)</td>
+<td>Data that names code</td>
+<td>Edit the JSON with the move, and re-pin a pinned file, in the same commit</td>
+</tr>
+<tr>
+<td>What the model sees, the evidence schemas, the evaluability of sealed runs</td>
+<td>Product invariants</td>
+<td><code>scripts/dev/compare-model-visible &lt;base&gt; HEAD</code> reports no difference; old sealed runs still evaluate and replay</td>
+</tr>
+</tbody>
+</table></div>
+<p>Comments in pinned files that still name pre-restructure module paths stay as
+they are until those files are next re-signed; so do the worker kernel's
+mentions of run forks (<code>execution_request.py</code>, <code>ik.py</code>, <code>ik_sampler.py</code>,
+<code>kinematics_query.py</code>, <code>native_sequence.py</code>), a feature that has not landed;
+what they say of a fork holds for a restore from a recorded boundary, the case
+that exists.</p>
+<h2 id="13-the-interface-for-training-loops">13. The interface for training loops</h2>
+<p>ORA has no Python training code; a training loop needs three things, and each
+exists:</p>
+<ol>
+<li><strong>A replaceable model endpoint.</strong> The policy is reached through a provider
+profile (<code>ora/agent/providers/</code>, <code>ora providers add</code>): a checkpoint being
+trained is one more OpenAI-compatible or Anthropic Messages endpoint.</li>
+<li><strong>Identifiable calls.</strong> Each episode's agent trace (<code>agent-events.jsonl</code>)
+records every model call with <code>run_id</code>, <code>policy_session_id</code>,
+<code>observation_step</code> and <code>model_call_id</code>, and the exact request bytes by
+sha256. These ids are not on the wire: only a profile that declares
+<code>session_affinity: x_session_id_run_v1</code> sends <code>X-Session-ID: ora:&lt;run_id&gt;:native</code>, so a server can group requests by run.</li>
+<li><strong>Evidence export.</strong> The reward is the run's <code>official_success</code>;
+<code>ora trace-validate RUN</code> checks the trace and <code>ora export-sft RUN</code> writes
+the accepted model calls as tool-call JSONL with their attribution, loss
+mask, provider usage and manifest (<code>evidence/trace_verify.py</code>,
+<code>evidence/sft_export.py</code>); <code>--view wire</code> exports every call as it was
+sent, each image once, with each call's token ids, and proves the export
+rebuilds the archived requests (<code>evidence/wire_export.py</code>,
+<code>evidence/token_ids.py</code>); <code>--view openai</code> packages it for sharing with a
+standard-library verify tool (<code>evidence/openai_package.py</code>,
+<code>evidence/openai_package_tool.py</code>).
+Concurrency comes from the resource leases and the suite queue.</li>
+</ol>
+<p><a href="../../usage/rl-interface/index.html">Connect a training loop</a> and <code>ora help rl-interface</code>
+describe it for users.</p>
+<h2 id="14-decisions-taken">14. Decisions taken</h2>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Question</th>
+<th>Decision</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Name of the command-line package</td>
+<td><code>ora/app</code>: it holds the terminal UI, the web gateway and the backend process as well as the parser</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Keep <code>action_executor.py</code> pinned at the orchestrator root, or move it into <code>episode/</code> and re-sign the RoboDojo lanes once; the same for renaming <code>robodojo_play_factory.py</code></td>
+<td><code>action_executor.py</code> moved into <code>episode/</code> (with <code>stage_outcome.py</code>), and the RoboDojo lanes are re-signed once after the move. <code>robodojo_play_factory.py</code> kept its name and path, so the play audits stay valid</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>context/projection.py</code>'s test-only code</td>
+<td>Deleted; the differential fixtures are frozen</td>
+</tr>
+<tr>
+<td>4</td>
+<td>The RoboTwin v1 closed-skill profile</td>
+<td>Deleted</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Where the TypeScript-core parity tests live</td>
+<td><code>tests/agent_core/</code>, a marker-selected lane, not <code>tests/ora/agent/pi/</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td>The M0-M5 ladder</td>
+<td>Stayed, as <code>ora ladder</code> in the developer group, until its retirement on 2026-11-02 (<a href="https://github.com/hao-ai-lab/ORA/blob/main/ora/policy/README.md">policy README</a>)</td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>viewer/</code> as its own package or <code>ora/viewer/</code></td>
+<td>Its own package</td>
+</tr>
+<tr>
+<td>8</td>
+<td>The <code>scripts/ora</code> wrapper</td>
+<td>Kept; only its target changed</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Branch protection and a pull-request flow on <code>main</code></td>
+<td>After the restructure</td>
+</tr>
+</tbody>
+</table></div>
+<p>As built, a few choices differ from the first plan:</p>
+<ul>
+<li>Backend registry entries name a module per package
+(<code>ora.orchestrator.backends.robodojo.backend:BACKEND</code>), so each package's
+<code>__init__.py</code> stays empty (rule L9).</li>
+<li>The shared vocabularies went where rule L6 allows: tool names to
+<code>composition/surface/tool_names.py</code>, units to <code>composition/surface/units.py</code>,
+context slots to <code>composition/prompt/slots.py</code>, the SAM3 and
+Contact-GraspNet clients to <code>model_services/clients.py</code>.</li>
+<li><code>environment_preflight.py</code>, which only forwarded RoboDojo, was removed, and
+<code>controller_preflight.py</code> (the RoboTwin control-binding check) became part
+of <code>backends/robotwin/preflight.py</code>.</li>
+<li><code>evidence/trajectory.py</code>, <code>memory/artifacts.py</code> and <code>providers/__init__.py</code>
+stay as re-exporting facades for the orchestrator's imports.</li>
+<li><code>scripts/setup-robodojo</code> stays (the pinned installer names it); the RoboTwin
+seed-scan subcommand is still <code>qualify</code>, not <code>scan</code>.</li>
+<li><code>ora/environment/backends/robolab/</code> has no <code>__init__.py</code> yet.</li>
+</ul>
+<h2 id="15-what-moved">15. What moved</h2>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>From</th>
+<th>To</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ora/agent/tools/*.py</code> (87 flat modules)</td>
+<td><code>ora/agent/tools/&lt;family&gt;/</code> (ten families; <code>robot.py</code> became <code>runtime/base.py</code> with two mixins; <code>grasp/__init__.py</code> split into perception and grasp modules)</td>
+</tr>
+<tr>
+<td><code>ora/agent/composition/*.py</code></td>
+<td><code>surface/</code>, <code>schemas/</code> (the <code>*_schema.py</code> binders, suffix dropped), <code>embodiment/</code>, <code>prompt/</code>, <code>task_contract/</code></td>
+</tr>
+<tr>
+<td><code>ora/agent/context/*.py</code></td>
+<td><code>observation/</code> (<code>codex.py</code> became <code>projector.py</code>), <code>delivery/</code>, <code>lossless/</code></td>
+</tr>
+<tr>
+<td><code>ora/agent/tools/tool_names.py</code>, <code>context/policy_units.py</code>, <code>context/slots.py</code></td>
+<td><code>composition/surface/tool_names.py</code>, <code>composition/surface/units.py</code>, <code>composition/prompt/slots.py</code></td>
+</tr>
+<tr>
+<td><code>ora/agent/tools/repeated_failures.py</code></td>
+<td><code>ora/agent/session_core/repeated_failures.py</code></td>
+</tr>
+<tr>
+<td><code>ora/agent/tools/runtime/</code> (P21; <code>toolkit_dispatch</code>, <code>toolkit_tool_data</code> and <code>toolkit_inputs</code> dropped their prefix), <code>tools/grasp/panda_topdown.py</code>, <code>tools/perception/{backends,fallback_segmenter}.py</code>, <code>tools/observe/dual_arm.py</code></td>
+<td><code>ora/agent/toolkit/host/runtime/</code>, <code>host/grasp/</code>, <code>host/perception/</code>, <code>host/observe_labels.py</code>; <code>set_gripper</code>'s advisory capability constant went into <code>host/runtime/core.py</code>, and the <code>ora/agent/tools</code> package is gone</td>
+</tr>
+<tr>
+<td><code>ora/agent/providers/native.py</code></td>
+<td><code>openai_compatible.py</code>, <code>anthropic_*.py</code> and the other protocol modules; <code>factory.build_provider</code></td>
+</tr>
+<tr>
+<td><code>ora/agent/evidence/trajectory.py</code></td>
+<td><code>canonical</code>, <code>agent_events</code>, <code>trace_privacy</code>, <code>trace_verify</code>, <code>sft_export</code> (the old module re-exports them)</td>
+</tr>
+<tr>
+<td><code>ora/agent/memory/artifacts.py</code></td>
+<td><code>markers</code>, <code>read_tool</code>, <code>catalog</code>, <code>tool_runtime</code></td>
+</tr>
+<tr>
+<td><code>ora/orchestrator/spec_*.py</code>, <code>run_spec_inputs.py</code>, <code>yaml_cache.py</code>, <code>quickstart.py</code>, …</td>
+<td><code>ora/orchestrator/spec/</code></td>
+</tr>
+<tr>
+<td><code>ora/orchestrator/resource*.py</code>, <code>provider_probe_*.py</code>, <code>host_storage.py</code>, …</td>
+<td><code>ora/orchestrator/preflight/</code></td>
+</tr>
+<tr>
+<td><code>ora/orchestrator/episode_*.py</code>, <code>round_*.py</code>, <code>termination.py</code>, <code>stagnation.py</code>, <code>action_executor.py</code>, <code>stage_outcome.py</code>, …</td>
+<td><code>ora/orchestrator/episode/</code></td>
+</tr>
+<tr>
+<td><code>ora/orchestrator/evaluation*.py</code>, <code>verdict_guard.py</code>, <code>metrics*.py</code>, <code>context_*.py</code>, <code>revalidation.py</code>, …</td>
+<td><code>ora/orchestrator/evaluation/</code></td>
+</tr>
+<tr>
+<td><code>ora/orchestrator/run_report*.py</code>, <code>suite_*.py</code>, <code>play_scenes.py</code></td>
+<td><code>reports/</code>, <code>suite/</code>, <code>play/</code> (<code>scenes.py</code> and <code>binding.py</code>)</td>
+</tr>
+<tr>
+<td>Lease and launch code in <code>ora/orchestrator/cli.py</code>, <code>lease_claim.py</code></td>
+<td><code>ora/orchestrator/leases.py</code>, <code>launch.py</code></td>
+</tr>
+<tr>
+<td>Backend-specific code in the orchestrator core</td>
+<td><code>ora/orchestrator/backends/&lt;kind&gt;/</code> behind <code>registry.py</code></td>
+</tr>
+<tr>
+<td><code>ora/orchestrator/cli.py</code>, <code>ora_cli.py</code>, <code>ora_*.py</code>, <code>doctor.py</code>, <code>providers_cli.py</code>, <code>model_services_cli.py</code></td>
+<td><code>ora/app/</code> (<code>ora.app.main:main</code>)</td>
+</tr>
+<tr>
+<td><code>viewer/live_world.py</code>, <code>viewer/static/live_world.js</code></td>
+<td><code>ora/orchestrator/world_view.py</code>, <code>world_view_assets/</code></td>
+</tr>
+<tr>
+<td><code>docs/guides/*.md</code></td>
+<td><code>docs/usage/compute-usage.md</code>, <code>docs/getting-started/official-suite.md</code>, <code>docs/developer/add-backend.md</code>, <code>docs/developer/authoring/*.md</code></td>
+</tr>
+<tr>
+<td><code>docs/guides/cli-reference.md</code> (hand-written)</td>
+<td><code>docs/usage/commands.md</code>; its RoboTwin qualification detail to <code>docs/reference/robotwin-qualification.md</code></td>
+</tr>
+</tbody>
+</table></div>
+<p><code>git log --follow</code> traces any file: every move was its own commit, separate
+from the rewrites that followed it.</p>
+</article><nav class="pager" aria-label="Previous and next"><a class="prev" href="../../code-map/index.html"><small>← Previous</small>Code map</a><a class="next" href="../documentation/index.html"><small>Next →</small>Documentation</a></nav></main><aside class="toc" aria-label="On this page"><p>On this page</p><a class="h2" href="#0-finding-your-way-in">0. Finding your way in</a><a class="h2" href="#1-top-level">1. Top level</a><a class="h2" href="#2-layers-and-import-rules">2. Layers and import rules</a><a class="h2" href="#3-oraenvironment-173-modules-506k-lines">3. <code>ora/environment/</code> (173 modules, 50.6k lines)</a><a class="h2" href="#4-oraagent-287-modules-533k-lines">4. <code>ora/agent/</code> (287 modules, 53.3k lines)</a><a class="h2" href="#5-oraorchestrator-187-modules-387k-lines">5. <code>ora/orchestrator/</code> (187 modules, 38.7k lines)</a><a class="h2" href="#6-oraapp-and-the-ora-command">6. <code>ora/app/</code> and the <code>ora</code> command</a><a class="h2" href="#7-ora-pi">7. <code>ora-pi/</code></a><a class="h2" href="#8-tests">8. <code>tests/</code></a><a class="h2" href="#9-docs-and-the-package-readmes">9. <code>docs/</code> and the package READMEs</a><a class="h2" href="#10-viewer-and-examples">10. <code>viewer/</code> and <code>examples/</code></a><a class="h2" href="#11-removed-and-folded">11. Removed and folded</a><a class="h2" href="#12-files-that-may-not-move">12. Files that may not move</a><a class="h2" href="#13-the-interface-for-training-loops">13. The interface for training loops</a><a class="h2" href="#14-decisions-taken">14. Decisions taken</a><a class="h2" href="#15-what-moved">15. What moved</a></aside></div><script>
+(function(){
+  var d=document.querySelector('.docs'), b=document.querySelector('.menu');
+  if(b)b.addEventListener('click',function(){var o=d.classList.toggle('open');b.setAttribute('aria-expanded',o?'true':'false')});
+  var side=document.querySelector('.side'), cur=side&&side.querySelector('[aria-current="page"]');
+  if(cur&&getComputedStyle(side).position==='sticky'){var r=cur.offsetTop-side.clientHeight/2;if(r>0)side.scrollTop=r}
+  document.querySelectorAll('.prose pre.hl').forEach(function(pre){
+    if(!navigator.clipboard)return;
+    var w=document.createElement('div');w.className='codewrap';pre.parentNode.insertBefore(w,pre);w.appendChild(pre);
+    var c=document.createElement('button');c.type='button';c.className='cbtn';c.textContent='copy';c.setAttribute('aria-label','Copy the code');
+    c.addEventListener('click',function(){navigator.clipboard.writeText(pre.innerText).then(function(){c.textContent='copied';setTimeout(function(){c.textContent='copy'},1200)},function(){})});
+    w.appendChild(c);
+  });
+  var links=[].slice.call(document.querySelectorAll('.toc a'));
+  if(links.length&&'IntersectionObserver' in window){
+    var map={};links.forEach(function(a){map[decodeURIComponent(a.hash.slice(1))]=a});
+    var hs=[].slice.call(document.querySelectorAll('.prose h2[id],.prose h3[id]')).filter(function(h){return map[h.id]});
+    var on=function(){var y=window.scrollY+120,best=null;hs.forEach(function(h){if(h.offsetTop<=y)best=h});
+      links.forEach(function(a){a.removeAttribute('aria-current')});if(best)map[best.id].setAttribute('aria-current','true')};
+    window.addEventListener('scroll',on,{passive:true});on();
+  }
+})();
+</script>
+<footer class="foot"><div class="wrap"><div class="fb"><a class="brand" href="../../../index.html"><i></i>ORA</a><p>Open Robot-Use Agents: an open harness that lets language models operate robots.</p></div><nav class="fcols" aria-label="Footer"><div><p>Project</p><a href="../../../index.html">Overview</a><a href="../../../blog/index.html">Blog</a><a href="../../../docs/index.html">Docs</a><a href="../../../paper/ora-two-page.pdf" target="_blank" rel="noopener">Paper (PDF)</a></div><div><p>Docs</p><a href="../../../docs/getting-started/installation/index.html">Installation</a><a href="../../../docs/quickstart/index.html">First episode</a><a href="../../../docs/how-ora-works/index.html">How ORA works</a><a href="../../../docs/reference/index.html">Reference</a></div><div><p>Elsewhere</p><a class="ext" href="https://github.com/hao-ai-lab/ORA" target="_blank" rel="noopener">GitHub</a><a class="ext" href="https://haoailab.com/blogs/ora/" target="_blank" rel="noopener">Hao AI Lab blog</a></div></nav><p class="fbase">© 2026 ORA contributors · Hao AI Lab, UC San Diego</p></div></footer>
+<script>
+document.querySelectorAll('[data-tabs]').forEach(function(box){
+  var tabs=box.querySelectorAll('.tabs button'), panes=box.querySelectorAll('[data-pane]');
+  tabs.forEach(function(t){t.addEventListener('click',function(){
+    tabs.forEach(function(x){x.setAttribute('aria-selected',x===t?'true':'false')});
+    panes.forEach(function(p){p.hidden=p.dataset.pane!==t.dataset.tab});
+  })});
+});
+document.querySelectorAll('.copy').forEach(function(b){b.addEventListener('click',function(){
+  var pane=b.closest('.code').querySelector('pre:not([hidden])');
+  var txt=pane.innerText.split('\n').map(function(l){return l.replace(/\s+#.*$/,'')}).join('\n');
+  var done=function(){b.textContent='copied';setTimeout(function(){b.textContent='copy'},1200)};
+  try{navigator.clipboard.writeText(txt).then(done,function(){})}catch(e){}
+})});
+</script>
+</body>
+</html>

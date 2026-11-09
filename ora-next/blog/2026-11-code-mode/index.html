@@ -5,39 +5,45 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
 <title>Robot-use agents can write code now · ORA</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2032%2032%27%3E%3Crect%20x%3D%273%27%20y%3D%273%27%20width%3D%2726%27%20height%3D%2726%27%20rx%3D%277%27%20fill%3D%27%2311787B%27/%3E%3C/svg%3E">
 <meta name="description" content="Blog no. 2 of the ORA project (draft).">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap">
 <style>
 :root{
-  --bg:#05090a; --bg-2:#081012; --panel:#0b1517; --panel-2:#0f1d20; --line:#152428; --line-2:#1f3439;
-  --text:#e7f2f2; --text-2:#a9bcbe; --text-3:#6f8689;
-  --teal:#00a6ad; --teal-hi:#2fd4d6; --teal-deep:#00666c; --teal-ink:#011f22;
-  --amber:#e3ac52; --amber-bg:#2a2112;
+  /* Swiss neutrals plus one deep accent: the personal homepage's scheme, its red #C6011F swapped for the teal of the
+     same OKLCH lightness (0.52). --teal-hi only for small accent text on dark. No gradients or glows on the accent. */
+  --bg:#0A0A0A; --bg-2:#0E0E0E; --panel:#111111; --panel-2:#161616; --line:#1A1A1A; --line-2:#222222;
+  --text:#F0F0F0; --text-2:#B0B0B0; --text-3:#777777; --text-body:#D4D4D4;
+  --teal:#11787B; --teal-hi:#48B0B4; --teal-deep:#05585B; --teal-ink:#012526;
+  --amber:#C45C1C; --amber-bg:#2B1609;
   --sans:"Geist",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   --mono:"Geist Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-  --max:1120px; --read:700px;
+  --max:1120px; --max-wide:1360px; --read:700px;
   color-scheme:dark;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--text);font:400 16px/1.65 var(--sans);-webkit-font-smoothing:antialiased;letter-spacing:-.005em}
 a{color:var(--teal-hi);text-decoration:none}a:hover{text-decoration:underline;text-underline-offset:3px}
-:focus-visible{outline:2px solid var(--teal-hi);outline-offset:3px;border-radius:4px}
+:focus-visible{outline:2px solid var(--teal);outline-offset:3px;border-radius:4px}
 .wrap{max-width:var(--max);margin:0 auto;padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px))}
 .read{max-width:var(--read);margin:0 auto;padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px))}
 /* nav */
-.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(5,9,10,.72);backdrop-filter:saturate(140%) blur(14px);-webkit-backdrop-filter:saturate(140%) blur(14px);border-bottom:1px solid rgba(31,52,57,.6)}
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(10,10,10,.82);backdrop-filter:saturate(140%) blur(14px);-webkit-backdrop-filter:saturate(140%) blur(14px);border-bottom:1px solid var(--line-2)}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
 .nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
 .brand{display:flex;align-items:center;gap:10px;color:var(--text);font:600 18px/1 var(--sans);letter-spacing:.02em}
 .brand:hover{text-decoration:none}
-.brand i{width:14px;height:14px;border-radius:3px;background:linear-gradient(135deg,var(--teal-hi),var(--teal-deep));box-shadow:0 0 18px rgba(47,212,214,.45)}
+.brand i{width:14px;height:14px;border-radius:3px;background:var(--teal)}
 .nav nav{display:flex;gap:30px;font-size:15px}
 .nav nav a{color:var(--text-2)}
 .nav nav a:hover,.nav nav a[aria-current="page"]{color:var(--text);text-decoration:none}
 .ext::after{content:" \2197";font-size:.85em;color:var(--text-3)}
+.nav .wrap,.foot .wrap,.wide .wrap{max-width:var(--max-wide)}
+@media (max-width:560px){.nav nav{gap:14px;font-size:13.5px}.brand{font-size:16px;gap:8px}}
+@media (max-width:360px){.nav nav{gap:11px;font-size:13px}}
 /* blog cards */
 .posts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
 @media (max-width:760px){.posts{grid-template-columns:1fr}}
@@ -53,125 +59,283 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .sechead h2{text-align:left;margin:0}
 .sechead a{font-size:14px}
 /* footer */
-footer{border-top:1px solid var(--line);margin-top:96px}
-footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;padding-top:28px;padding-bottom:40px;color:var(--text-3);font-size:13px}
-footer a{color:var(--text-2)}
-/* article (blog posts) */
+.foot{border-top:1px solid var(--line);margin-top:112px;background:var(--bg-2)}
+.foot .wrap{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,2fr);gap:32px 48px;padding-top:48px;padding-bottom:40px}
+.foot .fb p{margin:14px 0 0;max-width:22em;color:var(--text-3);font-size:14px;line-height:1.6}
+.fcols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.fcols p{margin:0 0 12px;font:500 11.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--text-3)}
+.fcols a{display:block;color:var(--text-2);font-size:14px;padding:4px 0}
+.fcols a:hover{color:var(--text)}
+.fbase{grid-column:1 / -1;margin:8px 0 0;padding-top:22px;border-top:1px solid var(--line);color:var(--text-3);font-size:13px}
+@media (max-width:760px){.foot .wrap{grid-template-columns:1fr}.fcols{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* article: blog posts and docs pages share these */
 .posthead{padding:72px 0 28px;text-align:center}
 .posthead .meta{font:400 13px/1 var(--mono);color:var(--text-3);display:flex;gap:12px;justify-content:center;align-items:center;flex-wrap:wrap;margin:0}
 .posthead h1{font:600 clamp(2.2rem,5vw,3.6rem)/1.06 var(--sans);letter-spacing:-.035em;margin:20px auto 0;max-width:15em;text-wrap:balance}
-article{font-size:17px;line-height:1.75;color:#cdd9da}
-article h1{display:none}
-article h2{font:600 1.75rem/1.2 var(--sans);letter-spacing:-.025em;color:var(--text);margin:64px 0 16px;text-wrap:balance}
-article h3{font:600 1.22rem/1.3 var(--sans);letter-spacing:-.015em;color:var(--text);margin:40px 0 10px}
-article p{margin:0 0 18px}
-article strong{color:var(--text);font-weight:600}
-article ul,article ol{padding-left:1.2em;margin:0 0 18px}
-article li{margin:0 0 6px}
-article li::marker{color:var(--teal)}
-article code{font:400 .86em var(--mono);background:var(--panel-2);border:1px solid var(--line);padding:1px 6px;border-radius:5px;color:var(--text)}
-article blockquote{margin:0 0 36px;border:1px solid var(--teal-deep);border-left:3px solid var(--teal-hi);border-radius:12px;background:linear-gradient(180deg,rgba(0,102,108,.18),rgba(0,102,108,.05));padding:18px 22px;color:var(--text)}
-article blockquote p{margin:0 0 8px}article blockquote ol{margin:0;padding-left:1.2em}
-article table{display:block;overflow-x:auto;border-collapse:collapse;width:100%;font-size:14.5px;margin:22px 0 26px}
-article th,article td{text-align:left;padding:9px 14px 9px 0;border-bottom:1px solid var(--line);white-space:nowrap}
-article th{font:500 12.5px var(--mono);color:var(--text-3)}
-article hr{border:0;border-top:1px solid var(--line);margin:56px 0}
-article figure{margin:30px 0}
-article figure img{display:block;width:100%;border-radius:12px;border:1px solid var(--line-2)}
-article figcaption{font-size:13.5px;color:var(--text-3);margin-top:10px}
+.prose{font-size:17px;line-height:1.75;color:var(--text-body);overflow-wrap:break-word}
+.prose h1{display:none}
+.prose h2{font:600 1.75rem/1.2 var(--sans);letter-spacing:-.025em;color:var(--text);margin:64px 0 16px;text-wrap:balance}
+.prose h3{font:600 1.22rem/1.3 var(--sans);letter-spacing:-.015em;color:var(--text);margin:40px 0 10px}
+.prose h4{font:600 1.02rem/1.4 var(--sans);color:var(--text);margin:28px 0 8px}
+.prose h2 small,.prose h3 small{font:500 11.5px/1 var(--mono);color:var(--text-3);margin-left:8px;letter-spacing:.04em}
+.prose [id]{scroll-margin-top:84px}
+.prose p{margin:0 0 18px}
+.prose a,.lede a,.callout a{color:var(--text);text-decoration:underline;text-decoration-color:var(--teal);text-decoration-thickness:1px;text-underline-offset:3px;overflow-wrap:break-word}
+.prose a:hover,.lede a:hover,.callout a:hover{color:var(--teal-hi);text-decoration-color:var(--teal-hi)}
+.prose a.md-button{text-decoration:none}
+.prose strong{color:var(--text);font-weight:600}
+.prose ul,.prose ol{padding-left:1.2em;margin:0 0 18px}
+.prose li{margin:0 0 6px}
+.prose li>ul,.prose li>ol{margin:6px 0 0}
+.prose li>p{margin:0 0 8px}
+.prose li::marker{color:var(--teal)}
+.prose code{font:400 .86em var(--mono);background:var(--panel-2);border:1px solid var(--line);padding:1px 6px;border-radius:5px;color:var(--text);overflow-wrap:break-word}
+.prose a code{color:inherit}
+.prose pre{margin:0 0 22px;padding:15px 18px;border:1px solid var(--line-2);border-radius:12px;background:var(--panel);overflow-x:auto;font:400 13.5px/1.65 var(--mono);color:var(--text);tab-size:4}
+.prose pre code{font:inherit;background:none;border:0;padding:0;border-radius:0;overflow-wrap:normal;color:inherit}
+.prose pre.mermaid{background:var(--bg-2);text-align:center;color:var(--text-3)}
+.prose pre.mermaid svg{max-width:100%;height:auto}
+.codewrap{position:relative}
+.cbtn{position:absolute;top:9px;right:9px;height:26px;padding:0 9px;border:1px solid var(--line-2);border-radius:7px;background:var(--panel);color:var(--text-2);font:500 11.5px var(--mono);cursor:pointer;opacity:0;transition:opacity .15s}
+.codewrap:hover .cbtn,.cbtn:focus-visible{opacity:1}
+@media (hover:none){.cbtn{opacity:.85}}
+.prose kbd{font:500 .82em var(--mono);border:1px solid var(--line-2);border-bottom-width:2px;border-radius:5px;padding:0 5px;color:var(--text)}
+.prose img{max-width:100%;height:auto;border-radius:12px;border:1px solid var(--line-2)}
+.prose blockquote{margin:0 0 36px;border:1px solid var(--line-2);border-left:3px solid var(--teal);border-radius:12px;background:var(--panel);padding:18px 22px;color:var(--text)}
+.prose blockquote p{margin:0 0 8px}.prose blockquote ol{margin:0;padding-left:1.2em}
+.prose .admonition{margin:24px 0;border:1px solid var(--line-2);border-left:3px solid var(--teal);border-radius:10px;background:var(--bg-2);padding:14px 18px;font-size:15.5px}
+.prose .admonition>:last-child{margin-bottom:0}
+.prose .admonition-title{font:600 13.5px/1.3 var(--sans);color:var(--teal-hi);margin:0 0 8px}
+.prose .admonition.warning,.prose .admonition.caution,.prose .admonition.danger{border-left-color:var(--amber)}
+.prose .admonition.warning .admonition-title,.prose .admonition.caution .admonition-title,.prose .admonition.danger .admonition-title{color:var(--amber)}
+.prose .tbl{overflow-x:auto;margin:22px 0 26px}
+.prose table{border-collapse:collapse;width:100%;font-size:14.5px;line-height:1.55}
+.prose th,.prose td{text-align:left;vertical-align:top;padding:9px 16px 9px 0;border-bottom:1px solid var(--line)}
+.prose th{font:500 12.5px/1.4 var(--mono);color:var(--text-3);white-space:nowrap}
+.prose td code{font-size:.82em}
+@media (max-width:620px){.prose table:has(th:nth-child(4)){min-width:620px}}
+.prose hr{border:0;border-top:1px solid var(--line);margin:56px 0}
+.prose figure{margin:30px 0}
+.prose figure img{display:block;width:100%;border-radius:12px;border:1px solid var(--line-2)}
+.prose figcaption{font-size:13.5px;color:var(--text-3);margin-top:10px}
+/* code colours (Pygments classes) */
+.hl .c,.hl .c1,.hl .cm,.hl .ch,.hl .cs,.hl .cp,.hl .cpf{color:var(--text-3)}
+.hl .k,.hl .kn,.hl .kd,.hl .kc,.hl .kr,.hl .kt,.hl .kp,.hl .ow{color:var(--teal-hi)}
+.hl .s,.hl .s1,.hl .s2,.hl .sb,.hl .sd,.hl .se,.hl .sh,.hl .si,.hl .sx,.hl .sa,.hl .sc,.hl .ss,.hl .dl{color:var(--text-2)}
+.hl .nf,.hl .fm,.hl .nc,.hl .nn,.hl .nd,.hl .nt,.hl .na{color:var(--text)}
+.hl .o,.hl .p{color:var(--text-3)}
+.hl .gp{color:var(--text-3);user-select:none}
+.hl .go{color:var(--text-2)}
+.hl .err{color:inherit;background:none}
 .slot{font:500 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--teal-hi)}
 .callout{border:1px solid var(--line-2);border-radius:12px;padding:16px 18px;margin:26px 0;background:var(--bg-2)}
 .callout a{font-weight:600}
 .tbd{background:var(--amber-bg);color:var(--amber);border-radius:5px;padding:1px 7px;font-size:.88em}
 .postvid{margin:8px auto 48px;max-width:1008px}
-.postvid .frame{border-radius:14px;overflow:hidden;border:1px solid var(--line-2);box-shadow:0 40px 100px -40px rgba(0,166,173,.4)}
+.postvid .frame{border-radius:14px;overflow:hidden;border:1px solid var(--line-2)}
 .postvid video{display:block;width:100%;aspect-ratio:1600/750}
 .postvid .cap{font-size:12.5px;color:var(--text-3);margin-top:12px;text-align:center}
 .draftbar{font:400 12.5px/1.6 var(--mono);color:var(--amber);background:var(--amber-bg);border-radius:10px;padding:10px 14px;margin:0 0 36px;display:flex;flex-wrap:wrap;gap:6px 18px}
 .draftbar a{color:inherit;text-decoration:underline}
 </style>
-
+<link rel="stylesheet" href="figures.css">
 </head>
 <body>
-<header class="nav"><div class="wrap"><a class="brand" href="../../index.html"><i></i>ORA</a><nav aria-label="Site"><a href="../../index.html">Overview</a><a href="../../blog/index.html" aria-current="page">Blog</a><a class="ext" href="https://github.com/hao-ai-lab/ORA">Code</a></nav></div></header>
+<header class="nav"><div class="wrap"><a class="brand" href="../../index.html"><i></i>ORA</a><nav aria-label="Site"><a href="../../index.html">Overview</a><a href="../../blog/index.html" aria-current="page">Blog</a><a href="../../docs/index.html">Docs</a><a class="ext" href="../../paper/ora-two-page.pdf" target="_blank" rel="noopener">Paper</a><a class="ext" href="https://github.com/hao-ai-lab/ORA" target="_blank" rel="noopener">Code</a></nav></div></header>
 
 <main>
-  <section class="posthead read"><p class="meta"><span>No. 2</span><span>·</span><span>November 2026</span><span class="draft">DRAFT v1.1</span></p>
+  <section class="posthead read"><p class="meta"><span>No. 2</span><span>·</span><span>November 2026</span><span class="draft">DRAFT v1.2</span></p>
   <h1>Robot-use agents can write code now</h1></section>
   <div class="postvid wrap"><div class="frame"><video autoplay muted loop playsinline preload="auto" poster="../../assets/hero-wall.jpg" src="../../assets/hero-wall.mp4"></video></div>
   <p class="cap">One success per task on RoboDojo and RoboLab. Centre: a code-mode free-play session, replayed from its records, with a change of plan mid-task.</p></div>
   <div class="read">
-    <div class="draftbar"><span>Draft v1.1 · not published</span><span>3 open TBD notes</span><span>No. 1: <a href="../2026-10-ora/index.html">ORA, October 2026</a></span></div>
-    <article><!--
-ORA blog, November 2026 release. DRAFT v1.1 (2026-11-08 PST), English body. Blog no. 2 of the ORA series; no. 1 is the October post (page/).
-Structure (user, 2026-11-08): (1) the major change, code mode: the same harness exposed differently, more freedom
-for the agent to build its own methods, and what it reaches on RoboDojo; (2) how agents behave with tool calls versus
-code, how they solve tasks once the sandbox is open, and the tools they build for themselves; (3) Muse, DeepSeek and
-Qwen with code and with tool calls. Step limits and late successes are explained only in Appendix A (user).
+    <div class="draftbar"><span>Draft v1.2 · not published</span><span>4 open TBD notes</span><span>No. 1: <a href="../2026-10-ora/index.html">ORA, October 2026</a></span></div>
+    <article class="prose"><!--
+ORA blog, November 2026 release. DRAFT v1.2 (2026-11-09 PST), English body. Blog no. 2 of the ORA series; no. 1 is the October post (page/).
+Structure (user, 2026-11-08 and 11-09): (1) the major change, code mode: the same harness exposed differently, more
+freedom for the agent to build its own methods, and what it reaches on RoboDojo; (2) how traditional robotics helps
+agentic robots run smoothly: the shared motion stack (user, 11-09); (3) how agents behave with tool calls versus code;
+(4) Muse, DeepSeek and Qwen with code and with tool calls; (5) what's next, Appendix A. Step limits and late successes
+are explained only in Appendix A (user).
 Facts: EXP22A (RoboDojo 198 valid, 80 solved), the step-8 pair and budget control (main 2dd8fb6c5), the open-model
-study R234/EXP23A on main d8476b118 (study_report.py, layout 3), the "Code Mode, taken apart" page.
+study R234/EXP23A on main d8476b118 (study_report.py, layout 3), the "Code Mode, taken apart" page and the two
+discussion boards (the turn board and the code-mode comparison). Motion stack: ora-dev PRs #48-#50, #54, #57, #59,
+#61, #62, #67, #70, #72, #104, #105, #131 and #196, docs/architecture.md and docs/reference/motion-speed.md on
+oradev/main, and the motion-failure cases in shared scratch (motion-failure-cases/). See README.md.
+Figure slots render figures/<name>.html (build.py).
 -->
 
 <h1>Robot-use agents can write code now</h1>
 <blockquote>
-<p><strong>TL;DR.</strong>
-1. <strong>Code mode.</strong> We gave ORA's robot-use agent a new way to use the same harness. Each turn it can write and run a
+<p><strong>TL;DR.</strong></p>
+<ol>
+<li><strong>Code mode.</strong> We gave ORA's robot-use agent a new way to use the same harness. Each turn it can write and run a
    short program against the same tools, in a sandbox with a workspace that persists across the episode. With no
    exploration, demonstrations, task memory or robot training, DeepSeek-V4.1-Flash now solves <strong>40% of RoboDojo</strong>,
-   a benchmark of long, contact-rich bimanual tasks.
-2. <strong>How agents behave with code.</strong> One tool per turn forces the agent to re-estimate, re-measure and re-check
+   a benchmark of long, contact-rich bimanual tasks.</li>
+<li><strong>Classical motion underneath.</strong> Every planned arm move now goes through one shared motion stack: a collision
+   world built from the robot's own depth cameras, global path planning with cuRobo, checks that keep the wrist from
+   unwinding, and timing that keeps each move within its speed caps. The agent decides what to do; the stack works
+   out how the arm gets there.</li>
+<li><strong>How agents behave with code.</strong> One tool per turn forces the agent to re-estimate, re-measure and re-check
    every turn. A program measures once, keeps the result, and checks its own work right after it moves. Given the
    sandbox, the agent builds its own tools: point clouds, pose builders and fitters that reappear in episode
-   after episode.
-3. <strong>Three open models, two modes.</strong> On 40 RoboDojo tasks, DeepSeek, Qwen3.8-Flash-Next and Muse solve about as
-   many tasks with code as with tool calls, but with code they need about half the robot decisions.</p>
+   after episode.</li>
+<li><strong>Three open models, two modes.</strong> On 40 RoboDojo tasks, DeepSeek, Qwen3.8-Flash-Next and Muse solve about as
+   many tasks with code as with tool calls, but with code they need about half the robot decisions.</li>
+</ol>
 </blockquote>
 <h2>1. The major change: code mode</h2>
 <h3>The same harness, exposed differently</h3>
-<p>ORA connects a language model to a robot through a harness:
-- a robot manual and a plain-language description of the task;
-- perception tools: segmentation, and metric 3D measurement from depth;
-- planning tools: grasp proposals and reachability;
-- motion tools: Cartesian moves, the gripper and the wrist;
-- a Supervisor that admits every motion one at a time and answers it with a receipt.</p>
+<p>ORA connects a language model to a robot through a harness:</p>
+<ul>
+<li>a robot manual and a plain-language description of the task;</li>
+<li>perception tools: segmentation, and metric 3D measurement from depth;</li>
+<li>planning tools: grasp proposals and reachability;</li>
+<li>motion tools: Cartesian moves, the gripper and the wrist;</li>
+<li>a Supervisor that admits every motion one at a time and answers it with a receipt.</li>
+</ul>
 <p>In October the agent used this harness the way most tool-using agents do. Each turn it called one tool, read the
 result, and decided what to do next.</p>
-<p>Code mode changes how the harness is exposed, not what is in it:
-- <strong>The same tools, as a library.</strong> Every tool the agent could call is importable from Python inside a sandbox,
-  alongside a small library for frames, projections and depth point clouds.
-- <strong>A workspace that persists.</strong> The sandbox keeps a directory, <code>/work</code>, for the whole episode. A helper written in
-  one turn can be imported in the next, and a measurement saved to a file can be read by every later program.
-- <strong>The same loop and the same authority.</strong> It is still turn by turn: one program is one decision, and the agent
+<p>Code mode keeps the harness and changes how the agent reaches it:</p>
+<ul>
+<li><strong>The same tools, as a library.</strong> Every tool the agent could call is importable from Python inside a sandbox,
+  alongside a small library for frames, projections and depth point clouds.</li>
+<li><strong>A workspace that persists.</strong> The sandbox keeps a directory, <code>/work</code>, for the whole episode. A helper written in
+  one turn can be imported in the next, and a measurement saved to a file can be read by every later program.</li>
+<li><strong>The same loop and the same authority.</strong> It is still turn by turn: one program is one decision, and the agent
   reads the program's output and the next observation before writing the next one. Every motion the program
-  issues still goes to the Supervisor one at a time.</p>
+  issues still goes to the Supervisor one at a time.</li>
+</ul>
 <p>So the agent decides how much to do per turn. A program can compute on a point cloud without copying numbers
 through the model's reasoning. It can check reachability before moving and measure how far the arm missed after.
 It can branch on what it measures, and hand control back with a reason when a check fails. More freedom, the
 same guarantees.</p>
-<div class="callout"><span class="slot">Interactive</span><br>"Code Mode, taken apart" — the library a program sees, what one episode leaves in `/work`, both modes solving the same task turn by turn with every exchange expandable, and the functions the agent writes for itself<br><a href="https://claude.ai/artifact/Q9pMyFv3vayUcPiUCKZctr">Open “Code Mode, taken apart” →</a></div>
+<div class="callout"><span class="slot">Interactive</span><br>"Code Mode, taken apart": the library a program sees, what one episode leaves in `/work`, both modes solving the same task turn by turn with every exchange expandable, and the functions the agent writes for itself<br><a href="https://claude.ai/artifact/Q9pMyFv3vayUcPiUCKZctr">Open “Code Mode, taken apart” →</a></div>
 
 <h3>40% on RoboDojo, zero-shot</h3>
 <p>RoboDojo is the hardest benchmark we run. Two ARX X5 arms work a tabletop: play a xylophone in order, thread nuts
 onto bolts, fold a cloth, insert tubes into a rack, build a tower from planks. Most tasks need dozens of motions,
 and each one depends on the geometry the earlier ones left behind.</p>
 <p>With code mode and self-hosted DeepSeek-V4.1-Flash, ORA solves <strong>80 of 198 cases (40.4%)</strong>. That covers 40 tasks
-with five layouts each; two cases were invalid. Zero-shot here means:
-- <strong>no exploration:</strong> the agent never practises on a case or its layout before the scored episode;
-- <strong>no demonstrations and no task memory:</strong> nothing carries over from one case to another;
-- <strong>no robot training:</strong> the model is used as released, with no VLA policy underneath.</p>
+with five layouts each; two cases were invalid. Zero-shot here means:</p>
+<ul>
+<li><strong>no exploration:</strong> the agent never practises on a case or its layout before the scored episode;</li>
+<li><strong>no demonstrations and no task memory:</strong> nothing carries over from one case to another;</li>
+<li><strong>no robot training:</strong> the model is used as released, with no VLA policy underneath.</li>
+</ul>
 <p>How we count successes is in <a href="#appendix-a">Appendix A</a>. ORA reads the arms' measured jaw opening, while RoboDojo's
-standard observation reports the commanded one. So these are ORA's numbers on RoboDojo's tasks, not leaderboard
-entries.</p>
+standard observation reports the commanded one. So these are ORA's numbers on RoboDojo's tasks. They are not
+leaderboard entries.</p>
 <p>The same agent solves 79.6% of RoboTwin, 87.5% of LIBERO-Pro and 79.2% of RoboLab.</p>
 <p><strong>Against another agent with the same model.</strong> We ran Uni-Robot-Agent in its strongest setting with exactly our
 model and settings. On the 72 RoboDojo cases both systems finished, ORA solved 48.6% and Uni-Robot-Agent 36.1%,
 with 6.4 times fewer prompt tokens per success (24.6M vs 156.7M). Neither system can ask RoboDojo whether a task
 is complete. The cases both finished lean toward easier ones.</p>
-<h2>2. How agents behave with tool calls and with code</h2>
+<h2>2. How traditional robotics helps agentic robots run smoothly</h2>
+<p>A language model is good at deciding what to do next: which object, which grasp, which order. It is a poor place
+to work out how an arm's joints get from here to there without touching the table. When a move goes wrong for a
+reason the model cannot see, the agent spends its next turns diagnosing a failure that was never its own.</p>
+<p>In October, three things went wrong this way:</p>
+<ul>
+<li><strong>No collision world.</strong> On RoboDojo, a free move had no collision world to check against. On LIBERO, the planner
+  knew only the robot itself, so a path through the table planned fine.</li>
+<li><strong>Wrist unwinding.</strong> A wrist could turn the long way round in the middle of a move and take a held object with it.</li>
+<li><strong>Hand-written timing.</strong> The timing that paced each move was hand-written, and on some moves it ran over its own
+  speed cap.</li>
+</ul>
+<figure class="ofig" aria-label="Two failures of the October motion">
+<div class="of-imgs">
+<img src="motion-before-sweep.jpg" alt="Head camera before and after one move on RoboDojo: the digit 1 that was just released on a pad is gone after the move.">
+<p><b>A free move with no collision world.</b> RoboDojo, arrange_largest_number, an October run. Right after releasing the digit "1" on its pad, the arm retracts sideways with no collision world to check the move against, and sweeps the digit off the pad and out of view.</p>
+<img style="max-width:644px" src="motion-before-unwind.jpg" alt="Head and right wrist cameras before and after one move on RoboDojo: the held blue digit has turned far more than the move asked.">
+<p><b>A wrist that turns the long way round.</b> RoboDojo, arrange_largest_number, a late-October run before the wrist checks. Asked to turn a held digit 90 degrees, the wrist swung about 156 degrees, and the digit turned with it.</p>
+</div>
+<figcaption><b>What the old motion did to the scene.</b> Real captures from sealed runs; each pair is the camera image just before and just after one move.</figcaption>
+</figure>
+
+<h3>One motion stack under every move</h3>
+<p>Since October we rebuilt how the arm moves, from standard robotics parts. The agent names the target and the kind of
+move. For every planned move, the stack then does five things:</p>
+<ol>
+<li><strong>A collision world from depth.</strong> It builds a voxel world from the robot's own depth cameras. It removes the
+   robot's own body, clears the space at the start and around the goal hand, and moves a held object from the world
+   onto the hand. It uses no simulator state and no segmentation.</li>
+<li><strong>A global path.</strong> cuRobo plans a collision-free path in that world. On the two-arm robots, the other arm is an
+   obstacle in the same world.</li>
+<li><strong>Wrist checks.</strong> When a plan would turn the wrist the long way round, the planner tries a straight joint line
+   to the same pose and other arm solutions that turn the wrist less. With empty jaws, the stack can also use the
+   jaw twin: the same grasp turned a half-turn about the approach axis, which a parallel gripper holds the same way.
+   A gripper that may be holding something never flips. A path that still turns the hand more than 45 degrees
+   beyond what the move asked for is refused before anything moves, with the reason.</li>
+<li><strong>Timing.</strong> TOPP-RA finds the fastest progress along the path that keeps every joint and the hand within their
+   speed and acceleration caps. Ruckig then checks the result against the joints' jerk bounds. Both arms of a
+   two-arm move share one timeline, so they start and stop together.</li>
+<li><strong>A dry run on request.</strong> Any moving action can be previewed before it runs: the planned path is drawn into the
+   robot's own camera images, with the nearest object and its clearance. A move the planner refuses returns a
+   picture of what was asked and the planner's reason.</li>
+</ol>
+<p>The same stack serves RoboDojo, RoboTwin, LIBERO-Pro and RoboLab. A simulated backend adds only two things:</p>
+<ul>
+<li>a description of its robot, which must match the simulator's own kinematics;</li>
+<li>an adapter that sends the joint targets and reads the measured state back.</li>
+</ul>
+<p>Moves the model marks as contact, such as a push, follow a straight line instead.</p>
+<figure class="ofig" aria-label="The shared motion stack, from depth to an executed move">
+<div class="of-box">
+<p class="of-title">One planned move, from the cameras to the arm</p>
+<div class="of-strip nl">
+<div class="of-turn"><span class="k">1</span>depth images<span class="n">the robot's own cameras</span></div><span class="of-arrow">→</span>
+<div class="of-turn"><span class="k">2</span>collision world<span class="n">voxels; robot removed, goal cleared</span></div><span class="of-arrow">→</span>
+<div class="of-turn"><span class="k">3</span>global path<span class="n">cuRobo, other arm as obstacle</span></div><span class="of-arrow">→</span>
+<div class="of-turn"><span class="k">4</span>wrist check<span class="n">no unwinding, held jaws never flip</span></div><span class="of-arrow">→</span>
+<div class="of-turn"><span class="k">5</span>timing<span class="n">TOPP-RA within caps, Ruckig for jerk</span></div><span class="of-arrow">→</span>
+<div class="of-turn" style="background:transparent">the arm moves</div>
+</div>
+<p class="of-note">On request, a dry run plans the move the same way, stops before the arm moves, and draws the planned path into the camera images. A move the planner refuses comes back with a picture of what was asked and the planner's reason.</p>
+</div>
+<figcaption><b>The shared motion stack.</b> The agent names the target and the kind of move; the stack does the rest. The same stack serves RoboDojo, RoboTwin, LIBERO-Pro and RoboLab.</figcaption>
+</figure>
+
+<figure class="ofig" aria-label="The collision world for one LIBERO request">
+<img src="motion-world.jpg" alt="Voxel collision world from above and from the side, with the held box in red at the hand, next to the two camera images it was built from.">
+<figcaption><b>Depth into a collision world.</b> One LIBERO request. Grey is occupied space built from the two cameras' depth, seen from above (left) and from the side (middle): the table and the objects on it. Orange is the box in the gripper, which the planner moves with the hand; + is the hand. Dark is free or unseen. Right: the two camera images the world was built from.</figcaption>
+</figure>
+
+<figure><figcaption><span class="slot">Video · poster frame in this draft</span><br>from depth to a planned path, one RoboDojo move, about 15 s. Start on the head camera's view of the table. Then the depth point cloud from the head and both wrist cameras in 3D; the robot's own points disappear; the points become the occupied voxels of the collision world; the space at the start and around the goal hand is cleared; the planned hand path is drawn through the voxels from start to goal; end on the arm executing that path in the simulator. Same move throughout, one short label per step.</figcaption></figure>
+
+<figure class="ofig" aria-label="A dry-run preview of one planned move">
+<img style="max-width:640px" src="motion-preview.jpg" alt="Right wrist camera with the planned path of the right hand drawn in orange from start to end, the nearest object shaded red with its clearance marked.">
+<figcaption><b>A dry run.</b> RoboDojo, push_T. The right hand's planned path, drawn into the right wrist camera before the arm moves; the same preview draws it into the head camera too. The object nearest the path is shaded red, with the closest point and its clearance marked. "planner clears this" marks where the path enters the space the planner clears around the goal hand, so an object inside that space is visible to the agent.</figcaption>
+</figure>
+
+<h3>Same scene, new stack</h3>
+<figure><figcaption><span class="slot">Video · poster frame in this draft</span><br>RoboDojo arrange_largest_number, layout 2, side by side, about 10 s. Left, the October run: right after the gripper releases the digit "1" on its pad, the retract sweeps it off the pad. Right, the same task and seed re-run on the shared stack: the hand lifts clear and the digit stays. On-screen note: "same scene, new stack; a re-run with a different model sample, not a controlled comparison".</figcaption></figure>
+
+<figure><figcaption><span class="slot">Video · poster frame in this draft</span><br>RoboTwin lift_pot, side by side, about 10 s. Left, the October run: the arm comes down on the alarm clock and tips it, and a later move sweeps the pot off the table. Right, the same task and seed on the shared stack. Same on-screen note.</figcaption></figure>
+
+<figure><figcaption><span class="slot">Video · poster frame in this draft</span><br>the wrist, before and after, about 8 s. Left: a held digit turns about 156 degrees as the wrist swings the long way round. Right: the same request on the current stack, answered with a shorter wrist turn or the jaw twin, or refused with its reason. No "after" clip exists yet; it needs a run on the stack with the planner-side wrist fixes.</figcaption></figure>
+
+<p>These pairs show what changed in one scene. They are single re-runs with a new model sample, so they do not measure
+an improvement. <span class="tbd">TBD: a measured effect of the motion stack on success, if we run one.</span></p>
+<h3>What it does not fix yet</h3>
+<ul>
+<li><strong>Contact near the ends of a move.</strong> In one RoboDojo batch soon after the switch, 54 of 588 planned moves still
+  moved an object by at least 5 mm. Most contact happens near the start or the goal, where the stack has to clear
+  room for the hand. A light object barely slows the joints, so the arm's tracking cannot detect the touch either.</li>
+<li><strong>What the cameras cannot see.</strong> Unseen space counts as free, so an object hidden behind another is not in the
+  world.</li>
+<li><strong>Wrist refusals.</strong> In the rollout behind the results above, 10–13% of runs hit at least one wrist refusal.
+  The planner's own fixes (the straight joint line, other arm solutions, the jaw twin) landed after that rollout.</li>
+</ul>
+<p>Both modes run on this stack, and programs lean on it most. A program may issue several moves before the model
+sees the scene again, so each move has to execute as planned, or come back refused with a reason the program can
+branch on.</p>
+<h2>3. How agents behave with tool calls and with code</h2>
 <p>To watch the two modes side by side, we ran a paired experiment on an earlier version of the harness: 20 RoboDojo
 tasks on three layouts, with the same model, the same tools and the same budgets (80 robot decisions, 200 model
 calls), and only the action mode changed.</p>
-<table>
+<div class="tbl"><table>
 <thead>
 <tr>
 <th></th>
@@ -211,45 +375,292 @@ calls), and only the action mode changed.</p>
 <td>0</td>
 </tr>
 </tbody>
-</table>
-<p>Both modes think about equally long per call. What differs is what a turn delivers: 97% of tool-call turns that
-move the robot execute exactly one motion, while a program executes 3.6 on average, together with the
-measurements and checks around them.</p>
+</table></div>
+<h3>What one turn delivers</h3>
+<p>Both modes think about equally long per model call. What differs is what a turn hands back:</p>
+<ul>
+<li>a tool call is one call of about 180 characters, and 97% of tool-call turns that move the robot execute exactly
+  one action;</li>
+<li>a program is about 1.8k characters. It executes 3.6 actions on average, with the measurements and checks around
+  them.</li>
+</ul>
+<figure class="ofig" aria-label="What one turn delivers">
+<div class="of-box">
+<p class="of-title">One turn, drawn to scale (bar length = characters)</p>
+<div class="of-ot" role="img" aria-label="Tool-call turns reason a median of 10.8k characters per model call and hand back one call of about 180 characters. Program turns reason a median of 12.0k characters and hand back one program of about 1.8k characters.">
+<div class="of-ot-row" title="Tool calls: reasoning per model call, median 10.8k characters; one call, about 180 characters">
+<div class="of-ot-who"><i style="background:var(--of-tool)"></i>Tool calls<small>1.10 actions per acting turn</small></div>
+<div><div class="of-ot-trk"><b style="width:78.261%;background:color-mix(in srgb,var(--of-ink) 16%,transparent)"></b><b style="width:1.304%;min-width:3px;background:var(--of-tool)"></b></div>
+<div class="of-ot-lab"><span><i style="background:color-mix(in srgb,var(--of-ink) 16%,transparent)"></i>reasoning per model call: median 10.8k characters</span><span><i style="background:var(--of-tool)"></i>handed back: one call, about 180 characters</span></div></div>
+</div>
+<div class="of-ot-row" title="Programs: reasoning per model call, median 12.0k characters; one program, about 1.8k characters">
+<div class="of-ot-who"><i style="background:var(--of-code)"></i>Programs<small>3.62 actions per acting turn</small></div>
+<div><div class="of-ot-trk"><b style="width:calc(86.957% - 2px);background:color-mix(in srgb,var(--of-ink) 16%,transparent)"></b><b style="width:13.043%;background:var(--of-code)"></b></div>
+<div class="of-ot-lab"><span><i style="background:color-mix(in srgb,var(--of-ink) 16%,transparent)"></i>reasoning per model call: median 12.0k characters</span><span><i style="background:var(--of-code)"></i>handed back: one program, about 1.8k characters</span></div></div>
+</div>
+</div>
+<p class="of-note">What one program can hold, for example: <span class="of-seg" style="display:inline-flex"><b>measure</b><b>compute</b><b>move</b><b>measure</b><b>decide</b><b>move</b><b>check</b></span></p>
+<p class="of-title">Robot actions per turn, over all turns that move the robot</p>
+<div class="of-ot" role="img" aria-label="Tool calls: 97% of acting turns execute one action, 3% two or more. Programs: 29% one action, 15% two, 35% three to five, 21% six or more.">
+<div class="of-ot-row" title="Tool calls: 1 action in 97% of acting turns, 2 or more in 3%">
+<div class="of-ot-who"><i style="background:var(--of-tool)"></i>Tool calls<small>mean 1.10</small></div>
+<div><div class="of-ot-trk"><b style="width:calc(97% - 2px);background:var(--of-tool)"></b><b style="width:3%;background:color-mix(in srgb,var(--of-tool) 45%,var(--of-bg))"></b></div>
+<div class="of-ot-seg" style="justify-content:space-between"><span>1 action · 97%</span><span>2 or more · 3%</span></div></div>
+</div>
+<div class="of-ot-row" title="Programs: 1 action in 29% of acting turns, 2 in 15%, 3 to 5 in 35%, 6 or more in 21%">
+<div class="of-ot-who"><i style="background:var(--of-code)"></i>Programs<small>mean 3.62</small></div>
+<div><div class="of-ot-trk"><b style="width:calc(29% - 1.5px);background:color-mix(in srgb,var(--of-code) 35%,var(--of-bg))"></b><b style="width:calc(15% - 1.5px);background:color-mix(in srgb,var(--of-code) 55%,var(--of-bg))"></b><b style="width:calc(35% - 1.5px);background:color-mix(in srgb,var(--of-code) 78%,var(--of-bg))"></b><b style="width:calc(21% - 1.5px);background:var(--of-code)"></b></div>
+<div class="of-ot-seg"><span style="width:29%">1 · 29%</span><span style="width:15%">2 · 15%</span><span style="width:35%">3–5 · 35%</span><span style="width:21%">6+ · 21%</span></div></div>
+</div>
+</div>
+</div>
+<figcaption><b>What one turn delivers.</b> The paired experiment, all 59 cases per mode. Both modes reason about as long per model call; a turn then hands back one call or one program. A program may issue up to 12 robot actions and counts as one decision. The list of steps inside a program is an illustration.</figcaption>
+</figure>
+
 <h3>Where one tool per turn falls short</h3>
-<p>On the 15 cases only programs solved, the tool-call runs fail in four recurring ways.</p>
-<p><strong>What was measured gets estimated again.</strong> With tool calls, a measured quantity lives only in the model's text,
-and the next turn estimates it again. Playing a xylophone, the tool-call run:
-- revised its key map three times;
-- estimated the mallet's head offset at least six times;
-- restarted the sequence at least six times before it ran out of decisions;
-- on another layout, counted the keys as nine, then ten. There are eight.</p>
+<p>On the 15 cases only programs solved, the tool-call runs fail in four recurring ways. In the strips below, each box
+is one model turn.</p>
+<p><strong>1. What was measured gets estimated again.</strong> With tool calls, a measured quantity lives only in the model's text,
+and the next turn estimates it again. Playing a xylophone, the tool-call run:</p>
+<ul>
+<li>revised its key map three times;</li>
+<li>estimated the mallet's head offset at least six times;</li>
+<li>restarted the sequence at least six times before it ran out of decisions;</li>
+<li>on another layout, counted the keys as nine, then ten. There are eight.</li>
+</ul>
 <p>The program run fitted all key boundaries once from the point cloud. It stored the measured mallet offset in a
 file that every later program read, and struck all eight keys in three programs.</p>
-<p><strong>Every measurement costs a turn.</strong> Inserting test tubes, the tool-call run probed the rack point by point for
-more than 20 turns, then set a tube between two holes, about 18 mm from the nearest centre. One program fitted
-circles to all ten holes in 0.76 seconds, without moving the robot.</p>
-<p><strong>The check comes a turn later, if at all.</strong> Fastening nuts, the tool-call run declared a nut "fully threaded"
+<figure class="ofig" aria-label="Turn strip: play_Xylophone, layout 1">
+<div class="of-box">
+<p class="of-title">play_Xylophone, layout 1: strike eight keys in order</p>
+<div class="of-lane tl"><div class="of-who"><i></i>Tool calls</div>
+<div class="of-strip">
+<div class="of-turn">key map v1</div><div class="of-turn">mallet offset, guess 1</div><div class="of-turn">strike</div><div class="of-turn">offset, guess 2</div><div class="of-turn">key map v2</div><div class="of-turn">restart at key 1</div><div class="of-turn">offset, guess 3</div><div class="of-turn">strike</div><div class="of-turn">key map v3</div><div class="of-turn">offset, guesses 4–6</div><div class="of-turn">restarts ×6</div><div class="of-turn end">80 decisions used</div>
+</div></div>
+<div class="of-lane cl"><div class="of-who"><i></i>Programs</div>
+<div class="of-strip">
+<div class="of-turn">fit every key edge at once<span class="n">residual ≤ 2.6 mm</span></div><span class="of-arrow">→</span>
+<div class="of-turn">measure the mallet-head offset once<span class="n">saved to <span class="mono">grasp_state.json</span></span></div><span class="of-arrow">→</span>
+<div class="of-turn">strike keys 1–3</div><div class="of-turn">keys 3–5</div><div class="of-turn">keys 6–8</div>
+</div></div>
+<div class="of-pair">
+<div class="tl">The key map changed three times and the mallet-head offset was guessed at least six times. Each correction broke the order, so the run went back to the first key at least six times. On layout 2 it counted the keys as nine, then ten. There are eight.</div>
+<div class="cl">A perception module with a residual gate, written once. The offset is measured once and stored in a file, and every strike program reads the same file. All three layouts finished in 6 to 8 decisions.</div>
+</div>
+</div>
+<figcaption><b>Pattern 1: what was measured gets estimated again.</b> Each box is one model turn. The tool-call row is schematic: the kinds of step the run repeated across its 80 decisions. The program row is the run's actual turn structure.</figcaption>
+</figure>
+
+<p><strong>2. Every measurement costs a turn.</strong> With tool calls, every geometry query and every computation takes a turn of
+its own. The compute tool accepts only literal expressions, so imports and comprehensions are refused. Inserting test tubes,
+the tool-call run probed the rack point by point for more than 20 turns, then set a tube between two holes, about
+18 mm from the nearest centre. One program fitted circles to all ten holes in 0.76 seconds, without moving the
+robot.</p>
+<figure class="ofig" aria-label="Turn strip: insert_tubes, layout 0">
+<div class="of-box">
+<p class="of-title">insert_tubes, layout 0: put test tubes into the holes of a rack</p>
+<div class="of-lane tl"><div class="of-who"><i></i>Tool calls</div>
+<div class="of-strip">
+<div class="of-turn dot" title="one probing turn"></div><div class="of-turn dot"></div><div class="of-turn dot"></div><div class="of-turn dot"></div><div class="of-turn dot"></div><div class="of-turn dot"></div><div class="of-turn dot"></div><div class="of-turn dot"></div><div class="of-turn dot"></div><div class="of-turn dot"></div><div class="of-turn dot"></div><div class="of-turn dot"></div><div class="of-turn dot"></div><div class="of-turn dot"></div><div class="of-turn dot"></div><div class="of-turn dot"></div><div class="of-turn dot"></div><div class="of-turn dot"></div><div class="of-turn dot"></div><div class="of-turn dot"></div><div class="of-turn dot"></div><div class="of-turn dot"></div>
+<span class="of-arrow">→</span><div class="of-turn end">tube set between two holes<span class="n">about 18 mm from the nearest centre</span></div>
+</div></div>
+<div class="of-lane cl"><div class="of-who"><i></i>Programs</div>
+<div class="of-strip">
+<div class="of-turn wide">one program, 0.76 s, the robot does not move<span class="n">segment the depth image → fit circles to all 10 holes: radius 15.6–15.8 mm, residual ≤ 1.6 mm</span></div>
+</div></div>
+</div>
+<figcaption><b>Pattern 2: every measurement costs a turn.</b> Each small square is one turn of point-by-point probing; the tool-call run probed for more than 20 turns. Every later placement program called the same hole detector again.</figcaption>
+</figure>
+
+<p><strong>3. The check comes a turn later, if at all.</strong> Fastening nuts, the tool-call run declared a nut "fully threaded"
 three times from the arm's position, released it, and watched it drop. The program measured the nut's depth below
 the bolt tip after every press, and pressed again while it still moved.</p>
-<p><strong>Every action costs a full turn of reasoning.</strong> Ten of the 15 tool-call episodes ended with the model abandoning
-the task, several with most of the budget left. When we reran them with 300 decisions instead of 80, tool calls
-solved 3 of 15, and none of the failures used the larger budget. The model's own reasons for stopping include
-"Struck all seven xylophone keys in order", on a xylophone with eight keys. More decisions bought more attempts of
-the same kind.</p>
+<figure class="ofig" aria-label="Turn strip: fasten_screws, layout 2">
+<div class="of-box">
+<p class="of-title">fasten_screws, layout 2: run three nuts down the bolts of their colour, clearly below each tip</p>
+<div class="of-lane tl"><div class="of-who"><i></i>Tool calls</div>
+<div class="of-strip">
+<div class="of-turn"><span class="n">turn 29</span>"nut lower face ~9 mm below the screw top"</div><span class="of-arrow">→</span>
+<div class="of-turn"><span class="n">turn 30</span>"fully run down … ~29 mm below", releases</div>
+<div class="of-turn"><span class="n">turn 60</span>"The red nut is fully threaded", releases</div><span class="of-arrow">→</span>
+<div class="of-turn end"><span class="n">turn 61</span>"came off and now lies flat on the table"</div>
+<div class="of-turn end"><span class="n">turn 135</span>gives up: not enough budget left</div>
+</div></div>
+<div class="of-lane cl"><div class="of-who"><i></i>Programs</div>
+<div class="of-strip">
+<div class="of-turn">press</div><span class="of-arrow">→</span><div class="of-turn">measure how far the nut went down<span class="n">from the point cloud</span></div><span class="of-arrow">→</span><div class="of-turn">gained ≥ 1 mm this time?</div><span class="of-arrow">yes: press again · no:</span><div class="of-turn">hand back to the model</div>
+</div></div>
+<pre><span class="cm"># press_taps.py, model call 50: 10 robot actions and 4 measurements in one decision
+# (grey comments are ours)</span>
+for cyc in range(CYCLES):
+    s = state()  <span class="cm"># point cloud: nut ring height, bolt tip height</span>
+    ...
+    chk(tools.move_pose(targets={ARM: tgt(xy, press_z, "precision")}), "tap")
+    tools.set_gripper(targets={ARM: "open"})
+    chk(tools.move_pose(targets={ARM: tgt(xy, start_z + 0.05)}), "lift")
+    s2 = state()  <span class="cm"># measure again right after the move</span>
+    g = (s["ring_z"] - s2["ring_z"]) * 1000.0
+    if g &lt; 1.0: break  <span class="cm"># stop once the nut no longer moves</span>
+handoff("taps done", color=COLOR, gains=hist)
+<span class="cm"># output</span>
+gains: [2.93, 0.03]</pre>
+<div class="of-pair">
+<div class="tl">The "29 mm" came from the arm's position. The nut was slipping in the jaws.</div>
+<div class="cl">At turn 46 the program sent both arms home, and the episode did not end. It measured again: two nuts sat only 9.0 and 10.4 mm below their bolt tips. It pressed once more, to 11.9 and 11.8 mm, and the task was done when the arms went home at turn 53.</div>
+</div>
+</div>
+<figcaption><b>Pattern 3: the check comes a turn later, if at all.</b> Quotes are the tool-call run's visible text. Every nut position in the program comes from the point cloud.</figcaption>
+</figure>
+
+<p><strong>4. Every action costs a full turn of reasoning.</strong> A tool-call turn reasons about as long as a program turn, and
+then delivers one action. Ten of the 15 tool-call episodes ended with the model abandoning the task, several with
+most of the budget left. On these 15 cases, the tool-call runs made a median of 102 model calls, the programs 49.</p>
+<figure class="ofig" aria-label="What one robot action costs in each mode">
+<div class="of-box">
+<div class="of-bars">
+<div class="of-bargroup"><div class="lbl">Reasoning per robot action, thousand characters (all 59 cases)</div>
+<div class="of-hb" title="Tool calls: 33.4k characters of reasoning per robot action"><span>Tool calls</span><div class="track"><div class="fill" style="width:100%;background:var(--of-tool)"></div></div><span class="v">33.4k</span></div>
+<div class="of-hb" title="Programs: 12.7k characters of reasoning per robot action"><span>Programs</span><div class="track"><div class="fill" style="width:38.0%;background:var(--of-code)"></div></div><span class="v">12.7k</span></div></div>
+<div class="of-bargroup"><div class="lbl">Model calls per robot action (all 59 cases)</div>
+<div class="of-hb" title="Tool calls: 1.95 model calls per robot action"><span>Tool calls</span><div class="track"><div class="fill" style="width:100%;background:var(--of-tool)"></div></div><span class="v">1.95</span></div>
+<div class="of-hb" title="Programs: 0.75 model calls per robot action"><span>Programs</span><div class="track"><div class="fill" style="width:38.5%;background:var(--of-code)"></div></div><span class="v">0.75</span></div></div>
+<div class="of-bargroup"><div class="lbl">Episodes the model abandoned, of the 15 cases only programs solved (full track = 15)</div>
+<div class="of-hb" title="Tool calls: 10 of 15 episodes abandoned"><span>Tool calls</span><div class="track"><div class="fill" style="width:66.7%;background:var(--of-tool)"></div></div><span class="v">10</span></div>
+<div class="of-hb" title="Programs: 0 of 15 episodes abandoned"><span>Programs</span><div class="track"><div class="fill" style="width:0%"></div></div><span class="v">0</span></div></div>
+</div>
+</div>
+<figcaption><b>Pattern 4: every action costs a full turn of reasoning.</b> Each group has its own scale. Per model call, both modes reason about as long; per robot action, tool calls pay about 2.6 times as much. Hidden reasoning is only measured in length, never read.</figcaption>
+</figure>
+
+<p>Side by side, the four patterns look like this:</p>
+<figure class="ofig" aria-label="The same thing, priced in both modes">
+<div class="of-box">
+<div class="of-scroll">
+<div class="tbl"><table>
+<thead><tr><th style="width:22%">To do this</th><th class="t" style="width:39%">With tool calls</th><th class="c" style="width:39%">With programs</th></tr></thead>
+<tbody>
+<tr><td style="color:var(--of-ink)">Remember a measurement</td><td>Only in the model's text. The next turn estimates it again.</td><td>In a variable or a file. Later programs read it.</td></tr>
+<tr><td style="color:var(--of-ink)">Take a measurement</td><td>A whole turn. The compute tool accepts only literal expressions.</td><td>One line of a program, which can fit the whole scene at once.</td></tr>
+<tr><td style="color:var(--of-ink)">Check after a move</td><td>Waits for the next turn, and is often inferred from the arm's position.</td><td>Measured again in the same program. Redone or handed back if it fails.</td></tr>
+<tr><td style="color:var(--of-ink)">Make one robot action</td><td>1.95 model calls, 33.4k characters of reasoning</td><td>0.75 model calls, 12.7k characters of reasoning</td></tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<figcaption><b>The same thing, priced in both modes.</b> The four patterns side by side.</figcaption>
+</figure>
+
+<h3>More decisions do not close the gap</h3>
+<p>A program may issue up to 12 robot actions for one decision. On these 15 cases, programs ran 1,079 actions in 239
+decisions, and tool calls 823 actions in 790 decisions. So is the gap just a bigger action budget? Two things say
+no.</p>
+<p>First, most tool-call runs did not run out. Only 5 of the 15 ended at or near 80 decisions. The other 10 ended
+after 20 to 74 decisions:</p>
+<ul>
+<li>7 gave up;</li>
+<li>3 tripped the task's failure check on block-pushing tasks.</li>
+</ul>
+<figure class="ofig" aria-label="How each tool-call run ended on the 15 cases only programs solved">
+<div class="of-box">
+<div class="of-scroll">
+<div class="tbl"><table>
+<thead><tr><th style="width:30%">Case, and decisions used</th><th style="width:35%">Where tool calls got stuck</th><th style="width:35%">What the program did</th></tr></thead>
+<tbody>
+<tr><td class="case">align_blocks-l0<span class="sub">tool calls: 44 · failure check</span><span class="sub">program: 8, solved</span></td><td>Pushed block by block without the ruler and turned the third block 45°; then spent 27 turns nudging it with the wrong finger offset</td><td>Used the ruler as a fence (a strategy choice) and measured each block's residual in the program</td></tr>
+<tr><td class="case">arrange_largest_number-l0<span class="sub">tool calls: 80 · out of decisions</span><span class="sub">program: 15, solved</span></td><td>Judged the orientation of the "2" differently every turn</td><td>A glyph-template orientation estimator: measure, turn, measure again</td></tr>
+<tr><td class="case">build_tower-l1<span class="sub">tool calls: 28 · gave up</span><span class="sub">program: 16, solved</span></td><td>Placed one piece in 28 decisions, then gave up after misreading its budget</td><td>A <code>place()</code> helper that measures the error in the air, corrects, then sets down; up to 11 actions in one turn</td></tr>
+<tr><td class="case">build_tower-l2<span class="sub">tool calls: 42 · gave up</span><span class="sub">program: 23, solved</span></td><td>Grasped a plank at one end so it hung askew; its view of the supports changed from turn to turn</td><td>Spent 31 turns writing perception and planning modules, then placed one piece per turn with a check</td></tr>
+<tr><td class="case">classify_objects-l1<span class="sub">tool calls: 54 · gave up</span><span class="sub">program: 45, solved</span></td><td>Blamed lost grasps on the arm's configuration and concluded the pens were too thin to grasp</td><td>Looped over grasp points until one held</td></tr>
+<tr><td class="case">fasten_screws-l2<span class="sub">tool calls: 77 · gave up</span><span class="sub">program: 22, solved</span></td><td>Declared a nut threaded from the arm's position; the nut dropped</td><td>Measured the nut's depth after every press and stopped when it no longer moved</td></tr>
+<tr><td class="case">fold_clothes-l0<span class="sub">tool calls: 78 · gave up</span><span class="sub">program: 12, solved</span></td><td>Could not tell whether it held the thin cloth; 16 calls refused</td><td>Measured how far the cloth rose after each grasp and tried another point in the same program</td></tr>
+<tr><td class="case">fold_clothes-l1<span class="sub">tool calls: 76 · gave up</span><span class="sub">program: 8, solved</span></td><td>Nearly the program's procedure, but set the hem down too high and too close</td><td>A 64-pose reachability scan and a shoulder line from the point cloud (the weakest evidence here)</td></tr>
+<tr><td class="case">insert_tubes-l0<span class="sub">tool calls: 28 · gave up</span><span class="sub">program: 11, solved</span></td><td>Probed for holes point by point for more than 20 turns; put the tube between two holes</td><td>Fitted circles to every hole; checked before inserting and corrected a second time when needed</td></tr>
+<tr><td class="case">make_kong-l0<span class="sub">tool calls: 22 · gave up</span><span class="sub">program: 11, solved</span></td><td>Picked the right three tiles, changed its mind, and pushed in the wrong place</td><td>A 14 × 14 tile-similarity matrix fixed the targets; measured the height after each push</td></tr>
+<tr><td class="case">play_Xylophone-l0<span class="sub">tool calls: 67 · gave up</span><span class="sub">program: 8, solved</span></td><td>Grasped the wrong stand and revised the key map four times; the mallet slipped before a single strike</td><td>Recalibrated the mallet-head offset before every key</td></tr>
+<tr><td class="case">play_Xylophone-l1<span class="sub">tool calls: 80 · out of decisions</span><span class="sub">program: 6, solved</span></td><td>Key map off by half a key width; guessed the mallet-head offset six times or more</td><td>Comb-fitted key table, offset measured in the program, mallet head found again after every move</td></tr>
+<tr><td class="case">play_Xylophone-l2<span class="sub">tool calls: 74 · gave up</span><span class="sub">program: 8, solved</span></td><td>Counted nine keys, then ten; struck with the tail end of the mallet handle</td><td>Searched a grid of arm poses for one that reaches every key</td></tr>
+<tr><td class="case">push_T-l0<span class="sub">tool calls: 20 · failure check</span><span class="sub">program: 30, solved</span></td><td>One 200 mm push turned the block 45°; it then grasped and dragged the block, which the task counts as failure</td><td>Measured the pose by fitting the point cloud, chose contact points with a torque model, and pushed in a closed loop (162 actions)</td></tr>
+<tr><td class="case">push_T-l2<span class="sub">tool calls: 20 · failure check</span><span class="sub">program: 16, solved</span></td><td>Grasped and dragged the block from the start</td><td>Measured after every push and learned the lever's sign rule from the data (118 actions)</td></tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<figcaption><b>How each tool-call run ended</b>, on the 15 cases only programs solved, at 80 decisions. Only 5 ended at or near 80. The other 10 ended after 20 to 74 decisions: 7 gave up, and 3 tripped the task's failure check on block-pushing tasks. Some cases owe more to strategy or chance than to the mode: align_blocks-l0, both push_T cases and fold_clothes-l1.</figcaption>
+</figure>
+
+<p>Second, we reran the 15 cases with tool calls only, at 300 decisions and 600 model calls (300 is about 80 times 3.6),
+with nothing else changed:</p>
+<ul>
+<li>tool calls solved 3 of 15;</li>
+<li>one of the three took only 27 decisions, inside the first budget, so it is run-to-run variation; only 2 needed
+  more than 80 decisions (115 and 153);</li>
+<li>none of the 12 failures used all 300: 9 gave up after 35 to 166 decisions, and 3 tripped the failure check.</li>
+</ul>
+<figure class="ofig" aria-label="Budget control: tool calls with 300 decisions">
+<div class="of-box">
+<div class="of-dp" role="img" aria-label="Decisions used on the 15 cases only programs solved. With 300 decisions, tool calls solved 3 (after 27, 115 and 153 decisions); 9 gave up after 35 to 166; 3 ended by the task failure check after 10, 27 and 73. None used all 300." style="--of-grid:16.6667%">
+<div class="of-dp-row"><span class="of-sp"></span><div class="of-axis top"><span style="left:26.667%">first budget: 80</span><span style="left:100%">rerun budget: 300</span></div></div>
+<div class="of-dp-grp">Solved with 300 decisions (3)</div>
+<div class="of-dp-row" title="play_Xylophone-l1: the program solved it in 6 decisions; tool calls failed after 80 of 80; with 300: solved after 27"><span class="lab">play_Xylophone-l1</span><div class="of-trk"><i class="cap" style="left:26.667%"></i><i class="cap solid" style="left:100%"></i><i class="ln" style="left:9.000%;width:17.667%"></i><i class="dia" style="left:2.000%"></i><i class="o80" style="left:26.667%"></i><i class="f" style="left:9.000%"></i></div></div>
+<div class="of-dp-row" title="play_Xylophone-l2: the program solved it in 8 decisions; tool calls failed after 74 of 80; with 300: solved after 115"><span class="lab">play_Xylophone-l2</span><div class="of-trk"><i class="cap" style="left:26.667%"></i><i class="cap solid" style="left:100%"></i><i class="ln" style="left:24.667%;width:13.667%"></i><i class="dia" style="left:2.667%"></i><i class="o80" style="left:24.667%"></i><i class="f" style="left:38.333%"></i></div></div>
+<div class="of-dp-row" title="classify_objects-l1: the program solved it in 45 decisions; tool calls failed after 54 of 80; with 300: solved after 153"><span class="lab">classify_objects-l1</span><div class="of-trk"><i class="cap" style="left:26.667%"></i><i class="cap solid" style="left:100%"></i><i class="ln" style="left:18.000%;width:33.000%"></i><i class="dia" style="left:15.000%"></i><i class="o80" style="left:18.000%"></i><i class="f" style="left:51.000%"></i></div></div>
+<div class="of-dp-grp">The model gave up (9)</div>
+<div class="of-dp-row" title="make_kong-l0: the program solved it in 11 decisions; tool calls failed after 22 of 80; with 300: gave up after 35"><span class="lab">make_kong-l0</span><div class="of-trk"><i class="cap" style="left:26.667%"></i><i class="cap solid" style="left:100%"></i><i class="ln" style="left:7.333%;width:4.333%"></i><i class="dia" style="left:3.667%"></i><i class="o80" style="left:7.333%"></i><i class="f" style="left:11.667%"></i></div></div>
+<div class="of-dp-row" title="build_tower-l1: the program solved it in 16 decisions; tool calls failed after 28 of 80; with 300: gave up after 39"><span class="lab">build_tower-l1</span><div class="of-trk"><i class="cap" style="left:26.667%"></i><i class="cap solid" style="left:100%"></i><i class="ln" style="left:9.333%;width:3.667%"></i><i class="dia" style="left:5.333%"></i><i class="o80" style="left:9.333%"></i><i class="f" style="left:13.000%"></i></div></div>
+<div class="of-dp-row" title="fold_clothes-l0: the program solved it in 12 decisions; tool calls failed after 78 of 80; with 300: gave up after 41"><span class="lab">fold_clothes-l0</span><div class="of-trk"><i class="cap" style="left:26.667%"></i><i class="cap solid" style="left:100%"></i><i class="ln" style="left:13.667%;width:12.333%"></i><i class="dia" style="left:4.000%"></i><i class="o80" style="left:26.000%"></i><i class="f" style="left:13.667%"></i></div></div>
+<div class="of-dp-row" title="fasten_screws-l2: the program solved it in 22 decisions; tool calls failed after 77 of 80; with 300: gave up after 54"><span class="lab">fasten_screws-l2</span><div class="of-trk"><i class="cap" style="left:26.667%"></i><i class="cap solid" style="left:100%"></i><i class="ln" style="left:18.000%;width:7.667%"></i><i class="dia" style="left:7.333%"></i><i class="o80" style="left:25.667%"></i><i class="f" style="left:18.000%"></i></div></div>
+<div class="of-dp-row" title="insert_tubes-l0: the program solved it in 11 decisions; tool calls failed after 28 of 80; with 300: gave up after 55"><span class="lab">insert_tubes-l0</span><div class="of-trk"><i class="cap" style="left:26.667%"></i><i class="cap solid" style="left:100%"></i><i class="ln" style="left:9.333%;width:9.000%"></i><i class="dia" style="left:3.667%"></i><i class="o80" style="left:9.333%"></i><i class="f" style="left:18.333%"></i></div></div>
+<div class="of-dp-row" title="arrange_largest_number-l0: the program solved it in 15 decisions; tool calls failed after 80 of 80; with 300: gave up after 106"><span class="lab">arrange_largest_number-l0</span><div class="of-trk"><i class="cap" style="left:26.667%"></i><i class="cap solid" style="left:100%"></i><i class="ln" style="left:26.667%;width:8.667%"></i><i class="dia" style="left:5.000%"></i><i class="o80" style="left:26.667%"></i><i class="f" style="left:35.333%"></i></div></div>
+<div class="of-dp-row" title="play_Xylophone-l0: the program solved it in 8 decisions; tool calls failed after 67 of 80; with 300: gave up after 118"><span class="lab">play_Xylophone-l0</span><div class="of-trk"><i class="cap" style="left:26.667%"></i><i class="cap solid" style="left:100%"></i><i class="ln" style="left:22.333%;width:17.000%"></i><i class="dia" style="left:2.667%"></i><i class="o80" style="left:22.333%"></i><i class="f" style="left:39.333%"></i></div></div>
+<div class="of-dp-row" title="build_tower-l2: the program solved it in 23 decisions; tool calls failed after 42 of 80; with 300: gave up after 128"><span class="lab">build_tower-l2</span><div class="of-trk"><i class="cap" style="left:26.667%"></i><i class="cap solid" style="left:100%"></i><i class="ln" style="left:14.000%;width:28.667%"></i><i class="dia" style="left:7.667%"></i><i class="o80" style="left:14.000%"></i><i class="f" style="left:42.667%"></i></div></div>
+<div class="of-dp-row" title="fold_clothes-l1: the program solved it in 8 decisions; tool calls failed after 76 of 80; with 300: gave up after 166"><span class="lab">fold_clothes-l1</span><div class="of-trk"><i class="cap" style="left:26.667%"></i><i class="cap solid" style="left:100%"></i><i class="ln" style="left:25.333%;width:30.000%"></i><i class="dia" style="left:2.667%"></i><i class="o80" style="left:25.333%"></i><i class="f" style="left:55.333%"></i></div></div>
+<div class="of-dp-grp">Ended by the task's failure check (3)</div>
+<div class="of-dp-row" title="push_T-l0: the program solved it in 30 decisions; tool calls failed after 20 of 80; with 300: failure check after 10"><span class="lab">push_T-l0</span><div class="of-trk"><i class="cap" style="left:26.667%"></i><i class="cap solid" style="left:100%"></i><i class="ln" style="left:3.333%;width:3.333%"></i><i class="dia" style="left:10.000%"></i><i class="o80" style="left:6.667%"></i><i class="f" style="left:3.333%"></i></div></div>
+<div class="of-dp-row" title="push_T-l2: the program solved it in 16 decisions; tool calls failed after 20 of 80; with 300: failure check after 27"><span class="lab">push_T-l2</span><div class="of-trk"><i class="cap" style="left:26.667%"></i><i class="cap solid" style="left:100%"></i><i class="ln" style="left:6.667%;width:2.333%"></i><i class="dia" style="left:5.333%"></i><i class="o80" style="left:6.667%"></i><i class="f" style="left:9.000%"></i></div></div>
+<div class="of-dp-row" title="align_blocks-l0: the program solved it in 8 decisions; tool calls failed after 44 of 80; with 300: failure check after 73"><span class="lab">align_blocks-l0</span><div class="of-trk"><i class="cap" style="left:26.667%"></i><i class="cap solid" style="left:100%"></i><i class="ln" style="left:14.667%;width:9.667%"></i><i class="dia" style="left:2.667%"></i><i class="o80" style="left:14.667%"></i><i class="f" style="left:24.333%"></i></div></div>
+<div class="of-dp-row"><span class="of-sp"></span><div class="of-axis"><span style="left:0.000%">0</span><span style="left:16.667%">50</span><span style="left:33.333%">100</span><span style="left:50.000%">150</span><span style="left:66.667%">200</span><span style="left:83.333%">250</span><span style="left:100.000%">300</span></div></div>
+<div class="of-dp-row"><span class="of-sp"></span><div class="of-axttl">robot decisions used</div></div>
+</div>
+<div class="of-legend"><span><svg viewBox="0 0 12 12"><rect x="2.5" y="2.5" width="7" height="7" transform="rotate(45 6 6)" style="fill:var(--of-code)"/></svg>program: decisions to solve the case</span><span><svg viewBox="0 0 12 12"><circle cx="6" cy="6" r="4.4" style="fill:none;stroke:var(--of-tool);stroke-width:1.5"/></svg>tool calls, budget 80 (all failed)</span><span><svg viewBox="0 0 12 12"><circle cx="6" cy="6" r="5" style="fill:var(--of-tool)"/></svg>tool calls, budget 300</span></div>
+</div>
+<figcaption><b>More decisions do not close the gap.</b> The 15 cases only programs solved, rerun with tool calls at 300 decisions and 600 model calls instead of 80 and 200; nothing else changed. None of the 12 failures used all 300. play_Xylophone-l1 solved in 27 decisions on the rerun, inside the first budget, which is run-to-run variation. For align_blocks-l0 and fasten_screws-l2 the first rerun never started the simulator; the plot shows their second. Hover a row for its numbers.</figcaption>
+</figure>
+
+<p>The reasons the model gave for stopping match the four patterns:</p>
+<ul>
+<li><strong>It believed it was done.</strong> "Struck all seven xylophone keys in order", on a xylophone with eight keys. On
+  arrange_largest_number, after 106 decisions: "Public completion contract appears fully satisfied".</li>
+<li><strong>It drew a wrong conclusion about the scene.</strong> On build_tower, layout 2: "no such board exists … the four tiers
+  cannot be assembled". On layout 1: "no reachable pose can grip a 20 mm flat board". Programs built both towers on
+  the same layouts.</li>
+<li><strong>It repeated the same failure.</strong> On fold_clothes, layout 1: "attempted roughly twenty grasps … Every close stalled
+  at about 1.6 mm of fabric". Each retry moved to a new point without measuring why the last one failed.</li>
+<li><strong>It misread its budget.</strong> On fasten_screws, the run gave up at decision 54 with 246 decisions left. It read a
+  remaining-budget field the wrong way round, which is the harness's to make plainer.</li>
+</ul>
+<p>More decisions bought more attempts of the same kind.</p>
 <h3>What the sandbox changes</h3>
 <p>We expected programs to help because the model thinks a lot, and a tool call lets it act on only a sliver of that
-thinking. The data say something else. Within code mode, the longest-thinking turns produce programs that do not
-move the robot at all: fitting every hole of a rack, scanning reachable poses, comparing tile faces. Their results
-come back as numbers that later turns reuse. Long thinking turns into measurement, not into more motion.</p>
-<p>The workspace is what makes this pay off. Across all 59 program episodes:
-- the agent writes a median of 58 Python files per episode and reuses 7 of them in later turns;
-- in 73% of the turns that move the robot, the code that runs imports a module the agent wrote earlier in the same
-  episode;
-- in the xylophone case, a <code>scene.py</code> written in turn 5 (a key table and a mallet-head finder) is imported by eight
-  later files.</p>
+thinking. The data say something else:</p>
+<ul>
+<li>within code mode, longer reasoning does not mean more actions: turns that reason for more than 40k characters
+  average 0.86 robot actions, and turns of 2k to 10k characters about 1.8;</li>
+<li>the longest-thinking turns produce programs that do not move the robot at all: fitting every hole of a rack,
+  scanning reachable poses, comparing tile faces;</li>
+<li>their results come back as numbers that later turns check and reuse.</li>
+</ul>
+<p>Long thinking turns into measurement.</p>
+<p>The workspace is what makes this pay off. Across all 59 program episodes:</p>
+<ul>
+<li>the agent writes a median of 58 Python files per episode and reuses 7 of them in later turns;</li>
+<li>in 73% of the turns that move the robot, the code that runs imports a module the agent wrote earlier in the same
+  episode;</li>
+<li>in the xylophone case, a <code>scene.py</code> written in turn 5 (a key table and a mallet-head finder) is imported by eight
+  later files.</li>
+</ul>
 <h3>The tools the agent builds for itself</h3>
 <p>Some helpers reappear in episode after episode, although nobody asked for them. Grouped by what they do:</p>
-<table>
+<div class="tbl"><table>
 <thead>
 <tr>
 <th>Family</th>
@@ -299,7 +710,7 @@ come back as numbers that later turns reuse. Long thinking turns into measuremen
 <td><code>reach</code>, <code>scan</code></td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <p>Each family points at something the harness should provide itself. The first two are now being added to the
 code-mode library. The functions an agent writes at runtime have become one of our main sources of harness
 improvements. <span class="tbd">TBD: link the library change when it lands.</span></p>
@@ -315,13 +726,15 @@ works in free play: load a scene with no task, type an instruction, and change y
 
 <p>The correction arrived while the agent was working. It read it before its next step, re-measured the magenta block,
 put blue back on it and green on top, and reported the measured height of each layer.</p>
-<h2>3. Muse, DeepSeek and Qwen with code and with tool calls</h2>
+<h2>4. Muse, DeepSeek and Qwen with code and with tool calls</h2>
 <p>Different open models may suit different interfaces. We ran three of them on the current harness, on the same 40
-RoboDojo tasks (one layout each), in both modes, with the same budgets:
-- self-hosted DeepSeek-V4.1-Flash;
-- Qwen3.8-Flash-Next;
-- Muse Spark Open.</p>
-<table>
+RoboDojo tasks (one layout each), in both modes, with the same budgets:</p>
+<ul>
+<li>self-hosted DeepSeek-V4.1-Flash;</li>
+<li>Qwen3.8-Flash-Next;</li>
+<li>Muse Spark Open.</li>
+</ul>
+<div class="tbl"><table>
 <thead>
 <tr>
 <th>Model</th>
@@ -403,28 +816,46 @@ RoboDojo tasks (one layout each), in both modes, with the same budgets:
 <td>1,350</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <p>Decisions, calls, tokens and reasoning (in tokens) are medians per episode; failed programs and refused calls are
 totals. A few cases per arm are missing because the simulator failed to start.</p>
-<p>What the table says:
-- <strong>Success is close in both modes for all three models.</strong> On the current harness, tool calls have caught up with
+<figure class="ofig" aria-label="Robot decisions per episode by model and mode">
+<div class="of-box">
+<div class="of-dp wide" role="img" aria-label="Median robot decisions per episode: DeepSeek 37 with tool calls and 18 with code; Qwen 65 and 28; Muse 58 and 34." style="--of-grid:14.2857%">
+<div class="of-dp-row" title="DeepSeek-V4.1-Flash: median robot decisions per episode, 37 with tool calls and 18 with code; solved 15/39 and 16/39"><span class="lab"><b>DeepSeek-V4.1-Flash</b>solved 15/39 tool · 16/39 code</span><div class="of-trk tall"><i class="ln" style="top:64%;left:25.714%;width:27.143%"></i><i class="f big code" style="left:25.714%"></i><i class="f big" style="left:52.857%"></i><i class="val" style="left:25.714%">18</i><i class="val" style="left:52.857%">37</i></div></div>
+<div class="of-dp-row" title="Qwen3.8-Flash-Next: median robot decisions per episode, 65 with tool calls and 28 with code; solved 15/39 and 15/38"><span class="lab"><b>Qwen3.8-Flash-Next</b>solved 15/39 tool · 15/38 code</span><div class="of-trk tall"><i class="ln" style="top:64%;left:40.000%;width:52.857%"></i><i class="f big code" style="left:40.000%"></i><i class="f big" style="left:92.857%"></i><i class="val" style="left:40.000%">28</i><i class="val" style="left:92.857%">65</i></div></div>
+<div class="of-dp-row" title="Muse Spark Open: median robot decisions per episode, 58 with tool calls and 34 with code; solved 5/39 and 6/38"><span class="lab"><b>Muse Spark Open</b>solved 5/39 tool · 6/38 code</span><div class="of-trk tall"><i class="ln" style="top:64%;left:48.571%;width:34.286%"></i><i class="f big code" style="left:48.571%"></i><i class="f big" style="left:82.857%"></i><i class="val" style="left:48.571%">34</i><i class="val" style="left:82.857%">58</i></div></div>
+<div class="of-dp-row"><span class="of-sp"></span><div class="of-axis"><span style="left:0.000%">0</span><span style="left:14.286%">10</span><span style="left:28.571%">20</span><span style="left:42.857%">30</span><span style="left:57.143%">40</span><span style="left:71.429%">50</span><span style="left:85.714%">60</span><span style="left:100.000%">70</span></div></div>
+<div class="of-dp-row"><span class="of-sp"></span><div class="of-axttl">robot decisions per episode (median)</div></div>
+</div>
+<div class="of-legend"><span><svg viewBox="0 0 12 12"><circle cx="6" cy="6" r="5" style="fill:var(--of-tool)"/></svg>tool calls</span><span><svg viewBox="0 0 12 12"><circle cx="6" cy="6" r="5" style="fill:var(--of-code)"/></svg>code</span></div>
+</div>
+<figcaption><b>Same tasks, fewer decisions.</b> Each model on the same 40 RoboDojo tasks (one layout) in both modes, from the table above. Success is close in both modes; with code every model needs fewer robot decisions.</figcaption>
+</figure>
+
+<p>What the table says:</p>
+<ul>
+<li><strong>Success is close in both modes for all three models.</strong> On the current harness, tool calls have caught up with
   code on these tasks, unlike in the earlier paired experiment. We think part of the reason is that some of what
   programs did for themselves has since moved into the tools (grasp axes, wrist routing, clearer refusals); we have
-  not tested that directly.
-- <strong>Code halves the robot decisions for every model.</strong> DeepSeek goes from 37 to 18, Qwen from 65 to 28, Muse from
-  58 to 34. Each decision does more.
-- <strong>The models use code differently.</strong>
-  - <em>DeepSeek</em> writes long, careful programs: the most reasoning per call, the fewest failed programs, and 42% fewer
-    prompt tokens per episode with code.
-  - <em>Qwen</em> is the busiest. It makes the most calls in both modes, and its programs fail and get refused more often,
-    so code costs it as many tokens as tool calls.
-  - <em>Muse</em> reasons very little per call (a few hundred tokens), writes programs that fail often (864 over 38
-    episodes), and solves few tasks in either mode.
-- <strong>Cases solved by one mode only are few.</strong> DeepSeek: 3 with code only, 2 with tool calls only. Qwen: 5 and 5.
-  Muse: 3 and 1.</p>
+  not tested that directly.</li>
+<li><strong>Code halves the robot decisions for every model.</strong> DeepSeek goes from 37 to 18, Qwen from 65 to 28, Muse from
+  58 to 34. Each decision does more.</li>
+<li><strong>The models use code differently.</strong><ul>
+<li><em>DeepSeek</em> writes long, careful programs: the most reasoning per call, the fewest failed programs, and 42% fewer
+  prompt tokens per episode with code.</li>
+<li><em>Qwen</em> is the busiest. It makes the most calls in both modes, and its programs fail and get refused more often,
+  so code costs it as many tokens as tool calls.</li>
+<li><em>Muse</em> reasons very little per call (a few hundred tokens), writes programs that fail often (864 over 38
+  episodes), and solves few tasks in either mode.</li>
+</ul>
+</li>
+<li><strong>Cases solved by one mode only are few.</strong> DeepSeek: 3 with code only, 2 with tool calls only. Qwen: 5 and 5.
+  Muse: 3 and 1.</li>
+</ul>
 <p><span class="tbd">TBD: the rest of the study, which is running now: the same models on a second layout, and Nemotron-3.5-Super-VL.</span></p>
 <h2>What's next</h2>
-<p><span class="tbd">TBD: the library additions above, the real-robot cell, the distilled single-GPU student, the public release and the paper.</span></p>
+<p><span class="tbd">TBD: the library additions above, contact near the ends of a move and what the cameras cannot see, the real-robot cell, the distilled single-GPU student, the public release and the paper.</span></p>
 <hr>
 <p><a id="appendix-a"></a></p>
 <h2>Appendix A: how we count successes</h2>
@@ -433,7 +864,7 @@ the benchmark's verdict at the limit as the <strong>official</strong> outcome an
 later is a success <strong>after the limit</strong>. The numbers in this post count both. RoboTwin runs in its evaluation mode,
 where its own step limit ends the episode; our successes there use at most 21.5% of it (median 2.6%). LIBERO-Pro
 stops at its own horizon. So every success on those two is official.</p>
-<table>
+<div class="tbl"><table>
 <thead>
 <tr>
 <th>Benchmark</th>
@@ -453,7 +884,7 @@ stops at its own horizon. So every success on those two is official.</p>
 <td>10.1%</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <p><strong>Why we count successes after the limit.</strong> The step limits were set for learned policies that act at a fixed
 control rate. ORA is a turn-based agent: it measures, plans, moves and checks, and it spends simulator steps where
 a policy does not. Each ORA motion uses about twice the native steps of a direct joint command, and failed or
@@ -464,18 +895,20 @@ leaderboard numbers.</p>
 <li><strong>Speed does not explain it.</strong> The default motion speed is already near the arms' joint limits on RoboDojo.
   Re-timing every move at the fastest preset would turn at most 10 of 60 (RoboDojo) and 3 of 61 (RoboLab) late
   successes into official ones. The steps go to extra decisions and stalled moves.</li>
-<li><strong>Comparisons in this post.</strong></li>
+<li><strong>Comparisons in this post.</strong><ul>
 <li>The paired experiment: of the 20 cases programs solved, 5 were within the limit; of the 6 cases tool calls
-    solved, 2 were.</li>
+solved, 2 were.</li>
 <li>Against Uni-Robot-Agent: it reaches more successes within the limit than ORA (16 vs 9 of 72), because each ORA
-    motion takes about twice the simulator steps.</li>
+motion takes about twice the simulator steps.</li>
 <li>The three-model table: within the limit, DeepSeek solves 8 cases in each mode, Qwen 7 with tool calls and 4
-    with code, and Muse 2 with tool calls and 4 with code.</li>
+with code, and Muse 2 with tool calls and 4 with code.</li>
+</ul>
+</li>
 </ul></article>
   </div>
 </main>
 
-<footer><div class="wrap"><span>© 2026 ORA contributors · Hao AI Lab, UC San Diego</span><span><a href="../../blog/index.html">Blog</a> · <a href="https://haoailab.com/blogs/ora/">Hao AI Lab</a> · <a href="https://github.com/hao-ai-lab/ORA">GitHub</a></span></div></footer>
+<footer class="foot"><div class="wrap"><div class="fb"><a class="brand" href="../../index.html"><i></i>ORA</a><p>Open Robot-Use Agents: an open harness that lets language models operate robots.</p></div><nav class="fcols" aria-label="Footer"><div><p>Project</p><a href="../../index.html">Overview</a><a href="../../blog/index.html">Blog</a><a href="../../docs/index.html">Docs</a><a href="../../paper/ora-two-page.pdf" target="_blank" rel="noopener">Paper (PDF)</a></div><div><p>Docs</p><a href="../../docs/getting-started/installation/index.html">Installation</a><a href="../../docs/quickstart/index.html">First episode</a><a href="../../docs/how-ora-works/index.html">How ORA works</a><a href="../../docs/reference/index.html">Reference</a></div><div><p>Elsewhere</p><a class="ext" href="https://github.com/hao-ai-lab/ORA" target="_blank" rel="noopener">GitHub</a><a class="ext" href="https://haoailab.com/blogs/ora/" target="_blank" rel="noopener">Hao AI Lab blog</a></div></nav><p class="fbase">© 2026 ORA contributors · Hao AI Lab, UC San Diego</p></div></footer>
 <script>
 document.querySelectorAll('[data-tabs]').forEach(function(box){
   var tabs=box.querySelectorAll('.tabs button'), panes=box.querySelectorAll('[data-pane]');
