@@ -17,7 +17,7 @@
   --bg:#0A0A0A; --bg-2:#0E0E0E; --panel:#111111; --panel-2:#161616; --line:#1A1A1A; --line-2:#222222;
   --text:#F0F0F0; --text-2:#B0B0B0; --text-3:#777777; --text-body:#D4D4D4;
   --teal:#11787B; --teal-hi:#48B0B4; --teal-deep:#05585B; --teal-ink:#012526;
-  --amber:#C45C1C; --amber-bg:#2B1609;
+  --amber:#E8596B; --amber-bg:#2A0A0E;
   --sans:"Geist",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   --mono:"Geist Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
   --max:1120px; --max-wide:1360px; --read:700px;
@@ -299,7 +299,7 @@ move. For every planned move, the stack then does five things:</p>
 
 <figure class="ofig" aria-label="The collision world for one LIBERO request">
 <img src="motion-world.jpg" alt="Voxel collision world from above and from the side, with the held box in red at the hand, next to the two camera images it was built from.">
-<figcaption><b>Depth into a collision world.</b> One LIBERO request. Grey is occupied space built from the two cameras' depth, seen from above (left) and from the side (middle): the table and the objects on it. Orange is the box in the gripper, which the planner moves with the hand; + is the hand. Dark is free or unseen. Right: the two camera images the world was built from.</figcaption>
+<figcaption><b>Depth into a collision world.</b> One LIBERO request. Grey is occupied space built from the two cameras' depth, seen from above (left) and from the side (middle): the table and the objects on it. Red is the box in the gripper, which the planner moves with the hand; + is the hand. Dark is free or unseen. Right: the two camera images the world was built from.</figcaption>
 </figure>
 
 <figure><figcaption><span class="slot">Video · poster frame in this draft</span><br>from depth to a planned path, one RoboDojo move, about 15 s. Start on the head camera's view of the table. Then the depth point cloud from the head and both wrist cameras in 3D; the robot's own points disappear; the points become the occupied voxels of the collision world; the space at the start and around the goal hand is cleared; the planned hand path is drawn through the voxels from start to goal; end on the arm executing that path in the simulator. Same move throughout, one short label per step.</figcaption></figure>

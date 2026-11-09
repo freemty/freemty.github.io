@@ -5,7 +5,7 @@
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js";
 
 // The series pair of the site's charts: dark orange for the arm's path, deep teal for its grasps and the progress marker.
-const PATH = new THREE.Color(0xc45c1c), GRASP = new THREE.Color(0x008e8c);
+const PATH = new THREE.Color(0xc6011f), GRASP = new THREE.Color(0x008e8c);
 
 const POINT_VS = `
 uniform float uSize, uScale, uLift, uGrade, uFade;

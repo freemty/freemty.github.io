@@ -1,9 +1,9 @@
 /* Shared style of blog no. 2's figures. build.py inlines it once per page, before the first figure.
-   Two series colours only: programs #008e8c (deep teal), tool calls #c45c1c (dark orange); validated with the
-   dataviz checker on #081012 and on white. Fills behind text are deep (dark page) or pale (light page).
+   Two series colours only: programs #008e8c (deep teal), tool calls #c6011f (swiss red, the homepage accent); validated with the
+   dataviz checker on #111111 and on white. Fills behind text are deep (dark page) or pale (light page).
    Everything else is neutral, from the page's ink and line tokens: the site's --text/--text-2/--text-3/--line-2/--bg,
    else the standalone draft's --ink/--content/--muted/--rule/--paper. Sans for words, mono for code, ids and numbers. */
-.ofig{--of-tool:#c45c1c;--of-code:#008e8c;--of-fill-tool:#f8ebe2;--of-fill-code:#e6f2f1;
+.ofig{--of-tool:#c6011f;--of-code:#008e8c;--of-fill-tool:#fbe8eb;--of-fill-code:#e6f2f1;
 --of-ink:var(--text,var(--ink,#1e1e1e));--of-ink2:var(--text-2,var(--content,#3a3a3a));--of-mute:var(--text-3,var(--muted,#6b6b6b));
 --of-line:var(--line-2,var(--rule,#e2e2e2));--of-bg:var(--bg,var(--paper,#fff));
 --of-neutral:color-mix(in srgb,var(--of-ink) 6%,transparent);--of-gridc:color-mix(in srgb,var(--of-ink) 8%,transparent);
@@ -13,8 +13,8 @@
 margin:44px 0 36px;padding-top:22px;border-top:1px solid var(--of-line)}
 /* On the site (always dark): the deep fills, and the site's neutral tokens with the site scheme's values as fallbacks. */
 article .ofig{--of-ink:var(--text,#f0f0f0);--of-ink2:var(--text-2,#b0b0b0);--of-mute:var(--text-3,#777);--of-line:var(--line-2,#222);--of-bg:var(--bg,#0a0a0a)}
-article .ofig,:root[data-theme="dark"] .ofig{--of-fill-tool:#2b1609;--of-fill-code:#062a2b}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .ofig{--of-fill-tool:#2b1609;--of-fill-code:#062a2b}}
+article .ofig,:root[data-theme="dark"] .ofig{--of-fill-tool:#2a0a0e;--of-fill-code:#062a2b}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .ofig{--of-fill-tool:#2a0a0e;--of-fill-code:#062a2b}}
 .ofig .of-box{display:grid;gap:18px;min-width:0}
 .ofig .of-title{font:600 14.5px/1.4 var(--of-sans);letter-spacing:-.005em;color:var(--of-ink);margin:0}
 .ofig .of-note{font:400 13px/1.55 var(--of-sans);color:var(--of-mute);margin:0;max-width:none}
