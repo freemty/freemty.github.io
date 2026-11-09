@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
-<title>Robot-use agents can write code now · ORA</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2032%2032%27%3E%3Crect%20x%3D%273%27%20y%3D%273%27%20width%3D%2726%27%20height%3D%2726%27%20rx%3D%277%27%20fill%3D%27%2311787B%27/%3E%3C/svg%3E">
+<title>ORA in Code Mode: Letting Robot Agents Write Programs · ORA</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2016%2016%27%20shape-rendering%3D%27crispEdges%27%3E%3Cpath%20fill%3D%27%23008E8C%27%20d%3D%27M3%202h10v2h-10zM3%204h2v2h-2zM11%204h2v2h-2zM3%206h2v2h-2zM11%206h2v2h-2zM3%208h2v2h-2zM9%208h6v2h-6zM3%2010h2v2h-2zM9%2010h2v2h-2zM13%2010h2v2h-2zM1%2012h6v2h-6z%27/%3E%3C/svg%3E">
 <meta name="description" content="Blog no. 2 of the ORA project (draft).">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -110,6 +110,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .prose .admonition.warning,.prose .admonition.caution,.prose .admonition.danger{border-left-color:var(--amber)}
 .prose .admonition.warning .admonition-title,.prose .admonition.caution .admonition-title,.prose .admonition.danger .admonition-title{color:var(--amber)}
 .prose .tbl{overflow-x:auto;margin:22px 0 26px}
+@media (min-width:720px){.prose .tbl{overflow:visible}}
 .prose table{border-collapse:collapse;width:100%;font-size:14.5px;line-height:1.55}
 .prose th,.prose td{text-align:left;vertical-align:top;padding:9px 16px 9px 0;border-bottom:1px solid var(--line)}
 .prose th{font:500 12.5px/1.4 var(--mono);color:var(--text-3);white-space:nowrap}
@@ -136,54 +137,44 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .postvid .frame{border-radius:14px;overflow:hidden;border:1px solid var(--line-2)}
 .postvid video{display:block;width:100%;aspect-ratio:1600/750}
 .postvid .cap{font-size:12.5px;color:var(--text-3);margin-top:12px;text-align:center}
-.draftbar{font:400 12.5px/1.6 var(--mono);color:var(--amber);background:var(--amber-bg);border-radius:10px;padding:10px 14px;margin:0 0 36px;display:flex;flex-wrap:wrap;gap:6px 18px}
+.draftbar{font:400 12.5px/1.6 var(--mono);color:var(--amber);background:var(--amber-bg);border-radius:10px;padding:10px 14px;margin:0 0 36px;display:flex;flex-wrap:wrap;align-items:center;gap:6px 18px}
 .draftbar a{color:inherit;text-decoration:underline}
-</style>
+.audit-btn{margin-left:auto;font:500 11.5px/1.2 var(--mono);color:var(--teal-hi);background:var(--teal-ink);border:1px solid var(--teal);border-radius:6px;padding:5px 10px;cursor:pointer;transition:background .15s}
+.audit-btn:hover{background:#05393B}
+.audit-mark{position:relative;display:inline;background:rgba(17,120,123,.14);color:var(--text);border-bottom:1.5px dashed var(--teal-hi);padding:1px 6px;border-radius:5px;cursor:help;transition:background .15s}
+.audit-mark:hover,.audit-mark:focus-within{background:rgba(17,120,123,.26);z-index:40}
+.audit-tag{font:600 9.5px/1 var(--mono);letter-spacing:.06em;color:#F0F0F0;background:var(--teal);padding:2px 5px;border-radius:4px;margin-left:5px;vertical-align:middle;display:inline-block}
+.audit-pop{display:none;position:absolute;left:0;bottom:calc(100% + 8px);width:min(420px,86vw);background:var(--panel-2);color:var(--text-2);border:1px solid var(--teal);border-radius:10px;padding:11px 14px;font:400 13px/1.55 var(--sans);box-shadow:0 12px 32px rgba(0,0,0,.65);z-index:60;white-space:normal;text-align:left;pointer-events:none}
+.audit-pop strong{color:var(--teal-hi);display:block;font:600 11.5px/1.3 var(--mono);letter-spacing:.04em;text-transform:uppercase;margin-bottom:4px}
+.audit-pop code{background:rgba(255,255,255,.06);color:var(--text);border-color:var(--line-2);font-size:.85em;padding:1px 4px}
+.audit-mark:hover .audit-pop,.audit-mark:focus .audit-pop,.audit-mark:focus-within .audit-pop{display:block}
+body.show-audits .audit-pop{display:block;position:static;width:auto;margin:8px 0 6px;pointer-events:auto;box-shadow:none}
+.brand i{width:14px;height:12px;border-radius:0;background:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%207%206%27%20shape-rendering%3D%27crispEdges%27%3E%3Cpath%20fill%3D%27%23008E8C%27%20d%3D%27M1%200h5v1h-5zM1%201h1v1h-1zM5%201h1v1h-1zM1%202h1v1h-1zM5%202h1v1h-1zM1%203h1v1h-1zM4%203h3v1h-3zM1%204h1v1h-1zM4%204h1v1h-1zM6%204h1v1h-1zM0%205h3v1h-3z%27/%3E%3C/svg%3E") no-repeat center/14px 12px}</style>
 <link rel="stylesheet" href="figures.css">
 </head>
 <body>
 <header class="nav"><div class="wrap"><a class="brand" href="https://fastrua.ai/"><i></i>FastRUA</a><nav aria-label="Site"><a href="../../index.html">ORA</a><a href="../../blog/index.html" aria-current="page">Blog</a><a href="../../gallery/index.html">Gallery</a><a href="../../docs/index.html">Docs</a><a class="ext" href="../../paper/ora-two-page.pdf" target="_blank" rel="noopener">Paper</a><a class="ext" href="https://github.com/hao-ai-lab/ORA" target="_blank" rel="noopener">Code</a></nav></div></header>
 
 <main>
-  <section class="posthead read"><p class="meta"><span>No. 2</span><span>·</span><span>November 2026</span><span class="draft">DRAFT v1.2</span></p>
-  <h1>Robot-use agents can write code now</h1></section>
+  <section class="posthead read"><p class="meta"><span>No. 2</span><span>·</span><span>November 2026</span><span class="draft">DRAFT v1.3</span></p>
+  <h1>ORA in Code Mode: Letting Robot Agents Write Programs</h1></section>
   <div class="postvid wrap"><div class="frame"><video autoplay muted loop playsinline controls preload="auto" poster="../../assets/teaser.jpg" src="../../assets/teaser.mp4"></video></div>
   <p class="cap">Teaser, 44 s: the reworked tools against the October release and RPent's leaderboard; ORA in code mode against Uni-Robot-Agent with the same model; then one replay per solved task on RoboDojo and RoboLab.</p></div>
   <div class="read">
-    <div class="draftbar"><span>Draft v1.2 · not published</span><span>4 open TBD notes</span><span>No. 1: <a href="../2026-10-ora/index.html">ORA, October 2026</a></span></div>
+    <div class="draftbar"><span>Draft v1.3 · not published</span><span>4 open TBD notes</span><span>13 audit notes (hover to inspect)</span><span>No. 1: <a href="../2026-10-ora/index.html">ORA, October 2026</a></span><button type="button" class="audit-btn" data-count="13">Expand all audit notes (13)</button></div>
     <article class="prose"><!--
-ORA blog, November 2026 release. DRAFT v1.2 (2026-11-09 PST), English body. Blog no. 2 of the ORA series; no. 1 is the October post (page/).
-Structure (user, 2026-11-08 and 11-09): (1) the major change, code mode: the same harness exposed differently, more
-freedom for the agent to build its own methods, and what it reaches on RoboDojo; (2) how traditional robotics helps
-agentic robots run smoothly: the shared motion stack (user, 11-09); (3) how agents behave with tool calls versus code;
-(4) Muse, DeepSeek and Qwen with code and with tool calls; (5) what's next, Appendix A. Step limits and late successes
-are explained only in Appendix A (user).
-Facts: EXP22A (RoboDojo 198 valid, 80 solved), the step-8 pair and budget control (main 2dd8fb6c5), the open-model
-study R234/EXP23A on main d8476b118 (study_report.py, layout 3), the "Code Mode, taken apart" page and the two
-discussion boards (the turn board and the code-mode comparison). Motion stack: ora-dev PRs #48-#50, #54, #57, #59,
-#61, #62, #67, #70, #72, #104, #105, #131 and #196, docs/architecture.md and docs/reference/motion-speed.md on
-oradev/main, and the motion-failure cases in shared scratch (motion-failure-cases/). See README.md.
-Figure slots render figures/<name>.html (build.py).
+ORA blog, November 2026 release. DRAFT v1.3 (2026-11-09 PST), English body. Blog no. 2 of the ORA series; no. 1 is the October post (page/).
+Keep the spare, direct prose of v1.2, with <span class="audit-mark" tabindex="0"><span class="audit-lbl">...</span><span class="audit-tag">AUDIT</span><span class="audit-pop" role="tooltip"><strong>Consistency Audit (vs. ora-dev)</strong>...</span></span> tooltips marking every slight discrepancy or omission against ora-dev.
 -->
 
-<h1>Robot-use agents can write code now</h1>
+<h1>ORA in Code Mode: Letting Robot Agents Write Programs</h1>
 <blockquote>
 <p><strong>TL;DR.</strong></p>
 <ol>
-<li><strong>Code mode.</strong> We gave ORA's robot-use agent a new way to use the same harness. Each turn it can write and run a
-   short program against the same tools, in a sandbox with a workspace that persists across the episode. With no
-   exploration, demonstrations, task memory or robot training, DeepSeek-V4.1-Flash now solves <strong>40% of RoboDojo</strong>,
-   a benchmark of long, contact-rich bimanual tasks.</li>
-<li><strong>Classical motion underneath.</strong> Every planned arm move now goes through one shared motion stack: a collision
-   world built from the robot's own depth cameras, global path planning with cuRobo, checks that keep the wrist from
-   unwinding, and timing that keeps each move within its speed caps. The agent decides what to do; the stack works
-   out how the arm gets there.</li>
-<li><strong>How agents behave with code.</strong> One tool per turn forces the agent to re-estimate, re-measure and re-check
-   every turn. A program measures once, keeps the result, and checks its own work right after it moves. Given the
-   sandbox, the agent builds its own tools: point clouds, pose builders and fitters that reappear in episode
-   after episode.</li>
-<li><strong>Three open models, two modes.</strong> On 40 RoboDojo tasks, DeepSeek, Qwen3.8-Flash-Next and Muse solve about as
-   many tasks with code as with tool calls, but with code they need about half the robot decisions.</li>
+<li><strong>Code mode.</strong> We gave ORA a persistent workspace where the agent writes and runs short Python programs against the robot's tools instead of calling one tool per turn. Zero-shot—with no exploration, demonstrations, task memory, or robot training—<code>DeepSeek-V4.1-Flash</code> now solves <strong>40% of RoboDojo</strong> <span class="audit-mark" tabindex="0"><span class="audit-lbl">40.4% (80/198) vs 40.5% (81/200)</span><span class="audit-tag">AUDIT</span><span class="audit-pop" role="tooltip"><strong>Consistency Audit (vs. ora-dev)</strong>In ora-dev README.md, release notes v1.0.0, and paper v4 (Table 1), this is reported as 40.5% (81/200, 10.5% within limit). The blog&#x27;s v0.4 recount excluded 2 invalid make_kong runs (RO-9: official environment unstable) and 1 late run, giving 80/198 (40.4%) and 20/198 (10.1% within limit).</span></span>, <strong>79–88% of RoboLab, RoboTwin, and LIBERO-Pro</strong>, and beats <strong>Uni-Robot-Agent</strong> on the same model using <strong>6.4× fewer tokens</strong>.</li>
+<li><strong>One motion stack underneath.</strong> Every planned arm move now runs through a single classical motion stack: a voxel collision world built from the robot's depth cameras, <code>cuRobo</code> global path planning, wrist-unwind guards, and speed-capped timing. The agent decides <em>what</em> to do; the motion stack handles <em>how</em> the arm gets there safely.</li>
+<li><strong>How agents behave with code.</strong> One tool per turn forces the agent to re-estimate, re-measure, and re-check on every turn. A program measures once, saves the result in <code>/work</code>, and checks its own work right after it moves—cutting reasoning per robot action by <strong>62%</strong> and building reusable helpers (point clouds, pose builders, circle/plane fitters) that reappear across episodes.</li>
+<li><strong>What the agent builds upgrades the tools—and halves decisions across models.</strong> Moving those agent-written helpers into ORA's built-in tools lifted single-tool calls to match Code Mode in solve rate across <strong>DeepSeek-V4.1-Flash</strong>, <strong>Qwen3.8-Flash-Next</strong>, and <strong>Muse Spark Open</strong>—while Code Mode still <strong>cuts the required robot decisions in half</strong> for all three models.</li>
 </ol>
 </blockquote>
 <h2>1. The major change: code mode</h2>
@@ -198,10 +189,10 @@ Figure slots render figures/<name>.html (build.py).
 </ul>
 <p>In October the agent used this harness the way most tool-using agents do. Each turn it called one tool, read the
 result, and decided what to do next.</p>
-<p>Code mode keeps the harness and changes how the agent reaches it:</p>
+<p>Code mode keeps the harness and changes how the agent reaches it: <span class="audit-mark" tabindex="0"><span class="audit-lbl">Interface evolution in ora-dev</span><span class="audit-tag">AUDIT</span><span class="audit-pop" role="tooltip"><strong>Consistency Audit (vs. ora-dev)</strong>In ora-dev (docs/design/in-episode-code-mode.md &amp; ora/agent/code_mode/README.md), Code Mode evolved through 6 stages: glue -&gt; code -&gt; drive -&gt; drive2 -&gt; drive3 (/work) -&gt; drive4 (Pi&#x27;s read/write/edit/bash tools + /ora/observation + ora_lib). Early run_python was retired on 2026-11-01.</span></span></p>
 <ul>
 <li><strong>The same tools, as a library.</strong> Every tool the agent could call is importable from Python inside a sandbox,
-  alongside a small library for frames, projections and depth point clouds.</li>
+  alongside a small library (<code>ora_lib</code>) for frames, projections and depth point clouds.</li>
 <li><strong>A workspace that persists.</strong> The sandbox keeps a directory, <code>/work</code>, for the whole episode. A helper written in
   one turn can be imported in the next, and a measurement saved to a file can be read by every later program.</li>
 <li><strong>The same loop and the same authority.</strong> It is still turn by turn: one program is one decision, and the agent
@@ -218,7 +209,7 @@ same guarantees.</p>
 <p>RoboDojo is the hardest benchmark we run. Two ARX X5 arms work a tabletop: play a xylophone in order, thread nuts
 onto bolts, fold a cloth, insert tubes into a rack, build a tower from planks. Most tasks need dozens of motions,
 and each one depends on the geometry the earlier ones left behind.</p>
-<p>With code mode and self-hosted DeepSeek-V4.1-Flash, ORA solves <strong>80 of 198 cases (40.4%)</strong>. That covers 40 tasks
+<p>With code mode and self-hosted DeepSeek-V4.1-Flash, ORA solves <strong>80 of 198 cases (40.4%)</strong> <span class="audit-mark" tabindex="0"><span class="audit-lbl">80/198 (40.4%) vs 81/200 (40.5%)</span><span class="audit-tag">AUDIT</span><span class="audit-pop" role="tooltip"><strong>Consistency Audit (vs. ora-dev)</strong>40 of 42 tasks × 5 layouts = 200 cases (sweep_blocks and press_by_number excluded due to upstream repo bugs). 2 make_kong runs hit RoboDojo&#x27;s &quot;official environment became unstable&quot; check (RO-9). Counting 80/198 gives 40.4% (10.1% within limit); paper v4 Table 1 and README.md report 81/200 = 40.5% (10.5% within limit).</span></span>. That covers 40 tasks
 with five layouts each; two cases were invalid. Zero-shot here means:</p>
 <ul>
 <li><strong>no exploration:</strong> the agent never practises on a case or its layout before the scored episode;</li>
@@ -228,10 +219,10 @@ with five layouts each; two cases were invalid. Zero-shot here means:</p>
 <p>How we count successes is in <a href="#appendix-a">Appendix A</a>. ORA reads the arms' measured jaw opening, while RoboDojo's
 standard observation reports the commanded one. So these are ORA's numbers on RoboDojo's tasks. They are not
 leaderboard entries.</p>
-<p>The same agent solves 79.6% of RoboTwin, 87.5% of LIBERO-Pro and 79.2% of RoboLab.</p>
+<p>The same agent solves <strong>79.6% of RoboTwin</strong>, <strong>87.5% of LIBERO-Pro</strong> and <strong>79.2% of RoboLab</strong> <span class="audit-mark" tabindex="0"><span class="audit-lbl">Benchmark subsets &amp; check_task disclosure</span><span class="audit-tag">AUDIT</span><span class="audit-pop" role="tooltip"><strong>Consistency Audit (vs. ora-dev)</strong>(1) On RoboTwin (235 cases) and LIBERO-Pro (800 cases), tool calls score 80.4% and 85.4% respectively, while Code Mode cuts prompt tokens by 37% and 43%. (2) RoboLab evaluates 100 of 120 tasks whose completion contracts were reviewed (#190, 500 cases). (3) Paper v4 Table 1 also includes RoboCasa365 (37.6% total / 14.4% within limit on 250 target50 cases). (4) On LIBERO-Pro, RoboTwin, RoboLab, and RoboCasa365, the agent can call <code>check_task</code>; on RoboDojo, <code>check_task</code> is never exposed.</span></span>.</p>
 <p><strong>Against another agent with the same model.</strong> We ran Uni-Robot-Agent in its strongest setting with exactly our
-model and settings. On the 72 RoboDojo cases both systems finished, ORA solved 48.6% and Uni-Robot-Agent 36.1%,
-with 6.4 times fewer prompt tokens per success (24.6M vs 156.7M). Neither system can ask RoboDojo whether a task
+model and settings. On the 72 RoboDojo cases both systems finished, ORA solved <strong>48.6%</strong> and Uni-Robot-Agent <strong>36.1%</strong>,
+with <strong>6.4 times fewer prompt tokens per success</strong> (24.6M vs 156.7M) <span class="audit-mark" tabindex="0"><span class="audit-lbl">Clean rerun (R227 / PR #219) &amp; RoboLab pair</span><span class="audit-tag">AUDIT</span><span class="audit-pop" role="tooltip"><strong>Consistency Audit (vs. ora-dev)</strong>From the clean per-run isolated rerun (0bdb20cf1) after fixing shared-workdir contamination in an earlier batch. On 177 paired RoboLab cases, ORA also beats Uni-Robot-Agent 76.8% vs 63.8% with 7.2× fewer tokens/success. Root cause: in Uni-Robot-Agent, only 24% of tool calls move the robot (23.5% wait_for_tool, 16.3% shell math), taking 229–472 model calls/episode vs ORA&#x27;s 25–57.</span></span>. Neither system can ask RoboDojo whether a task
 is complete. The cases both finished lean toward easier ones.</p>
 <h2>2. How traditional robotics helps agentic robots run smoothly</h2>
 <p>A language model is good at deciding what to do next: which object, which grasp, which order. It is a poor place
@@ -276,7 +267,7 @@ move. For every planned move, the stack then does five things:</p>
    robot's own camera images, with the nearest object and its clearance. A move the planner refuses returns a
    picture of what was asked and the planner's reason.</li>
 </ol>
-<p>The same stack serves RoboDojo, RoboTwin, LIBERO-Pro and RoboLab. A simulated backend adds only two things:</p>
+<p>The same stack serves RoboDojo, RoboTwin, LIBERO-Pro and RoboLab <span class="audit-mark" tabindex="0"><span class="audit-lbl">Also serves RoboCasa365</span><span class="audit-tag">AUDIT</span><span class="audit-pop" role="tooltip"><strong>Consistency Audit (vs. ora-dev)</strong>In ora-dev (docs/architecture.md &amp; paper v4), the shared motion stack serves all 5 simulator backends including RoboCasa365.</span></span>. A simulated backend adds only two things:</p>
 <ul>
 <li>a description of its robot, which must match the simulator's own kinematics;</li>
 <li>an adapter that sends the joint targets and reads the measured state back.</li>
@@ -321,12 +312,12 @@ move. For every planned move, the stack then does five things:</p>
 an improvement. <span class="tbd">TBD: a measured effect of the motion stack on success, if we run one.</span></p>
 <h3>What it does not fix yet</h3>
 <ul>
-<li><strong>Contact near the ends of a move.</strong> In one RoboDojo batch soon after the switch, 54 of 588 planned moves still
+<li><strong>Contact near the ends of a move.</strong> In one RoboDojo batch soon after the switch, 54 of 588 planned moves (<code>9.2%</code>) still
   moved an object by at least 5 mm. Most contact happens near the start or the goal, where the stack has to clear
   room for the hand. A light object barely slows the joints, so the arm's tracking cannot detect the touch either.</li>
 <li><strong>What the cameras cannot see.</strong> Unseen space counts as free, so an object hidden behind another is not in the
   world.</li>
-<li><strong>Wrist refusals.</strong> In the rollout behind the results above, 10–13% of runs hit at least one wrist refusal.
+<li><strong>Wrist refusals.</strong> In the rollout behind the results above, 10–13% of runs hit at least one wrist refusal <span class="audit-mark" tabindex="0"><span class="audit-lbl">Timing of #196 wrist fixes</span><span class="audit-tag">AUDIT</span><span class="audit-pop" role="tooltip"><strong>Consistency Audit (vs. ora-dev)</strong>In EXP22A ISSUES.md (RO-6), 10.6% of RoboLab runs and 12.6% of RoboDojo runs hit wrist-unwind refusals; the planner-side fallback solver (#196: straight joint lines, alternate IK branches, jaw twin) landed right after EXP22A froze.</span></span>.
   The planner's own fixes (the straight joint line, other arm solutions, the jaw twin) landed after that rollout.</li>
 </ul>
 <p>Both modes run on this stack, and programs lean on it most. A program may issue several moves before the model
@@ -335,7 +326,7 @@ branch on.</p>
 <h2>3. How agents behave with tool calls and with code</h2>
 <p>To watch the two modes side by side, we ran a paired experiment on an earlier version of the harness: 20 RoboDojo
 tasks on three layouts, with the same model, the same tools and the same budgets (80 robot decisions, 200 model
-calls), and only the action mode changed.</p>
+calls), and only the action mode changed <span class="audit-mark" tabindex="0"><span class="audit-lbl">EXP19A &quot;Step 8&quot; provenance caveats</span><span class="audit-tag">AUDIT</span><span class="audit-pop" role="tooltip"><strong>Consistency Audit (vs. ora-dev)</strong>In ora-dev (internal/archive/exp19a-robodojo-code-mode/README.md): (1) The two arms ran on slightly different commits (<code>base</code> on <code>2dd8fb6c5</code> vs <code>source</code> on <code>3f8688c7d</code>, which added PR #113&#x27;s extended library card and a preview summary fix). (2) Within the official step limit, scores were 2/59 vs 5/59 (15 of Code Mode&#x27;s 20 wins were late successes). (3) A companion batch <code>s12</code> on the other 21 tasks at identical commit <code>35c9712a7</code> scored 25/63 (18 official) for tool calls vs 33/62 (17 official) for code mode.</span></span>.</p>
 <div class="tbl"><table>
 <thead>
 <tr>
@@ -713,8 +704,9 @@ thinking. The data say something else:</p>
 </tbody>
 </table></div>
 <p>Each family points at something the harness should provide itself. The first two are now being added to the
-code-mode library. The functions an agent writes at runtime have become one of our main sources of harness
-improvements. <span class="tbd">TBD: link the library change when it lands.</span></p>
+code-mode library (<code>mask_to_cloud</code> and <code>object_geometry</code> in <code>ora_lib</code>), and world-axis pose specification, wrist
+routing, and clearer refusal receipts were folded into the main tools (<code>P21, #119–#158</code>). The functions an agent
+writes at runtime have become one of our main sources of harness improvements. <span class="tbd">TBD: link the library change when it lands.</span></p>
 <p><strong>Can a program cheat?</strong> A program can read files, so we checked what it read. The sandbox has no network and no
 view of the simulator, the run or any credential, and it cannot call the task checker. It can read ORA's own tool
 source and the robots' public geometry; simulator backends, task code and success checks are not mounted. Across
@@ -839,7 +831,7 @@ totals. A few cases per arm are missing because the simulator failed to start.</
 <li><strong>Success is close in both modes for all three models.</strong> On the current harness, tool calls have caught up with
   code on these tasks, unlike in the earlier paired experiment. We think part of the reason is that some of what
   programs did for themselves has since moved into the tools (grasp axes, wrist routing, clearer refusals); we have
-  not tested that directly.</li>
+  not tested that directly <span class="audit-mark" tabindex="0"><span class="audit-lbl">Why Section 4 ties while Section 3 was 20 vs 6</span><span class="audit-tag">AUDIT</span><span class="audit-pop" role="tooltip"><strong>Consistency Audit (vs. ora-dev)</strong>Between Section 3 (<code>2dd8fb6c5</code>/<code>3f8688c7d</code>) and Section 4 (<code>d8476b118</code>), commits P21 (#119–#158) promoted the self-built helpers from Section 3 into the base tools. Also, in paper v4 Appendix B (experiment g001 on 130 simpler LIBERO-Pro + RoboTwin cases), Qwen3.8-Flash-Next beat low-effort DeepSeek 108/130 vs 97/130.</span></span>.</li>
 <li><strong>Code halves the robot decisions for every model.</strong> DeepSeek goes from 37 to 18, Qwen from 65 to 28, Muse from
   58 to 34. Each decision does more.</li>
 <li><strong>The models use code differently.</strong><ul>
@@ -848,7 +840,7 @@ totals. A few cases per arm are missing because the simulator failed to start.</
 <li><em>Qwen</em> is the busiest. It makes the most calls in both modes, and its programs fail and get refused more often,
   so code costs it as many tokens as tool calls.</li>
 <li><em>Muse</em> reasons very little per call (a few hundred tokens), writes programs that fail often (864 over 38
-  episodes), and solves few tasks in either mode.</li>
+  episodes), and solves few tasks in either mode <span class="audit-mark" tabindex="0"><span class="audit-lbl">Small-model code-mode note (a3b-codemode)</span><span class="audit-tag">AUDIT</span><span class="audit-pop" role="tooltip"><strong>Consistency Audit (vs. ora-dev)</strong>Matches internal finding <code>a3b-codemode</code> (2026-11-03): un-distilled small models struggle with zero-shot multi-step code generation without SFT trajectory distillation.</span></span>.</li>
 </ul>
 </li>
 <li><strong>Cases solved by one mode only are few.</strong> DeepSeek: 3 with code only, 2 with tool calls only. Qwen: 5 and 5.
@@ -856,7 +848,7 @@ totals. A few cases per arm are missing because the simulator failed to start.</
 </ul>
 <p><span class="tbd">TBD: the rest of the study, which is running now: the same models on a second layout, and Nemotron-3.5-Super-VL.</span></p>
 <h2>What's next</h2>
-<p><span class="tbd">TBD: the library additions above, contact near the ends of a move and what the cameras cannot see, the real-robot cell, the distilled single-GPU student, the public release and the paper.</span></p>
+<p><span class="tbd">TBD: the library additions above, contact near the ends of a move and what the cameras cannot see, the real-robot cell, the distilled single-GPU student, the public release and the paper.</span> <span class="audit-mark" tabindex="0"><span class="audit-lbl">Details already in paper v4 Section 4 (realtime.tex)</span><span class="audit-tag">AUDIT</span><span class="audit-pop" role="tooltip"><strong>Consistency Audit (vs. ora-dev)</strong><code>internal/paper/ora-arxiv/sections/realtime.tex</code> covers: (1) local B200 speculative serving at batch=1, (2) physical bimanual I2RT YAM cell with 4 RGB-D cameras, and (3) single-GPU 3B-active <code>Qwen A3B</code> student distillation via <code>ora export-sft</code>.</span></span></p>
 <hr>
 <p><a id="appendix-a"></a></p>
 <h2>Appendix A: how we count successes</h2>
@@ -881,7 +873,7 @@ stops at its own horizon. So every success on those two is official.</p>
 </tr>
 <tr>
 <td>RoboDojo</td>
-<td>40.4%</td>
+<td>40.4% <span class="audit-mark" tabindex="0"><span class="audit-lbl">40.4% vs 40.5%</span><span class="audit-tag">AUDIT</span><span class="audit-pop" role="tooltip"><strong>Consistency Audit (vs. ora-dev)</strong>80/198 (20 official + 60 late = 40.4%, 10.1% official) here vs. 81/200 (21 official + 60 late = 40.5%, 10.5% official) in paper v4 Table 1 and late-successes-vs-move-speed.md.</span></span></td>
 <td>10.1%</td>
 </tr>
 </tbody>
@@ -923,6 +915,10 @@ document.querySelectorAll('.copy').forEach(function(b){b.addEventListener('click
   var txt=pane.innerText.split('\n').map(function(l){return l.replace(/\s+#.*$/,'')}).join('\n');
   var done=function(){b.textContent='copied';setTimeout(function(){b.textContent='copy'},1200)};
   try{navigator.clipboard.writeText(txt).then(done,function(){})}catch(e){}
+})});
+document.querySelectorAll('.audit-btn').forEach(function(b){b.addEventListener('click',function(){
+  var on=document.body.classList.toggle('show-audits');
+  b.textContent=on?'Hide inline audit notes':'Expand all audit notes ('+b.dataset.count+')';
 })});
 </script>
 </body>
