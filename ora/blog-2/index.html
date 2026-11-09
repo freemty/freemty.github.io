@@ -51,11 +51,11 @@ blockquote{margin:0;border-left:3px solid var(--rule);padding-left:14px;color:va
 </head>
 <body style="margin:0">
 <main>
-<div class="draftbar"><span>ORA blog no. 2 · November 2026 · draft v0.3 · not published</span><span>5 open TBD notes</span>
+<div class="draftbar"><span>ORA blog no. 2 · November 2026 · draft v0.4 · not published</span><span>5 open TBD notes</span>
 <span>No. 1: <a href="../">ORA, October 2026</a></span></div>
 <div class="series">ORA · Open Robot-Use Agents</div>
 <!--
-ORA blog, November 2026 release. DRAFT v0.3 (2026-11-07 PST), English body. Blog no. 2 of the ORA series; no. 1 is the October post (page/).
+ORA blog, November 2026 release. DRAFT v0.4 (2026-11-08 PST), English body. Blog no. 2 of the ORA series; no. 1 is the October post (page/).
 Order (user): headline result and the comparison with October; 1 the Pi core; 2 code mode (same harness,
 different exposure and freedom); 3 different agents and different open models; appendix on step limits
 and late successes.
@@ -108,9 +108,9 @@ With self-hosted DeepSeek-V4.1-Flash, zero-shot, ORA now solves:</p>
 </tr>
 <tr>
 <td>RoboDojo</td>
-<td>200</td>
+<td>198</td>
 <td>–</td>
-<td><strong>40.5%</strong></td>
+<td><strong>40.4%</strong></td>
 </tr>
 </tbody>
 </table>
@@ -331,7 +331,8 @@ match ORA's (4.2M vs 4.1M); with it, they are 50% higher. ORA gets within 4.4 po
 <p>RoboLab and RoboDojo each define a limit on simulator steps per episode. We do not stop the episode
 there. We record the benchmark's verdict at the limit as the <strong>official</strong> outcome and let the episode continue; a
 success reached later is reported separately as a success <strong>after the limit</strong>. Our headline numbers count both.
-RoboTwin has no step limit and LIBERO-Pro stops at its own horizon, so every success there is official.</p>
+RoboTwin runs in its evaluation mode, where its own step limit ends the episode; our successes there use at most
+21.5% of it (median 2.6%). LIBERO-Pro stops at its own horizon. Every success on those two is official.</p>
 <table>
 <thead>
 <tr>
@@ -348,8 +349,8 @@ RoboTwin has no step limit and LIBERO-Pro stops at its own horizon, so every suc
 </tr>
 <tr>
 <td>RoboDojo</td>
-<td>40.5%</td>
-<td>10.5%</td>
+<td>40.4%</td>
+<td>10.1%</td>
 </tr>
 </tbody>
 </table>
