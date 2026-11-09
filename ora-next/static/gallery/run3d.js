@@ -10,6 +10,8 @@ const ARM = { left: new THREE.Color(0xc6011f), right: new THREE.Color(0x008e8c) 
 const MARK = new THREE.Color(0x48b0b4), PAST = new THREE.Color(0x8a8a8a);
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 const el = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
+// A gripper that stopped short of closing: the receipt says not_reached, which is what holding an object looks like.
+const held = (x) => x.a === "set_gripper" && x.code === "gripper_stalled_before_target";
 const obsNo = (id) => (id ? String(+id.split("-").pop()) : "?");
 
 const POINT_VS = `
@@ -140,7 +142,7 @@ class Panel {
     this.detail = root.querySelector(".r3d-detail");
     const strip = root.querySelector(".r3d-strip");
     this.ticks = meta.timeline.map((d, i) => {
-      const bad = d.motions.some((x) => !x.refused && x.status && x.status !== "reached");
+      const bad = d.motions.some((x) => !x.refused && x.status && x.status !== "reached" && !held(x));
       const ref = d.motions.some((x) => x.refused) || d.before.some((b) => !b.ok);
       const b = el("button", "r3d-tick" + (bad ? " bad" : "") + (ref ? " ref" : ""));
       b.type = "button"; b.title = `Decision ${i + 1}: ${d.label}`; b.setAttribute("aria-label", b.title);
@@ -219,8 +221,10 @@ class Panel {
     if (this.frames.has(k)) return this.frames.get(k);
     const job = (async () => {
       const cam = this.m.camera, f = this.m.frames[k];
+      const zipped = cam.depth === "zlib-u16le-mm";            // newer data: zlib-compressed depth (about 7 kB a frame)
       const [buf, rgba] = await Promise.all([
-        fetch(this.base + f.file + ".bin").then((r) => r.arrayBuffer()),
+        fetch(this.base + f.file + (zipped ? ".dz" : ".bin")).then((r) => (zipped
+          ? new Response(r.body.pipeThrough(new DecompressionStream("deflate"))).arrayBuffer() : r.arrayBuffer())),
         decodeJpeg(this.base + f.file + ".jpg", cam.w, cam.h),
       ]);
       const dep = new Uint16Array(buf), K = cam.K, T = cam.T, [x0, y0] = cam.rect, s = cam.stride, [ox, oy, oz] = cam.origin;
@@ -299,7 +303,7 @@ class Panel {
     if (d.call) h += `<details class="r3d-code"><summary>Call <code>${esc(d.call.name)}</code> · arguments</summary><pre><code>${esc(d.call.args)}</code></pre></details>`;
     const mot = d.motions.map((x) => x.refused
       ? `<li><span class="st ref">refused</span><code>${esc(x.tool || x.a)}</code> ${esc(x.code || "")}<em>${esc(x.why || "")}</em></li>`
-      : `<li><span class="st ${x.status === "reached" ? "ok" : "bad"}">${esc(x.status || "?")}</span><code>${esc(x.a)}</code> ${esc(x.arms.join(" + "))}${x.code ? ` · ${esc(x.code)}` : ""}<em>${esc(x.sum)}</em></li>`).join("");
+      : `<li><span class="st ${x.status === "reached" ? "ok" : held(x) ? "" : "bad"}">${esc(held(x) ? "stalled" : x.status || "?")}</span><code>${esc(x.a)}</code> ${esc(x.arms.join(" + "))}${x.code ? ` · ${esc(x.code)}` : ""}<em>${esc(x.sum)}</em></li>`).join("");
     h += `<div class="r3d-sec">Motions, with the supervisor's receipts</div><ol class="r3d-mot">${mot}</ol>`;
     if (d.out) h += `<details class="r3d-out"${m.mode === "code" ? " open" : ""}><summary>${m.mode === "code" ? `Printed output, last lines${d.exit ? ` · exit ${d.exit}` : ""}` : "Result"}</summary><pre>${esc(d.out)}</pre></details>`;
     return h;
@@ -374,6 +378,7 @@ function sharedCamera() {
 
 async function mount(fig) {
   const ids = fig.dataset.runs.trim().split(/\s+/), root = fig.dataset.root || "";
+  if (!("DecompressionStream" in window)) { fig.classList.add("r3d-failed"); return; }   // very old browsers: the text stays
   let metas;
   try { metas = await Promise.all(ids.map((id) => fetch(root + id + "/run.json").then((r) => { if (!r.ok) throw r.status; return r.json(); }))); }
   catch (e) { fig.classList.add("r3d-failed"); return; }
