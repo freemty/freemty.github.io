@@ -1,38 +1,51 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
 <title>ORA · Open Robot-Use Agents</title>
-<link rel="icon" type="image/png" href="data:image/png;base64,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">
-<meta name="description" content="ORA: open models operate robots, zero-shot.">
+<link rel="icon" type="image/png" href="data:image/png;base64,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">
+<meta name="description" content="ORA: an open harness that connects open-weight language models to robots.">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
 <style>
 :root{
-  /* Swiss neutrals plus one deep accent: the personal homepage's scheme, its red #C6011F swapped for the teal of the
-     same OKLCH lightness (0.52). --teal-hi only for small accent text on dark. No gradients or glows on the accent. */
-  --bg:#0A0A0A; --bg-2:#0E0E0E; --panel:#111111; --panel-2:#161616; --line:#1A1A1A; --line-2:#222222;
-  --text:#F0F0F0; --text-2:#B0B0B0; --text-3:#777777; --text-body:#D4D4D4;
-  --teal:#11787B; --teal-hi:#48B0B4; --teal-deep:#05585B; --teal-ink:#012526;
-  --amber:#E8596B; --amber-bg:#2A0A0E;
-  --sans:"Geist",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
-  --mono:"Geist Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  /* One language for the whole site, the project poster's (CoRL 2026): white paper, ink, one teal (the logo's), greys
+     for everything that is not ours, red only for errors and drafts. No gradients, no glows. Things you watch (the top
+     bar, the footer, videos, the 3D viewer, terminals) are black stages: .stage re-declares the same tokens in dark. */
+  --bg:#FFFFFF; --bg-2:#FAFAFB; --panel:#F6F7F8; --panel-2:#F1F2F4; --line:#ECEEF0; --line-2:#E3E5E8;
+  --text:#0E0F10; --text-body:#2B2D30; --text-2:#4A4E54; --text-3:#6B6F76;
+  --teal:#147F85; --teal-hi:#0F6C72; --teal-deep:#0F6C72; --teal-ink:#E4F3F1; --teal-soft:#8CC6C4;
+  --grey:#8A8F96; --grey-2:#C9CDD2;
+  --amber:#C6011F; --amber-bg:#FBE8EB;
+  --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --display:"Inter Tight","Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
   --label:var(--mono);   /* small data labels; the design preview bar can switch them to a pixel face */
   --max:1120px; --max-wide:1360px; --read:700px;
-  color-scheme:dark;
+  color-scheme:light;
 }
+.stage,.nav,.foot,.r3d{
+  --bg:#0E0F10; --bg-2:#131416; --panel:#17181B; --panel-2:#1D1F22; --line:#1F2124; --line-2:#2A2D31;
+  --text:#F2F3F5; --text-body:#D9DBDF; --text-2:#B4B8BE; --text-3:#7F858D;
+  --teal:#1F9EA0; --teal-hi:#48B0B4; --teal-deep:#0F6C72; --teal-ink:#06292B; --teal-soft:#0F6C72;
+  --grey:#7F858D; --grey-2:#4A4E54;
+  --amber:#E8596B; --amber-bg:#2A0A0E;
+  background:var(--bg); color:var(--text); color-scheme:dark;
+}
+h1,h2,.brand,.proj{--sans:var(--display)}   /* large headings and names in the display face, wherever a rule says --sans */
+h3,h4{letter-spacing:0}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--text);font:400 16px/1.65 var(--sans);-webkit-font-smoothing:antialiased;letter-spacing:-.005em}
+body{margin:0;background:var(--bg);color:var(--text);font:400 16px/1.65 var(--sans);-webkit-font-smoothing:antialiased;letter-spacing:-.006em}
 a{color:var(--teal-hi);text-decoration:none}a:hover{text-decoration:underline;text-underline-offset:3px}
 :focus-visible{outline:2px solid var(--teal);outline-offset:3px;border-radius:4px}
 .wrap{max-width:var(--max);margin:0 auto;padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px))}
 .read{max-width:var(--read);margin:0 auto;padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px))}
 /* nav */
-.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(10,10,10,.82);backdrop-filter:saturate(140%) blur(14px);-webkit-backdrop-filter:saturate(140%) blur(14px);border-bottom:1px solid var(--line-2)}
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;border-bottom:1px solid var(--line-2)}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
 .nav .wrap{display:flex;align-items:center;gap:16px;height:64px}
 .brand{display:flex;align-items:center;gap:10px;color:var(--text);font:600 18px/1 var(--sans);letter-spacing:.02em;flex:none}
@@ -56,19 +69,19 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
   .nav.in-proj .brand span{display:none}.nav .wrap{gap:10px}.nav .sub{margin-left:6px}.nav .sub+.glob{padding-left:12px}}
 /* blog cards */
 .posts{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
-.post{display:block;border:1px solid var(--line-2);border-radius:16px;overflow:hidden;background:var(--bg-2);color:inherit;transition:border-color .2s,transform .2s}
-.post:hover{text-decoration:none;border-color:var(--teal-deep);transform:translateY(-2px)}
+.post{display:block;border:1px solid var(--line-2);border-radius:12px;overflow:hidden;background:var(--bg);color:inherit;transition:border-color .2s}
+.post:hover{text-decoration:none;border-color:var(--text-3)}
 .post img{display:block;width:100%;aspect-ratio:16/8;object-fit:cover;border-bottom:1px solid var(--line)}
 .post .body{padding:20px 22px 22px}
 .post .meta{display:flex;gap:10px;align-items:center;font:400 12.5px/1 var(--label);color:var(--text-3);margin:0 0 12px}
-.post h3{font:600 1.25rem/1.25 var(--sans);letter-spacing:-.02em;margin:0 0 10px;color:var(--text)}
+.post h3{font:700 1.15rem/1.3 var(--sans);letter-spacing:-.01em;margin:0 0 10px;color:var(--text)}
 .post p{margin:0;color:var(--text-2);font-size:14.5px}
 .draft{font:500 11px/1 var(--label);letter-spacing:.06em;color:var(--amber);background:var(--amber-bg);padding:4px 7px;border-radius:999px}
 .sechead{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin:0 0 24px}
 .sechead h2{text-align:left;margin:0}
 .sechead a{font-size:14px}
 /* footer */
-.foot{border-top:1px solid var(--line);margin-top:112px;background:var(--bg-2)}
+.foot{margin-top:96px}
 .foot .wrap{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,2fr);gap:32px 48px;padding-top:48px;padding-bottom:40px}
 .foot .fb p{margin:14px 0 0;max-width:22em;color:var(--text-3);font-size:14px;line-height:1.6}
 .fcols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
@@ -148,196 +161,209 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .draftbar{font:400 12.5px/1.6 var(--label);color:var(--amber);background:var(--amber-bg);border-radius:10px;padding:10px 14px;margin:0 0 36px;display:flex;flex-wrap:wrap;align-items:center;gap:6px 18px}
 .draftbar a{color:inherit;text-decoration:underline}
 .audit-btn{margin-left:auto;font:500 11.5px/1.2 var(--label);color:var(--teal-hi);background:var(--teal-ink);border:1px solid var(--teal);border-radius:6px;padding:5px 10px;cursor:pointer;transition:background .15s}
-.audit-btn:hover{background:#05393B}
-.audit-mark{position:relative;display:inline;background:rgba(17,120,123,.14);color:var(--text);border-bottom:1.5px dashed var(--teal-hi);padding:1px 6px;border-radius:5px;cursor:help;transition:background .15s}
-.audit-mark:hover,.audit-mark:focus-within{background:rgba(17,120,123,.26);z-index:40}
-.audit-tag{font:600 9.5px/1 var(--label);letter-spacing:.06em;color:#F0F0F0;background:var(--teal);padding:2px 5px;border-radius:4px;margin-left:5px;vertical-align:middle;display:inline-block}
-.audit-pop{display:none;position:absolute;left:0;bottom:calc(100% + 8px);width:min(420px,86vw);background:var(--panel-2);color:var(--text-2);border:1px solid var(--teal);border-radius:10px;padding:11px 14px;font:400 13px/1.55 var(--sans);box-shadow:0 12px 32px rgba(0,0,0,.65);z-index:60;white-space:normal;text-align:left;pointer-events:none}
+.audit-btn:hover{border-color:var(--teal-hi)}
+.audit-mark{position:relative;display:inline;background:var(--teal-ink);color:var(--text);border-bottom:1.5px dashed var(--teal-hi);padding:1px 6px;border-radius:5px;cursor:help;transition:background .15s}
+.audit-mark:hover,.audit-mark:focus-within{background:var(--teal-soft);z-index:40}
+.audit-tag{font:600 9.5px/1 var(--label);letter-spacing:.06em;color:var(--bg);background:var(--teal);padding:2px 5px;border-radius:4px;margin-left:5px;vertical-align:middle;display:inline-block}
+.audit-pop{display:none;position:absolute;left:0;bottom:calc(100% + 8px);width:min(420px,86vw);background:var(--panel-2);color:var(--text-2);border:1px solid var(--teal);border-radius:10px;padding:11px 14px;font:400 13px/1.55 var(--sans);box-shadow:0 10px 28px rgba(14,15,16,.16);z-index:60;white-space:normal;text-align:left;pointer-events:none}
 .audit-pop strong{color:var(--teal-hi);display:block;font:600 11.5px/1.3 var(--label);letter-spacing:.04em;text-transform:uppercase;margin-bottom:4px}
-.audit-pop code{background:rgba(255,255,255,.06);color:var(--text);border-color:var(--line-2);font-size:.85em;padding:1px 4px}
+.audit-pop code{background:var(--bg);color:var(--text);border-color:var(--line-2);font-size:.85em;padding:1px 4px}
 .audit-mark:hover .audit-pop,.audit-mark:focus .audit-pop,.audit-mark:focus-within .audit-pop{display:block}
 body.show-audits .audit-pop{display:block;position:static;width:auto;margin:8px 0 6px;pointer-events:auto;box-shadow:none}
 .brand img{width:40px;height:40px;display:block;object-fit:contain}</style>
 <style>
-.ov{overflow-x:clip}
-/* hero */
-.hero{position:relative;padding:56px 0 40px;text-align:center}
-.pill{display:inline-flex;align-items:center;gap:10px;padding:6px 14px 6px 8px;border:1px solid var(--line-2);border-radius:999px;background:var(--panel);color:var(--text-2);font-size:13.5px;transition:border-color .2s,color .2s}
-.pill b{font:600 11px/1 var(--label);letter-spacing:.06em;color:var(--teal-hi);background:var(--teal-ink);padding:4px 7px;border-radius:999px}
-.pill:hover{text-decoration:none;color:var(--text);border-color:#333}
-/* the project's name: a plain wordmark, the largest type on the page; the claim follows as a subtitle */
-h1.wordmark{font:700 clamp(5rem,13vw,9.5rem)/.86 var(--sans);letter-spacing:-.06em;color:var(--text);margin:26px 0 0;padding-right:.04em}
-/* the pixel lockup (design preview bar, "Wordmark: Pixel"): cell sizes are whole pixels (13, 10, 8) so edges stay crisp */
-.wm-pix{display:none;height:117px;width:auto;vertical-align:middle}
-:root[data-mark="pixel"] h1.wordmark{font-size:1rem;line-height:1;letter-spacing:0;padding:14px 0 16px}
-@media (max-width:900px){.wm-pix{height:90px}}
-@media (max-width:560px){.wm-pix{height:72px}}
-.expand{margin:14px 0 0;font:500 clamp(1rem,1.7vw,1.2rem)/1.3 var(--sans);letter-spacing:.01em;color:var(--text-3)}
-.subhead{font:600 clamp(1.55rem,3.4vw,2.6rem)/1.12 var(--sans);letter-spacing:-.03em;color:var(--text);margin:26px auto 14px;max-width:22em;text-wrap:balance}
-.subhead em{font-style:normal;color:var(--teal)}
-.lede{font-size:clamp(1.02rem,1.6vw,1.12rem);color:var(--text-2);max-width:40em;margin:0 auto 28px;font-weight:300;text-wrap:pretty}
-/* one recorded run, in 3D: its own section after the numbers */
-.run3d{padding:104px 0 24px}
-.run3d .head{text-align:center;max-width:44em;margin:0 auto 8px}
-.run3d h2{font:600 clamp(1.6rem,3vw,2.2rem)/1.12 var(--sans);letter-spacing:-.03em;margin:0 0 10px;text-wrap:balance}
-.run3d .head p{margin:0;color:var(--text-2);text-wrap:pretty}
-.run3d .head p.more{margin-top:10px;font-size:14.5px}
-.scene{position:relative;margin:0 auto;max-width:1120px;height:clamp(420px,44vw,580px)}
-.scene-gl{position:absolute;inset:0;width:100%;height:100%;display:block}
-.scene-gl{opacity:0;transition:opacity .9s ease;cursor:grab;touch-action:pan-y;-webkit-tap-highlight-color:transparent;outline:none}
-.scene.live .scene-gl{opacity:1}
-.stage3d::before{content:"";position:absolute;left:10%;right:10%;top:22%;bottom:4%;background-image:radial-gradient(circle,rgba(255,255,255,.16) 1px,transparent 1.7px);background-size:10px 10px;transform:perspective(640px) rotateX(60deg);transform-origin:50% 100%;-webkit-mask-image:radial-gradient(closest-side,#000 35%,transparent);mask-image:radial-gradient(closest-side,#000 35%,transparent);transition:opacity 1.2s ease}
-.scene.live .stage3d::before{opacity:0}
-.run3d:has(.scene.nogl){display:none}.scene.nogl{display:none}
-.scene.grab .scene-gl{cursor:grabbing}
-.scene-hud{position:absolute;left:0;right:0;bottom:4px;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:6px 24px;text-align:left;pointer-events:none;font:400 12px/1.5 var(--label);color:var(--text-3)}
-.scene-hud>*{pointer-events:auto}
-.scene-hud .kick{display:flex;align-items:baseline;gap:8px;letter-spacing:.1em;text-transform:uppercase;font-size:11px;color:var(--teal-hi)}
-.scene-hud .kick i{flex:none;width:6px;height:6px;border-radius:50%;background:#c6011f;transform:translateY(-1px)}
-.said{display:grid;max-width:31em;color:var(--text-2);font-size:12.5px}
-.said q{grid-column:1;quotes:"\201C" "\201D";transition:opacity .6s ease}
-.said q+q::before{content:"then: " open-quote}
-.scene.anim .said q{grid-row:1}
-.scene.anim .said q+q::before{content:open-quote}
-.scene.anim .said q:not(.on){opacity:0}
-.hint{visibility:hidden;margin:0;text-align:right;white-space:nowrap}
-.scene.live .hint{visibility:visible}
-.hint .coarse{display:none}
-@media (hover:none){.hint .fine{display:none}.hint .coarse{display:inline}}
-.about{position:relative;text-align:right}
-.about summary{cursor:pointer;list-style:none;color:var(--text-3);display:inline-flex;gap:7px;align-items:center;transition:color .2s}
-.about summary::-webkit-details-marker{display:none}
-.about summary::before{content:"i";display:inline-grid;place-items:center;width:15px;height:15px;border:1px solid var(--line-2);border-radius:50%;font-size:10px;line-height:1;color:var(--text-2)}
-.about summary:hover{color:var(--text)}
-.about p{position:absolute;right:0;bottom:calc(100% + 10px);width:min(380px,calc(100vw - 48px));margin:0;padding:12px 14px;border:1px solid var(--line-2);border-radius:10px;background:var(--panel);color:var(--text-2);font:400 12.5px/1.55 var(--sans);text-align:left;box-shadow:0 20px 50px -20px rgba(0,0,0,.8);z-index:3}
-.stage3d{position:absolute;inset:0;-webkit-mask-image:radial-gradient(66% 72% at 50% 46%,#000 60%,transparent 100%);mask-image:radial-gradient(66% 72% at 50% 46%,#000 60%,transparent 100%)}
-@media (max-width:760px){
-  .run3d{padding-top:80px}
-  .scene{height:auto}
-  .stage3d{position:relative;height:340px;margin:0 -24px}
-  .scene-hud{position:static;margin-top:2px;gap:8px 16px}
-  .hint{display:none}
-  .said{grid-column:1/-1;grid-row:2}
-  .about p{bottom:auto;top:calc(100% + 8px)}
-}
-/* hero buttons */
-.cta{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin:0 0 30px}
-.btn{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 16px 0 13px;border:1px solid var(--line-2);border-radius:10px;background:var(--panel);color:var(--text);font:500 14.5px/1 var(--sans);transition:border-color .2s,background-color .2s}
-.btn svg{width:17px;height:17px;flex:none;color:var(--teal-hi)}
-.btn:hover{text-decoration:none;border-color:#333;background:var(--panel-2)}
-.btn.ext::after{margin-left:-2px}
-/* install */
-.install{max-width:640px;margin:0 auto;text-align:left}
-.tabs{display:flex;gap:22px;margin:0 0 10px 6px;font-size:14px}
-.tabs button{font:inherit;background:none;border:0;color:var(--text-3);padding:0 0 6px;cursor:pointer;border-bottom:2px solid transparent;transition:color .2s,border-color .2s}
-.tabs button:hover{color:var(--text-2)}
-.tabs button[aria-selected="true"]{color:var(--text);border-bottom-color:var(--teal)}
-.code{position:relative;border:1px solid var(--line-2);border-radius:12px;background:var(--panel);padding:0 66px 0 0;font:400 14px/1.75 var(--mono);color:var(--text);overflow:hidden}
-.code pre{margin:0;padding:16px 28px 16px 18px;white-space:pre;overflow-x:auto;scrollbar-width:thin;scrollbar-color:var(--line-2) transparent;-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 26px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 26px),transparent)}
-.code .c{color:var(--text-3)}
-.code .k{color:var(--teal-hi)}
-.copy{position:absolute;top:13px;right:14px;height:28px;padding:0 10px;border:1px solid var(--line-2);border-radius:8px;background:var(--panel);color:var(--text-2);cursor:pointer;font:500 12px var(--label);transition:color .2s,border-color .2s}
-.copy:hover{color:var(--text);border-color:#333}
-/* the results wall */
-.stage{margin:72px auto 0;max-width:1040px;perspective:1600px}
-.stage .frame{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--line-2);background:#000;transform:rotateX(9deg);transform-origin:50% 100%;box-shadow:0 50px 100px -40px rgba(0,0,0,.9)}
-.stage video{display:block;width:100%;height:auto;aspect-ratio:1600/750}
-.stage .cap{font-size:12.5px;color:var(--text-3);margin-top:16px}
-/* numbers */
-.nums{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:72px;text-align:left}
-.nums>div{background:var(--panel);padding:26px 24px}
-.nums b{display:block;font:600 clamp(1.9rem,3.6vw,2.6rem)/1 var(--sans);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
-.nums b small{font-size:.5em;color:var(--teal-hi);margin-left:2px}
-.nums>div>span{display:block;margin-top:10px;color:var(--text-2);font-size:14px}
-.nums em{display:block;font-style:normal;color:var(--text-3);font-size:12.5px;margin-top:2px}
-.numcap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:var(--text-3);font-size:13px;margin-top:14px;text-align:left}
-@media (max-width:760px){.nums{grid-template-columns:repeat(2,minmax(0,1fr))}.nums>div{padding:22px 18px}}
-/* tagline */
-.tag{display:flex;justify-content:center;flex-wrap:wrap;gap:12px 44px;margin:120px 0 20px;font:500 clamp(1.3rem,3vw,2rem)/1.1 var(--sans);letter-spacing:-.02em;color:var(--text-3)}
-.tag span:nth-child(odd){color:var(--text)}
-/* features */
-.feat{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:56px;align-items:center;padding:72px 0;border-top:1px solid var(--line)}
-.feat.flip{grid-template-columns:minmax(0,7fr) minmax(0,5fr)}
-.feat.flip .txt{order:2}
-.feat h2{font:600 clamp(1.6rem,3vw,2.2rem)/1.12 var(--sans);letter-spacing:-.03em;margin:0 0 14px;text-wrap:balance}
-.feat .k{font:500 12px/1 var(--label);letter-spacing:.12em;text-transform:uppercase;color:var(--teal-hi);margin:0 0 16px}
-.feat p{color:var(--text-2);margin:0 0 14px}
-.feat ul{margin:0;padding:0;list-style:none;display:grid;gap:8px;color:var(--text-2);font-size:15px}
-.feat ul li::before{content:"";display:inline-block;width:6px;height:6px;border-radius:2px;background:var(--teal);margin-right:10px;vertical-align:2px}
-.vis{border:1px solid var(--line-2);border-radius:14px;overflow:hidden;background:var(--panel);transition:border-color .25s}
-.vis:hover{border-color:#333}
-.vis video,.vis img{display:block;width:100%;height:auto}
-.vis.pad{padding:22px}
-@media (max-width:860px){.feat,.feat.flip{grid-template-columns:1fr;gap:28px}.feat.flip .txt{order:0}}
-/* the supervisor flow: a pulse travels model -> sandbox -> supervisor -> robot */
-.flow{list-style:none;margin:0;padding:0;display:grid;font:400 13px/1.5 var(--mono)}
-.flow li{display:grid;grid-template-columns:96px minmax(0,1fr);gap:14px;align-items:center}
-.flow .lab{color:var(--text-3);text-align:right}
-.flow .box{position:relative;border:1px solid var(--line-2);border-radius:10px;padding:10px 12px;background:var(--panel-2);color:var(--text)}
-.flow .box.t{border-color:var(--teal-deep)}
-.flow .box::after{content:"";position:absolute;inset:-1px;border-radius:inherit;border:1px solid var(--teal);opacity:0;pointer-events:none}
-.flow .link{height:34px}
-.flow .wire{grid-column:2;position:relative;height:100%;display:flex;align-items:center;gap:14px;padding-left:22px;color:var(--teal-hi);font-size:12.5px}
-.flow .wire::before{content:"";position:absolute;left:22px;top:0;bottom:6px;width:1px;background:#333}
-.flow .wire::after{content:"";position:absolute;left:19px;bottom:1px;border:3.5px solid transparent;border-top:5px solid #333;border-bottom:0}
-.flow .wire span{padding-left:14px}
-.flow .wire i{position:absolute;left:19.5px;top:0;width:6px;height:6px;border-radius:50%;background:var(--teal);opacity:0}
-.flow .last{margin-top:10px}
-@media (prefers-reduced-motion:no-preference){
-  .flow{--T:6.4s}
-  .flow li:nth-child(1) .box::after{animation:ov-lit var(--T) ease-out 0s infinite both}
-  .flow li:nth-child(2) i{animation:ov-pulse var(--T) cubic-bezier(.45,0,.55,1) .45s infinite both}
-  .flow li:nth-child(3) .box::after{animation:ov-lit var(--T) ease-out 1.2s infinite both}
-  .flow li:nth-child(4) i{animation:ov-pulse var(--T) cubic-bezier(.45,0,.55,1) 1.65s infinite both}
-  .flow li:nth-child(5) .box::after{animation:ov-admit var(--T) ease-out 2.4s infinite both}
-  .flow li:nth-child(6) i{animation:ov-pulse var(--T) cubic-bezier(.45,0,.55,1) 3.05s infinite both}
-  .flow li:nth-child(7) .box::after{animation:ov-lit var(--T) ease-out 3.8s infinite both}
-}
-@keyframes ov-lit{0%{opacity:0}4%{opacity:1}14%{opacity:1}18%{opacity:0}100%{opacity:0}}
-@keyframes ov-admit{0%{opacity:0}4%{opacity:1}26%{opacity:1}30%{opacity:0}100%{opacity:0}}
-@keyframes ov-pulse{0%{opacity:0;transform:translateY(0)}2%{opacity:1}11%{opacity:1;transform:translateY(22px)}13%{opacity:0;transform:translateY(24px)}100%{opacity:0;transform:translateY(24px)}}
-.files{font:400 13.5px/1.9 var(--mono);color:var(--text-2);overflow-x:auto;white-space:nowrap}
-.files b{color:var(--text);font-weight:500}
-.files span{color:var(--text-3)}
-/* integrations */
-.integ{padding:72px 0;border-top:1px solid var(--line)}
-.integ h2{font:600 clamp(1.6rem,3vw,2.2rem)/1.12 var(--sans);letter-spacing:-.03em;margin:0 0 8px;text-align:center;text-wrap:balance}
-.integ>p{color:var(--text-2);text-align:center;margin:0 0 36px}
-.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
-@media (max-width:860px){.grid3{grid-template-columns:1fr}}
-.card{border:1px solid var(--line-2);border-radius:14px;background:var(--panel);padding:20px 22px;transition:border-color .2s}
-.card h3{font:500 12px/1 var(--label);letter-spacing:.12em;text-transform:uppercase;color:var(--teal-hi);margin:0 0 14px}
-.chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{border:1px solid var(--line-2);border-radius:999px;padding:5px 12px;font-size:13.5px;color:var(--text);background:var(--panel-2)}
-.chip small{color:var(--text-3);margin-left:6px}
-.card:hover{border-color:#333}
-.ov .post:hover{border-color:#333}
-/* gentle reveal on scroll: CSS scroll-driven, so nothing waits on a script; elements in view at rest are fully shown */
-@media (prefers-reduced-motion:no-preference){
-  @supports (animation-timeline:view()){
-    .rv{animation:ov-rise linear both;animation-timeline:view();animation-range:entry 0% entry 150px}
-  }
-}
-@keyframes ov-rise{from{opacity:.25;transform:translateY(28px)}to{opacity:1;transform:none}}
-@media print{.rv{animation:none}}
-@media (prefers-reduced-motion:reduce){.stage .frame{transform:none}.scene-gl,.stage3d::before,.said q{transition:none}}
-</style><noscript><style>.run3d{display:none}</style></noscript>
-<script src="../assets/design/design-bar.js" data-labels=".post .meta,.draft,.fcols p,.posthead .meta,.prose h2 small,.prose h3 small,.cbtn,.prose th,.slot,.draftbar,.audit-btn,.audit-tag,.audit-pop strong,.pill b,.scene-hud,.copy,.feat .k,.card h3,.side .grp&gt;p,.toc p,.crumb,.pager small,.dochero .ora-meta,.gcard .more"></script>
+.ov .wrap{max-width:var(--max)}
+.ov section{padding:56px 0}
+.ov section+section{border-top:1px solid var(--line-2)}
+.ov h2{font:700 clamp(1.5rem,2.6vw,1.9rem)/1.15 var(--sans);letter-spacing:-.02em;margin:0 0 6px;color:var(--text)}
+.ov h2 small{font:inherit;color:var(--teal);margin-right:.5em}
+.ov h3{font:700 1.02rem/1.3 var(--sans);margin:0 0 10px;color:var(--text)}
+.ov .sub{color:var(--text-2);max-width:46rem;margin:0 0 28px}
+.ov .fine{font-size:13px;line-height:1.55;color:var(--text-3);margin:14px 0 0;max-width:none}
+/* hero: the name, one sentence, the links, then the one main visual */
+.ov .hero{padding:64px 0 40px}
+h1.wordmark{display:flex;align-items:center;gap:16px;font:800 clamp(3rem,6vw,4.5rem)/1 var(--sans);letter-spacing:-.04em;color:var(--text);margin:0}
+h1.wordmark .wm-type{display:flex;align-items:center;gap:16px}
+h1.wordmark img{width:clamp(52px,6vw,72px);height:auto;display:block}
+.wm-pix{display:none;height:63px;width:auto;color:var(--text)}
+@media (max-width:560px){.wm-pix{height:54px}}
+.ov .expand{font:500 1.05rem/1.3 var(--sans);color:var(--text-3);margin:12px 0 0}
+.ov .lede{font-size:clamp(1.1rem,1.6vw,1.3rem);line-height:1.5;color:var(--text-body);max-width:40rem;margin:22px 0 0}
+.ov .actions{display:flex;flex-wrap:wrap;gap:10px;margin:26px 0 0}
+.btn{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 16px;border:1px solid var(--line-2);border-radius:8px;background:var(--bg);color:var(--text);font:500 14.5px/1 var(--sans)}
+.btn:hover{border-color:var(--text-3);text-decoration:none}
+.btn.primary{background:var(--text);border-color:var(--text);color:var(--bg)}
+.btn.primary:hover{background:var(--text-body)}
+.btn svg{width:16px;height:16px;flex:none}
+/* the stage: the page's one main visual, a recorded session on black */
+.ov .show{padding:0 0 56px;border-top:0}
+.ov .show .stage{border-radius:14px;overflow:hidden}
+.ov .show .stage video{display:block;width:100%;height:auto;aspect-ratio:16/9;background:#0e0f10}
+.ov .show .cap{font-size:13.5px;line-height:1.55;color:var(--text-3);margin:12px 0 0;max-width:none}
+/* TL;DR: the poster's four takes */
+.takes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 40px;margin:22px 0 0}
+.takes div{display:grid;grid-template-columns:5.2rem minmax(0,1fr);gap:14px;align-items:baseline;padding:14px 0;border-top:1px solid var(--line-2)}
+.takes b{font:800 1.7rem/1 var(--sans);letter-spacing:-.03em;color:var(--teal)}
+.takes p{margin:0;font-size:15px;line-height:1.5;color:var(--text-body)}
+.takes strong{color:var(--text)}
+@media (max-width:760px){.takes{grid-template-columns:1fr}}
+/* bar charts: HTML rows, labelled directly; ORA in teal, everyone else in grey */
+.charts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 48px}
+@media (max-width:860px){.charts{grid-template-columns:1fr}}
+.chart h3{margin:0 0 12px}
+.chart h4{font:600 13.5px/1.3 var(--sans);color:var(--text);margin:16px 0 8px}
+.bar{display:grid;grid-template-columns:var(--lab,9.5rem) minmax(0,1fr) 3.2rem;gap:10px;align-items:center;font-size:13.5px;line-height:1.2;margin:0 0 7px}
+.bar .n{text-align:right;color:var(--text-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar.ours .n,.bar.ours .v{color:var(--text);font-weight:700}
+.bar .t{height:12px;border-radius:0 4px 4px 0;background:var(--panel-2);display:flex}
+.bar .t i{display:block;height:100%;border-radius:0 4px 4px 0;background:var(--grey)}
+.bar .t i+i{margin-left:2px;border-radius:0 4px 4px 0;background:repeating-linear-gradient(135deg,var(--grey) 0 2px,var(--panel-2) 2px 5px)}
+.bar.ours .t i{background:var(--teal)}
+.bar.ours2 .t i{background:var(--teal-soft)}
+.bar.vla .t i{background:var(--grey-2)}
+.bar .v{font-variant-numeric:tabular-nums;color:var(--text-2)}
+.pairs{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 28px}
+.pairs .col>p{font:600 12.5px/1.3 var(--sans);color:var(--text-3);margin:0 0 10px}
+.pairs .bar{--lab:9.5rem}
+.pairs .col+.col .bar{grid-template-columns:minmax(0,1fr) 5.6rem}
+.pairs .col+.col .bar .n{display:none}
+.pairs h4.rep{visibility:hidden}   /* the group title again, shown where the columns stack */
+@media (max-width:560px){.pairs{grid-template-columns:1fr}.pairs .col+.col .bar{grid-template-columns:var(--lab) minmax(0,1fr) 5.6rem}.pairs .col+.col .bar .n{display:block}.pairs .col+.col{margin-top:14px}.pairs h4.rep{visibility:visible}}
+.key{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:12.5px;color:var(--text-3);margin:12px 0 0}
+.key span{display:inline-flex;align-items:center;gap:6px}
+.key i{width:10px;height:10px;border-radius:2px;background:var(--grey);flex:none}
+.key i.o{background:var(--teal)}.key i.o2{background:var(--teal-soft)}.key i.v{background:var(--grey-2)}
+.key i.h{background:repeating-linear-gradient(135deg,var(--grey) 0 2px,var(--panel-2) 2px 5px)}
+/* how it works: the loop as one line, then the three things ORA supplies */
+.loop{display:flex;flex-wrap:wrap;align-items:stretch;gap:8px;margin:0 0 30px;padding:0;list-style:none}
+.loop li{flex:1 1 150px;border:1px solid var(--line-2);border-radius:10px;padding:12px 14px;font-size:13.5px;line-height:1.45;color:var(--text-2);position:relative}
+.loop li b{display:block;font:700 12.5px/1.2 var(--label);color:var(--teal);margin:0 0 6px}
+.loop li.h{border-color:var(--teal);background:var(--teal-ink)}
+.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}
+@media (max-width:860px){.three{grid-template-columns:1fr}}
+.three p{margin:0 0 10px;font-size:14.5px;line-height:1.55;color:var(--text-2)}
+.three ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.three li{font:500 12.5px/1 var(--label);color:var(--text-body);border:1px solid var(--line-2);border-radius:6px;padding:6px 8px}
+/* two ways to act: the same task as turns */
+.modes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+@media (max-width:760px){.modes{grid-template-columns:1fr}}
+.mode h3 span{font-weight:400;color:var(--text-3);font-size:13.5px;margin-left:8px}
+.mode pre{margin:0;padding:14px 16px;border:1px solid var(--line-2);border-radius:10px;background:var(--panel);overflow-x:auto;font:400 13px/1.7 var(--mono);color:var(--text);tab-size:2}
+.mode pre b{font:600 11.5px/1 var(--mono);color:var(--bg);background:var(--teal);border-radius:4px;padding:2px 6px;margin-right:4px}
+.mode pre i{font-style:normal;color:var(--teal-hi);font-weight:500}
+.mode pre u{text-decoration:none;color:var(--text-3)}
+/* run it */
+.install{max-width:44rem}
+.tabs{display:flex;gap:22px;margin:0 0 10px}
+.tabs button{font:inherit;font-size:14.5px;background:none;border:0;color:var(--text-3);padding:0 0 6px;cursor:pointer;border-bottom:2px solid transparent}
+.tabs button[aria-selected="true"]{color:var(--text);border-color:var(--teal)}
+.code{position:relative;border-radius:10px;padding:16px 86px 16px 18px}
+.code pre{margin:0;font:400 13.5px/1.75 var(--mono);color:var(--text);white-space:pre;overflow-x:auto}
+.code .k{color:var(--teal-hi)}.code .c{color:var(--text-3)}
+.copy{position:absolute;top:12px;right:12px;height:28px;padding:0 10px;border:1px solid var(--line-2);border-radius:7px;background:var(--panel);color:var(--text-2);font:500 12px/1 var(--label);cursor:pointer}
+.copy:hover{color:var(--text);border-color:var(--text-3)}
+.ov .next{display:flex;flex-wrap:wrap;gap:8px 28px;margin:26px 0 0;font-size:15px}
+</style>
+<script src="../assets/design/design-bar.js" data-labels=".post .meta,.draft,.fcols p,.posthead .meta,.prose h2 small,.prose h3 small,.cbtn,.prose th,.slot,.draftbar,.audit-btn,.audit-tag,.audit-pop strong,.loop li b,.three li,.copy,.side .grp&gt;p,.toc p,.crumb,.pager small,.dochero .ora-meta,.gcard .more"></script>
 </head>
 <body>
 <header class="nav in-proj"><div class="wrap"><a class="brand" href="../index.html"><img src="../assets/brand/fastrua-mark-96.png" alt="" width="40" height="40"><span>FastRUA</span></a><span class="sep" aria-hidden="true">/</span><a class="proj" href="index.html">ORA</a><nav class="sub" aria-label="ORA"><a href="index.html" aria-current="page">Overview</a><a href="gallery/index.html">Gallery</a><a href="docs/index.html">Docs</a><a class="ext" href="paper/ora-two-page.pdf" target="_blank" rel="noopener">Paper</a><a class="ext" href="https://github.com/hao-ai-lab/ORA" target="_blank" rel="noopener">Code</a></nav><nav class="glob" aria-label="FastRUA"><a href="../blog/index.html">Blog</a><a class="ext" href="https://github.com/fast-rua" target="_blank" rel="noopener">GitHub</a></nav></div></header>
 
 <main class="ov">
 <section class="hero"><div class="wrap">
-  <a class="pill" href="../blog/2026-11-code-mode/index.html"><b>NEW</b>Robot-use agents can write code now →</a>
-  <h1 class="wordmark" data-wordmark><span class="wm-type"><img src="assets/brand/ora-mark-192.png" alt="" width="96" height="96" style="width:clamp(64px,9vw,96px);height:auto;vertical-align:middle;margin-right:20px">ORA</span><svg class="wm-pix" viewBox="0 0 40 9" role="img" aria-label="ORA" shape-rendering="crispEdges"><path fill="#F0F0F0" d="M1 0h4v1h-4zM16 0h5v1h-5zM24 0h6v1h-6zM35 0h3v1h-3zM0 1h2v1h-2zM4 1h2v1h-2zM15 1h2v1h-2zM20 1h2v1h-2zM24 1h2v1h-2zM29 1h2v1h-2zM34 1h2v1h-2zM37 1h2v1h-2zM0 2h2v1h-2zM4 2h7v1h-7zM15 2h2v1h-2zM20 2h2v1h-2zM24 2h2v1h-2zM29 2h2v1h-2zM33 2h2v1h-2zM38 2h2v1h-2zM1 3h4v1h-4zM9 3h2v1h-2zM15 3h2v1h-2zM20 3h2v1h-2zM24 3h2v1h-2zM29 3h2v1h-2zM33 3h2v1h-2zM38 3h2v1h-2zM2 4h2v1h-2zM9 4h2v1h-2zM15 4h2v1h-2zM20 4h2v1h-2zM24 4h6v1h-6zM33 4h2v1h-2zM38 4h2v1h-2zM2 5h2v1h-2zM15 5h2v1h-2zM20 5h2v1h-2zM24 5h2v1h-2zM27 5h2v1h-2zM33 5h7v1h-7zM2 6h2v1h-2zM15 6h2v1h-2zM20 6h2v1h-2zM24 6h2v1h-2zM28 6h2v1h-2zM33 6h2v1h-2zM38 6h2v1h-2zM1 7h4v1h-4zM15 7h2v1h-2zM20 7h2v1h-2zM24 7h2v1h-2zM29 7h2v1h-2zM33 7h2v1h-2zM38 7h2v1h-2zM0 8h6v1h-6zM16 8h5v1h-5zM24 8h2v1h-2zM29 8h2v1h-2zM33 8h2v1h-2zM38 8h2v1h-2z"/><path fill="#147F85" d="M8 5h4v1h-4zM8 6h1v1h-1zM11 6h1v1h-1zM8 7h1v1h-1zM11 7h1v1h-1z"/></svg></h1>
+  <h1 class="wordmark" data-wordmark><span class="wm-type"><img src="assets/brand/ora-ink-192.png" alt="" width="72" height="72">ORA</span><svg class="wm-pix" viewBox="0 0 40 9" role="img" aria-label="ORA" shape-rendering="crispEdges"><path fill="currentColor" d="M1 0h4v1h-4zM16 0h5v1h-5zM24 0h6v1h-6zM35 0h3v1h-3zM0 1h2v1h-2zM4 1h2v1h-2zM15 1h2v1h-2zM20 1h2v1h-2zM24 1h2v1h-2zM29 1h2v1h-2zM34 1h2v1h-2zM37 1h2v1h-2zM0 2h2v1h-2zM4 2h7v1h-7zM15 2h2v1h-2zM20 2h2v1h-2zM24 2h2v1h-2zM29 2h2v1h-2zM33 2h2v1h-2zM38 2h2v1h-2zM1 3h4v1h-4zM9 3h2v1h-2zM15 3h2v1h-2zM20 3h2v1h-2zM24 3h2v1h-2zM29 3h2v1h-2zM33 3h2v1h-2zM38 3h2v1h-2zM2 4h2v1h-2zM9 4h2v1h-2zM15 4h2v1h-2zM20 4h2v1h-2zM24 4h6v1h-6zM33 4h2v1h-2zM38 4h2v1h-2zM2 5h2v1h-2zM15 5h2v1h-2zM20 5h2v1h-2zM24 5h2v1h-2zM27 5h2v1h-2zM33 5h7v1h-7zM2 6h2v1h-2zM15 6h2v1h-2zM20 6h2v1h-2zM24 6h2v1h-2zM28 6h2v1h-2zM33 6h2v1h-2zM38 6h2v1h-2zM1 7h4v1h-4zM15 7h2v1h-2zM20 7h2v1h-2zM24 7h2v1h-2zM29 7h2v1h-2zM33 7h2v1h-2zM38 7h2v1h-2zM0 8h6v1h-6zM16 8h5v1h-5zM24 8h2v1h-2zM29 8h2v1h-2zM33 8h2v1h-2zM38 8h2v1h-2z"/><path fill="#147F85" d="M8 5h4v1h-4zM8 6h1v1h-1zM11 6h1v1h-1zM8 7h1v1h-1zM11 7h1v1h-1z"/></svg></h1>
   <p class="expand">Open Robot-Use Agents</p>
-  <p class="subhead">Open models operate robots. <em>Zero-shot.</em></p>
-  <p class="lede">ORA is an open harness for robot use. The model looks, reasons and writes programs; a supervisor admits every motion; every run is sealed and can be replayed.</p>
-  <div class="cta"><a class="btn" href="paper/ora-two-page.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.5 2.75h6l3.5 3.5v10.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5v-13.5a.5.5 0 0 1 .5-.5z"/><path d="M11.5 2.75v3.5H15"/><path d="M7.75 10h4.5M7.75 13h4.5"/></svg>Paper</a><a class="btn ext" href="https://github.com/hao-ai-lab/ORA"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 6l-4 4 4 4M13 6l4 4-4 4M11.25 4.5l-2.5 11"/></svg>Code</a></div>
+  <p class="lede">An open harness that connects open-weight language models to robots. The model looks, reasons and writes programs; a supervisor admits every motion; every run is sealed and can be replayed.</p>
+  <p class="actions">
+    <a class="btn primary" href="docs/getting-started/installation/index.html">Get started</a>
+    <a class="btn" href="paper/ora-two-page.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg>Paper</a>
+    <a class="btn ext" href="https://github.com/hao-ai-lab/ORA" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 8-4 4 4 4"/><path d="m16 8 4 4-4 4"/><path d="m13.5 5-3 14"/></svg>Code</a>
+    <a class="btn" href="gallery/index.html">Gallery</a>
+  </p>
+</div></section>
+
+<section class="show"><div class="wrap">
+  <div class="stage"><video controls muted loop playsinline preload="metadata" poster="assets/play-tui.jpg" src="assets/play-tui.mp4" aria-label="A recorded free-play session: the agent's programs and their results in a terminal, beside the robot's cameras"></video></div>
+  <p class="cap">A free-play session in code mode, replayed from its records: the operator asks for a tower and changes the order halfway. Left, the programs the agent writes and what comes back; right, the cameras. DeepSeek-V4.1-Flash, RoboDojo toy table, unscored.</p>
+</div></section>
+
+<section><div class="wrap">
+  <h2><small>TL;DR</small>Open, cheap and always in the loop</h2>
+  <p class="sub">GPT-6 Astra driving a robot is cool. A lab still needs an agent that is open, cheap and always in the loop. That is ORA.</p>
+  <div class="takes">
+    <div><b>87.5%</b><p><strong>Open weights are enough.</strong> Self-hosted DeepSeek-V4.1-Flash on LIBERO-Pro, zero-shot. No VLA, no robot training.</p></div>
+    <div><b>7.2×</b><p><strong>Cheap.</strong> 6–7× fewer tokens per success than Uni-Robot-Agent, same model and tasks; code mode saves about 40% more.</p></div>
+    <div><b>↻</b><p><strong>The agent stays in the loop.</strong> It reads every result and re-plans; one loop runs five benchmarks and a real arm.</p></div>
+    <div><b>89.0%</b><p><strong>Close to a trained VLA.</strong> RPent with its π0.5 VLA and task memory: 93.4%, same model and tasks.</p></div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <h2><small>Results</small>Zero-shot, on RPent's case lists</h2>
+  <p class="sub">ORA in code mode against published systems, on the cases of RPent's leaderboard.</p>
+  <div class="charts"><div class="chart"><h3>RoboTwin C2R</h3><div class="bar ours"><span class="n">ORA (ours)</span><span class="t"><i style="width:79.6%"></i></span><span class="v">79.6</span></div><div class="bar "><span class="n">RPent + GPT-5.5</span><span class="t"><i style="width:62.4%"></i></span><span class="v">62.4</span></div><div class="bar vla"><span class="n">LingBot-VLA</span><span class="t"><i style="width:50.4%"></i></span><span class="v">50.4</span></div><div class="bar vla"><span class="n">π0.5</span><span class="t"><i style="width:47.9%"></i></span><span class="v">47.9</span></div></div><div class="chart"><h3>LIBERO-Pro</h3><div class="bar ours"><span class="n">ORA (ours)</span><span class="t"><i style="width:88.0%"></i></span><span class="v">88.0</span></div><div class="bar "><span class="n">RPent + GPT-5.5</span><span class="t"><i style="width:75.1%"></i></span><span class="v">75.1</span></div><div class="bar vla"><span class="n">π-RLinf</span><span class="t"><i style="width:50.0%"></i></span><span class="v">50.0</span></div><div class="bar vla"><span class="n">π0.5</span><span class="t"><i style="width:11.0%"></i></span><span class="v">11.0</span></div></div></div><p class="key"><span><i class="o"></i>ORA, zero-shot</span><span><i></i>RPent: LLM + VLA + task memory</span><span><i class="v"></i>VLA trained on demonstrations</span></p>
+  <h3 style="margin-top:44px">Same model (DeepSeek-V4.1-Flash), same tasks</h3>
+  <div class="pairs"><div class="col"><p>Success, higher is better</p><h4>LIBERO-Pro (Task + Swap)</h4><div class="bar ours"><span class="n">ORA · code</span><span class="t"><i style="width:89.0%"></i></span><span class="v">89%</span></div><div class="bar ours2"><span class="n">ORA · tool calls</span><span class="t"><i style="width:87.2%"></i></span><span class="v">87%</span></div><div class="bar "><span class="n">RPent (VLA + memory)</span><span class="t"><i style="width:93.4%"></i></span><span class="v">93%</span></div><h4>RoboLab</h4><div class="bar ours"><span class="n">ORA · code</span><span class="t"><i style="width:76.8%"></i></span><span class="v">77%</span></div><div class="bar "><span class="n">Uni-Robot-Agent</span><span class="t"><i style="width:63.8%"></i></span><span class="v">64%</span></div><h4>RoboDojo</h4><div class="bar ours"><span class="n">ORA · code</span><span class="t"><i style="width:48.6%"></i></span><span class="v">49%</span></div><div class="bar "><span class="n">Uni-Robot-Agent</span><span class="t"><i style="width:36.1%"></i></span><span class="v">36%</span></div></div><div class="col"><p>Prompt tokens per success, lower is better</p><h4 class="rep">LIBERO-Pro (Task + Swap)</h4><div class="bar ours"><span class="n">ORA · code</span><span class="t"><i style="width:2.6%"></i></span><span class="v">4.1M</span></div><div class="bar ours2"><span class="n">ORA · tool calls</span><span class="t"><i style="width:4.8%"></i></span><span class="v">7.5M</span></div><div class="bar "><span class="n">RPent (VLA + memory)</span><span class="t"><i style="width:2.7%"></i><i style="width:1.2%"></i></span><span class="v">4.2M + 1.9M</span></div><h4 class="rep">RoboLab</h4><div class="bar ours"><span class="n">ORA · code</span><span class="t"><i style="width:4.7%"></i></span><span class="v">7.4M</span></div><div class="bar "><span class="n">Uni-Robot-Agent</span><span class="t"><i style="width:34.0%"></i></span><span class="v">53.3M</span></div><h4 class="rep">RoboDojo</h4><div class="bar ours"><span class="n">ORA · code</span><span class="t"><i style="width:15.7%"></i></span><span class="v">24.6M</span></div><div class="bar "><span class="n">Uni-Robot-Agent</span><span class="t"><i style="width:100.0%"></i></span><span class="v">156.7M</span></div></div></div><p class="key"><span><i class="o"></i>ORA, code mode</span><span><i class="o2"></i>ORA, tool calls</span><span><i></i>the other system, same model</span><span><i class="h"></i>RPent exploration, per success</span></p>
+  <p class="fine">Leaderboard rows other than ORA: RPent's published leaderboard (snapshot of 2026-09-22). ORA: 235 of RPent's 250 RoboTwin cases; LIBERO-Pro Task + Swap, initial states 0–4. Same-model comparisons: the cases both systems finished (LIBERO-Pro 391, RoboLab 177, RoboDojo 72); every success counts, with no simulator step limit for either system; tokens in millions, failures included. <a href="../blog/2026-11-code-mode/index.html#appendix-a">How we count</a>.</p>
+</div></section>
+
+<section><div class="wrap">
+  <h2><small>Method</small>How ORA works</h2>
+  <p class="sub">The model looks, acts, reads the result and decides again. ORA supplies three things around it.</p>
+  <ol class="loop">
+    <li><b>think</b>an open-weight language model</li>
+    <li><b>act</b>tool calls or programs</li>
+    <li class="h"><b>ORA harness</b>admits each motion, runs it, writes the receipt</li>
+    <li><b>robot</b>simulation or a real arm</li>
+    <li><b>observe</b>RGB-D views, poses, gripper, receipt</li>
+  </ol>
+  <div class="three">
+    <div><h3>Prompt bundle</h3><p>What the robot is and what success means.</p>
+      <ul><li>embodiment</li><li>environment</li><li>task instruction</li><li>success criteria</li><li>tools</li></ul></div>
+    <div><h3>Tool suite</h3><p>Every result is a measurement or a receipt.</p>
+      <ul><li>look</li><li>measure</li><li>compute</li><li>act</li><li>code</li></ul></div>
+    <div><h3>Context management</h3><p>Recent turns in full, older ones by reference; the model can reopen any of them.</p>
+      <ul><li>recent turns</li><li>references</li><li>reopen by reference</li></ul></div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Two ways to act, same tools</h2>
+  <p class="sub">With tool calls the agent makes one call per turn. In code mode it writes one program per turn against the same tools, keeps what it measured, and checks its own work. <a href="../blog/2026-11-code-mode/index.html">ORA in code mode</a> has the comparison.</p>
+  <div class="modes">
+    <div class="mode"><h3>Tool calls<span>one tool per turn</span></h3>
+<pre><b>turn 1</b><i>vision_ground</i>("green block")
+<u>└ obs: candidates · metres</u>
+<b>turn 2</b><i>grasp_plan</i>("T1")
+<u>└ obs: 3 grasps · reachable</u>
+<b>turn 3</b><i>grasp_execute</i>("g0")
+<u>└ obs: held · lifted 30 mm</u>
+<b>turn 4</b><i>move_pose</i>({...hover})
+<u>└ obs: reached · views</u>
+<b>turn 5</b><i>set_gripper</i>(open)
+<u>└ obs: released · views</u></pre></div>
+    <div class="mode"><h3>Code mode<span>one program per turn</span></h3>
+<pre><b>turn 1</b><u># measure.py: its own tool</u>
+def top(ref):
+  t = cloud(ref); z = t[:, 2]
+  return t[z &gt; z.max()-.01].mean(0)
+<u>└ obs: kept in /work for later</u>
+<b>turn 2</b><u># place1.py</u>
+t = measure.top(blue)
+hover = p0 + t - g.bottom + .05
+if not reach(hover): handoff()
+r = <i>move_pose</i>(hover)
+if miss(r) &gt; .012: handoff()
+<u>└ obs: miss 2 mm · re-check</u></pre></div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Run it</h2>
+  <p class="sub">One harness for RoboTwin, LIBERO-Pro, RoboDojo, RoboLab and a real arm, with any OpenAI-compatible or Anthropic model.</p>
   <div class="install" data-tabs>
   <div class="tabs" role="tablist"><button data-tab="install" aria-selected="true">install</button><button data-tab="play" aria-selected="false">play</button><button data-tab="run" aria-selected="false">run a benchmark</button></div>
-  <div class="code"><button class="copy" type="button" aria-label="Copy the commands">copy</button>
+  <div class="code stage"><button class="copy" type="button" aria-label="Copy the commands">copy</button>
 <pre data-pane="install"><span class="k">curl</span> -fsSL https://raw.githubusercontent.com/hao-ai-lab/ORA/main/scripts/install.sh | sh</pre>
 <pre data-pane="play" hidden><span class="k">ora</span> providers key DEEPSEEK_LOW_API_KEY   <span class="c"># any OpenAI-compatible or Anthropic endpoint</span>
 <span class="k">ora</span> play --env synthetic                 <span class="c"># no GPU: give a robot instructions</span></pre>
@@ -345,92 +371,14 @@ h1.wordmark{font:700 clamp(5rem,13vw,9.5rem)/.86 var(--sans);letter-spacing:-.06
 <span class="k">ora</span> run --env robodojo --task general_pickup --confirm-launch</pre>
   </div>
 </div>
-  <div class="stage"><div class="frame"><video autoplay muted loop playsinline preload="auto" poster="assets/hero-wall.jpg" src="assets/hero-wall.mp4"></video></div>
-  <p class="cap">One success per task on RoboDojo and RoboLab. Centre: a code-mode free-play session, replayed from its records, with a change of plan mid-task.</p></div>
-  <div class="nums">
-    <div><b><span data-to="40.4">40.4</span><small>%</small></b><span>RoboDojo</span><em>bimanual ARX X5 · Isaac Sim</em></div>
-    <div><b><span data-to="79.6">79.6</span><small>%</small></b><span>RoboTwin 2.0</span><em>clean-to-randomized · SAPIEN</em></div>
-    <div><b><span data-to="87.5">87.5</span><small>%</small></b><span>LIBERO-Pro</span><em>four perturbations · MuJoCo</em></div>
-    <div><b><span data-to="79.2">79.2</span><small>%</small></b><span>RoboLab</span><em>DROID Franka · Isaac Sim</em></div>
-  </div>
-  <div class="numcap"><span>Self-hosted DeepSeek-V4.1-Flash, code mode. No exploration, demonstrations, task memory or robot training.</span><a href="../blog/2026-11-code-mode/index.html#appendix-a">How we count →</a></div>
+  <p class="next"><a href="docs/index.html">Read the docs</a><a href="gallery/index.html">Open recorded runs in the gallery</a><a href="../blog/index.html">All posts</a></p>
 </div></section>
 
-<section class="run3d rv" aria-labelledby="run3d-h"><div class="wrap">
-  <div class="head"><h2 id="run3d-h">One recorded run, in 3D</h2>
-  <p>The head camera's depth at the end of a RoboDojo free-play run, with the path planned for the left gripper as the agent stacked three blocks.</p>
-  <p class="more"><a href="gallery/index.html">Explore the gallery →</a></p></div>
-  <figure class="scene" id="scene">
-    <div class="stage3d" role="img" aria-label="One observation from a free-play run of ORA in RoboDojo, taken after the agent had built a three-block tower: the head camera&#x27;s depth image, lifted to 32,775 points. The line is the left gripper&#x27;s planned path over its 17 trajectories; the rings are its 3 grasps. The operator&#x27;s 2 messages are quoted as they were typed."></div>
-    <figcaption class="scene-hud">
-      <span class="kick"><i></i>Recorded run · RoboDojo free play</span>
-      <p class="hint" aria-hidden="true"><span class="fine">Drag to rotate. Double-click to reset.</span><span class="coarse">Swipe to rotate. Double-tap to reset.</span></p>
-      <span class="said"><q>Build a tower: magenta at the bottom, then green, then blue on top.</q><q>Wait — blue goes in the middle, green on top.</q></span>
-      <details class="about"><summary>What is this?</summary><p>One observation from a free-play run of ORA in RoboDojo, taken after the agent had built a three-block tower: the head camera&#x27;s depth image, lifted to 32,775 points. The line is the left gripper&#x27;s planned path over its 17 trajectories; the rings are its 3 grasps. The operator&#x27;s 2 messages are quoted as they were typed.</p></details>
-    </figcaption>
-  </figure>
+<section><div class="wrap">
+  <div class="sechead"><h2>ORA in the blog</h2><a href="../blog/index.html">All posts</a></div>
+  <div class="posts"><a class="post" href="../blog/2026-11-code-mode/index.html"><img src="../ora/assets/teaser.jpg" alt="" loading="lazy"><div class="body"><p class="meta"><span>ORA</span><span>·</span><span>Nov 2026</span><span class="draft">DRAFT</span></p><h3>ORA in Code Mode: Letting Robot Agents Write Programs</h3><p>Code mode lets the agent write and run programs against the same harness: DeepSeek-V4.1-Flash solves 40% of RoboDojo zero-shot, without exploration. How agents behave with code, the tools they build for themselves, and three open models in both modes.</p></div></a><a class="post" href="../blog/2026-10-ora/index.html"><img src="../ora/assets/post1.jpg" alt="" loading="lazy"><div class="body"><p class="meta"><span>ORA</span><span>·</span><span>Oct 2026</span></p><h3>ORA: Open Robot-Use Agents</h3><p>An open robot-use harness that connects open-weight language models to robots through perception and motion tools, with no VLA and no robot training.</p></div></a></div>
 </div></section>
-
-<div class="wrap">
-  <div class="tag rv"><span>Zero-shot</span><span>Programmable</span><span>Supervised</span><span>Replayable</span></div>
-
-  <section class="feat rv"><div class="txt">
-    <p class="k">Code mode</p><h2>Programs, not just calls.</h2>
-    <p>Each turn the agent can write a short program against the same tools: measure, move, check its own work, and keep what it learned in a workspace that lasts the whole episode.</p>
-    <ul><li>Tools as a library, inside a sandbox</li><li>Helpers written once, imported in later turns</li><li>Every motion still goes through the supervisor</li></ul>
-  </div><div class="vis"><video autoplay muted loop playsinline preload="metadata" poster="assets/play-tui.jpg" src="assets/play-tui.mp4"></video></div></section>
-
-  <section class="feat flip rv"><div class="txt">
-    <p class="k">Free play</p><h2>Talk to it while it works.</h2>
-    <p>Built on the Pi coding-agent core. Load a scene with no task, give an instruction, and change your mind halfway: the agent reads the new message before its next step and adapts.</p>
-    <ul><li>Terminal or browser</li><li>Steer, queue or stop at any time</li><li>Your own models, skills and AGENTS.md</li></ul>
-  </div><div class="vis"><video autoplay muted loop playsinline preload="metadata" poster="assets/play-web.jpg" src="assets/play-web.mp4"></video></div></section>
-
-  <section class="feat rv"><div class="txt">
-    <p class="k">Authority</p><h2>The supervisor decides what moves.</h2>
-    <p>The model proposes; the supervisor admits or refuses each motion, one at a time, and answers with a receipt. The model sees only public observations and tools: no simulator ground truth, no success predicate.</p>
-  </div><div class="vis pad"><ol class="flow">
-    <li><span class="lab">model</span><span class="box">looks, reasons, writes a program</span></li>
-    <li class="link" aria-hidden="true"><span class="wire"><i></i></span></li>
-    <li><span class="lab">sandbox</span><span class="box">runs it: tools, measurements, checks</span></li>
-    <li class="link"><span class="wire"><i></i><span>one motion at a time</span></span></li>
-    <li><span class="lab">supervisor</span><span class="box t">admits or refuses · issues a receipt</span></li>
-    <li class="link" aria-hidden="true"><span class="wire"><i></i></span></li>
-    <li><span class="lab">robot</span><span class="box">moves; fresh cameras and state come back</span></li>
-    <li class="last"><span class="lab">benchmark</span><span class="box">its own check decides success</span></li>
-  </ol></div></section>
-
-  <section class="feat flip rv"><div class="txt">
-    <p class="k">Evidence</p><h2>Every number has a run behind it.</h2>
-    <p>Each request, action and receipt is hash-bound and sealed with the run. Results point to runs you can open, audit and replay.</p>
-  </div><div class="vis pad"><div class="files">
-    <b>runs/ora-glue-code-robodojo-…/</b><br>
-    &nbsp;&nbsp;plan.json <span>· what was resolved and pinned</span><br>
-    &nbsp;&nbsp;agent-events.jsonl <span>· every request, reply and tool call</span><br>
-    &nbsp;&nbsp;events.jsonl <span>· every action and its receipt</span><br>
-    &nbsp;&nbsp;replay-program/ <span>· the run as a replayable program</span><br>
-    &nbsp;&nbsp;evaluation.json <span>· the benchmark's own verdict</span><br>
-    &nbsp;&nbsp;seal.json <span>· hashes that bind it all</span>
-  </div></div></section>
-
-  <section class="integ rv">
-    <h2>One harness. Many simulators, robots and models.</h2>
-    <p>Independent backends behind one interface; any OpenAI-compatible or Anthropic model.</p>
-    <div class="grid3">
-      <div class="card"><h3>Simulators</h3><div class="chips"><span class="chip">RoboTwin 2.0<small>SAPIEN</small></span><span class="chip">LIBERO · LIBERO-Pro<small>MuJoCo</small></span><span class="chip">RoboDojo<small>Isaac Sim</small></span><span class="chip">RoboLab<small>Isaac Sim</small></span><span class="chip">RoboCasa365<small>MuJoCo</small></span></div></div>
-      <div class="card"><h3>Robots</h3><div class="chips"><span class="chip">ARX X5 bimanual</span><span class="chip">ALOHA-AgileX</span><span class="chip">Franka Panda</span><span class="chip">DROID Franka</span><span class="chip">Panda Omron</span><span class="chip">YAM<small>real</small></span></div></div>
-      <div class="card"><h3>Models</h3><div class="chips"><span class="chip">DeepSeek-V4.1-Flash</span><span class="chip">Qwen3.8-Flash-Next</span><span class="chip">Muse Spark Open</span><span class="chip">any OpenAI-compatible</span><span class="chip">Anthropic</span></div></div>
-    </div>
-  </section>
-
-  <section class="integ rv">
-    <div class="sechead"><h2>From the blog</h2><a href="../blog/index.html">All posts →</a></div>
-    <div class="posts"><a class="post" href="../blog/2026-11-code-mode/index.html"><img src="../ora/assets/teaser.jpg" alt="" loading="lazy"><div class="body"><p class="meta"><span>ORA</span><span>·</span><span>Nov 2026</span><span class="draft">DRAFT</span></p><h3>ORA in Code Mode: Letting Robot Agents Write Programs</h3><p>Code mode lets the agent write and run programs against the same harness: DeepSeek-V4.1-Flash solves 40% of RoboDojo zero-shot, without exploration. How agents behave with code, the tools they build for themselves, and three open models in both modes.</p></div></a><a class="post" href="../blog/2026-10-ora/index.html"><img src="../ora/assets/post1.jpg" alt="" loading="lazy"><div class="body"><p class="meta"><span>ORA</span><span>·</span><span>Oct 2026</span></p><h3>ORA: Open Robot-Use Agents</h3><p>An open robot-use harness that connects open-weight language models to robots through perception and motion tools, with no VLA and no robot training.</p></div></a></div>
-  </section>
-</div>
 </main>
-<script type="module" src="static/overview/overview.js"></script>
-<script nomodule>document.querySelector(".run3d").style.display="none"</script>
 
 <footer class="foot"><div class="wrap"><div class="fb"><a class="brand" href="index.html"><img src="../assets/brand/ora-mark-96.png" alt="" width="40" height="40">ORA</a><p>Open Robot-Use Agents: an open harness that lets language models operate robots. A FastRUA project.</p></div><nav class="fcols" aria-label="Footer"><div><p>ORA</p><a href="index.html">Overview</a><a href="gallery/index.html">Gallery</a><a href="docs/index.html">Docs</a><a href="paper/ora-two-page.pdf" target="_blank" rel="noopener">Paper (PDF)</a></div><div><p>Docs</p><a href="docs/getting-started/installation/index.html">Installation</a><a href="docs/quickstart/index.html">First episode</a><a href="docs/how-ora-works/index.html">How ORA works</a><a href="docs/reference/index.html">Reference</a></div><div><p>FastRUA</p><a href="../index.html">Home</a><a href="../blog/index.html">Blog</a><a class="ext" href="https://github.com/hao-ai-lab/ORA" target="_blank" rel="noopener">GitHub</a><a class="ext" href="https://haoailab.com/blogs/ora/" target="_blank" rel="noopener">Hao AI Lab blog</a></div></nav><p class="fbase">© 2026 ORA contributors · Hao AI Lab, UC San Diego</p></div></footer>
 <script>
