@@ -111,6 +111,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .post .body{padding:20px 22px 22px}
 .post .meta{display:flex;gap:10px;align-items:center;font:400 12.5px/1 var(--label);color:var(--text-3);margin:0 0 12px}
 .post h3{font:700 1.15rem/1.3 var(--sans);letter-spacing:-.01em;margin:0 0 10px;color:var(--text)}
+.post h3 .pxw{vertical-align:0}
 .post p{margin:0;color:var(--text-2);font-size:14.5px}
 .draft{font:500 11px/1 var(--label);letter-spacing:.06em;color:var(--amber);background:var(--amber-bg);padding:4px 7px;border-radius:999px}
 .sechead{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin:0 0 24px}
@@ -123,10 +124,6 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .foot a{color:var(--text-2)}
 .foot a:hover{color:var(--text)}
 /* article: blog posts and docs pages share these */
-.posthead{padding:72px 0 28px;text-align:center}
-.posthead .meta{font:400 13px/1 var(--label);color:var(--text-3);display:flex;gap:12px;justify-content:center;align-items:center;flex-wrap:wrap;margin:0}
-.posthead .byline{margin:18px 0 0;color:var(--text-3);font-size:14.5px}
-.posthead h1{font:600 clamp(2.2rem,5vw,3.6rem)/1.06 var(--sans);letter-spacing:-.035em;margin:20px auto 0;max-width:15em;text-wrap:balance}
 .prose{font-size:17px;line-height:1.75;color:var(--text-body);overflow-wrap:break-word}
 .prose h1{display:none}
 .prose h2{font:600 1.75rem/1.2 var(--sans);letter-spacing:-.025em;color:var(--text);margin:64px 0 16px;text-wrap:balance}
@@ -187,10 +184,6 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .callout{border:1px solid var(--line-2);border-radius:12px;padding:16px 18px;margin:26px 0;background:var(--bg-2)}
 .callout a{font-weight:600}
 .tbd{background:var(--amber-bg);color:var(--amber);border-radius:5px;padding:1px 7px;font-size:.88em}
-.postvid{margin:8px auto 48px;max-width:1008px}
-.postvid .frame{border-radius:14px;overflow:hidden;border:1px solid var(--line-2)}
-.postvid video{display:block;width:100%;aspect-ratio:1600/750}
-.postvid .cap{font-size:12.5px;color:var(--text-3);margin-top:12px;text-align:center}
 .draftbar{font:400 12.5px/1.6 var(--label);color:var(--amber);background:var(--amber-bg);border-radius:10px;padding:10px 14px;margin:0 0 36px;display:flex;flex-wrap:wrap;align-items:center;gap:6px 18px}
 .draftbar a{color:inherit;text-decoration:underline}
 .audit-btn{margin-left:auto;font:500 11.5px/1.2 var(--label);color:var(--teal-hi);background:var(--teal-ink);border:1px solid var(--teal);border-radius:6px;padding:5px 10px;cursor:pointer;transition:background .15s}
@@ -204,18 +197,17 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .audit-mark:hover .audit-pop,.audit-mark:focus .audit-pop,.audit-mark:focus-within .audit-pop{display:block}
 body.show-audits .audit-pop{display:block;position:static;width:auto;margin:8px 0 6px;pointer-events:auto;box-shadow:none}
 .brand img{width:40px;height:40px;display:block;object-fit:contain}</style>
-<style>html body{--r-bg:var(--bg);--r-fg:var(--text);--r-muted:var(--text-3);--r-faint:var(--text-3);--r-rule:var(--line-2);--r-panel:var(--panel);--r-think:#50545A;--r-think-soft:#35383D;--r-tool:#8A8F96;--r-tool-soft:#3A3D42;--r-robot:#147F85;--r-robot-soft:#0E5B5F;--r-idle:var(--panel-2);--r-bad:var(--amber);--r-link:var(--teal-hi);--r-note-bg:var(--panel);--r-note-fg:var(--text-body)}html[data-theme="light"] body{--r-think:#2B2D30;--r-think-soft:#C9CDD2;--r-tool:#8A8F96;--r-tool-soft:#E3E5E8;--r-robot-soft:#8CC6C4}.prose.post-content video,.prose.post-content img{max-width:100%;height:auto;border-radius:10px}</style><link rel="stylesheet" href="../../assets/story/story.css"><script defer src="../../assets/story/story.js"></script>
-<script src="../../assets/design/design-bar.js" data-labels=".post .meta,.draft,.fcols p,.posthead .meta,.prose h2 small,.prose h3 small,.cbtn,.prose th,.slot,.draftbar,.audit-btn,.audit-tag,.audit-pop strong,.loop li b,.three li,.copy,.pill b,.side .grp&gt;p,.toc p,.crumb,.pager small,.dochero .ora-meta,.gcard .more,.r3d-legend,.r3d-hint,.r3d-swap span,.r3d-tick,.r3d-st,.r3d-n,.gv,.gpager a span,.gfilter button span"></script>
+<style>html body{--r-bg:var(--bg);--r-fg:var(--text);--r-muted:var(--text-3);--r-faint:var(--text-3);--r-rule:var(--line-2);--r-panel:var(--panel);--r-think:#50545A;--r-think-soft:#35383D;--r-tool:#8A8F96;--r-tool-soft:#3A3D42;--r-robot:#147F85;--r-robot-soft:#0E5B5F;--r-idle:var(--panel-2);--r-bad:var(--amber);--r-link:var(--teal-hi);--r-note-bg:var(--panel);--r-note-fg:var(--text-body)}html[data-theme="light"] body{--r-think:#2B2D30;--r-think-soft:#C9CDD2;--r-tool:#8A8F96;--r-tool-soft:#E3E5E8;--r-robot-soft:#8CC6C4}.prose.post-content video,.prose.post-content img{max-width:100%;height:auto;border-radius:10px}</style><link rel="stylesheet" href="../../assets/post/post.css"><script defer src="../../assets/post/post.js"></script><link rel="stylesheet" href="../../assets/story/story.css"><script defer src="../../assets/story/story.js"></script>
+<script src="../../assets/design/design-bar.js" data-labels=".post .meta,.draft,.fcols p,.post-meta,.post-chip,.post-toc-now b,.post-toc-item b,.prose h2 small,.prose h3 small,.cbtn,.prose th,.slot,.draftbar,.audit-btn,.audit-tag,.audit-pop strong,.loop li b,.three li,.copy,.pill b,.side .grp&gt;p,.toc p,.crumb,.pager small,.dochero .ora-meta,.gcard .more,.r3d-legend,.r3d-hint,.r3d-swap span,.r3d-tick,.r3d-st,.r3d-n,.gv,.gpager a span,.gfilter button span"></script>
 </head>
 <body>
 <header class="nav root"><div class="wrap"><a class="brand" href="../../index.html"><img src="../../assets/brand/fastrua-mark-96.png" alt="" width="40" height="40"><span>FastRUA</span></a><span class="by" aria-hidden="true"></span><a class="lab" href="https://haoailab.com/" target="_blank" rel="noopener" aria-label="Hao AI Lab, UC San Diego" title="Hao AI Lab, UC San Diego"><span style="display:block;height:var(--lab-h,30px);aspect-ratio:471/96;background:var(--teal);-webkit-mask:url(../../assets/brand/hao-ai-lab-night.png) center/contain no-repeat;mask:url(../../assets/brand/hao-ai-lab-night.png) center/contain no-repeat"></span></a><div class="go"><a class="proj" href="../../ora/index.html"><svg class="pxw" width="40" height="14" viewBox="0 0 20 7" role="img" aria-label="ORA" shape-rendering="crispEdges"><path fill="currentColor" d="M1 0h4v1h-4zM7 0h5v1h-5zM15 0h4v1h-4zM0 1h2v1h-2zM4 1h2v1h-2zM7 1h2v1h-2zM11 1h2v1h-2zM14 1h2v1h-2zM18 1h2v1h-2zM0 2h2v1h-2zM4 2h2v1h-2zM7 2h2v1h-2zM11 2h2v1h-2zM14 2h2v1h-2zM18 2h2v1h-2zM0 3h2v1h-2zM4 3h2v1h-2zM7 3h5v1h-5zM14 3h6v1h-6zM0 4h2v1h-2zM4 4h2v1h-2zM7 4h2v1h-2zM10 4h2v1h-2zM14 4h2v1h-2zM18 4h2v1h-2zM0 5h2v1h-2zM4 5h2v1h-2zM7 5h2v1h-2zM11 5h2v1h-2zM14 5h2v1h-2zM18 5h2v1h-2zM1 6h4v1h-4zM7 6h2v1h-2zM11 6h2v1h-2zM14 6h2v1h-2zM18 6h2v1h-2z"/></svg></a><nav class="glob" aria-label="FastRUA"><a href="../../blog/index.html" aria-current="page">Blog</a><a class="ext" href="https://github.com/hao-ai-lab/ORA" target="_blank" rel="noopener">GitHub</a><button class="themebtn" type="button" data-theme-toggle aria-label="Switch to the bright theme"><svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></svg><svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg><span></span></button></nav></div></div></header>
 
 <main>
-  <section class="posthead read"><p class="meta"><span>Real-time RUA</span><span>·</span><span>November 2026</span><span class="draft">DRAFT</span></p>
-  <h1>Getting Robot-Use Agents to Run in Real Time</h1><p class="byline">FastRUA Team</p></section>
-  <div class="read">
-    <div class="draftbar"><span>Draft · not published</span><span>source: blogs/realtime-rua/index.md</span></div>
-    <article class="prose post-content"><style>
+  <header class="post-head stage" style="--post-fx:0.5;--post-fy:0.39"><img class="post-head-img" src="../../assets/post/teasers/realtime-rua.jpg" alt=""><div class="post-head-in"><p class="post-meta"><span>Real-time RUA</span><span>·</span><span>November 2026</span><span class="post-chip">DRAFT</span></p><h1>Getting Robot-Use Agents to Run in Real Time</h1><p class="post-by">FastRUA Team</p></div></header>
+  <div class="read post-body">
+    <div class="draftbar"><span>Draft · not published</span></div>
+    <article class="prose post-content" data-post><style>
 :root{--r-bg:#ffffff;--r-fg:#17191f;--r-muted:#5d6472;--r-faint:#8a909c;--r-rule:#e5e7ec;--r-panel:#f6f7f9;--r-think:#6c5bd4;--r-think-soft:#c9c1f2;--r-tool:#d8902a;--r-tool-soft:#f2d9ae;--r-robot:#1c9a86;--r-robot-soft:#bfe5dd;--r-idle:#eceef2;--r-bad:#d4553f;--r-link:#3c56c9;--r-note-bg:#fff7e6;--r-note-fg:#7a5410}
 body.dark{--r-bg:#1d1e20;--r-fg:#e7e9ee;--r-muted:#a3a9b5;--r-faint:#7c8290;--r-rule:#33363d;--r-panel:#25272b;--r-think:#9b8cf0;--r-think-soft:#4a4180;--r-tool:#e8a94a;--r-tool-soft:#6b5228;--r-robot:#3cc0aa;--r-robot-soft:#1f5a50;--r-idle:#2c2f36;--r-bad:#ec7a64;--r-link:#8ea3ff;--r-note-bg:#2e2615;--r-note-fg:#f0cf8a}
 .post-content figure.rua-wide,.post-content figure.rua-fig-plain{margin:28px 0 30px}

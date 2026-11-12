@@ -111,6 +111,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .post .body{padding:20px 22px 22px}
 .post .meta{display:flex;gap:10px;align-items:center;font:400 12.5px/1 var(--label);color:var(--text-3);margin:0 0 12px}
 .post h3{font:700 1.15rem/1.3 var(--sans);letter-spacing:-.01em;margin:0 0 10px;color:var(--text)}
+.post h3 .pxw{vertical-align:0}
 .post p{margin:0;color:var(--text-2);font-size:14.5px}
 .draft{font:500 11px/1 var(--label);letter-spacing:.06em;color:var(--amber);background:var(--amber-bg);padding:4px 7px;border-radius:999px}
 .sechead{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin:0 0 24px}
@@ -123,10 +124,6 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .foot a{color:var(--text-2)}
 .foot a:hover{color:var(--text)}
 /* article: blog posts and docs pages share these */
-.posthead{padding:72px 0 28px;text-align:center}
-.posthead .meta{font:400 13px/1 var(--label);color:var(--text-3);display:flex;gap:12px;justify-content:center;align-items:center;flex-wrap:wrap;margin:0}
-.posthead .byline{margin:18px 0 0;color:var(--text-3);font-size:14.5px}
-.posthead h1{font:600 clamp(2.2rem,5vw,3.6rem)/1.06 var(--sans);letter-spacing:-.035em;margin:20px auto 0;max-width:15em;text-wrap:balance}
 .prose{font-size:17px;line-height:1.75;color:var(--text-body);overflow-wrap:break-word}
 .prose h1{display:none}
 .prose h2{font:600 1.75rem/1.2 var(--sans);letter-spacing:-.025em;color:var(--text);margin:64px 0 16px;text-wrap:balance}
@@ -187,10 +184,6 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .callout{border:1px solid var(--line-2);border-radius:12px;padding:16px 18px;margin:26px 0;background:var(--bg-2)}
 .callout a{font-weight:600}
 .tbd{background:var(--amber-bg);color:var(--amber);border-radius:5px;padding:1px 7px;font-size:.88em}
-.postvid{margin:8px auto 48px;max-width:1008px}
-.postvid .frame{border-radius:14px;overflow:hidden;border:1px solid var(--line-2)}
-.postvid video{display:block;width:100%;aspect-ratio:1600/750}
-.postvid .cap{font-size:12.5px;color:var(--text-3);margin-top:12px;text-align:center}
 .draftbar{font:400 12.5px/1.6 var(--label);color:var(--amber);background:var(--amber-bg);border-radius:10px;padding:10px 14px;margin:0 0 36px;display:flex;flex-wrap:wrap;align-items:center;gap:6px 18px}
 .draftbar a{color:inherit;text-decoration:underline}
 .audit-btn{margin-left:auto;font:500 11.5px/1.2 var(--label);color:var(--teal-hi);background:var(--teal-ink);border:1px solid var(--teal);border-radius:6px;padding:5px 10px;cursor:pointer;transition:background .15s}
@@ -280,7 +273,7 @@ body.show-audits .audit-pop{display:block;position:static;width:auto;margin:8px 
   .pager{grid-template-columns:1fr}.pager .next{grid-column:1}
 }
 </style>
-<script src="../../../../assets/design/design-bar.js" data-labels=".post .meta,.draft,.fcols p,.posthead .meta,.prose h2 small,.prose h3 small,.cbtn,.prose th,.slot,.draftbar,.audit-btn,.audit-tag,.audit-pop strong,.loop li b,.three li,.copy,.pill b,.side .grp&gt;p,.toc p,.crumb,.pager small,.dochero .ora-meta,.gcard .more,.r3d-legend,.r3d-hint,.r3d-swap span,.r3d-tick,.r3d-st,.r3d-n,.gv,.gpager a span,.gfilter button span"></script>
+<script src="../../../../assets/design/design-bar.js" data-labels=".post .meta,.draft,.fcols p,.post-meta,.post-chip,.post-toc-now b,.post-toc-item b,.prose h2 small,.prose h3 small,.cbtn,.prose th,.slot,.draftbar,.audit-btn,.audit-tag,.audit-pop strong,.loop li b,.three li,.copy,.pill b,.side .grp&gt;p,.toc p,.crumb,.pager small,.dochero .ora-meta,.gcard .more,.r3d-legend,.r3d-hint,.r3d-swap span,.r3d-tick,.r3d-st,.r3d-n,.gv,.gpager a span,.gfilter button span"></script>
 </head>
 <body class="wide">
 <header class="nav in-proj"><div class="wrap"><a class="brand" href="../../../../index.html"><img src="../../../../assets/brand/fastrua-mark-96.png" alt="" width="40" height="40"><span>FastRUA</span></a><span class="by" aria-hidden="true"></span><a class="lab" href="https://haoailab.com/" target="_blank" rel="noopener" aria-label="Hao AI Lab, UC San Diego" title="Hao AI Lab, UC San Diego"><span style="display:block;height:var(--lab-h,30px);aspect-ratio:471/96;background:var(--teal);-webkit-mask:url(../../../../assets/brand/hao-ai-lab-night.png) center/contain no-repeat;mask:url(../../../../assets/brand/hao-ai-lab-night.png) center/contain no-repeat"></span></a><div class="go"><a class="proj" href="../../../index.html" aria-current="page"><svg class="pxw" width="40" height="14" viewBox="0 0 20 7" role="img" aria-label="ORA" shape-rendering="crispEdges"><path fill="currentColor" d="M1 0h4v1h-4zM7 0h5v1h-5zM15 0h4v1h-4zM0 1h2v1h-2zM4 1h2v1h-2zM7 1h2v1h-2zM11 1h2v1h-2zM14 1h2v1h-2zM18 1h2v1h-2zM0 2h2v1h-2zM4 2h2v1h-2zM7 2h2v1h-2zM11 2h2v1h-2zM14 2h2v1h-2zM18 2h2v1h-2zM0 3h2v1h-2zM4 3h2v1h-2zM7 3h5v1h-5zM14 3h6v1h-6zM0 4h2v1h-2zM4 4h2v1h-2zM7 4h2v1h-2zM10 4h2v1h-2zM14 4h2v1h-2zM18 4h2v1h-2zM0 5h2v1h-2zM4 5h2v1h-2zM7 5h2v1h-2zM11 5h2v1h-2zM14 5h2v1h-2zM18 5h2v1h-2zM1 6h4v1h-4zM7 6h2v1h-2zM11 6h2v1h-2zM14 6h2v1h-2zM18 6h2v1h-2z"/></svg></a><nav class="sub" aria-label="ORA"><a href="../../../index.html">Overview</a><a href="../../../gallery/index.html">Gallery</a><a href="../../../docs/index.html" aria-current="page">Docs</a><a class="ext" href="../../../paper/ora-two-page.pdf" target="_blank" rel="noopener">Paper</a></nav><nav class="glob" aria-label="FastRUA"><a href="../../../../blog/index.html">Blog</a><a class="ext" href="https://github.com/hao-ai-lab/ORA" target="_blank" rel="noopener">GitHub</a><button class="themebtn" type="button" data-theme-toggle aria-label="Switch to the bright theme"><svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></svg><svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg><span></span></button></nav></div></div></header>
@@ -389,6 +382,53 @@ the agent core above; see <a href="../../usage/interactive/index.html">interacti
 <p>ORA's web page for a live run (<code>ora web</code>) is built once with
 <code>./scripts/ora web setup</code> (<code>npm ci</code> and a build in <code>ora-pi/web/</code>); see
 <a href="../../usage/remote/index.html#web-view">web view</a>.</p>
+<h2 id="pick-your-machine">Pick your machine</h2>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Your machine</th>
+<th>What runs</th>
+<th>Start with</th>
+<th>Verified on</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Linux with one NVIDIA GPU, 32 GB or more (Turing to Blackwell)</td>
+<td>LIBERO / LIBERO-Pro, RoboTwin and RoboDojo, full tool set</td>
+<td><code>ora setup --env &lt;env&gt;</code>, then <code>ora run --env &lt;env&gt; --task &lt;task&gt; --confirm-launch</code> (<a href="../single-gpu/index.html">one GPU</a>)</td>
+<td>RTX PRO 6000 Blackwell (all three, end to end); H200 (through launch checks)</td>
+</tr>
+<tr>
+<td>Multi-GPU cluster</td>
+<td>Official suites at benchmark scale, many runs in parallel</td>
+<td><a href="../official-suite/index.html">Benchmark setup and official suites</a></td>
+<td>8× H200 nodes</td>
+</tr>
+<tr>
+<td>Any computer, no GPU</td>
+<td>Synthetic, and LIBERO on the CPU</td>
+<td><code>ora run --env synthetic</code>, or <code>ora setup</code> then <code>ora local --confirm-launch</code> (<a href="../local/index.html">on your computer</a>)</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="install-with-an-ai-coding-agent">Install with an AI coding agent</h2>
+<p>If you use Claude Code, Codex, Cursor or another coding agent, give it this prompt:</p>
+<pre class="hl" data-lang="text"><code>Install ORA (https://github.com/hao-ai-lab/ORA) and run one robot task.
+
+1. Read docs/getting-started/installation.md and the guide for the
+   environment you will run (docs/getting-started/robotwin.md here).
+2. Detect the machine: run `uname -m`, `nvidia-smi` and `nvcc --version`.
+   With an NVIDIA GPU of 32 GB or more, follow docs/getting-started/single-gpu.md;
+   otherwise follow docs/getting-started/local.md.
+3. Follow the guide exactly. On a GPU: `./scripts/ora setup --env robotwin`, then
+   `./scripts/ora run --env robotwin --task click_bell --confirm-launch`.
+   I will provide DEEPSEEK_LOW_API_KEY in the shell; never print, store or commit it.
+4. If a step fails, find the matching row in the guide&#39;s troubleshooting table,
+   fix it, and tell me what you changed.
+5. Report the run ID and its official_success.
+</code></pre>
 <h2 id="next-step">Next step</h2>
 <p><a href="../../quickstart/index.html">Run the first episode</a>, then run robot tasks
 <a href="../single-gpu/index.html">on one GPU</a> or choose a <a href="../../environments/index.html">robot environment</a>.
@@ -404,7 +444,7 @@ uv<span class="w"> </span>run<span class="w"> </span>--locked<span class="w"> </
 <a href="../../developer/contributing/index.html">contributing</a>. Preview these docs with
 <code>./scripts/docs serve</code> (Node.js 22.19 or later); documentation dependencies are
 isolated from the runtime.</p>
-</article><nav class="pager" aria-label="Previous and next"><a class="prev" href="../../how-ora-works/index.html"><small>← Previous</small>How ORA works</a><a class="next" href="../../quickstart/index.html"><small>Next →</small>First episode</a></nav><p class="srcline">Source: <a href="https://github.com/hao-ai-lab/ORA/blob/main/docs/getting-started/installation.md">docs/getting-started/installation.md</a></p></main><aside class="toc" aria-label="On this page"><p>On this page</p><a class="h2" href="#one-line-install">One-line install</a><a class="h2" href="#by-hand">By hand</a><a class="h2" href="#nodejs-and-the-agent-core">Node.js and the agent core</a><a class="h2" href="#requirements-by-step">Requirements by step</a><a class="h2" href="#terminal-ui-optional">Terminal UI (optional)</a><a class="h2" href="#next-step">Next step</a><a class="h2" href="#developer-installation">Developer installation</a></aside></div><script>
+</article><nav class="pager" aria-label="Previous and next"><a class="prev" href="../../how-ora-works/index.html"><small>← Previous</small>How ORA works</a><a class="next" href="../../quickstart/index.html"><small>Next →</small>First episode</a></nav><p class="srcline">Source: <a href="https://github.com/hao-ai-lab/ORA/blob/main/docs/getting-started/installation.md">docs/getting-started/installation.md</a></p></main><aside class="toc" aria-label="On this page"><p>On this page</p><a class="h2" href="#one-line-install">One-line install</a><a class="h2" href="#by-hand">By hand</a><a class="h2" href="#nodejs-and-the-agent-core">Node.js and the agent core</a><a class="h2" href="#requirements-by-step">Requirements by step</a><a class="h2" href="#terminal-ui-optional">Terminal UI (optional)</a><a class="h2" href="#pick-your-machine">Pick your machine</a><a class="h2" href="#install-with-an-ai-coding-agent">Install with an AI coding agent</a><a class="h2" href="#next-step">Next step</a><a class="h2" href="#developer-installation">Developer installation</a></aside></div><script>
 (function(){
   var d=document.querySelector('.docs'), b=document.querySelector('.menu');
   if(b)b.addEventListener('click',function(){var o=d.classList.toggle('open');b.setAttribute('aria-expanded',o?'true':'false')});

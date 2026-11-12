@@ -1,0 +1,118 @@
+/* The blog-post template (site/DESIGN.md): the header band over the post's teaser image, and the contents in three
+   forms: a numbered label over each section heading, a rail of ticks at the left edge of a wide window, and a button
+   at the bottom right that names the current section and opens the list. post.js builds the contents from the h2
+   headings of the element marked data-post.
+   The component has its own variables. Their defaults are the site's tokens (build.py); a page with other variables
+   (the October post's own page) sets the --post-* ones. */
+:root{
+  --post-ground:var(--bg,#0E0F10); --post-panel:var(--panel,#17181B); --post-rule:var(--line-2,#2A2D31);
+  --post-ink:var(--text,#F2F3F5); --post-ink-2:var(--text-2,#B4B8BE); --post-ink-3:var(--text-3,#7F858D);
+  --post-accent:var(--teal,#17888C); --post-accent-text:var(--teal-hi,#48B0B4); --post-warn:var(--amber,#E8596B); --post-warn-ground:var(--amber-bg,#2A0A0E);
+  --post-sans:var(--sans,"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif);
+  --post-display:var(--display,"Inter Tight","Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif);
+  --post-label:var(--label,var(--mono,"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace));
+  --post-col:var(--read,700px);                            /* the article column, its side padding included */
+  --post-gut:24px;                                         /* that side padding */
+  --post-top:calc(65px + env(safe-area-inset-top,0px));    /* the sticky top bar */
+}
+
+/* header: a stage (dark in both themes). The teaser image under one flat scrim; on it, at the bottom and over the
+   article's column (the title is no wider than the text below it), the meta line, the title and the byline. */
+.post-head{
+  --post-ground:var(--bg,#0E0F10); --post-rule:var(--line-2,#2A2D31);
+  --post-ink:var(--text,#F2F3F5); --post-ink-2:var(--text-2,#B4B8BE);
+  --post-warn:var(--amber,#E8596B); --post-warn-ground:var(--amber-bg,#2A0A0E);
+  position:relative;height:clamp(300px,44vh,460px);overflow:hidden;margin:0;padding:0;
+  border:0;border-bottom:1px solid var(--post-rule);border-radius:0;background:var(--post-ground);color:var(--post-ink);
+}
+/* the picture fills the band, cropped around its focus (--post-fx, --post-fy: 0 to 1, set on the header). --post-fz
+   (0 to 1, default 1) is the largest share of the picture's height the band may show: below 1 the picture is drawn
+   larger, so a narrow window, where the band is nearly square, shows its subject instead of the whole frame. */
+.post-head-img{position:absolute;left:0;width:100%;height:calc(100% / var(--post-fz,1));
+  top:calc(var(--post-fy,.5) * (100% - 100% / var(--post-fz,1)));object-fit:cover;
+  object-position:calc(var(--post-fx,.5) * 100%) calc(var(--post-fy,.5) * 100%);display:block;margin:0;border:0;border-radius:0;max-width:none}
+.post-head::after{content:"";position:absolute;inset:0;background:var(--post-ground);opacity:.7}
+.post-head-in{
+  position:absolute;z-index:1;left:0;right:0;bottom:0;box-sizing:border-box;
+  padding:0 max(var(--post-gut),env(safe-area-inset-right,0px)) clamp(24px,5vh,40px)
+          max(var(--post-gut),env(safe-area-inset-left,0px),calc(50% - var(--post-col)/2 + var(--post-gut)));
+}
+.post-meta{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;margin:0;font:400 13px/1 var(--post-label);letter-spacing:0;color:var(--post-ink-2)}
+.post-chip{font:500 11px/1 var(--post-label);letter-spacing:.06em;color:var(--post-warn);background:var(--post-warn-ground);padding:4px 7px;border-radius:999px}
+/* two sizes, 48 and 38.4 px: at both the capitals are a whole number of pixels per cell of the pixel wordmark (5, 4) */
+.post-head h1{margin:16px 0 0;max-width:calc(var(--post-col) - 2*var(--post-gut));font:700 3rem/1.06 var(--post-display);letter-spacing:-.03em;color:var(--post-ink);text-wrap:balance}
+.post-head h1 .pxw{display:inline-block;height:.7292em;width:auto;vertical-align:baseline;margin-right:.02em}
+.post-by{margin:16px 0 0;font:400 14.5px/1.5 var(--post-sans);letter-spacing:0;color:var(--post-ink-2)}
+.post-body{padding-top:40px}
+@media (max-width:600px){.post-head h1{margin-top:14px;font-size:2.4rem}.post-by{margin-top:12px}.post-body{padding-top:28px}}
+
+/* a video in the body, wider than the text column on a wide window */
+figure.post-video{margin:34px calc(50% - min(504px,50vw - var(--post-gut)))}
+.post-video .frame{border-radius:12px;overflow:hidden}
+.post-video video{display:block;width:100%;height:auto}
+
+/* contents 1: the number over each section heading (post.js sets data-post-k="03 / 08") */
+h2[data-post-k]::before{
+  content:attr(data-post-k);content:attr(data-post-k) / "";
+  display:block;margin:0 0 12px;font:500 11.5px/1 var(--post-label);letter-spacing:0;text-transform:none;
+  font-variant-numeric:tabular-nums;color:var(--post-ink-3);
+}
+
+/* contents 2: the rail, on a wide window, while the article is on screen */
+.post-rail{display:none}
+@media (min-width:1380px) and (min-height:560px){
+  .post-rail{
+    position:fixed;z-index:15;left:max(8px,env(safe-area-inset-left,0px));top:calc(50% + var(--post-top)/2);transform:translateY(-50%);
+    display:grid;gap:2px;margin:0;padding:8px 0 8px 6px;border:1px solid transparent;border-radius:10px;
+    opacity:0;visibility:hidden;transition:opacity .2s,visibility .2s;
+  }
+  .post-rail.is-on{opacity:1;visibility:visible}
+  .post-rail:hover,.post-rail:focus-within{padding-right:12px;background:var(--post-ground);border-color:var(--post-rule)}
+  .post-tick{display:flex;align-items:center;gap:10px;height:18px;margin:0;padding:0;border:0;background:none;
+    font:400 12px/1 var(--post-sans);letter-spacing:0;color:var(--post-ink-3);text-decoration:none;cursor:pointer}
+  .post-tick:hover{text-decoration:none;color:var(--post-ink)}
+  .post-tick::before{content:"";flex:none;width:10px;height:1.5px;background:currentColor;opacity:.55;transition:width .2s,opacity .2s}
+  .post-tick span{white-space:nowrap;max-width:0;overflow:hidden;opacity:0;transition:opacity .2s}
+  .post-tick.is-now{color:var(--post-ink)}
+  .post-tick.is-now::before{width:22px;opacity:1;background:var(--post-accent)}
+  .post-rail:hover .post-tick span,.post-rail:focus-within .post-tick span{max-width:26em;opacity:1}
+}
+
+/* contents 3: the button, everywhere. --post-lift is set by post.js when something else holds the bottom edge. */
+.post-toc{
+  position:fixed;z-index:18;right:max(14px,env(safe-area-inset-right,0px));
+  bottom:max(calc(14px + env(safe-area-inset-bottom,0px)),var(--post-lift,0px));
+  display:flex;flex-direction:column-reverse;align-items:flex-end;gap:8px;font-family:var(--post-sans);letter-spacing:0;
+}
+.post-toc.is-away{display:none}
+.post-toc-btn{
+  display:inline-flex;align-items:center;gap:9px;max-width:min(78vw,320px);height:32px;margin:0;padding:0 13px 0 11px;
+  border:1px solid var(--post-rule);border-radius:999px;background:var(--post-panel);color:var(--post-ink-2);
+  font:500 12.5px/1 var(--post-sans);letter-spacing:0;cursor:pointer;-webkit-appearance:none;appearance:none;
+}
+.post-toc-btn:hover,.post-toc-btn[aria-expanded="true"]{color:var(--post-ink);border-color:var(--post-ink-3)}
+.post-toc-ic{display:grid;gap:3px;flex:none}
+.post-toc-ic i{display:block;width:12px;height:1.5px;background:currentColor;border-radius:1px}
+.post-toc-ic i:nth-child(2){width:8px}
+.post-toc-now{display:flex;gap:8px;align-items:baseline;min-width:0}
+.post-toc-now b{flex:none;font:500 11px/1 var(--post-label);color:var(--post-ink-3);font-variant-numeric:tabular-nums}
+.post-toc-now span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.3}
+.post-toc.is-compact .post-toc-btn{padding:0 11px}
+.post-toc.is-compact:not(.is-open) .post-toc-now{display:none}
+.post-toc-panel{
+  display:grid;min-width:250px;max-width:min(86vw,360px);max-height:min(70vh,calc(100vh - var(--post-top) - 76px));overflow:auto;
+  margin:0;padding:6px;border:1px solid var(--post-rule);border-radius:12px;background:var(--post-panel);
+  box-shadow:0 10px 28px rgba(0,0,0,.28);
+}
+.post-toc-panel[hidden]{display:none}
+.post-toc-item{display:flex;gap:11px;align-items:baseline;margin:0;padding:7px 10px;border-radius:7px;
+  font:400 13.5px/1.35 var(--post-sans);letter-spacing:0;color:var(--post-ink-2);text-decoration:none}
+.post-toc-item b{flex:none;font:500 11px/1 var(--post-label);color:var(--post-ink-3);font-variant-numeric:tabular-nums}
+.post-toc-item:hover{text-decoration:none;color:var(--post-ink);background:var(--post-ground)}
+.post-toc-item.is-now{color:var(--post-ink)}
+.post-toc-item.is-now b{color:var(--post-accent-text)}
+.post-rail :focus-visible,.post-toc :focus-visible{outline:2px solid var(--post-accent);outline-offset:2px;border-radius:6px}
+.post-toc-btn:focus-visible{border-radius:999px}
+
+@media (prefers-reduced-motion:reduce){.post-rail,.post-tick::before,.post-tick span{transition:none}}
+@media print{.post-rail,.post-toc{display:none}.post-head{height:auto}.post-head-img,.post-head::after{display:none}.post-head-in{position:static;padding:24px var(--post-gut)}}
