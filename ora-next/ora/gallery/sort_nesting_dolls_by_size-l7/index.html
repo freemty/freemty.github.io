@@ -231,15 +231,6 @@ body.show-audits .audit-pop{display:block;position:static;width:auto;margin:8px 
 .gpager a{display:grid;gap:2px;color:var(--text)}
 .gpager a span{font:400 12px/1 var(--label,var(--mono));color:var(--text-3)}
 .gpager a:last-child{text-align:right;margin-left:auto}
-/* a run's own page, wide: the 4:3 view and the timeline on the left, the motions beside them at the same height */
-@media (min-width:980px){
-  .grun .r3d-panel{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);grid-template-rows:auto auto 1fr;grid-template-areas:"head head" "view detail" "bar detail"}
-  .grun .r3d-head{grid-area:head}
-  .grun .r3d-view{grid-area:view}
-  .grun .r3d-bar{grid-area:bar;border-bottom:0}
-  .grun .r3d-detail{grid-area:detail;border-left:1px solid var(--line)}
-  .grun .r3d-scroll{position:absolute;inset:0;max-height:none}
-}
 </style><link rel="stylesheet" href="../../static/gallery/run3d.css"><script type="module" src="../../static/gallery/run3d.js"></script>
 <script src="../../../assets/design/design-bar.js" data-labels=".post .meta,.draft,.fcols p,.posthead .meta,.prose h2 small,.prose h3 small,.cbtn,.prose th,.slot,.draftbar,.audit-btn,.audit-tag,.audit-pop strong,.loop li b,.three li,.copy,.pill b,.side .grp&gt;p,.toc p,.crumb,.pager small,.dochero .ora-meta,.gcard .more,.r3d-legend,.r3d-hint,.r3d-swap span,.r3d-tick,.r3d-st,.r3d-n,.gv,.gpager a span,.gfilter button span"></script>
 </head>
@@ -250,7 +241,7 @@ body.show-audits .audit-pop{display:block;position:static;width:auto;margin:8px 
   <p class="crumb"><a href="../index.html">Gallery</a> · RoboDojo</p>
   <h1>sort nesting dolls by size, layout 7</h1>
   <p class="lede">Task: “Arrange the five nesting dolls in a row from left to right, from smallest to largest.” DeepSeek-V4.1-Flash, code mode: 11 decisions, 44 motions, solved.</p>
-  <figure class="r3d" data-runs="ora-glue-code-robodojo-3f2b658ca260--20261106T005907Z" data-root="../../static/gallery/runs/"><div class="r3d-fallback">sort_nesting_dolls_by_size layout 7: Code mode · 11 decisions, solved</div></figure>
+  <figure class="r3d r3d-side" data-runs="ora-glue-code-robodojo-3f2b658ca260--20261106T005907Z" data-root="../../static/gallery/runs/"><div class="r3d-fallback">sort_nesting_dolls_by_size layout 7: Code mode · 11 decisions, solved</div></figure>
   <nav class="gpager" aria-label="Runs"><a href="../solve_equation-l5/index.html"><span>Previous run</span>solve equation</a><a href="../stack_blocks-l9/index.html"><span>Next run</span>stack blocks</a></nav>
 </main>
 

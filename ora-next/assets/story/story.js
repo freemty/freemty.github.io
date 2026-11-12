@@ -29,7 +29,8 @@
    What the script does once story.css is loaded:
    - The step nearest the reading line is active: data-active="<step>" on the section, .is-active on the step, and
      the step's other data-* attributes copied onto the stage (so CSS can react: .story-stage[data-focus~="x"]).
-     data-note, if a step has one, is shown as one line in the stage.
+     data-note, if a step has one, is shown as one line in the stage (a story in which no step has one keeps no
+     room for it: data-notes="0" on the section).
    - A "story:step" event on the section (it bubbles) with detail {step, index, count, data, element, stage}.
      A script that starts later reads section.dataset.active, or section.story.active.
    - .story-frame elements are moved into the stage and shown during their step (or the steps named in
@@ -136,6 +137,7 @@
     var capHolder = caps.length ? make('figure', 'story-caption') : null;
     var note = make('p', 'story-note');
     stage.appendChild(note);
+    if (!steps.some(function (s) { return s.hasAttribute('data-note'); })) root.setAttribute('data-notes', '0');
     var frameBox = make('div', 'story-frames');
     stage.appendChild(frameBox);
     var frames = [].slice.call(root.querySelectorAll('.story-frame')).map(function (f) {

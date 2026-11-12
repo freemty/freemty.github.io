@@ -8,12 +8,14 @@
 :where(.r3d){--bg:#0E0F10;--bg-2:#131416;--panel:#17181B;--panel-2:#1D1F22;--line:#1F2124;--line-2:#2A2D31;--text:#F2F3F5;--text-2:#B4B8BE;--text-3:#7F858D;--teal:#1F9EA0;--teal-hi:#48B0B4;--amber:#E8596B}
 .r3d{--r3d-l:var(--text);--r3d-r:var(--teal-hi);--r3d-no:var(--amber);--r3d-pip:220px;--r3d-lab:var(--label,var(--mono,monospace));
   margin:32px 0;padding:8px;border-radius:18px;background:var(--bg);color:var(--text);color-scheme:dark;font:400 14px/1.5 var(--sans,system-ui);letter-spacing:0}
-.r3d-compare{--r3d-pip:150px}
+.r3d-compare,.r3d-deck{--r3d-pip:150px}
 .r3d figcaption{font-size:13.5px;line-height:1.5;color:var(--text-3);margin:0;padding:10px 8px 4px}
 .r3d-fallback{border:1px solid var(--line-2);border-radius:12px;padding:14px 16px;color:var(--text-2);font-size:14px;background:var(--panel)}
 .r3d.r3d-on .r3d-fallback{display:none}
 .r3d-failed .r3d-fallback{display:block}
-.r3d-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:8px}
+.r3d[hidden],.r3d .r3d-panel[hidden]{display:none!important}
+.r3d:empty{padding:0;margin:0;min-height:1px;background:none}      /* written by a page, not mounted yet: no box of its own */
+.r3d-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;container:r3dgrid/inline-size}
 .r3d-compare .r3d-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 @media (max-width:900px){.r3d-compare .r3d-grid{grid-template-columns:minmax(0,1fr)}}
 .r3d-panel{position:relative;border:1px solid var(--line-2,#222);border-radius:11px;background:var(--panel,#111);overflow:hidden;min-width:0}
@@ -26,6 +28,35 @@
 .r3d-verdict{font:400 14px/1.35 var(--sans,system-ui);color:var(--text-2,#b0b0b0)}
 .r3d-verdict.ok{font-weight:600;color:var(--text,#f0f0f0)}
 .r3d-meta{flex-basis:100%;font-size:12.5px;color:var(--text-3,#777)}
+.r3d-selname{display:none;font-size:12.5px;color:var(--text-3,#777)}
+
+/* several runs, one shown: the cases as tabs, the two modes of a case as a switch */
+.r3d-deckbar{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;justify-content:space-between;margin:0 0 8px}
+.r3d-tabs{display:flex;flex-wrap:wrap;gap:4px}
+.r3d-tabs button{height:28px;padding:0 10px;border:1px solid transparent;border-radius:8px;background:none;color:var(--text-3,#777);font:500 12.5px/1 var(--sans,system-ui);cursor:pointer}
+.r3d-tabs button:hover{color:var(--text,#f0f0f0)}
+.r3d-tabs button[aria-pressed="true"]{color:var(--text,#f0f0f0);border-color:#3a3a3a;background:var(--panel,#111)}
+.r3d-deckbar .r3d-seg{background:var(--panel,#111)}
+.r3d-deck .r3d-strip{max-height:68px}                      /* two rows of ticks; a longer run scrolls inside the strip */
+
+/* wide enough: the view and the timeline on the left, the motions beside them at the same height. A deck does it
+   from a narrower box (it stands in a story's stage) and keeps the timeline under both: its runs have up to 80 ticks */
+@container r3dgrid (min-width:860px){
+  .r3d-side:not(.r3d-compare) .r3d-panel{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);grid-template-rows:auto auto 1fr;grid-template-areas:"head head" "view detail" "bar detail"}
+  .r3d-side:not(.r3d-compare) .r3d-head{grid-area:head}
+  .r3d-side:not(.r3d-compare) .r3d-view{grid-area:view}
+  .r3d-side:not(.r3d-compare) .r3d-bar{grid-area:bar;border-bottom:0}
+  .r3d-side:not(.r3d-compare) .r3d-detail{grid-area:detail;border-left:1px solid var(--line,#1a1a1a)}
+  .r3d-side:not(.r3d-compare) .r3d-scroll{position:absolute;inset:0;max-height:none}
+}
+@container r3dgrid (min-width:600px){
+  .r3d-deck .r3d-panel{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);grid-template-rows:auto auto auto;grid-template-areas:"head head" "view detail" "bar bar"}
+  .r3d-deck .r3d-head{grid-area:head}
+  .r3d-deck .r3d-view{grid-area:view}
+  .r3d-deck .r3d-bar{grid-area:bar;border-bottom:0}
+  .r3d-deck .r3d-detail{grid-area:detail;border-left:1px solid var(--line,#1a1a1a)}
+  .r3d-deck .r3d-scroll{position:absolute;inset:0;max-height:none}
+}
 
 /* the stage: 4:3 like the head camera; the large view and the inset swap places */
 .r3d-view{position:relative;aspect-ratio:4/3;background:#0a0a0a;overflow:hidden;container-type:inline-size;touch-action:pan-y;cursor:grab;user-select:none;-webkit-user-select:none}
@@ -53,6 +84,10 @@
 .r3d-legend .l{background:var(--r3d-l)}.r3d-legend .r{background:var(--r3d-r)}
 .r3d-legend .g,.r3d-legend .u{width:8px;height:8px;border-radius:50%;box-sizing:border-box}
 .r3d-legend .u{background:none;border:1.5px solid #9a9a9a}
+.r3d-legend span.q{display:none}
+.r3d-view.has-probes .r3d-legend span.q{display:inline-flex}
+.r3d-legend .q i{width:auto;height:auto;background:none;font:700 12px/8px var(--r3d-lab);font-style:normal;color:#fff}
+.r3d-legend .q i::before{content:"+"}
 .r3d-vc{position:absolute;right:10px;bottom:10px;z-index:3;display:flex;gap:6px}
 .r3d-seg{display:flex;border:1px solid #3a3a3a;border-radius:8px;overflow:hidden;background:rgba(17,17,17,.92)}
 .r3d-seg button{height:28px;min-width:30px;padding:0 9px;border:0;background:none;color:var(--text-2,#b0b0b0);font:500 12px/1 var(--sans,system-ui);cursor:pointer}
@@ -66,7 +101,7 @@
 .r3d-view.swapped .r3d-hint,.r3d-view.swapped .r3d-vc{display:none}
 .r3d-view.inset-left .is-pip,.r3d-view.inset-left .r3d-swap{right:auto;left:10px}
 .r3d-view.inset-left .r3d-legend{left:auto;right:10px}
-@container (max-width:470px){.r3d .r3d-hint{bottom:52px}.r3d-legend{font-size:10.5px;gap:4px 9px;padding:5px 6px}.r3d-legend span:nth-child(n+3){display:none}}
+@container (max-width:520px){.r3d .r3d-hint{bottom:52px}.r3d-legend{font-size:10.5px;gap:4px 9px;padding:5px 6px}.r3d-legend span:nth-child(n+3){display:none}}
 @media (max-width:600px){.r3d{--r3d-pip:112px}}
 @media (hover:none),(pointer:coarse){.r3d-seg button{height:34px;min-width:36px}}
 
@@ -83,6 +118,7 @@
 .r3d-strip.num .r3d-tick span{display:inline}
 .r3d-tick.all{flex:0 0 auto;max-width:none;padding:0 10px;margin-right:6px;color:var(--text-2,#b0b0b0)}
 .r3d-tick.past{background:#4c4c4c;color:#d0d0d0}
+.r3d-tick.in{background:#b4b4b4;color:#0a0a0a}
 .r3d-tick:hover{background:#5c5c5c;color:var(--text,#f0f0f0)}
 .r3d-tick[aria-current="true"]{background:#f0f0f0;color:#0a0a0a}
 .r3d-tick.flag::after{content:"";position:absolute;left:50%;top:-7px;width:5px;height:5px;margin-left:-2.5px;box-sizing:border-box;border:1px solid var(--text-2,#b0b0b0);border-radius:50%}
@@ -102,6 +138,17 @@
 .r3d-dh{display:flex;flex-wrap:wrap;gap:3px 10px;align-items:baseline;margin:0 4px 10px}
 .r3d-dh b{color:var(--text,#f0f0f0);font-weight:600}
 .r3d-dh span{font-size:12.5px;color:var(--text-3,#777)}
+.r3d-dh span.r3d-dwhat{color:var(--text-2,#b0b0b0)}
+/* a line of the records set under the header: where it stands, the line, the text looked for marked */
+.r3d .r3d-quote{margin:0 0 10px;border:1px solid #3a3a3a;border-radius:9px;background:#0d0d0d;overflow:hidden}
+.r3d .r3d-quote figcaption{margin:0;padding:6px 10px;font:500 11.5px/1.35 var(--sans,system-ui);color:var(--text-3,#777);border-bottom:1px solid var(--line,#1a1a1a)}
+.r3d .r3d-scroll .r3d-quote pre{margin:0;padding:8px 10px 9px;border:0;border-radius:0;background:none;font:400 12px/1.5 var(--mono,monospace);color:var(--text-2,#b0b0b0);white-space:pre-wrap;overflow-wrap:anywhere;max-height:8.4em;overflow:auto}
+.r3d .r3d-tally{margin:0 4px 8px;font-size:12.5px;line-height:1.5;color:var(--text-2,#b0b0b0)}
+.r3d .r3d-tally b{font-weight:600;color:var(--text,#f0f0f0)}
+.r3d mark{background:none;color:var(--text,#f0f0f0);font-weight:600;box-shadow:inset 0 -2px 0 var(--teal-hi,#48b0b4)}
+.r3d .r3d-hand{margin:0 4px 10px;font-size:12.5px;line-height:1.5;color:var(--text-2,#b0b0b0)}
+.r3d .r3d-hand span{display:block;font:600 12.5px/1.3 var(--sans,system-ui);margin:0 0 3px}
+.r3d .r3d-hand code{overflow-wrap:anywhere}
 .r3d .r3d-scroll code{font:400 12.5px var(--mono,monospace);color:var(--text,#f0f0f0);background:none;border:0;padding:0;border-radius:0}
 .r3d-scroll .dim{color:var(--text-3,#777)}
 .r3d .r3d-scroll>p{margin:0 4px 8px}
@@ -132,9 +179,28 @@ button.r3d-row[aria-pressed="true"]{background:var(--panel-2,#161616);border-col
 .r3d-scroll summary::before{content:"▸";display:inline-block;width:14px;color:var(--text-3,#777)}
 .r3d-scroll details[open]>summary::before{content:"▾"}
 .r3d .r3d-scroll pre{margin:0;padding:8px 10px 10px;border:0;border-top:1px solid var(--line,#1a1a1a);border-radius:0;background:none;tab-size:4;font:400 12px/1.5 var(--mono,monospace);color:var(--text-2,#b0b0b0);white-space:pre;overflow-x:auto;max-height:420px}
-.r3d-before div{display:flex;flex-wrap:wrap;gap:4px 6px;padding:6px 10px 9px;border-top:1px solid var(--line,#1a1a1a)}
-.r3d-before span{font:400 11.5px/1.6 var(--r3d-lab);color:var(--text-3,#777);border:1px solid var(--line-2,#222);border-radius:5px;padding:0 6px}
+.r3d-chips{display:flex;flex-wrap:wrap;gap:4px 6px;padding:6px 10px 9px;border-top:1px solid var(--line,#1a1a1a)}
+.r3d-chips span{font:400 11.5px/1.6 var(--r3d-lab);color:var(--text-3,#777);border:1px solid var(--line-2,#222);border-radius:5px;padding:0 6px}
+/* the calls that moved nothing, with what the records keep of each */
+.r3d .r3d-calls{margin:0;padding:0;list-style:none;border-top:1px solid var(--line,#1a1a1a)}
+.r3d .r3d-calls li{margin:0;padding:7px 10px 8px;border-bottom:1px solid var(--line,#1a1a1a)}
+.r3d .r3d-calls li:last-child{border-bottom:0}
+.r3d .r3d-calls li>div{display:flex;flex-wrap:wrap;gap:3px 8px;align-items:center;font-size:12px}
+.r3d .r3d-calls .r3d-scroll pre,.r3d .r3d-calls pre{margin:4px 0 0;padding:0 0 0 62px;border:0;position:relative;font:400 11.5px/1.45 var(--mono,monospace);color:var(--text-3,#777);white-space:pre-wrap;overflow-wrap:anywhere;max-height:9em;overflow:auto}
+.r3d .r3d-calls pre[data-k]::before{content:attr(data-k);position:absolute;left:0;top:0;width:56px;font:400 10.5px/1.6 var(--sans,system-ui);color:var(--text-3,#777)}
+.r3d .r3d-calls details{margin:5px 0 0}
+.r3d .r3d-calls details pre{padding:8px 10px 10px;white-space:pre;max-height:320px}
 
+/* inside a scroll story (site/static/story/): beside the text the viewer fills the stage's column; pinned to the top
+   of a narrow window it is only its header (with what is selected) and the picture */
+:is(.read,.story) .story-stage>.r3d.r3d{margin:0;width:auto}
+.story[data-layout="top"] .story-stage>.r3d{padding:4px;border-radius:12px}
+.story[data-layout="top"] .story-stage>.r3d :is(.r3d-deckbar,.r3d-meta,.r3d-bar,.r3d-detail,.r3d-vc,.r3d-hint,.r3d-legend,.r3d-v.is-pip,.r3d-swap){display:none}
+.story[data-layout="top"] .story-stage>.r3d .r3d-selname{display:block;flex-basis:100%;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.story[data-layout="top"] .story-stage>.r3d .r3d-head{padding:7px 10px 6px;border-bottom:0}
+.story[data-layout="top"] .story-stage>.r3d .r3d-view{aspect-ratio:16/9;max-height:30vh}
+.r3d.r3d-away{visibility:hidden}
+.story.is-on[data-layout="top"]>.story-stage.r3d-stage-away{position:relative;top:auto;box-shadow:none;border-bottom-color:transparent}
 /* in a reading column, a figure takes more of the page */
 .read .r3d{width:min(1100px,calc(100vw - 48px));margin-left:calc(50% - min(550px,50vw - 24px))}
 .read .r3d:not(.r3d-compare){width:min(860px,calc(100vw - 48px));margin-left:calc(50% - min(430px,50vw - 24px))}

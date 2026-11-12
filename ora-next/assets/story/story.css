@@ -65,6 +65,7 @@
   box-shadow:0 0 0 100vmax var(--story-ground);clip-path:inset(0 -100vmax)}
 .story.is-on[data-layout="top"] .story-progress{margin-bottom:6px}
 .story.is-on[data-layout="top"] .story-note{min-height:2.9em;margin-top:8px;font-size:13.5px}
+.story.is-on[data-notes="0"] .story-note{display:none}
 .story.is-on[data-layout="top"]>.story-caption{margin:10px 0 0}
 .story.is-on[data-layout="top"]>.story-steps{margin-top:22px}
 .story.is-on[data-layout="top"] .story-step{padding:0 0 12vh 14px}

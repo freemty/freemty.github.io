@@ -199,7 +199,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .audit-mark:hover .audit-pop,.audit-mark:focus .audit-pop,.audit-mark:focus-within .audit-pop{display:block}
 body.show-audits .audit-pop{display:block;position:static;width:auto;margin:8px 0 6px;pointer-events:auto;box-shadow:none}
 .brand img{width:40px;height:40px;display:block;object-fit:contain}</style>
-<link rel="stylesheet" href="figures.css">
+<link rel="stylesheet" href="figures.css"><link rel="stylesheet" href="../../ora/static/gallery/run3d.css"><script type="module" src="../../ora/static/gallery/run3d.js"></script><link rel="stylesheet" href="../../assets/story/story.css"><script defer src="../../assets/story/story.js"></script>
 <script src="../../assets/design/design-bar.js" data-labels=".post .meta,.draft,.fcols p,.posthead .meta,.prose h2 small,.prose h3 small,.cbtn,.prose th,.slot,.draftbar,.audit-btn,.audit-tag,.audit-pop strong,.loop li b,.three li,.copy,.pill b,.side .grp&gt;p,.toc p,.crumb,.pager small,.dochero .ora-meta,.gcard .more,.r3d-legend,.r3d-hint,.r3d-swap span,.r3d-tick,.r3d-st,.r3d-n,.gv,.gpager a span,.gfilter button span"></script>
 </head>
 <body>
@@ -419,16 +419,50 @@ Structure: (1) Code mode; (2) Shared motion stack; (3) Tool calls vs. code mode;
 <figcaption><b>What one turn delivers.</b> The paired experiment, all 59 cases per mode. Both modes reason about as long per model call; a turn then hands back one call or one program. A program may issue up to 12 robot actions and counts as one decision. The list of steps inside a program is an illustration.</figcaption>
 </figure>
 
+<!-- story: from here to "story-end" this section is a scroll story on fastrua.ai (site/static/story/, with the run
+     viewer as its stage). Only the markers are added: empty <div>s between the blocks, and <div class="story-frame">
+     around four figures. No sentence is changed; the list and two paragraphs are split so that each claim is a step.
+     Without the story's files it reads as text and figures. What each step points at: README.md, "The scroll story". -->
+
+<div data-story></div>
+
 <h3>Where one tool per turn falls short</h3>
 <p>On the 15 cases only programs solved, the tool-call runs fail in four recurring ways. In the strips below, each box is one model turn.</p>
+<div class="story-stage">
+<div class="r3d r3d-deck" data-verdict="plain" data-runs="ora-glue-code-robodojo-0fcd13de0344--20261102T112402Z ora-glue-code-robodojo-dc5075dff21f--20261102T113146Z ora-glue-code-robodojo-844b941179d3--20261102T102837Z ora-glue-code-robodojo-e56c2928a934--20261102T103605Z ora-glue-code-robodojo-a192824b3fcc--20261102T100636Z ora-glue-code-robodojo-91bbf57f4ded--20261102T125913Z ora-glue-code-robodojo-d4a1d488fb03--20261102T120039Z"></div>
+</div>
+
+<div class="story-step" data-step="p1" data-r3d-run="0fcd13de0344"></div>
+
 <p><strong>1. What was measured gets estimated again.</strong> With tool calls, a measured quantity lives only in the model's text, and the next turn estimates it again. Playing a xylophone, the tool-call run:</p>
+<div class="story-step" data-step="p1-keymap" data-label="With tool calls" data-r3d-run="0fcd13de0344" data-r3d-decisions="1,30,40,46" data-r3d-zoom="1.7" data-r3d-aim="probes" data-r3d-quote="[[-0.1868, -0.034, 0.786]||[[-0.1951, -0.075, 0.7886]||[[205, 228], [217, 228]"></div>
+
 <ul>
 <li>revised its key map three times;</li>
+</ul>
+<div class="story-step" data-step="p1-offset" data-r3d-run="0fcd13de0344" data-r3d-decisions="2,4,10,21,33,49,70" data-r3d-quote="principal_axis_world of held stick||head segment ball aabb mid||[&quot;ball_a&quot;, &quot;ball_b&quot;, &quot;ball_c&quot;, &quot;ball_d&quot;]"></div>
+
+<ul>
 <li>estimated the mallet's head offset at least six times;</li>
+</ul>
+<div class="story-step" data-step="p1-restart" data-r3d-run="0fcd13de0344" data-r3d-decisions="21,33,42,46,53,71"></div>
+
+<ul>
 <li>restarted the sequence at least six times before it ran out of decisions;</li>
+</ul>
+<div class="story-step" data-step="p1-count" data-r3d-run="d4a1d488fb03" data-r3d-decision="18" data-r3d-quote="row fit 10 keys||from key 1 to key 9"></div>
+
+<ul>
 <li>on another layout, counted the keys as nine, then ten. There are eight.</li>
 </ul>
-<p>The program run fitted all key boundaries once from the point cloud. It stored the measured mallet offset in a file in <code>/work</code> that every later program read, and struck all eight keys in three programs.</p>
+<div class="story-step" data-step="p1-fit" data-label="In code mode" data-r3d-run="dc5075dff21f" data-r3d-decision="1" data-r3d-quote="comb fit a=-0.2268"></div>
+
+<p>The program run fitted all key boundaries once from the point cloud.</p>
+<div class="story-step" data-step="p1-file" data-r3d-run="dc5075dff21f" data-r3d-decisions="4-6" data-r3d-quote="open('/work/grasp_state.json','w')||g = json.load(open('/work/grasp_state.json'))"></div>
+
+<p>It stored the measured mallet offset in a file in <code>/work</code> that every later program read, and struck all eight keys in three programs.</p>
+<div class="story-frame" data-for="p1">
+
 <figure class="ofig" aria-label="Turn strip: play_Xylophone, layout 1">
 <div class="of-box">
 <p class="of-title">play_Xylophone, layout 1: strike eight keys in order</p>
@@ -450,7 +484,22 @@ Structure: (1) Code mode; (2) Shared motion stack; (3) Tool calls vs. code mode;
 <figcaption><b>Pattern 1: what was measured gets estimated again.</b> Each box is one model turn. The tool-call row is schematic: the kinds of step the run repeated across its 80 decisions. The program row is the run's actual turn structure.</figcaption>
 </figure>
 
-<p><strong>2. Every measurement costs a turn.</strong> With tool calls, every geometry query and every computation takes a turn of its own. The compute tool accepts only literal expressions, so imports and comprehensions are refused. Inserting test tubes, the tool-call run probed the rack point by point for more than 20 turns, then set a tube between two holes, about 18 mm from the nearest centre. One program fitted circles to all ten holes in 0.76 seconds, without moving the robot.</p>
+</div>
+
+<div class="story-step" data-step="p2" data-r3d-run="844b941179d3"></div>
+
+<p><strong>2. Every measurement costs a turn.</strong> With tool calls, every geometry query and every computation takes a turn of its own.</p>
+<div class="story-step" data-step="p2-compute" data-label="With tool calls" data-r3d-run="844b941179d3" data-r3d-decision="6" data-r3d-quote="for i in range(16)||comprehension is not available in this evaluator"></div>
+
+<p>The compute tool accepts only literal expressions, so imports and comprehensions are refused.</p>
+<div class="story-step" data-step="p2-probe" data-r3d-run="844b941179d3" data-r3d-decisions="1-23" data-r3d-scene="23" data-r3d-zoom="2.2" data-r3d-aim="probes"></div>
+
+<p>Inserting test tubes, the tool-call run probed the rack point by point for more than 20 turns, then set a tube between two holes, about 18 mm from the nearest centre.</p>
+<div class="story-step" data-step="p2-fit" data-label="In code mode" data-r3d-run="e56c2928a934" data-r3d-decision="1" data-r3d-quote="hole c=(-0.0703,-0.0052) r=0.0156{+10}"></div>
+
+<p>One program fitted circles to all ten holes in 0.76 seconds, without moving the robot.</p>
+<div class="story-frame" data-for="p2">
+
 <figure class="ofig" aria-label="Turn strip: insert_tubes, layout 0">
 <div class="of-box">
 <p class="of-title">insert_tubes, layout 0: put test tubes into the holes of a rack</p>
@@ -467,7 +516,19 @@ Structure: (1) Code mode; (2) Shared motion stack; (3) Tool calls vs. code mode;
 <figcaption><b>Pattern 2: every measurement costs a turn.</b> Each small square is one turn of point-by-point probing; the tool-call run probed for more than 20 turns. Every later placement program called the same hole detector again.</figcaption>
 </figure>
 
-<p><strong>3. The check comes a turn later, if at all.</strong> Fastening nuts, the tool-call run declared a nut "fully threaded" three times from the arm's position, released it, and watched it drop. The program measured the nut's depth below the bolt tip after every press, and pressed again while it still moved.</p>
+</div>
+
+<div class="story-step" data-step="p3" data-r3d-run="a192824b3fcc"></div>
+
+<p><strong>3. The check comes a turn later, if at all.</strong></p>
+<div class="story-step" data-step="p3-released" data-label="With tool calls" data-r3d-run="a192824b3fcc" data-r3d-decisions="24-32" data-r3d-zoom="2" data-r3d-aim="paths" data-r3d-quote="red nut now threaded on red stud||red nut lying flat on table||red nut threaded on red stud"></div>
+
+<p>Fastening nuts, the tool-call run declared a nut "fully threaded" three times from the arm's position, released it, and watched it drop.</p>
+<div class="story-step" data-step="p3-pressed" data-label="In code mode" data-r3d-run="91bbf57f4ded" data-r3d-decision="19" data-r3d-zoom="2" data-r3d-aim="paths" data-r3d-quote="&quot;gains&quot;: [2.93, 0.03]||if g &lt; 1.0: break{-2}"></div>
+
+<p>The program measured the nut's depth below the bolt tip after every press, and pressed again while it still moved.</p>
+<div class="story-frame" data-for="p3">
+
 <figure class="ofig" aria-label="Turn strip: fasten_screws, layout 2">
 <div class="of-box">
 <p class="of-title">fasten_screws, layout 2: run three nuts down the bolts of their colour, clearly below each tip</p>
@@ -505,7 +566,13 @@ gains: [2.93, 0.03]</pre>
 <figcaption><b>Pattern 3: the check comes a turn later, if at all.</b> Quotes are the tool-call run's visible text. Every nut position in the program comes from the point cloud.</figcaption>
 </figure>
 
+</div>
+
+<div class="story-step" data-step="p4"></div>
+
 <p><strong>4. Every action costs a full turn of reasoning.</strong> A tool-call turn reasons about as long as a program turn, and then delivers one action. Ten of the 15 tool-call episodes ended with the model abandoning the task, several with most of the budget left. On these 15 cases, the tool-call runs made a median of 102 model calls, the programs 49.</p>
+<div class="story-frame">
+
 <figure class="ofig" aria-label="What one robot action costs in each mode">
 <div class="of-box">
 <div class="of-bars">
@@ -523,7 +590,13 @@ gains: [2.93, 0.03]</pre>
 <figcaption><b>Pattern 4: every action costs a full turn of reasoning.</b> Each group has its own scale. Per model call, both modes reason about as long; per robot action, tool calls pay about 2.6 times as much. Hidden reasoning is only measured in length, never read.</figcaption>
 </figure>
 
+</div>
+
+<div class="story-step" data-step="p4-priced"></div>
+
 <p>Side by side, the four patterns look like this:</p>
+<div class="story-frame">
+
 <figure class="ofig" aria-label="The same thing, priced in both modes">
 <div class="of-box">
 <div class="of-scroll">
@@ -540,6 +613,12 @@ gains: [2.93, 0.03]</pre>
 </div>
 <figcaption><b>The same thing, priced in both modes.</b> The four patterns side by side.</figcaption>
 </figure>
+
+</div>
+
+<div data-story-end></div>
+
+<!-- story-end -->
 
 <h3>More decisions do not close the gap</h3>
 <p>A program may issue up to 12 robot actions for one decision. On these 15 cases, programs ran 1,079 actions in 239 decisions, and tool calls 823 actions in 790 decisions. So is the gap just a bigger action budget? Two things say no.</p>

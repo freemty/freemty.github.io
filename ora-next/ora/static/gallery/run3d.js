@@ -1,6 +1,11 @@
 // Run3D: a recorded ORA run as the head camera's picture in 3D, with the agent's decision timeline. Mounts into any
-//   <figure class="r3d" data-runs="RUN_ID [RUN_ID]" data-root="…/static/gallery/runs/">
-// One run id: one panel. Two: compare, side by side (stacked on phones), each with its own timeline, one shared view.
+//   <figure class="r3d" data-runs="RUN_ID [RUN_ID …]" data-root="…/static/gallery/runs/">        (any element; data-root
+//                                                                    defaults to runs/ beside this script)
+// One run id: one panel. Two (class r3d-compare): side by side (stacked on phones), each with its own timeline, one
+// shared view. Several with class r3d-deck: one run at a time, with tabs for the cases and a switch between the two
+// modes of a case; a run loads when it is first shown. Options, as attributes or classes on the element:
+//   data-verdict="plain"   the header says only "Solved" or "Not solved" (no word on step limits)
+//   class r3d-side         the view on the left and the motions beside it when the element is wide (a deck does this too)
 //
 // The 3D view opens at the head camera's own pose, framed on the region the run's paths cover, so it reads as the
 // camera image; dragging tilts it a little (it is one camera's depth: the far side is empty), Ctrl/Cmd + wheel, a
@@ -8,7 +13,31 @@
 // swaps the two. The first state is the whole run (final scene, every path); the ticks step through the decisions.
 // Paths, badges, marks and picking are drawn on a 2D canvas over each view with that view's projection.
 // Colour inside the viewer: teal = right arm, light = left arm (both over a dark casing); red only on "x refused".
-// Data (run.json + frames, schema ora-site.run3d.v2) loads when the figure comes near the viewport: site/gallery.py.
+//
+// Driving it from the page. element.run3d.show(spec) puts the viewer in a state and returns at once; it never moves
+// keyboard focus and never scrolls the page. The reader can still drag, zoom and click; the next show() takes over.
+//   spec = { run,          which run of the element: its id, a unique part of the id, or its 1-based position
+//            decision,     one decision (1-based): the scene it saw, its motions; 0 or absent: the whole run
+//            decisions,    several, as [3, 4, 5] or "3-5" or "1,30,46": their paths and the points their read-only
+//                          calls asked about, on the scene after the last of them
+//            scene,        with several decisions: "before" (the scene the first of them saw) or a decision's number
+//                          (the scene that decision saw)
+//            motion,       with one decision: the motion row to pin (1-based)
+//            view,         "camera" (default) | "top" | "inset" (the camera image large, the 3D view small)
+//            zoom, aim,    1..4, towards the "probes" (the points asked about), the "paths" or the "marks" shown
+//            quote }       text to find in the records of what is shown and to set under the header with its source:
+//                          a printed line, a line of a program, a call's arguments or result. "a||b" for several;
+//                          "text{+3}" adds the 3 lines after it, "text{-2}" the 2 before. Nothing is shown if the
+//                          records do not hold the text (console.warn names it).
+// In a scroll story (site/static/story/story.js) the viewer inside a .story-stage follows the steps: a step's
+//   data-r3d-run, data-r3d-decision, data-r3d-decisions, data-r3d-motion, data-r3d-view, data-r3d-zoom, data-r3d-aim,
+//   data-r3d-quote, data-r3d-scene
+// are that spec. Beside the text, a step without data-r3d-run, or one that brings figures of its own into the stage
+// (.story-frame), hides the viewer. While the stage is pinned to the top of a narrow window the viewer is only its
+// header and the picture; it stays for a step with figures (they are in the text there), and for a step without
+// data-r3d-run the stage lets go of the top until the next step that has one.
+//
+// Data (run.json + frames, schema ora-site.run3d.v2) loads when the element comes near the viewport: site/gallery.py.
 // The model's reasoning or thinking text is not in it.
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js";
 
@@ -33,6 +62,17 @@ const armsOf = (x) => (x.arms && x.arms.length ? x.arms : []);
 const armText = (x) => { const a = armsOf(x); if (!a.length) return ""; const what = x.a === "set_gripper" ? "gripper" : "arm"; return a.length > 1 ? `both ${what}s` : `${a[0]} ${what}`; };
 const outcome = (x) => (x.refused ? "refused" : held(x) ? "stalled" : words(x.status || "no receipt"));
 const toolText = (x) => (x.tool || x.a || "motion") + (x.phase ? ` · ${words(x.phase)}` : x.grip ? ` · ${x.grip}` : "");
+const listText = (a) => (a.length < 2 ? a.join("") : a.slice(0, -1).join(", ") + " and " + a[a.length - 1]);
+// "3-5", "1,30,46", [3, 4] or 7 -> sorted 1-based numbers
+function numbers(v) {
+  const out = new Set();
+  for (const part of Array.isArray(v) ? v : String(v ?? "").split(",")) {
+    const m = String(part).trim().match(/^(\d+)(?:\s*-\s*(\d+))?$/);
+    if (m) for (let k = +m[1]; k <= +(m[2] || m[1]); k++) out.add(k);
+  }
+  return [...out].sort((a, b) => a - b);
+}
+const calls = (d) => { const c = {}; for (const b of d.before) c[b.label] = (c[b.label] || 0) + 1; return Object.entries(c).map(([k, n]) => (n > 1 ? `${k} ×${n}` : k)).join(", "); };
 function counts(d) {
   const run = d.motions.filter((x) => !x.refused).length, ref = d.motions.filter((x) => x.refused).length, bad = d.motions.filter(failed).length;
   return plural(run, "motion") + (ref ? `, ${ref} refused` : "") + (bad ? `, ${bad} not reached` : "");
@@ -148,6 +188,16 @@ function sharedView(metas) {
     S.panels.forEach((p) => p.syncControls());
   };
   S.pan = (dx, dy) => { S.goal.tx += dx; S.goal.ty += dy; bound(); S.snap(); };
+  // zoom to z with the scene point P in the middle of the view (as far as the picture's edges allow)
+  S.frameOn = (P, z) => {
+    const f = presets[S.preset], at = pose(f.a, f.e), v = new THREE.Vector3(P[0], P[1], P[2]).sub(at.p).applyQuaternion(at.q.clone().invert());
+    const g = S.goal;
+    g.zoom = clamp(z, 1, ZOOM_MAX);
+    const box = S.panels[0] && S.panels[0].v3.el.getBoundingClientRect();
+    const thv = (f.th * ASPECT) / (box && box.height ? box.width / box.height : ASPECT);    // the stage's own half height (see draw())
+    if (v.z < -0.05) { g.tx = (-g.zoom * (v.x / -v.z - f.cx)) / (f.th * ASPECT); g.ty = (-g.zoom * (v.y / -v.z - f.cy)) / thv; }
+    bound(); S.wakeAll(); S.panels.forEach((p) => p.syncControls());
+  };
   S.reset = () => { S.goal = home(S.preset); S.wakeAll(); S.panels.forEach((p) => p.syncControls()); };
   S.setPreset = (name) => { S.preset = name; S.reset(); };
   // how far the view is from the camera's own pose, 0..1 (widens the samples on slanted surfaces)
@@ -167,23 +217,24 @@ function sharedView(metas) {
 
 // --------------------------------------------------------------------------------------------------------------------
 class Panel {
-  constructor(host, base, meta, shared) {
-    this.base = base; this.m = meta; this.S = shared;
-    this.n = meta.timeline.length; this.sel = null; this.frames = new Map(); this.playing = false;
-    this.items = []; this.dots = []; this.rings = []; this.rows = new Map(); this.hover = null; this.pin = null; this.prog = 1; this.pinU = 1; this.swapped = false;
+  constructor(host, base, meta, shared, opts = {}) {
+    this.base = base; this.m = meta; this.S = shared; this.plain = !!opts.plain;
+    this.n = meta.timeline.length; this.sel = null; this.subset = null; this.key = null; this.tok = 0; this.quotes = []; this.frames = new Map(); this.playing = false;
+    this.items = []; this.dots = []; this.rings = []; this.probes = []; this.rows = new Map(); this.hover = null; this.pin = null; this.prog = 1; this.pinU = 1; this.swapped = false;
     const solved = meta.official || meta.after_limit;     // after_limit: the benchmark's check passed after its step limit
     const mode = meta.mode === "code" ? "Code mode" : "Tool calls";
     this.unit = meta.mode === "code" ? "program" : "tool call";
     const root = this.root = el("div", "r3d-panel");
     const zoomHint = TOUCH ? "pinch to zoom" : `${MAC ? "Cmd" : "Ctrl"} + scroll to zoom`;
     root.innerHTML = `
-      <div class="r3d-head"><b>${mode}</b><span class="r3d-verdict${solved ? " ok" : ""}">${solved ? "✓ Solved" : "Not solved"}${meta.after_limit && !meta.official ? " after the step limit" : ""}</span>
+      <div class="r3d-head"><b>${mode}</b><span class="r3d-verdict${solved ? " ok" : ""}">${solved ? "✓ Solved" : "Not solved"}${meta.after_limit && !meta.official && !this.plain ? " after the step limit" : ""}</span>
+        <span class="r3d-selname"></span>
         <span class="r3d-meta">${esc(words(meta.task))} · layout ${meta.layout} · ${esc(meta.model)} · ${plural(meta.decisions, "decision")} · ${plural(meta.motions, "motion")}</span></div>
       <div class="r3d-view" tabindex="0" role="group" aria-label="3D view of the run from the head camera. Drag to tilt, plus and minus to zoom, 0 to reset.">
         <div class="r3d-v r3d-v3 is-main"><canvas class="r3d-gl" aria-hidden="true"></canvas><canvas class="r3d-ov" aria-hidden="true"></canvas></div>
         <div class="r3d-v r3d-v2 is-pip"><img alt="" draggable="false"><canvas class="r3d-ov" aria-hidden="true"></canvas></div>
         <button type="button" class="r3d-swap" aria-pressed="false" title="Swap the head camera image and the 3D view"><span>Head camera</span></button>
-        <div class="r3d-legend"><span><i class="l"></i>Left arm</span><span><i class="r"></i>Right arm</span><span><i class="g"></i>Grasp</span><span><i class="u"></i>Release</span></div>
+        <div class="r3d-legend"><span><i class="l"></i>Left arm</span><span><i class="r"></i>Right arm</span><span><i class="g"></i>Grasp</span><span><i class="u"></i>Release</span><span class="q"><i></i>Point asked about</span></div>
         <div class="r3d-vc" role="group" aria-label="View">
           <div class="r3d-seg"><button type="button" data-k="camera" aria-pressed="true" title="The head camera's own view">Camera</button><button type="button" data-k="top" aria-pressed="false" title="Looking down at the table">Top</button></div>
           <div class="r3d-seg"><button type="button" data-k="out" aria-label="Zoom out">−</button><button type="button" data-k="in" aria-label="Zoom in">+</button><button type="button" data-k="reset" title="Back to this view's start (double-click, or 0)">Reset</button></div>
@@ -199,7 +250,7 @@ class Panel {
       <div class="r3d-tip" role="tooltip" hidden></div>`;
     host.appendChild(root);
     const q = (s) => root.querySelector(s);
-    this.view = q(".r3d-view"); this.scroller = q(".r3d-scroll"); this.tip = q(".r3d-tip");
+    this.view = q(".r3d-view"); this.scroller = q(".r3d-scroll"); this.tip = q(".r3d-tip"); this.selName = q(".r3d-selname");
     this.view.classList.toggle("inset-left", shared.insetLeft);
     this.v3 = { el: q(".r3d-v3"), ov: q(".r3d-v3 .r3d-ov") }; this.v2 = { el: q(".r3d-v2"), ov: q(".r3d-v2 .r3d-ov"), img: q(".r3d-v2 img") };
     for (const v of [this.v3, this.v2]) v.ctx = v.ov.getContext("2d");
@@ -219,15 +270,15 @@ class Panel {
       else if (k === "reset") S.reset(); else S.setPreset(k);
     });
     this.buildStrip(q(".r3d-strip"));
-    q('[data-k="prev"]').addEventListener("click", () => { this.stop(); this.select(Math.max(-1, this.sel - 1)); });
-    q('[data-k="next"]').addEventListener("click", () => { this.stop(); this.select(Math.min(this.n - 1, this.sel + 1)); });
+    q('[data-k="prev"]').addEventListener("click", () => { this.stop(); this.step(-1); });
+    q('[data-k="next"]').addEventListener("click", () => { this.stop(); this.step(1); });
     this.playBtn = q('[data-k="play"]');
     this.playBtn.addEventListener("click", () => (this.playing ? this.stop() : this.play()));
     root.addEventListener("keydown", (e) => {
       if (e.ctrlKey || e.metaKey || e.altKey || e.target.closest("pre")) return;
       const S = this.S, k = e.key;
-      if (k === "ArrowRight") { this.stop(); this.select(Math.min(this.n - 1, this.sel + 1)); }
-      else if (k === "ArrowLeft") { this.stop(); this.select(Math.max(-1, this.sel - 1)); }
+      if (k === "ArrowRight") { this.stop(); this.step(1); }
+      else if (k === "ArrowLeft") { this.stop(); this.step(-1); }
       else if (k === "+" || k === "=") { this.used(); S.zoomTo(S.goal.zoom * 1.5); }
       else if (k === "-" || k === "_") { this.used(); S.zoomTo(S.goal.zoom / 1.5); }
       else if (k === "0") { this.used(); S.reset(); }
@@ -244,6 +295,9 @@ class Panel {
       const g = +r.dataset.g;
       if (this.sel < 0) { this.stop(); this.select(g); } else this.setPin(this.pin === g ? null : g);
     });
+    this.scroller.addEventListener("toggle", (e) => {            // a list of calls opened: its rows may hold marked lines
+      if (e.target.open) e.target.querySelectorAll("mark").forEach((mk) => { const pre = mk.closest("pre"); if (pre) pre.scrollTop = Math.max(0, mk.offsetTop - pre.offsetTop - 40); });
+    }, true);
     this.initGL();
     this.initPointer();
   }
@@ -404,14 +458,15 @@ class Panel {
     this.view.dataset.zoom = S.goal.zoom.toFixed(2);
   }
 
-  swap() {
+  swap(quiet) {
     this.swapped = !this.swapped;
     this.v3.el.classList.toggle("is-main", !this.swapped); this.v3.el.classList.toggle("is-pip", this.swapped);
     this.v2.el.classList.toggle("is-main", this.swapped); this.v2.el.classList.toggle("is-pip", !this.swapped);
     this.view.classList.toggle("swapped", this.swapped);
     this.swapBtn.setAttribute("aria-pressed", this.swapped ? "true" : "false");
     this.swapBtn.firstElementChild.textContent = this.swapped ? "3D view" : "Head camera";
-    this.used(); this.tipHide(); this.wake();
+    if (!quiet) this.used();
+    this.tipHide(); this.wake();
   }
 
   // ------------------------------------------------------------------------------------------------------- frames
@@ -469,30 +524,60 @@ class Panel {
   }
 
   // ------------------------------------------------------------------------------------------------------- states
-  // i = -1: the whole run (final scene, every path); 0..n-1: one decision (the scene it saw, its motions' paths)
-  async select(i) {
-    if (i === this.sel) return;
-    this.sel = i;
-    const all = i < 0, d = all ? null : this.m.timeline[i];
-    this.ticks.forEach((t, k) => { t.setAttribute("aria-current", k === i + 1 ? "true" : "false"); t.classList.toggle("past", k > 0 && k < i + 1); });
-    const tk = this.ticks[i + 1], st = this.strip;              // keep the tick in view inside the strip, not the page
+  // from the buttons and the arrow keys: one decision on, or back. Out of a group of decisions: into its first.
+  step(by) {
+    if (this.subset) this.select(by > 0 ? this.subset[0] : -1);
+    else this.select(clamp(this.sel + by, -1, this.n - 1));
+  }
+
+  // "Whole run", "Decision 3 of 7", "Decisions 24 to 28 of 77", "Decisions 1, 30 and 46 of 80"
+  selText() {
+    const s = this.subset;
+    if (s) return `Decisions ${s.every((v, k) => !k || v === s[k - 1] + 1) && s.length > 2 ? `${s[0] + 1} to ${s[s.length - 1] + 1}` : listText(s.map((v) => v + 1))} of ${this.n}`;
+    return this.sel < 0 ? "Whole run" : `Decision ${this.sel + 1} of ${this.n}`;
+  }
+
+  // i = -1: the whole run (final scene, every path); 0..n-1: one decision (the scene it saw, its motions' paths).
+  // o.subset: some decisions (0-based, sorted) in place of the whole run, on the scene after the last of them
+  // (o.scene "before": the scene the first one saw; a number: the scene that decision saw). o.quotes: see show().
+  async select(i, o = {}) {
+    const subset = i < 0 && o.subset && o.subset.length ? o.subset.filter((v) => v >= 0 && v < this.n) : null;
+    const quotes = o.quotes || [];
+    const key = (subset ? "s" + subset.join(",") + (o.scene || "") : String(i)) + "|" + quotes.join("||");
+    if (key === this.key) return;
+    this.key = key; this.sel = i; this.subset = subset && subset.length ? subset : null; this.quotes = quotes;
+    const tok = ++this.tok, all = i < 0, d = all ? null : this.m.timeline[i], sub = this.subset;
+    const shown = all ? (sub || this.m.timeline.map((_, k) => k)) : [i];
+    this.ticks.forEach((t, k) => {
+      t.setAttribute("aria-current", !sub && k === i + 1 ? "true" : "false");
+      t.classList.toggle("past", !sub && k > 0 && k < i + 1);
+      t.classList.toggle("in", !!sub && k > 0 && sub.includes(k - 1));
+    });
+    const tk = this.ticks[sub ? sub[0] + 1 : i + 1], st = this.strip;   // keep the tick in view inside the strip, not the page
     if (tk.offsetLeft < st.scrollLeft || tk.offsetLeft + tk.offsetWidth > st.scrollLeft + st.clientWidth) st.scrollLeft = tk.offsetLeft - st.clientWidth / 2;
     if (tk.offsetTop < st.scrollTop || tk.offsetTop + tk.offsetHeight > st.scrollTop + st.clientHeight) st.scrollTop = tk.offsetTop - st.clientHeight / 2;
     this.hover = null; this.pin = null; this.tipHide();
-    this.scroller.innerHTML = all ? this.runHtml() : this.decisionHtml(d);
+    const after = (di) => (di + 1 < this.n ? this.m.timeline[di + 1].frame : this.m.end.frame);
+    const at = +o.scene >= 1 && +o.scene <= this.n ? this.m.timeline[+o.scene - 1].frame : null;
+    const k = !all ? d.frame : !sub ? this.m.end.frame : at != null ? at : o.scene === "before" ? this.m.timeline[sub[0]].frame : after(sub[sub.length - 1]);
+    this.sceneObs = this.m.frames[k].obs;
+    this.selName.textContent = this.selText();
+    this.scroller.innerHTML = this.quoteHtml(all && !sub ? null : shown) + (all ? this.runHtml(sub) : this.decisionHtml(d));
     this.scroller.scrollTop = 0;
+    this.scroller.querySelectorAll(".r3d-quote mark").forEach((mk) => { const pre = mk.closest("pre"); pre.scrollTop = Math.max(0, mk.offsetTop - pre.offsetTop - 26); });
     this.rows = new Map([...this.scroller.querySelectorAll("[data-g]")].map((r) => [+r.dataset.g, r]));
     // what is drawn: g groups the paths a row stands for (a decision in the whole run, a motion in a decision)
-    const items = [], dots = [], rings = [];
-    const add = (pts, arm, g, n, o) => {
+    const items = [], dots = [], rings = [], probes = [];
+    const add = (pts, arm, g, n, o_) => {
       const cum = [0];
       for (let k = 1; k < pts.length; k++) cum.push(cum[k - 1] + Math.hypot(pts[k][0] - pts[k - 1][0], pts[k][1] - pts[k - 1][1], pts[k][2] - pts[k - 1][2]));
-      if (pts.length > 1) items.push({ pts, arm, g, n, o, cum, len: cum[cum.length - 1] || 1e-6 });
+      if (pts.length > 1) items.push({ pts, arm, g, n, o: o_, cum, len: cum[cum.length - 1] || 1e-6 });
     };
-    if (all) this.m.timeline.forEach((dd, di) => {
-      const o = this.n > 1 ? di / (this.n - 1) : 1;
-      dd.motions.forEach((x) => { for (const arm in x.path || {}) add(x.path[arm], arm, di, null, o); });
-      dd.marks.forEach((mk) => dots.push({ p: mk.p, arm: mk.arm, k: mk.k, g: di, o }));
+    if (all) shown.forEach((di, k) => {
+      const dd = this.m.timeline[di], o_ = shown.length > 1 ? k / (shown.length - 1) : 1;
+      dd.motions.forEach((x) => { for (const arm in x.path || {}) add(x.path[arm], arm, di, null, o_); });
+      dd.marks.forEach((mk) => dots.push({ p: mk.p, arm: mk.arm, k: mk.k, g: di, o: o_ }));
+      if (sub) for (const b of dd.before) for (const pt of b.pts || []) probes.push({ p: pt, g: di });
     });
     else {
       d.motions.forEach((x, mi) => {
@@ -500,15 +585,16 @@ class Panel {
         for (const arm in x.at || {}) rings.push({ p: x.at[arm], arm, g: mi });
       });
       d.marks.forEach((mk) => dots.push({ p: mk.p, arm: mk.arm, k: mk.k, g: mk.m, o: 1 }));
+      for (const b of d.before) for (const pt of b.pts || []) probes.push({ p: pt, g: -1 });
     }
     let s0 = 0;
     for (const it of items) { it.s0 = s0; s0 += it.len; }
-    this.items = items; this.dots = dots; this.rings = rings; this.total = s0 || 1;
+    this.items = items; this.dots = dots; this.rings = rings; this.probes = probes; this.total = s0 || 1;
+    this.view.classList.toggle("has-probes", probes.length > 0);
     this.prog = REDUCE || all ? 1 : 0; this.t0 = performance.now();
-    const k = all ? this.m.end.frame : d.frame;
     let f;
     try { f = await this.frame(k); } catch (e) { this.frames.delete(k); return; }
-    if (this.sel !== i) return;
+    if (tok !== this.tok) return;
     if (!this.cloud) { this.cloud = new THREE.Points(f.geo, this.pointMat); this.cloud.frustumCulled = false; this.scene.add(this.cloud); }
     else this.cloud.geometry = f.geo;
     this.uni.uMap.value = f.tex;
@@ -518,7 +604,76 @@ class Panel {
     this.view.classList.add("live");
     this.t0 = performance.now();
     this.wake();
-    const nx = this.m.timeline[i + 1]; if (nx) this.frame(nx.frame).catch(() => {});     // the next frame, ahead of time
+    const nx = this.m.timeline[i + 1]; if (nx && !sub) this.frame(nx.frame).catch(() => {});     // the next frame, ahead of time
+  }
+
+  // The page drives the viewer (see the top of this file): a state, a view, a zoom. No focus, no page scroll.
+  show(spec = {}) {
+    this.stop();
+    const S = this.S, list = spec.decisions != null ? numbers(spec.decisions).map((v) => v - 1) : null;
+    const quotes = String(spec.quote ?? "").split("||").map((t) => t.trim()).filter(Boolean);
+    const one = list && list.length === 1 ? list[0] : spec.decision ? +spec.decision - 1 : -1;
+    this.select(clamp(one, -1, this.n - 1), { subset: list && list.length > 1 ? list : null, scene: spec.scene, quotes });
+    if (this.swapped !== (spec.view === "inset")) this.swap(true);
+    S.preset = spec.view === "top" ? "top" : "camera";
+    S.reset();
+    if (spec.motion && this.sel >= 0 && this.rows.get(+spec.motion - 1)?.tagName === "BUTTON") this.setPin(+spec.motion - 1);
+    const z = +spec.zoom;
+    if (z > 1) {
+      const sets = { probes: this.probes.map((x) => x.p), marks: this.dots.map((x) => x.p), paths: this.items.flatMap((it) => it.pts) };
+      const pts = sets[spec.aim] && sets[spec.aim].length ? sets[spec.aim] : sets.probes.length ? sets.probes : sets.paths.length ? sets.paths : sets.marks;
+      if (pts.length) { const mid = (c) => pts.map((q) => q[c]).sort((a, b) => a - b)[pts.length >> 1]; S.frameOn([mid(0), mid(1), mid(2)], z); }
+    }
+  }
+
+  // ------------------------------------------------------------------------------------------------------ records
+  // Every text of the records of a decision, with where it stands: what quote() searches.
+  texts(di) {
+    const d = this.m.timeline[di], out = [], no = `Decision ${di + 1}`;
+    const item = (b, where) => {
+      const tag = `${where} · ${b.label}${b.ok ? "" : ", refused"}`;
+      if (b.args) out.push([`${tag} · arguments`, b.args]);
+      if (b.bound) out.push([`${tag} · the values it was given`, b.bound]);
+      if (b.res) out.push([`${tag} · result`, b.res]);
+      if (b.handed) out.push([`${tag} · handed back by the program`, `${b.handed.reason}  ${b.handed.data}`]);
+      if (b.out) out.push([`${tag} · printed output${b.wall != null ? ` (ran ${(+b.wall).toFixed(2)} s)` : ""}`, b.out]);
+      for (const pr of b.progs || []) out.push([`${where} · ${pr.path}`, pr.text]);
+    };
+    if (d) {
+      if (d.handed) out.push([`${no} · handed back by the program`, `${d.handed.reason}  ${d.handed.data}`]);
+      if (d.call) out.push([`${no} · ${d.call.name}, arguments`, d.call.args]);
+      if (d.out) out.push([`${no} · ${this.m.mode === "code" ? "printed output" : "result"}`, d.out]);
+      for (const pr of d.program || []) out.push([`${no} · ${pr.path}`, pr.text]);
+      for (const b of d.before) item(b, `Before decision ${di + 1}, no motion`);
+    } else for (const b of this.m.after || []) item(b, "After the last decision");
+    return out;
+  }
+
+  // the quotes of the state, found in the records of the decisions shown (then in the rest of the run)
+  quoteHtml(shown) {
+    let h = "";
+    this.root.removeAttribute("data-quote-missing");
+    for (const raw of this.quotes) {
+      const m = raw.match(/^(.*?)(?:\{(?:-(\d+))?(?:\+(\d+))?\})?$/s), needle = m[1], before = +(m[2] || 0), after = +(m[3] || 0);
+      const order = [...(shown || []), -1, ...this.m.timeline.map((_, k) => k).filter((k) => !(shown || []).includes(k))];
+      let hit = null;
+      for (const di of order) {
+        for (const [where, text] of this.texts(di)) {
+          const lines = text.split("\n"), at = lines.findIndex((l) => l.includes(needle));
+          if (at >= 0) { hit = { where, lines, at }; break; }
+        }
+        if (hit) break;
+      }
+      if (!hit) { console.warn("Run3D: the records do not hold", JSON.stringify(needle), "in", this.m.run); this.root.setAttribute("data-quote-missing", needle); continue; }
+      const cut = (l, mark) => {                                // a long line: the part around the text
+        const p = mark ? l.indexOf(needle) : 0, a = Math.max(0, p - 60), b = Math.min(l.length, p + (mark ? needle.length : 0) + 170);
+        const part = (a ? "…" : "") + l.slice(a, b) + (b < l.length ? "…" : "");
+        return mark ? esc(part).replace(esc(needle), `<mark>${esc(needle)}</mark>`) : esc(part);
+      };
+      const body = hit.lines.slice(Math.max(0, hit.at - before), hit.at + after + 1).map((l, k) => cut(l, k === Math.min(before, hit.at))).join("\n");
+      h += `<figure class="r3d-quote"><figcaption>${esc(hit.where)}</figcaption><pre>${body}</pre></figure>`;
+    }
+    return h;
   }
 
   hot() { return this.hover ? this.hover.g : this.pin; }
@@ -561,6 +716,7 @@ class Panel {
     this.view.classList.toggle("onpath", !!best);
     if (!best) { if (!click) { this.tipHide(); if (this.hover?.from === "path") this.setHover(null); } else if (this.sel >= 0 && this.pin != null) this.setPin(null); return; }
     if (click) { if (this.sel < 0) { this.stop(); this.select(best.g); } else this.setPin(this.pin === best.g ? null : best.g); return; }
+    if (best.g < 0) return;
     this.setHover(best.g, "path");
     const html = this.sel < 0
       ? `<b>Decision ${best.g + 1}</b> · ${esc(this.m.timeline[best.g].label)} · ${counts(this.m.timeline[best.g])}`
@@ -569,24 +725,53 @@ class Panel {
   }
 
   // ------------------------------------------------------------------------------------------------------- detail
-  runHtml() {
-    const m = this.m;
-    const v = m.official ? "Solved within the official step limit." : m.after_limit ? "Solved, after the official step limit." : "Not solved.";
-    const rows = m.timeline.map((d, i) => {
-      const arms = [...new Set(d.motions.flatMap((x) => Object.keys(x.path || {})))].sort();
-      return `<li><button type="button" class="r3d-row" data-g="${i}"><i class="r3d-n">${i + 1}</i><span class="r3d-what"><code>${esc(d.label)}</code></span>
-        <span class="r3d-arms">${arms.map((a) => `<i class="${a[0]}" title="${a} arm"></i>`).join("")}</span><em>${counts(d)}</em></button></li>`;
+  runHtml(sub) {
+    const m = this.m, tools = m.mode !== "code";
+    const v = this.plain ? (m.official || m.after_limit ? "Solved." : "Not solved.")
+      : m.official ? "Solved within the official step limit." : m.after_limit ? "Solved, after the official step limit." : "Not solved.";
+    const rows = (sub || m.timeline.map((_, k) => k)).map((i) => {
+      const d = m.timeline[i], arms = [...new Set(d.motions.flatMap((x) => Object.keys(x.path || {})))].sort();
+      const more = sub && d.before.length ? `<br>before it, no motion: ${esc(calls(d))}${d.before.some((b) => !b.ok) ? ` (${d.before.filter((b) => !b.ok).length} refused)` : ""}` : "";
+      return `<li><button type="button" class="r3d-row" data-g="${i}"><i class="r3d-n">${i + 1}</i><span class="r3d-what"><code>${esc(d.label)}</code>${tools && d.what ? " " + esc(d.what) : ""}</span>
+        <span class="r3d-arms">${arms.map((a) => `<i class="${a[0]}" title="${a} arm"></i>`).join("")}</span><em>${counts(d)}${more}</em></button></li>`;
     }).join("");
+    if (sub) {
+      const c = {}, bad = {};
+      let npts = 0;
+      for (const i of sub) for (const b of m.timeline[i].before) { c[b.label] = (c[b.label] || 0) + 1; if (!b.ok) bad[b.label] = (bad[b.label] || 0) + 1; npts += (b.pts || []).length; }
+      const names = Object.keys(c).sort((x, y) => c[y] - c[x]);
+      const between = !names.length ? "" : tools
+        ? `<p class="r3d-tally"><b>${plural(names.reduce((t, k) => t + c[k], 0), "call")} before them moved nothing:</b> ${names.map((k) => `${esc(k)} ×${c[k]}${bad[k] ? ` (${bad[k]} refused)` : ""}`).join(", ")}${npts ? `. They asked about ${plural(npts, "point")}, the crosses in the picture.` : "."}</p>`
+        : `<p class="r3d-tally"><b>${plural(names.reduce((t, k) => t + c[k], 0), "program run")} before them moved nothing.</b></p>`;
+      return `<div class="r3d-dh"><b>${esc(this.selText())}</b><span>their planned paths${npts ? " and the points their read-only calls asked about" : ""}, on the scene of observation ${obsNo(this.sceneObs)}</span></div>
+        ${between}<ol class="r3d-rows">${rows}</ol>`;
+    }
+    const end = (m.after || []).length ? `<details class="r3d-before"><summary>${plural(m.after.length, this.unit)} after the last decision</summary>${this.callsHtml(m.after)}</details>` : "";
     return `<div class="r3d-dh"><b>Whole run</b><span>the final scene (observation ${obsNo(m.end.obs)}) with every planned path; later decisions are brighter</span></div>
       <p class="r3d-endv">${esc(v)} ${plural(m.decisions, "decision")}, ${plural(m.motions, "motion")}, ${m.model_calls ?? "?"} model calls. The benchmark's own check gave the verdict.</p>
       <p class="dim">“${esc(m.instruction || "")}”</p>
-      <h4 class="r3d-sec">Decisions</h4><ol class="r3d-rows">${rows}</ol>`;
+      <h4 class="r3d-sec">Decisions</h4><ol class="r3d-rows">${rows}</ol>${end}`;
+  }
+
+  // calls that moved nothing: a name each, and what the records keep of them (arguments, result, program, output)
+  callsHtml(items) {
+    if (!items.some((b) => b.args || b.out || b.progs || b.res)) {
+      return `<div class="r3d-chips">${items.map((b) => `<span>${b.ok ? "" : "× "}${esc(b.label)}${b.ok ? "" : ` ${esc(words(b.why || "refused"))}`}</span>`).join("")}</div>`;
+    }
+    const mk = (t) => this.quotes.reduce((h, raw) => { const n = esc(raw.replace(/\{[-+\d]+\}$/, "")); return n && h.includes(n) ? h.replace(n, `<mark>${n}</mark>`) : h; }, esc(t));
+    return `<ul class="r3d-calls">${items.map((b) => {
+      let h = `<div><code>${esc(b.label)}</code>${b.ok ? "" : `<span class="r3d-st no">× refused</span>`}${b.wall != null ? `<span class="dim">ran ${(+b.wall).toFixed(2)} s</span>` : ""}${b.pts ? `<span class="dim">${plural(b.pts.length, "point")}</span>` : ""}</div>`;
+      for (const [name, t] of [["arguments", b.args], ["given", b.bound], ["result", b.res], ["handed back", b.handed && `${b.handed.reason}  ${b.handed.data}`]]) if (t) h += `<pre data-k="${name}">${mk(t)}</pre>`;
+      if (b.out) h += `<pre data-k="printed">${mk(b.out)}</pre>`;
+      for (const pr of b.progs || []) h += `<details class="r3d-code"><summary>Program <code>${esc(pr.path)}</code> · ${plural(pr.lines, "line")}</summary><pre><code>${mk(pr.text)}</code></pre></details>`;
+      return `<li>${h}</li>`;
+    }).join("")}</ul>`;
   }
 
   decisionHtml(d) {
     const m = this.m, f = m.frames[d.frame];
     const seen = f.obs === d.obs ? `saw observation ${obsNo(d.obs)}` : `saw observation ${obsNo(d.obs)}; the scene shown is observation ${obsNo(f.obs)}, the last one recorded before it`;
-    let h = `<div class="r3d-dh"><b>Decision ${d.i} of ${this.n}</b><code>${esc(d.label)}</code><span>${seen}</span></div>`;
+    let h = `<div class="r3d-dh"><b>Decision ${d.i} of ${this.n}</b><code>${esc(d.label)}</code>${m.mode !== "code" && d.what ? `<span class="r3d-dwhat">${esc(d.what)}</span>` : ""}<span>${seen}</span></div>`;
     const mot = d.motions.map((x, k) => {
       const arms = armsOf(x), cls = x.refused ? "x" : arms.length > 1 ? "lr" : arms.length ? arms[0][0] : "";
       const head = `<i class="r3d-n ${cls}">${k + 1}</i><span class="r3d-what"><code>${esc(toolText(x))}</code>${armText(x) ? " " + esc(armText(x)) : ""}</span>`;
@@ -596,21 +781,19 @@ class Panel {
       return x.path || x.at ? `<li><button type="button" class="r3d-row" data-g="${k}" aria-pressed="false">${body}</button></li>` : `<li><div class="r3d-row off">${body}</div></li>`;
     }).join("");
     h += `<h4 class="r3d-sec">Motions and the supervisor's receipts</h4><ol class="r3d-rows">${mot}</ol>`;
-    if (d.before.length) {
-      const items = d.before.map((b) => `<span>${b.ok ? "" : "× "}${esc(b.label)}${b.ok ? "" : ` ${esc(words(b.why || "refused"))}`}</span>`).join("");
-      h += `<details class="r3d-before"><summary>${plural(d.before.length, this.unit)} before it, without motion</summary><div>${items}</div></details>`;
-    }
+    if (d.handed) h += `<p class="r3d-hand"><span>Handed back by the program</span>${esc(d.handed.reason)} <code>${esc(d.handed.data)}</code></p>`;
+    if (d.before.length) h += `<details class="r3d-before"><summary>${plural(d.before.length, this.unit)} before it, without motion${d.before.some((b) => !b.ok) ? ` · ${d.before.filter((b) => !b.ok).length} refused` : ""}</summary>${this.callsHtml(d.before)}</details>`;
     if (d.program) for (const p of d.program)
       h += `<details class="r3d-code"><summary>Program <code>${esc(p.path)}</code> · ${plural(p.lines, "line")}</summary><pre><code>${esc(p.text)}</code></pre></details>`;
     if (d.call) h += `<details class="r3d-code"><summary>Call <code>${esc(d.call.name)}</code> · arguments</summary><pre><code>${esc(d.call.args)}</code></pre></details>`;
-    if (d.out) h += `<details class="r3d-out"><summary>${m.mode === "code" ? `Printed output, last lines${d.exit ? ` · exit ${d.exit}` : ""}` : "Result"}</summary><pre>${esc(d.out)}</pre></details>`;
+    if (d.out) h += `<details class="r3d-out"><summary>${m.mode === "code" ? `Printed output${d.wall != null ? "" : ", last lines"}${d.exit ? ` · exit ${d.exit}` : ""}` : "Result"}</summary><pre>${esc(d.out)}</pre></details>`;
     return h;
   }
 
   play() {
     this.playing = true; this.playBtn.textContent = "❚❚"; this.playBtn.setAttribute("aria-label", "Pause");
     const dwell = Math.max(900, Math.min(2400, 40000 / Math.max(1, this.n)));
-    let next = this.sel >= this.n - 1 ? 0 : this.sel + 1;
+    let next = this.subset || this.sel >= this.n - 1 ? 0 : this.sel + 1;
     const step = () => {
       if (!this.playing) return;
       if (next >= this.n) { this.stop(); this.select(-1); return; }
@@ -639,7 +822,7 @@ class Panel {
     if (v3.w !== this.gw || v3.h !== this.gh || dpr !== this.dpr) { this.gw = v3.w; this.gh = v3.h; this.dpr = dpr; this.renderer.setPixelRatio(dpr); this.renderer.setSize(v3.w, v3.h, false); }
     const moving = S.step(now), s = S.view, cam = this.camera, at = S.pose(s.a, s.e);
     cam.position.copy(at.p); cam.quaternion.copy(at.q);
-    const aspect = v3.w / v3.h, th = s.th * Math.max(1, 4 / 3 / aspect);           // the frame stays whole in a narrower stage
+    const aspect = v3.w / v3.h, th = (s.th * 4) / 3 / aspect;      // the frame's width fills the stage: whole in a narrower one, cut above and below in a wider one (never past the picture's sides)
     cam.fov = (2 * Math.atan(th)) / DEG; cam.aspect = aspect; cam.updateProjectionMatrix();
     // the frame's centre moved to the middle (a crop of the picture, not a turn of the camera), then zoom and pan
     cam.projectionMatrix.premultiply(new THREE.Matrix4().set(s.zoom, 0, 0, s.tx - (s.zoom * s.cx) / (th * aspect), 0, s.zoom, 0, s.ty - (s.zoom * s.cy) / th, 0, 0, 1, 0, 0, 0, 0, 1));
@@ -713,6 +896,14 @@ class Panel {
       if (dt.k === "grasp") { g.fillStyle = rgba(col, a); g.fill(); }
       else { g.fillStyle = `rgba(${INK},${a})`; g.fill(); g.strokeStyle = rgba(col, a); g.lineWidth = small ? 1.2 : 1.8; g.stroke(); }
     }
+    for (const pr of this.probes) {                             // a point a read-only call asked about: a small cross
+      const q = proj(pr.p); if (!q) continue;
+      const many = this.probes.length > 90, a = hot == null || pr.g < 0 ? 1 : pr.g === hot ? 1 : 0.25, r = small ? 2.2 : many ? 3 : 4;
+      for (const [w, c] of [[small ? 2.6 : many ? 3 : 3.6, `rgba(${INK},${0.85 * a})`], [small ? 1 : many ? 1.2 : 1.5, `rgba(255,255,255,${a})`]]) {
+        g.beginPath(); g.moveTo(q[0] - r, q[1]); g.lineTo(q[0] + r, q[1]); g.moveTo(q[0], q[1] - r); g.lineTo(q[0], q[1] + r);
+        g.strokeStyle = c; g.lineWidth = w; g.stroke();
+      }
+    }
     if (hot != null && !all) for (const rg of this.rings) {       // a gripper row: where the gripper was
       if (rg.g !== hot) continue;
       const q = proj(rg.p); if (!q) continue;
@@ -745,8 +936,49 @@ class Panel {
   }
 }
 
+// Several runs, one shown: tabs for the cases (task and layout), a switch for the two modes of a case.
+class Deck {
+  constructor(fig, grid, root, ids, metas, opts) {
+    this.fig = fig; this.grid = grid; this.root = root; this.ids = ids; this.metas = metas; this.opts = opts; this.panels = new Map(); this.cur = -1;
+    const key = (m) => `${m.task} ${m.layout}`, twice = (m) => new Set(metas.filter((x) => x.task === m.task).map(key)).size > 1;
+    this.cases = [...new Set(metas.map(key))].map((k) => {       // a task shown on two layouts says which
+      const runs = metas.map((m, i) => (key(m) === k ? i : -1)).filter((i) => i >= 0), m = metas[runs[0]];
+      return { name: words(m.task) + (twice(m) ? ` · layout ${m.layout}` : ""), runs };
+    });
+    this.bar = el("div", "r3d-deckbar");
+    this.bar.innerHTML = `<div class="r3d-tabs" role="group" aria-label="Case">${this.cases.map((c, k) => `<button type="button" data-case="${k}" aria-pressed="false">${esc(c.name)}</button>`).join("")}</div>
+      <div class="r3d-seg" role="group" aria-label="Mode"><button type="button" data-mode="tools" aria-pressed="false">Tool calls</button><button type="button" data-mode="code" aria-pressed="false">Code mode</button></div>`;
+    fig.insertBefore(this.bar, grid);
+    this.bar.addEventListener("click", (e) => {
+      const b = e.target.closest("button"); if (!b || b.disabled) return;
+      const c = b.dataset.case != null ? this.cases[+b.dataset.case] : this.cases.find((x) => x.runs.includes(this.cur));
+      const mode = b.dataset.mode || this.metas[this.cur].mode;
+      this.open(c.runs.find((i) => this.metas[i].mode === mode) ?? c.runs[0]);
+    });
+  }
+  open(i) {
+    if (i === this.cur || i < 0 || i >= this.ids.length) return this.panels.get(this.cur);
+    let p = this.panels.get(i);
+    if (!p) {
+      p = new Panel(this.grid, this.root + this.ids[i] + "/", this.metas[i], sharedView([this.metas[i]]), this.opts);
+      this.panels.set(i, p);
+      p.syncControls(); p.select(-1);
+    }
+    this.panels.forEach((x, k) => { x.root.hidden = k !== i; if (k !== i) x.stop(); });
+    this.cur = i;
+    const c = this.cases.find((x) => x.runs.includes(i));
+    this.bar.querySelectorAll("[data-case]").forEach((b) => b.setAttribute("aria-pressed", this.cases[+b.dataset.case] === c ? "true" : "false"));
+    this.bar.querySelectorAll("[data-mode]").forEach((b) => {
+      b.setAttribute("aria-pressed", b.dataset.mode === this.metas[i].mode ? "true" : "false");
+      b.disabled = !c.runs.some((r) => this.metas[r].mode === b.dataset.mode);
+    });
+    p.wake();
+    return p;
+  }
+}
+
 async function mount(fig) {
-  const ids = fig.dataset.runs.trim().split(/\s+/), root = fig.dataset.root || "";
+  const ids = fig.dataset.runs.trim().split(/\s+/), root = fig.dataset.root || new URL("runs/", import.meta.url).href;
   if (!("DecompressionStream" in window)) { fig.classList.add("r3d-failed"); return; }   // very old browsers: the text stays
   let metas;
   try {
@@ -755,16 +987,56 @@ async function mount(fig) {
   } catch (e) { fig.classList.add("r3d-failed"); return; }
   const grid = el("div", "r3d-grid");
   fig.insertBefore(grid, fig.querySelector("figcaption"));
-  let S, panels;
-  try { S = sharedView(metas); panels = metas.map((m, i) => new Panel(grid, root + ids[i] + "/", m, S)); }
-  catch (e) { grid.remove(); fig.classList.add("r3d-failed"); return; }   // no WebGL: the text fallback stays
+  const opts = { plain: fig.dataset.verdict === "plain" };
+  const stage = fig.closest(".story-stage"), story = () => stage && stage.closest(".story"), told = () => !!story()?.classList.contains("is-on");
+  let S, panels = [], deck = null;
+  try {
+    if (fig.classList.contains("r3d-deck")) { deck = new Deck(fig, grid, root, ids, metas, opts); if (!told()) deck.open(0); }
+    else { S = sharedView(metas); panels = metas.map((m, i) => new Panel(grid, root + ids[i] + "/", m, S, opts)); }
+  } catch (e) { grid.remove(); deck?.bar.remove(); fig.classList.add("r3d-failed"); return; }   // no WebGL: the text fallback stays
   fig.classList.add("r3d-on");
-  fig.r3d = { S, panels };
   panels.forEach((p) => { p.syncControls(); p.select(-1); });
+  // which run a spec names: an id, a unique part of one, or a 1-based position
+  const runOf = (v) => {
+    if (v == null || v === "") return deck ? Math.max(0, deck.cur) : 0;
+    const hits = ids.map((id, i) => (id === v || id.includes(String(v)) ? i : -1)).filter((i) => i >= 0);
+    return hits.length === 1 ? hits[0] : /^\d+$/.test(String(v)) && +v >= 1 && +v <= ids.length ? +v - 1 : -1;
+  };
+  const show = (spec = {}) => {
+    const i = runOf(spec.run);
+    if (i < 0) { console.warn("Run3D: no run", spec.run, "in", ids); return; }
+    (deck ? deck.open(i) : panels[i]).show(spec);
+  };
+  fig.r3d = { S, panels, deck };
+  fig.run3d = { show, runs: ids.slice(), get panel() { return deck ? deck.panels.get(deck.cur) : panels[0]; } };
+  // inside a scroll story's stage: follow the steps (their data-r3d-* attributes; none: this step has no viewer)
+  if (stage) {
+    const follow = () => {
+      const data = stage.dataset, side = story().dataset.layout === "side";
+      const spec = data.r3dRun != null || data.r3dDecision != null || data.r3dDecisions != null;
+      const on = spec && !(side && +stage.getAttribute("data-frames") > 0);
+      fig.hidden = side && !on;                                // beside the text: gone, the stage shows the step's figures
+      fig.classList.toggle("r3d-away", !side && !on);          // pinned to the top: its place is kept, the stage lets go
+      stage.classList.toggle("r3d-stage-away", !side && !on);
+      if (on) show({ run: data.r3dRun, decision: data.r3dDecision, decisions: data.r3dDecisions, motion: data.r3dMotion, view: data.r3dView,
+        zoom: data.r3dZoom, aim: data.r3dAim, quote: data.r3dQuote, scene: data.r3dScene });
+    };
+    document.addEventListener("story:step", (e) => { if (e.detail && e.detail.stage === stage) follow(); });
+    let lay = story()?.dataset.layout;
+    addEventListener("resize", () => requestAnimationFrame(() => {
+      const now = told() ? story().dataset.layout : "plain";
+      if (now === lay) return;
+      lay = now;
+      if (told()) { follow(); return; }
+      fig.hidden = false; fig.classList.remove("r3d-away"); stage.classList.remove("r3d-stage-away");   // the plain sequence: the viewer is a figure of its own
+      if (deck && deck.cur < 0) deck.open(0);
+    }));
+    if (told()) follow();
+  }
 }
 
 function init() {
-  const figs = document.querySelectorAll("figure.r3d[data-runs]");
+  const figs = document.querySelectorAll(".r3d[data-runs]");
   if (!("IntersectionObserver" in window)) return;
   const io = new IntersectionObserver((es) => es.forEach((e) => {
     if (!e.isIntersecting) return;
