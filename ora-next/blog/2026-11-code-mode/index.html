@@ -215,17 +215,19 @@ body.show-audits .audit-pop{display:block;position:static;width:auto;margin:8px 
     <article class="prose"><!--
 ORA blog, November 2026 release. DRAFT v2.1-A1-R6 (2026-11-09 PST), English body. Blog no. 2 of the ORA series; no. 1 is the October post (page/).
 Agent 1: Spare & Direct — Polished Original Voice (Round 6 Final Championship Draft).
-Structure: (1) Code mode; (2) Shared motion stack; (3) Tool-use mode vs. code mode; (4) Three open models; (5) What's next; Appendix A.
+Edits 2026-11-12 (user): TL;DR 1 says what zero-shot excludes; TL;DR 4 states the observation, not a cause; the mode is
+called "tool calls" everywhere (as in the figures and on the site); an internal reference removed from the body.
+Structure: (1) Code mode; (2) Shared motion stack; (3) Tool calls vs. code mode; (4) Three open models; (5) What's next; Appendix A.
 -->
 
 <h1>Robot-use agents can write code now</h1>
 <blockquote>
 <p><strong>TL;DR.</strong></p>
 <ol>
-<li><strong>Code mode.</strong> We gave ORA a persistent <code>/work</code> workspace where the agent writes and runs short Python programs against the robot's tools instead of calling one tool per turn. Zero-shot, <code>DeepSeek-V4.1-Flash</code> now solves <strong>40% of RoboDojo</strong>.</li>
+<li><strong>Code mode.</strong> We gave ORA a persistent <code>/work</code> workspace where the agent writes and runs short Python programs against the robot's tools instead of calling one tool per turn. Zero-shot, with no exploration, demonstrations or robot training, <code>DeepSeek-V4.1-Flash</code> now solves <strong>40% of RoboDojo</strong>.</li>
 <li><strong>Classical motion underneath.</strong> The agent decides what to do; one shared motion stack handles how the arm gets there. Before every planned move, it builds a 3D collision world from the depth cameras, plans a collision-free path with <code>cuRobo</code>, keeps the wrist from unwinding, and caps joint speeds.</li>
 <li><strong>How agents behave with code.</strong> Calling one tool per turn pushes the agent to re-estimate, re-measure, and check a turn too late. A program measures once, saves the result in <code>/work</code>, checks its own work right after moving, and builds reusable helpers for point clouds, poses, and geometric fitting.</li>
-<li><strong>Three open models, two modes.</strong> Folding those self-built helpers into ORA's built-in tools let tool-use mode match code mode in solve rate across <code>DeepSeek-V4.1-Flash</code>, <code>Qwen3.8-Flash-Next</code>, and <code>Muse Spark Open</code>, while code mode still cuts the required robot decisions in half.</li>
+<li><strong>Three open models, two modes.</strong> On the current harness, <code>DeepSeek-V4.1-Flash</code>, <code>Qwen3.8-Flash-Next</code>, and <code>Muse Spark Open</code> each solve about as many tasks with tool calls as with code, and with code they need about half the robot decisions.</li>
 </ol>
 </blockquote>
 <h2>1. The major change: code mode</h2>
@@ -238,10 +240,10 @@ Structure: (1) Code mode; (2) Shared motion stack; (3) Tool-use mode vs. code mo
 <li>motion tools: Cartesian moves, the gripper, and the wrist;</li>
 <li>a Supervisor that admits every motion one at a time and answers it with a receipt.</li>
 </ul>
-<p>In <strong>tool-use mode</strong>, the agent uses this harness the way most tool-using agents do: each turn it calls one tool, reads the result, and decides what to do next.</p>
+<p>With <strong>tool calls</strong>, the agent uses this harness the way most tool-using agents do: each turn it calls one tool, reads the result, and decides what to do next.</p>
 <p><strong>Code mode</strong> keeps the same harness and changes how the agent reaches it:</p>
 <ul>
-<li><strong>The same tools, as a library.</strong> Every tool the agent can call in tool-use mode is importable from Python inside a sandbox, alongside a small library (<code>ora_lib</code>) for frames, projections, and depth point clouds.</li>
+<li><strong>The same tools, as a library.</strong> Every tool the agent can call is importable from Python inside a sandbox, alongside a small library (<code>ora_lib</code>) for frames, projections, and depth point clouds.</li>
 <li><strong>A workspace that persists.</strong> The sandbox keeps a directory, <code>/work</code>, for the whole episode. A helper written in one turn can be imported in the next, and a measurement saved to a file can be read by every later program.</li>
 <li><strong>The same loop and the same authority.</strong> It is still turn by turn: one program is one decision, and the agent reads the program's output and the next observation before writing the next program. Every motion the program issues still goes to the Supervisor one at a time.</li>
 </ul>
@@ -334,14 +336,14 @@ Structure: (1) Code mode; (2) Shared motion stack; (3) Tool-use mode vs. code mo
 <li><strong>What the cameras cannot see.</strong> Unseen space counts as free, so an object hidden behind another is not in the world.</li>
 <li><strong>Wrist refusals.</strong> In the rollout behind the results above, 10–13% of runs hit at least one wrist refusal. The planner's own fixes (the straight joint line, other arm solutions, the jaw twin) landed after that rollout.</li>
 </ul>
-<p>Both tool-use mode and code mode run on this stack, and programs lean on it most. A program may issue several moves before the model sees the scene again, so each move has to execute as planned, or come back refused with a reason the program can branch on.</p>
+<p>Tool calls and code mode both run on this stack, and programs lean on it most. A program may issue several moves before the model sees the scene again, so each move has to execute as planned, or come back refused with a reason the program can branch on.</p>
 <h2>3. How agents behave with tool calls and with code</h2>
 <p>To watch the two modes side by side, we ran a paired experiment on an earlier version of the harness: 20 RoboDojo tasks on three layouts (59 valid cases), with the same model (<code>DeepSeek-V4.1-Flash</code>), the same tools, and the same budgets (80 robot decisions, 200 model calls), and only the action mode changed.</p>
 <div class="tbl"><table>
 <thead>
 <tr>
 <th></th>
-<th>Tool-use mode (tool calls)</th>
+<th>Tool calls</th>
 <th>Code mode (programs)</th>
 </tr>
 </thead>
@@ -381,7 +383,7 @@ Structure: (1) Code mode; (2) Shared motion stack; (3) Tool-use mode vs. code mo
 <h3>What one turn delivers</h3>
 <p>Both modes think about equally long per model call (10.8k vs. 12.0k median characters). What differs is what a turn hands back:</p>
 <ul>
-<li>in <strong>tool-use mode</strong>, a turn is one call of about 180 characters, and 97% of tool-call turns that move the robot execute a single action;</li>
+<li>with <strong>tool calls</strong>, a turn is one call of about 180 characters, and 97% of tool-call turns that move the robot execute a single action;</li>
 <li>in <strong>code mode</strong>, a turn is a program of about 1.8k characters. It executes 3.6 actions on average, with the measurements and checks around them.</li>
 </ul>
 <figure class="ofig" aria-label="What one turn delivers">
@@ -685,7 +687,7 @@ gains: [2.93, 0.03]</pre>
 </tr>
 </tbody>
 </table></div>
-<p>Each family points at something the harness should provide itself. The first two are now being added to the code-mode library (<code>mask_to_cloud</code> and <code>object_geometry</code> in <code>ora_lib</code>), and world-axis pose specification, wrist routing, and clearer refusal receipts were folded into the main tools (<code>P21, #119–#158</code>). The functions an agent writes at runtime have become one of our main sources of harness improvements. <span class="tbd">TBD: link the library change when it lands.</span></p>
+<p>Each family points at something the harness should provide itself. The first two are now being added to the code-mode library (<code>mask_to_cloud</code> and <code>object_geometry</code> in <code>ora_lib</code>), and world-axis pose specification, wrist routing, and clearer refusal receipts were folded into the main tools. The functions an agent writes at runtime have become one of our main sources of harness improvements. <span class="tbd">TBD: link the library change when it lands.</span></p>
 <p><strong>Can a program cheat?</strong> A program can read files, so we checked what it read. The sandbox has no network and no view of the simulator, the run, or any credential, and it cannot call the task checker. It can read ORA's own tool source and the robots' public geometry; simulator backends, task code, and success checks are not mounted. Across the 59 episodes, programs in five cases searched that source for the task's name and found only developer comments. Reading the source happened in 7 of 20 solved cases and 19 of 39 failed ones.</p>
 <h3>Talk to it while it works</h3>
 <p>ORA's agent loop now runs on <a href="https://github.com/earendil-works/pi">Pi</a>, an open coding-agent core. So code mode also works in free play: load a scene with no task, type an instruction, and change your mind halfway.</p>
@@ -693,7 +695,7 @@ gains: [2.93, 0.03]</pre>
 
 <p>The correction arrived while the agent was working. It read it before its next step, re-measured the magenta block, put blue in the middle and green on top, and reported the measured height of each layer.</p>
 <h2>4. Muse, DeepSeek and Qwen with code and with tool calls</h2>
-<p>Different open models may suit different interfaces. Once the helper upgrades above landed in the tools, we ran three open models on the current harness, on the same 40 RoboDojo tasks (one layout each), in both tool-use mode and code mode, with the same budgets:</p>
+<p>Different open models may suit different interfaces. Once the helper upgrades above landed in the tools, we ran three open models on the current harness, on the same 40 RoboDojo tasks (one layout each), with tool calls and in code mode, with the same budgets:</p>
 <ul>
 <li>self-hosted <code>DeepSeek-V4.1-Flash</code>;</li>
 <li><code>Qwen3.8-Flash-Next</code>;</li>
@@ -716,7 +718,7 @@ gains: [2.93, 0.03]</pre>
 <tbody>
 <tr>
 <td><code>DeepSeek-V4.1-Flash</code></td>
-<td>tool-use mode</td>
+<td>tool calls</td>
 <td>15 / 39</td>
 <td>37</td>
 <td>70</td>
@@ -738,7 +740,7 @@ gains: [2.93, 0.03]</pre>
 </tr>
 <tr>
 <td><code>Qwen3.8-Flash-Next</code></td>
-<td>tool-use mode</td>
+<td>tool calls</td>
 <td>15 / 39</td>
 <td>65</td>
 <td>143</td>
@@ -760,7 +762,7 @@ gains: [2.93, 0.03]</pre>
 </tr>
 <tr>
 <td><code>Muse Spark Open</code></td>
-<td>tool-use mode</td>
+<td>tool calls</td>
 <td>5 / 39</td>
 <td>58</td>
 <td>113</td>
