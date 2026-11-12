@@ -120,6 +120,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 /* article: blog posts and docs pages share these */
 .posthead{padding:72px 0 28px;text-align:center}
 .posthead .meta{font:400 13px/1 var(--label);color:var(--text-3);display:flex;gap:12px;justify-content:center;align-items:center;flex-wrap:wrap;margin:0}
+.posthead .byline{margin:18px 0 0;color:var(--text-3);font-size:14.5px}
 .posthead h1{font:600 clamp(2.2rem,5vw,3.6rem)/1.06 var(--sans);letter-spacing:-.035em;margin:20px auto 0;max-width:15em;text-wrap:balance}
 .prose{font-size:17px;line-height:1.75;color:var(--text-body);overflow-wrap:break-word}
 .prose h1{display:none}
@@ -307,7 +308,7 @@ h1.wordmark .wm-type img{width:clamp(52px,6vw,72px);height:auto;display:block}
 
 <main class="ov">
 <section class="hero"><div class="wrap">
-  <a class="pill" href="../blog/2026-11-code-mode/index.html"><b>New</b>ORA in code mode: letting robot agents write programs</a>
+  <a class="pill" href="../blog/2026-11-code-mode/index.html"><b>New</b>Robot-use agents can write code now</a>
   <h1 class="wordmark" data-wordmark><svg class="wm-pix" viewBox="0 0 40 9" role="img" aria-label="ORA" shape-rendering="crispEdges"><path fill="currentColor" d="M1 0h4v1h-4zM16 0h5v1h-5zM24 0h6v1h-6zM35 0h3v1h-3zM0 1h2v1h-2zM4 1h2v1h-2zM15 1h2v1h-2zM20 1h2v1h-2zM24 1h2v1h-2zM29 1h2v1h-2zM34 1h2v1h-2zM37 1h2v1h-2zM0 2h2v1h-2zM4 2h7v1h-7zM15 2h2v1h-2zM20 2h2v1h-2zM24 2h2v1h-2zM29 2h2v1h-2zM33 2h2v1h-2zM38 2h2v1h-2zM1 3h4v1h-4zM9 3h2v1h-2zM15 3h2v1h-2zM20 3h2v1h-2zM24 3h2v1h-2zM29 3h2v1h-2zM33 3h2v1h-2zM38 3h2v1h-2zM2 4h2v1h-2zM9 4h2v1h-2zM15 4h2v1h-2zM20 4h2v1h-2zM24 4h6v1h-6zM33 4h2v1h-2zM38 4h2v1h-2zM2 5h2v1h-2zM15 5h2v1h-2zM20 5h2v1h-2zM24 5h2v1h-2zM27 5h2v1h-2zM33 5h7v1h-7zM2 6h2v1h-2zM15 6h2v1h-2zM20 6h2v1h-2zM24 6h2v1h-2zM28 6h2v1h-2zM33 6h2v1h-2zM38 6h2v1h-2zM1 7h4v1h-4zM15 7h2v1h-2zM20 7h2v1h-2zM24 7h2v1h-2zM29 7h2v1h-2zM33 7h2v1h-2zM38 7h2v1h-2zM0 8h6v1h-6zM16 8h5v1h-5zM24 8h2v1h-2zM29 8h2v1h-2zM33 8h2v1h-2zM38 8h2v1h-2z"/><path fill="#147F85" d="M8 5h4v1h-4zM8 6h1v1h-1zM11 6h1v1h-1zM8 7h1v1h-1zM11 7h1v1h-1z"/></svg><span class="wm-type"><img class="on-dark" src="assets/brand/ora-mark-192.png" alt="" width="72" height="72"><img class="on-light" src="assets/brand/ora-ink-192.png" alt="" width="72" height="72">ORA</span></h1>
   <p class="expand">Open Robot-Use Agents</p>
   <p class="claim">Open models operate robots. <em>Zero-shot.</em></p>
@@ -415,7 +416,7 @@ if miss(r) &gt; .012: handoff()
 
 <section><div class="wrap">
   <div class="sechead"><h2>ORA in the blog</h2><a href="../blog/index.html">All posts</a></div>
-  <div class="posts"><a class="post" href="../blog/2026-11-code-mode/index.html"><img src="../ora/assets/teaser.jpg" alt="" loading="lazy"><div class="body"><p class="meta"><span>ORA</span><span>·</span><span>Nov 2026</span><span class="draft">DRAFT</span></p><h3>ORA in Code Mode: Letting Robot Agents Write Programs</h3><p>Code mode lets the agent write and run programs against the same harness: DeepSeek-V4.1-Flash solves 40% of RoboDojo zero-shot, without exploration. How agents behave with code, the tools they build for themselves, and three open models in both modes.</p></div></a><a class="post" href="../blog/2026-10-ora/index.html"><img src="../ora/assets/post1.jpg" alt="" loading="lazy"><div class="body"><p class="meta"><span>ORA</span><span>·</span><span>Oct 2026</span></p><h3>ORA: Open Robot-Use Agents</h3><p>An open robot-use harness that connects open-weight language models to robots through perception and motion tools, with no VLA and no robot training.</p></div></a></div>
+  <div class="posts"><a class="post" href="../blog/2026-11-code-mode/index.html"><img src="../ora/assets/teaser.jpg" alt="" loading="lazy"><div class="body"><p class="meta"><span>ORA</span><span>·</span><span>Nov 2026</span><span class="draft">DRAFT</span></p><h3>Robot-use agents can write code now</h3><p>Code mode lets the agent write and run programs against the same harness: DeepSeek-V4.1-Flash solves 40% of RoboDojo zero-shot, without exploration. How agents behave with code, the tools they build for themselves, and three open models in both modes.</p></div></a><a class="post" href="../blog/2026-10-ora/index.html"><img src="../ora/assets/post1.jpg" alt="" loading="lazy"><div class="body"><p class="meta"><span>ORA</span><span>·</span><span>Oct 2026</span></p><h3>ORA: Open Robot-Use Agents</h3><p>An open robot-use harness that connects open-weight language models to robots through perception and motion tools, with no VLA and no robot training.</p></div></a></div>
 </div></section>
 </main>
 

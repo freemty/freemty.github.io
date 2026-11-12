@@ -120,6 +120,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 /* article: blog posts and docs pages share these */
 .posthead{padding:72px 0 28px;text-align:center}
 .posthead .meta{font:400 13px/1 var(--label);color:var(--text-3);display:flex;gap:12px;justify-content:center;align-items:center;flex-wrap:wrap;margin:0}
+.posthead .byline{margin:18px 0 0;color:var(--text-3);font-size:14.5px}
 .posthead h1{font:600 clamp(2.2rem,5vw,3.6rem)/1.06 var(--sans);letter-spacing:-.035em;margin:20px auto 0;max-width:15em;text-wrap:balance}
 .prose{font-size:17px;line-height:1.75;color:var(--text-body);overflow-wrap:break-word}
 .prose h1{display:none}
@@ -198,7 +199,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .audit-mark:hover .audit-pop,.audit-mark:focus .audit-pop,.audit-mark:focus-within .audit-pop{display:block}
 body.show-audits .audit-pop{display:block;position:static;width:auto;margin:8px 0 6px;pointer-events:auto;box-shadow:none}
 .brand img{width:40px;height:40px;display:block;object-fit:contain}</style>
-<style>html body{--r-bg:var(--bg);--r-fg:var(--text);--r-muted:var(--text-3);--r-faint:var(--text-3);--r-rule:var(--line-2);--r-panel:var(--panel);--r-think:#50545A;--r-think-soft:#35383D;--r-tool:#8A8F96;--r-tool-soft:#3A3D42;--r-robot:#147F85;--r-robot-soft:#0E5B5F;--r-idle:var(--panel-2);--r-bad:var(--amber);--r-link:var(--teal-hi);--r-note-bg:var(--panel);--r-note-fg:var(--text-body)}html[data-theme="light"] body{--r-think:#2B2D30;--r-think-soft:#C9CDD2;--r-tool:#8A8F96;--r-tool-soft:#E3E5E8;--r-robot-soft:#8CC6C4}.byline{margin:18px 0 0;color:var(--text-3);font-size:14.5px}.prose.post-content video,.prose.post-content img{max-width:100%;height:auto;border-radius:10px}</style>
+<style>html body{--r-bg:var(--bg);--r-fg:var(--text);--r-muted:var(--text-3);--r-faint:var(--text-3);--r-rule:var(--line-2);--r-panel:var(--panel);--r-think:#50545A;--r-think-soft:#35383D;--r-tool:#8A8F96;--r-tool-soft:#3A3D42;--r-robot:#147F85;--r-robot-soft:#0E5B5F;--r-idle:var(--panel-2);--r-bad:var(--amber);--r-link:var(--teal-hi);--r-note-bg:var(--panel);--r-note-fg:var(--text-body)}html[data-theme="light"] body{--r-think:#2B2D30;--r-think-soft:#C9CDD2;--r-tool:#8A8F96;--r-tool-soft:#E3E5E8;--r-robot-soft:#8CC6C4}.prose.post-content video,.prose.post-content img{max-width:100%;height:auto;border-radius:10px}</style><link rel="stylesheet" href="../../assets/story/story.css"><script defer src="../../assets/story/story.js"></script>
 <script src="../../assets/design/design-bar.js" data-labels=".post .meta,.draft,.fcols p,.posthead .meta,.prose h2 small,.prose h3 small,.cbtn,.prose th,.slot,.draftbar,.audit-btn,.audit-tag,.audit-pop strong,.loop li b,.three li,.copy,.pill b,.side .grp&gt;p,.toc p,.crumb,.pager small,.dochero .ora-meta,.gcard .more,.r3d-legend,.r3d-hint,.r3d-swap span,.r3d-tick,.r3d-st,.r3d-n,.gv,.gpager a span,.gfilter button span"></script>
 </head>
 <body>
@@ -206,7 +207,7 @@ body.show-audits .audit-pop{display:block;position:static;width:auto;margin:8px 
 
 <main>
   <section class="posthead read"><p class="meta"><span>Real-time</span><span>·</span><span>November 2026</span><span class="draft">DRAFT</span></p>
-  <h1>Getting Robot-Use Agents to Run in Real Time</h1><p class="byline">Shaoxiong Duan, Yang Yuanbo, Junda Chen, Yulun Wu, Hao Zhang</p></section>
+  <h1>Getting Robot-Use Agents to Run in Real Time</h1><p class="byline">FastRUA Team</p></section>
   <div class="read">
     <div class="draftbar"><span>Draft · not published</span><span>source: blogs/realtime-rua/index.md</span></div>
     <article class="prose post-content"><style>
@@ -236,6 +237,18 @@ body.dark{--r-bg:#1d1e20;--r-fg:#e7e9ee;--r-muted:#a3a9b5;--r-faint:#7c8290;--r-
 .post-content video{width:100%;border-radius:8px;display:block}
 .post-content .rua-c{opacity:.6}
 .post-content .rua-ref{font-size:.9em;margin:0 0 6px}
+/* Scroll story (README.md). These rules act only where the story component is loaded: it copies the active step's
+   data-focus and data-row onto the stage (Figure 4), which then lights the part of the run's time that step acts on. */
+.post-content .rua-seg,.post-content .rua-rt{transition:opacity .2s}
+.post-content .story-stage[data-focus] .rua-seg{opacity:.36}
+.post-content .story-stage[data-focus~="ttft"] .rua-seg-ttft,.post-content .story-stage[data-focus~="dec"] .rua-seg-dec,.post-content .story-stage[data-focus~="tool"] .rua-seg-tool,.post-content .story-stage[data-focus~="robot"] .rua-seg-robot{opacity:1}
+.post-content .story-stage[data-focus~="ttft"] .rua-seg-ttft text,.post-content .story-stage[data-focus~="dec"] .rua-seg-dec text,.post-content .story-stage[data-focus~="tool"] .rua-seg-tool text,.post-content .story-stage[data-focus~="robot"] .rua-seg-robot text{fill:var(--r-fg)}
+.post-content .story-stage[data-row="after"] .rua-rt-before{opacity:.3}
+.post-content .story[data-layout="side"] .story-stage:not([data-frames="0"])>figcaption{display:none}
+.post-content .story-frames>figure:not(.rua-wide){max-width:700px}
+.post-content .story[data-layout="side"] .story-stage[data-solo]>.rua-fig{display:none}
+.post-content .story[data-layout="top"] .story-stage>.rua-fig{padding:10px 12px}
+@media (prefers-reduced-motion:reduce){.post-content .rua-seg,.post-content .rua-rt{transition:none}}
 </style>
 
 <p><strong>TL;DR</strong></p>
@@ -334,34 +347,53 @@ body.dark{--r-bg:#1d1e20;--r-fg:#e7e9ee;--r-muted:#a3a9b5;--r-faint:#7c8290;--r-
 <figcaption><b>Figure 3.</b> The harness. The model writes code, a long-lived Python process runs it against the robot, and results, images and reports flow back.</figcaption>
 </figure>
 
+<div data-story></div>
+
 <h2>Where the time goes</h2>
+<div class="story-step" data-step="profile"></div>
+
 <p>Our early towel-folding runs on the real robot took between 13 and 37 minutes. Figure 4 profiles one of the longest. The model accounted for 78% of the wall time and tool calls for nearly all the rest. The robot moved for only a quarter of the run, and much of that motion happened inside blocking calls the agent was waiting on.</p>
-<figure class="rua-wide">
-<div class="rua-fig">
+<figure class="rua-wide story-stage">
+<div class="rua-fig rua-narrow">
 <svg id="f3" viewBox="0 0 860 170" role="img" aria-label="Time breakdown of an early towel run"></svg>
 </div>
 <figcaption><b>Figure 4.</b> Where the time went in an early towel-folding run. The summary hold is the API holding each response until its reasoning summary was written; we turned summaries off for later runs. TTFT is estimated as request time minus decoding.</figcaption>
 </figure>
 
+<div class="story-step" data-step="ttft" data-label="TTFT" data-focus="ttft" data-note="TTFT is a per-request cost: the agent pays it on every tool-call round trip."></div>
+
 <p>Very little of the model's time went to producing output. About two thirds of it passed before each response produced anything at all, in TTFT: upload, queueing, and prefill of a long, image-heavy context. TTFT is a per-request cost, and an agent pays it on every tool-call round trip. A response with fewer than 100 output tokens still had a median TTFT of about two seconds, and TTFT grew as images accumulated in the context. Many of these requests did very little: the agent would spend a whole round trip viewing an image, checking on a program it had started, or asking where an arm had ended up. On average it made several requests per robot action, and the robot was idle through all of them.</p>
 <p>This is a different profile from chat, where output tokens usually dominate latency <a href="#r7">[7]</a>. An agent step emits a short tool call, often a couple of hundred tokens, so the fixed cost per request outweighs decoding. To go faster, we needed the agent to make fewer requests and make each one cheaper, and the requests that remained had to happen while the robot was moving rather than before it.</p>
+<div class="story-step" data-step="decode" data-label="1. Faster decoding" data-focus="dec" data-note="Median model response: 2.9 s → 1.9 s. A faster decoder leaves TTFT where it was."></div>
+
 <h2>1. Faster decoding</h2>
 <p>In short timed requests, Astra's ultrafast tier generated tokens about four times faster than the Fast (priority) tier, with the same time to first output. In our towel runs the median model response fell from 2.9 s to 1.9 s, a third shorter. These were different episodes, so the comparison is rough, but it fits the profile above: decoding was the smaller part of each response, and a faster decoder leaves TTFT where it was.</p>
+<div class="story-step" data-step="trips" data-label="2. Fewer round trips" data-focus="ttft dec" data-note="Every request has a fixed cost, so predictable requests are folded into the action itself."></div>
+
 <h2>2. Fewer round trips</h2>
 <p>Since every request has a fixed cost, we looked for requests that were predictable, meaning the agent almost always made them after a certain kind of action, and folded them into the action itself. The most common pattern was an action followed by several round trips of looking: polling until the program finished, reading each camera image one at a time, and then asking for the robot's state (Figure 5). None of these involves a decision, so we made the action return all of that information directly.</p>
-<figure class="rua-wide">
+<figure class="rua-wide story-frame" data-for="trips reports">
 <div class="rua-fig">
 <svg id="f4" viewBox="0 0 860 200" role="img" aria-label="Round trips for one action before and after"></svg>
 </div>
 <figcaption><b>Figure 5.</b> One action and the look after it (illustrative). Before: the model polls for the result, reads each camera image in its own request, then asks for the robot state. After: all of it comes back in one report.</figcaption>
 </figure>
 
+<div class="story-step" data-step="reports" data-label="One report" data-focus="ttft dec" data-row="after" data-note="Instead of polling, the agent receives a report when the action ends."></div>
+
 <p>A program that renders images now returns them as part of its tool result, so the model sees them without a separate request. Any program that moves the arms finishes by printing the robot's state: where each arm is, whether the grippers are holding something, and any faults. Error messages say which limit was hit and by how much, so the agent can usually fix the problem on its next try. Checking whether a set of candidate poses is reachable takes one call for the whole list rather than one call per pose.</p>
 <p>Instead of polling a running action, the agent now receives a report when the action ends, with the result, the robot's state and a camera view. The agent can also register its own checks, such as a segmentation of the towel, to run after every motion, and their output arrives in the same report.</p>
+<div class="story-step" data-step="approval" data-label="No previews" data-focus="ttft dec" data-note="Previews changed the plan in only about 4 of 99 cases."></div>
+
 <p>The same reasoning applies to approval. Early on, the agent often previewed an action with a dry run and looked at the result before running it for real, which costs a full round trip per action. Those previews changed its plan in only about 4 of 99 cases. It works better to let the action run and have the model stop or replace it when the report shows a problem.</p>
+<div class="story-step" data-step="tile" data-label="3. Keep the context short" data-focus="ttft" data-note="As images pile up in the context, TTFT grows on every request."></div>
+
 <h2>3. Keep the context short</h2>
-<p>A robot agent looks at a lot of images, and as they pile up in the context, TTFT grows on every request. We handled this in two ways. First, we send the four camera views as a single tiled image instead of four separate ones, which keeps TTFT noticeably lower even at the same resolution (Figure 7). Second, once about 20 images have built up, the harness moves the conversation to a fresh thread in which older images are replaced by short text notes and only the newest few are kept (Figure 6). The first request after a prune can't use the prompt cache, so we prune between turns.</p>
-<figure class="rua-wide">
+<p>A robot agent looks at a lot of images, and as they pile up in the context, TTFT grows on every request. We handled this in two ways. First, we send the four camera views as a single tiled image instead of four separate ones, which keeps TTFT noticeably lower even at the same resolution (Figure 7).</p>
+<div class="story-step" data-step="prune" data-label="Pruning" data-focus="ttft" data-note="Once about 20 images have built up, older ones are replaced by short text notes."></div>
+
+<p>Second, once about 20 images have built up, the harness moves the conversation to a fresh thread in which older images are replaced by short text notes and only the newest few are kept (Figure 6). The first request after a prune can't use the prompt cache, so we prune between turns.</p>
+<figure class="rua-wide story-frame">
 <div class="rua-fig">
 <svg viewBox="0 0 860 200" role="img" aria-label="Image pruning: old images become text notes, newest images stay">
   <text x="0" y="30" class="lbb">Before</text>
@@ -383,24 +415,30 @@ body.dark{--r-bg:#1d1e20;--r-fg:#e7e9ee;--r-muted:#a3a9b5;--r-faint:#7c8290;--r-
 <figcaption><b>Figure 6.</b> Pruning old images. Every image still in the context adds to TTFT on every later request, so when about 20 have built up, the harness keeps the text of the conversation and the newest few images, and replaces the rest with short notes naming their files.</figcaption>
 </figure>
 
-<figure>
+<figure class="story-frame" data-for="tile">
 <div class="rua-fig rua-narrow">
 <svg id="f5" viewBox="0 0 640 220" role="img" aria-label="TTFT after 45 four-camera looks"></svg>
 </div>
 <figcaption><b>Figure 7.</b> TTFT after 45 four-camera looks in one conversation. Tiling the four views into one image helps, and a smaller grid helps more.</figcaption>
 </figure>
 
+<div class="story-step" data-step="tools" data-label="4. Faster tools" data-focus="tool" data-note="Most of the time inside tools sat between a look and the next action."></div>
+
 <h2>4. Faster tools</h2>
 <p>Once most of the extra requests were gone, the time spent inside tools became noticeable, at 6 to 10% of the run. Most of it sat between a look and the next action, where nothing else could happen. The largest improvement came from running the agent's code in a persistent Python process. Imports are paid for once, Python starts a call in tens of milliseconds instead of a few hundred, and variables and helper functions survive from one call to the next. We also made camera capture faster.</p>
+<div class="story-step" data-step="queue" data-label="5. Pipelining" data-focus="robot" data-note="The last change: let the model think while the robot moves."></div>
+
 <h2>5. Pipelining: hiding time behind motion</h2>
 <p>Even with all of the above, the agent still makes a few requests for each action, and as long as each action blocks, the robot waits through every one of them. The last change was to let the model think while the robot moves.</p>
 <p>The agent writes each action as a Python function and adds it to a queue. The robot works through the queue in the background while the model plans what comes next, and the model can change the plan at any point: it can replace everything after a given action, or stop the one that is running.</p>
-<pre><code>kernel.queue([lift_left, lift_right])             <span class="rua-c"># run in order, in the background</span>
+<pre class="story-frame"><code>kernel.queue([lift_left, lift_right])             <span class="rua-c"># run in order, in the background</span>
 kernel.queue(new_plan, replace_from="lift_right") <span class="rua-c"># replace the queue's tail while the head runs</span>
 kernel.action().stop()                            <span class="rua-c"># stop now; the arms hold</span></code></pre>
 
+<div class="story-step" data-step="feedback" data-label="Feedback timing" data-focus="robot" data-note="The report for one action arrives as the next one starts."></div>
+
 <p>The timing of feedback turned out to matter (Figure 8). The report for one action arrives as the next one starts, so the model reads how the last action went while the robot is already busy, and still has time to revise the action after that. If the model finishes its turn while the robot is still moving, the harness sends it a fresh camera view so that it gets started on the next step instead of sitting idle. And because a queued action starts from wherever the previous one left off, the agent writes actions that check their own preconditions, for instance that a cup is still in the gripper before carrying it anywhere.</p>
-<figure class="rua-wide">
+<figure class="rua-wide story-frame">
 <div class="rua-fig">
 <svg viewBox="0 0 860 250" role="img" aria-label="How the queue overlaps model time with robot motion">
   <defs><marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--r-muted)"/></marker></defs>
@@ -428,7 +466,9 @@ kernel.action().stop()                            <span class="rua-c"># stop now
 <figcaption><b>Figure 8.</b> How the queue overlaps thinking with motion. Each report lands while the next action is already running, so the model's request time is hidden, as long as it finishes before the queue runs dry.</figcaption>
 </figure>
 
-<figure class="rua-wide">
+<div class="story-step" data-step="result" data-label="With the queue" data-focus="robot" data-solo="lanes" data-note="Model time barely changes; most of it now happens while the arm moves."></div>
+
+<figure class="rua-wide story-frame">
 <div class="rua-fig">
 <svg id="f6" viewBox="0 0 860 300" role="img" aria-label="Agent and robot lanes for the same work in three harnesses"></svg>
 </div>
@@ -437,6 +477,8 @@ kernel.action().stop()                            <span class="rua-c"># stop now
 </figure>
 
 <p>Uni-robot-agent <a href="#r2">[2]</a> uses the same idea. Its tool calls can run in the background, so the model keeps reasoning while the robot executes, and in simulation this cut episode times substantially. Our version differs mainly in how results come back: instead of the agent fetching them, each report is pushed to it as the next action starts, while there is still time to change what comes next.</p>
+<div data-story-end></div>
+
 <h2>Results</h2>
 <p>We first compare real runs. Figure 10 shows every towel-folding run that finished the task or ran for at least a few minutes, grouped by the three versions of the harness we ran on the robot: the original, one with fewer round trips, a shorter context and faster tools but no queue, and the full harness with the queue. Run times vary a lot, because they depend on how the towel starts out and on the choices the agent makes, and many runs were stopped before the end. Alongside time to finish, we therefore show two measures that don't need a finished run: how much of the time the robot was moving, and how much of the model's time overlapped motion.</p>
 <p>Cutting round trips raised the robot's moving share from a median of 29% to 52%, because the robot spent less time waiting between actions. It hid none of the model's time, though, since every action still blocked. The queue is what hid it: the median share of model time that overlapped motion went from almost none to about half. Runs that finished took a median of about 6 minutes with the full harness, against 16 to 18 minutes with the earlier versions.</p>
@@ -530,11 +572,11 @@ kernel.action().stop()                            <span class="rua-c"># stop now
 <h2>Acknowledgement</h2>
 <p><em>To be added.</em></p>
 <h2>Contributors</h2>
-<p><a href="https://github.com/shaoxiongduan">Shaoxiong Duan</a>, Yang Yuanbo, <a href="https://github.com/GindaChen">Junda Chen</a>, Yulun Wu, <a href="https://haozhang.ai">Hao Zhang</a></p>
+<p>FastRUA Team</p>
 <h2>Citation</h2>
 <pre><code class="language-bibtex">@misc{realtimerua2026,
   title        = {Getting Robot-Use Agents to Run in Real Time},
-  author       = {Duan, Shaoxiong and Yang, Yuanbo and Chen, Junda and Wu, Yulun and Zhang, Hao},
+  author       = {{FastRUA Team}},
   year         = {2026},
   month        = nov,
   howpublished = {Hao AI Lab Blog},
@@ -549,37 +591,53 @@ function el(tag,attrs,parent,text){const e=document.createElementNS(NS,tag);for(
 const D=JSON.parse(document.getElementById("lanes").textContent);
 const C={w:"var(--r-think-soft)",g:"var(--r-think)",i:"var(--r-tool)",t:"var(--r-tool)",r:"var(--r-muted)"};
 
-/* Figure 3: towel-fold-11 breakdown */
+/* Figure 4: towel-fold-11 breakdown. It is also the stage of the scroll story (README.md), so every part of the
+   time is a group a step can light. It is drawn at the width of its box, so its text keeps its size: at 860 px
+   in the original layout, narrower with a smaller label column, and below 520 px in a compact layout (row labels
+   above the bars) instead of scrolling sideways. The data are unchanged. */
 (function(){
-  const s=document.getElementById("f3"),L=170,W=640,T=2137,sc=W/T;
-  const segs=[["TTFT (est.)",1092,"var(--r-think-soft)"],["Decoding",187,"var(--r-think)"],["Summary hold",382,"var(--r-bad)"],["Tools",458,"var(--r-tool)"]];
-  el("text",{x:0,y:34,class:"lbb"},s,"Agent");
-  el("text",{x:0,y:50,class:"sm"},s,"model + tools");
-  let x=L;
-  segs.forEach(([n,v,c],i)=>{const w=v*sc;el("rect",{x:x,y:18,width:w-1,height:34,fill:c,rx:2},s);
-    el("text",{x:x+4,y:70+(i%2)*14,class:"sm"},s,n+" "+v.toLocaleString()+" s");x+=w;});
-  el("text",{x:0,y:124,class:"lbb"},s,"Robot");
-  el("text",{x:0,y:140,class:"sm"},s,"moving");
-  el("rect",{x:L,y:108,width:W,height:24,fill:"var(--r-idle)",rx:2},s);
-  el("rect",{x:L,y:108,width:532*sc,height:24,fill:"var(--r-robot)",rx:2},s);
-  el("text",{x:L+532*sc+6,y:125,class:"sm"},s,"532 s moving");
-  el("text",{x:L,y:160,class:"xs"},s,"0");
-  el("text",{x:L+W,y:160,class:"xs","text-anchor":"end"},s,"2,137 s");
+  const s=document.getElementById("f3"),T=2137,MOVING=532;
+  const segs=[["ttft","TTFT (est.)",1092,"var(--r-think-soft)"],["dec","Decoding",187,"var(--r-think)"],["hold","Summary hold",382,"var(--r-bad)"],["tool","Tools",458,"var(--r-tool)"]];
+  let drawn=null;
+  function draw(){
+    const box=s.parentNode,cs=getComputedStyle(box),cw=Math.round(box.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight));
+    const n=cw>0&&cw<520,VW=n?Math.max(cw,280):cw>0?Math.min(cw,860):860;
+    if(drawn===VW)return;drawn=VW;
+    while(s.firstChild)s.removeChild(s.firstChild);
+    const L=n?0:VW<760?110:170,W=n?VW:VW-L-(VW<760?6:50),sc=W/T;
+    const g=n?{h:140,bar:20,bh:24,lab:58,rb:104,rh:18,ax:136}:{h:170,bar:18,bh:34,lab:70,rb:108,rh:24,ax:160};
+    s.setAttribute("viewBox","0 0 "+VW+" "+g.h);
+    if(n){el("text",{x:0,y:13,class:"lbb"},s,"Agent");el("text",{x:46,y:13,class:"sm"},s,"model + tools");}
+    else{el("text",{x:0,y:34,class:"lbb"},s,"Agent");el("text",{x:0,y:50,class:"sm"},s,"model + tools");}
+    let x=L;
+    segs.forEach(([k,nm,v,c],i)=>{const w=v*sc,q=el("g",{class:"rua-seg rua-seg-"+k},s),end=n&&i==segs.length-1;
+      el("rect",{x:x,y:g.bar,width:w-1,height:g.bh,fill:c,rx:2},q);
+      el("text",{x:end?VW:x+(n?0:4),y:g.lab+(i%2)*14,class:"sm","text-anchor":end?"end":"start"},q,nm+" "+v.toLocaleString()+" s");x+=w;});
+    if(n){el("text",{x:0,y:97,class:"lbb"},s,"Robot");el("text",{x:46,y:97,class:"sm"},s,"moving");}
+    else{el("text",{x:0,y:124,class:"lbb"},s,"Robot");el("text",{x:0,y:140,class:"sm"},s,"moving");}
+    el("rect",{x:L,y:g.rb,width:W,height:g.rh,fill:"var(--r-idle)",rx:2},s);
+    const q=el("g",{class:"rua-seg rua-seg-robot"},s);
+    el("rect",{x:L,y:g.rb,width:MOVING*sc,height:g.rh,fill:"var(--r-robot)",rx:2},q);
+    el("text",{x:L+MOVING*sc+6,y:g.rb+g.rh/2+5,class:"sm"},q,MOVING+" s moving");
+    el("text",{x:L,y:g.ax,class:"xs"},s,"0");
+    el("text",{x:L+W,y:g.ax,class:"xs","text-anchor":"end"},s,"2,137 s");
+  }
+  draw();
+  if("ResizeObserver" in window)new ResizeObserver(draw).observe(s.parentNode);
 })();
 
-/* Figure 4: round trips before/after */
+/* Figure 5: round trips before/after (each row is a group, so the story can dim the "before" row) */
 (function(){
   const s=document.getElementById("f4"),sc=26,x0=120;
-  function row(y,label,sub,items){
-    el("text",{x:0,y:y+16,class:"lbb"},s,label);el("text",{x:0,y:y+32,class:"sm"},s,sub);
-    let x=x0;items.forEach(([k,d,t,a])=>{const w=d*sc;el("rect",{x:x,y:y,width:Math.max(w-2,3),height:28,rx:3,fill:k=="m"?"var(--r-think)":k=="r"?"var(--r-robot)":"var(--r-tool)"},s);
-      if(t)el("text",{x:a?x:x+w/2-1,y:y+46,class:"xs","text-anchor":a||"middle"},s,t);x+=w;});
-    return x;}
+  function row(y,label,sub,items,cls){
+    const g=el("g",{class:"rua-rt "+cls},s);
+    el("text",{x:0,y:y+16,class:"lbb"},g,label);el("text",{x:0,y:y+32,class:"sm"},g,sub);
+    let x=x0;items.forEach(([k,d,t,a])=>{const w=d*sc;el("rect",{x:x,y:y,width:Math.max(w-2,3),height:28,rx:3,fill:k=="m"?"var(--r-think)":k=="r"?"var(--r-robot)":"var(--r-tool)"},g);
+      if(t)el("text",{x:a?x:x+w/2-1,y:y+46,class:"xs","text-anchor":a||"middle"},g,t);x+=w;});
+    el("text",{x:x+6,y:y+19,class:"sm"},g,Math.round((x-x0)/sc)+" s");}
   const m=2.6;
-  const xa=row(20,"Before","8 model steps",[["m",m,"write action"],["r",4.5,"blocking motion"],["m",m,"poll"],["t",.66,""],["m",m,"read cam 1"],["m",m,"cam 2"],["m",m,"cam 3"],["m",m,"cam 4"],["m",m,"read state"],["m",m,"next"]]);
-  el("text",{x:xa+6,y:39,class:"sm"},s,Math.round((xa-x0)/sc)+" s");
-  const xb=row(110,"After","2 model steps",[["m",m,"write action"],["r",4.5,"motion"],["t",.2,""],["m",m,"report: result + state + grid → next","start"]]);
-  el("text",{x:xb+6,y:129,class:"sm"},s,Math.round((xb-x0)/sc)+" s");
+  row(20,"Before","8 model steps",[["m",m,"write action"],["r",4.5,"blocking motion"],["m",m,"poll"],["t",.66,""],["m",m,"read cam 1"],["m",m,"cam 2"],["m",m,"cam 3"],["m",m,"cam 4"],["m",m,"read state"],["m",m,"next"]],"rua-rt-before");
+  row(110,"After","2 model steps",[["m",m,"write action"],["r",4.5,"motion"],["t",.2,""],["m",m,"report: result + state + grid → next","start"]],"rua-rt-after");
 })();
 
 /* Figure 5: image cost bars */
