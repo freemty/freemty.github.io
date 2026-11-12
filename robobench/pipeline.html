@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>html,body{margin:0}[hidden]{display:none!important}</style>
+</head><body>
+<title>Robobench Pipeline</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one matrix. Rows are tasks grouped by source, columns are pipeline stages left to right; a rail through each row
+   lights up where consecutive stages are done. Stage totals sit under the column heads. Dark first, light variant below. */
+:root {
+  --bg: #0c1314;
+  --panel: #121b1c;
+  --ink: #e6eeed;
+  --mute: #8fa19e;
+  --line: rgba(190, 220, 214, 0.13);
+  --faint: rgba(190, 220, 214, 0.24);
+  --accent: #5fd3bb;
+  --accent-ink: #062a23;
+  --warn: #f2b25c;
+  --bad: #ff8f78;
+  --shade: rgba(4, 8, 9, 0.72);
+  --f-text: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --f-data: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) {
+  --bg: #f3f6f5; --panel: #ffffff; --ink: #122022; --mute: #586b68; --line: rgba(18, 48, 44, 0.12); --faint: rgba(18, 48, 44, 0.26);
+  --accent: #127a66; --accent-ink: #ffffff; --warn: #a8650a; --bad: #c2412b; --shade: rgba(10, 20, 20, 0.55); color-scheme: light; } }
+:root[data-theme="light"] {
+  --bg: #f3f6f5; --panel: #ffffff; --ink: #122022; --mute: #586b68; --line: rgba(18, 48, 44, 0.12); --faint: rgba(18, 48, 44, 0.26);
+  --accent: #127a66; --accent-ink: #ffffff; --warn: #a8650a; --bad: #c2412b; --shade: rgba(10, 20, 20, 0.55); color-scheme: light; }
+
+[hidden] { display: none !important; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--f-text); font-size: 14px; line-height: 1.45; }
+.wrap { max-width: 1240px; margin: 0 auto; padding-block: 28px 48px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; gap: 18px; }
+header { display: grid; gap: 4px; }
+header .eyebrow { color: var(--mute); font-size: 12.5px; font-stretch: 85%; }
+header h1 { margin: 0; font-size: 30px; line-height: 1.05; font-weight: 780; font-stretch: 78%; text-wrap: balance; }
+header p { margin: 4px 0 0; color: var(--mute); max-width: 68ch; }
+header p b { color: var(--ink); font-weight: 600; }
+
+.bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chips button { font: 500 12.5px var(--f-text); color: var(--mute); background: transparent; border: 1px solid var(--line);
+  border-radius: 99px; padding: 5px 11px; cursor: pointer; }
+.chips button:hover { color: var(--ink); border-color: var(--faint); }
+.chips button[aria-pressed="true"] { color: var(--accent-ink); background: var(--accent); border-color: var(--accent); }
+#q { font: 13px var(--f-text); color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: 8px;
+  padding: 6px 10px; width: min(240px, 100%); margin-left: auto; }
+#q:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.legend { display: flex; flex-wrap: wrap; gap: 14px; color: var(--mute); font-size: 12px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+
+.tablebox { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); }
+table { border-collapse: separate; border-spacing: 0; width: 100%; min-width: 860px; font-variant-numeric: tabular-nums; }
+th, td { padding: 0; text-align: left; vertical-align: middle; }
+thead th { position: sticky; top: 0; z-index: 3; background: var(--panel); font-weight: 600; font-size: 12.5px; }
+thead tr.secs th { padding: 12px 6px 0; font-size: 12px; color: var(--mute); font-weight: 600; text-align: center; }
+thead tr.secs th.sec span { display: block; border-bottom: 2px solid var(--faint); padding-bottom: 4px; margin: 0 8px; }
+thead tr.secs th.sec.design span { border-color: var(--accent); color: var(--ink); }
+thead tr.names th { padding: 8px 6px 4px; border-bottom: 0; top: 30px; }
+thead tr.names th.stage { text-align: center; }
+thead tr.sums th { padding: 2px 10px 10px; border-bottom: 1px solid var(--line); top: 59px; }
+th.task, td.task { position: sticky; left: 0; z-index: 2; background: var(--panel); padding-left: 14px; padding-right: 10px; }
+thead th.task { z-index: 4; }
+th.stage { width: 92px; cursor: help; }
+th.agents, td.agents { width: 64px; color: var(--mute); font: 12px var(--f-data); white-space: nowrap; }
+.sum { display: grid; gap: 3px; justify-items: center; font: 11.5px var(--f-data); color: var(--mute); }
+.sum .track { width: 64px; height: 5px; border-radius: 3px; background: var(--line); overflow: hidden; display: flex; }
+.sum .track i { display: block; height: 100%; }
+.sum .track i.d { background: var(--accent); } .sum .track i.w { background: var(--warn); }
+
+tbody tr.grp td { padding: 16px 14px 6px; border-bottom: 1px solid var(--line); }
+tbody tr.grp td .gl { font-weight: 700; font-stretch: 85%; font-size: 14px; }
+tbody tr.grp td .gn { color: var(--mute); font-size: 12.5px; margin-left: 8px; }
+tbody tr.row { cursor: pointer; }
+tbody tr.row:hover td, tbody tr.row.open td { background: color-mix(in srgb, var(--accent) 5%, var(--panel)); }
+tbody tr.row td { border-bottom: 1px solid var(--line); height: 44px; }
+td.task .id { font: 500 13px var(--f-data); }
+td.task .what { color: var(--mute); font-size: 12.5px; display: block; max-width: 340px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* stage cells: a dot per stage on a rail */
+td.c { position: relative; text-align: center; }
+td.c::before, td.c::after { content: ""; position: absolute; top: 50%; height: 2px; margin-top: -1px; background: var(--line); }
+td.c::before { left: 0; right: 50%; } td.c::after { left: 50%; right: 0; }
+td.c.lk::before, td.c.rk::after { background: var(--accent); }
+td.c:first-of-type::before { display: none; }
+td.c.last::after { display: none; }
+.dot { position: relative; z-index: 1; display: inline-grid; place-items: center; width: 18px; height: 18px; border-radius: 50%;
+  border: 2px solid var(--faint); background: var(--panel); color: var(--accent-ink); }
+.dot svg { width: 10px; height: 10px; }
+.dot.done { background: var(--accent); border-color: var(--accent); }
+.dot.wip { border-color: var(--warn); background: linear-gradient(90deg, var(--warn) 50%, var(--panel) 50%); }
+.dot.skip { border-style: dashed; opacity: 0.55; }
+.dot.stale { border-color: var(--bad); border-style: dashed; color: var(--bad); }
+td.c.gap::before { border-left: 1px solid var(--line); }
+button.doc { all: unset; cursor: pointer; display: inline-grid; place-items: center; border-radius: 50%; padding: 3px; }
+button.doc .dot { width: 24px; height: 24px; }
+button.doc:focus-visible { outline: 2px solid var(--accent); }
+button.play { all: unset; cursor: pointer; display: inline-grid; place-items: center; border-radius: 50%; padding: 3px; }
+button.play .dot { width: 24px; height: 24px; box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent); }
+button.play .dot.wip { background: var(--panel); border-color: var(--warn); color: var(--warn); box-shadow: 0 0 0 3px color-mix(in srgb, var(--warn) 22%, transparent); }
+button.play:hover .dot { transform: scale(1.08); }
+button.play:focus-visible { outline: 2px solid var(--accent); }
+
+/* detail row */
+tr.detail td { padding: 4px 14px 18px; border-bottom: 1px solid var(--line); background: color-mix(in srgb, var(--accent) 5%, var(--panel)); }
+.det { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px 28px; max-width: 1080px; position: sticky; left: 14px; }
+.det dl { margin: 0; display: grid; grid-template-columns: 74px minmax(0, 1fr); gap: 5px 12px; font-size: 13px; }
+.det dt { color: var(--mute); } .det dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+.det code { font: 12.5px var(--f-data); }
+.det a { color: var(--accent); }
+.det ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; font-size: 13px; }
+.det li b { font-weight: 600; margin-right: 6px; }
+.det .acts { grid-column: 1 / -1; display: flex; gap: 8px; flex-wrap: wrap; }
+.btn { font: 600 13px var(--f-text); border-radius: 8px; padding: 7px 12px; cursor: pointer; border: 1px solid var(--accent);
+  background: var(--accent); color: var(--accent-ink); }
+.empty { padding: 28px 14px; color: var(--mute); }
+
+/* scene overlay */
+#ov { position: fixed; inset: 0; z-index: 20; background: var(--shade); display: grid; grid-template-rows: auto 1fr;
+  padding: calc(10px + env(safe-area-inset-top, 0px)) max(10px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(10px, env(safe-area-inset-left, 0px)); gap: 8px; }
+#ov .top { display: flex; align-items: center; gap: 10px; color: #e6eeed; }
+#ov .top b { font-weight: 700; font-stretch: 85%; }
+#ov .top span { color: #a9b8b5; font-size: 12.5px; }
+#ov .top button { margin-left: auto; font: 600 13px var(--f-text); color: #e6eeed; background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.22); border-radius: 8px; padding: 6px 12px; cursor: pointer; }
+#ov .docpane { overflow: auto; background: var(--panel); color: var(--ink); border-radius: 12px; padding: 22px max(18px, 4vw); }
+#ov .docpane article { max-width: 72ch; margin: 0 auto; line-height: 1.6; }
+#ov .docpane h1 { font-size: 26px; font-stretch: 80%; margin: 0 0 6px; } #ov .docpane h2 { font-size: 18px; margin: 26px 0 8px; font-stretch: 88%; }
+#ov .docpane h3 { font-size: 15px; margin: 18px 0 6px; } #ov .docpane code { font: 12.5px var(--f-data); }
+#ov .docpane table { border-collapse: collapse; width: 100%; font-size: 13px; display: block; overflow-x: auto; }
+#ov .docpane th, #ov .docpane td { border-bottom: 1px solid var(--line); padding: 6px 8px; text-align: left; vertical-align: top; }
+#ov .docpane a { color: var(--accent); }
+#ov iframe { width: 100%; height: 100%; border: 0; border-radius: 12px; background: #0b1213; }
+
+@media (max-width: 720px) {
+  header h1 { font-size: 25px; }
+  td.task .what { display: none; }
+  #q { margin-left: 0; width: 100%; }
+  .det { grid-template-columns: minmax(0, 1fr); max-width: calc(100vw - 60px); }
+}
+@media (prefers-reduced-motion: reduce) { button.play:hover .dot { transform: none; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Robobench · multi-agent robot benchmark on Isaac Lab and GB200</div>
+    <h1>Task pipeline</h1>
+    <p id="lede">Loading the task list…</p>
+  </header>
+  <div class="bar">
+    <div class="chips" id="chips" role="group" aria-label="Filter by group"></div>
+    <input id="q" type="search" placeholder="Find a task" aria-label="Find a task">
+  </div>
+  <div class="legend" aria-hidden="true">
+    <span><i class="dot done"></i>Done</span>
+    <span><i class="dot wip"></i>In progress</span>
+    <span><i class="dot"></i>Not started</span>
+    <span><i class="dot stale"></i>Stale (built on the old design)</span>
+    <span><span class="dot done" style="width:22px;height:22px;box-shadow:0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent)"><svg viewBox="0 0 10 10"><path d="M3 2 L8 5 L3 8 Z" fill="currentColor"/></svg></span>Animation you can play</span>
+  </div>
+  <div class="tablebox"><table id="t"><thead></thead><tbody></tbody></table></div>
+</div>
+<div id="ov" hidden role="dialog" aria-modal="true" aria-labelledby="ovt">
+  <div class="top"><b id="ovt"></b><span id="ovs"></span><button id="ovx" type="button">Close</button></div>
+  <iframe id="ovf" title="Scene viewer"></iframe>
+  <div id="ovd" class="docpane" hidden><article id="ovda"></article></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
+<script>
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const CHECK = '<svg viewBox="0 0 10 10"><path d="M2 5.2 L4.2 7.3 L8 2.9" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const PLAY = '<svg viewBox="0 0 10 10"><path d="M3 2 L8 5 L3 8 Z" fill="currentColor"/></svg>';
+const WORD = { done: 'done', wip: 'in progress', todo: 'not started', skip: 'not applicable', stale: 'stale: built on the old design, redo after the redesign' };
+const BOOK = '<svg viewBox="0 0 10 10"><path d="M2 2.2h2.6c.5 0 .9.4.9.9V8c0-.4-.4-.7-.8-.7H2zM8 2.2H5.4c-.5 0-.9.4-.9.9V8c0-.4.4-.7.8-.7H8z" fill="currentColor"/></svg>';
+let P, docs = new Set(), scenes = new Map(), group = 'all', query = '', openId = null;
+
+const cell = (t, k) => { const v = (t.stages || {})[k] ?? 'todo'; return typeof v === 'string' ? { s: v } : v; };
+
+function summary(rows) {
+  return P.stages.map((st) => {
+    let d = 0, w = 0, n = 0;
+    for (const t of rows) { const c = cell(t, st.key); if (c.s === 'skip') continue; n++; if (c.s === 'done') d++; else if (c.s === 'wip') w++; }
+    return { d, w, n };
+  });
+}
+
+function renderHead(rows) {
+  const sums = summary(rows);
+  const secs = (P.sections || []).map((x) => [x, P.stages.filter((s) => s.section === x.key).length]).filter(([, n]) => n);
+  $('t').tHead.innerHTML =
+    (secs.length ? `<tr class="secs"><th class="task"></th><th class="agents"></th>` +
+      secs.map(([x, n]) => `<th class="sec ${esc(x.key)}" colspan="${n}" title="${esc(x.help)}"><span>${esc(x.label)}</span></th>`).join('') + `</tr>` : '') +
+    `<tr class="names"><th class="task" rowspan="2">Task</th><th class="agents" rowspan="2">Agents</th>` +
+    P.stages.map((s) => `<th class="stage" title="${esc(s.help)}">${esc(s.label)}</th>`).join('') + `</tr>` +
+    `<tr class="sums">` + sums.map((x) =>
+      `<th><div class="sum" title="${x.d} done, ${x.w} in progress, ${x.n - x.d - x.w} not started"><span>${x.d}/${x.n}</span>` +
+      `<span class="track"><i class="d" style="width:${x.n ? 100 * x.d / x.n : 0}%"></i><i class="w" style="width:${x.n ? 100 * x.w / x.n : 0}%"></i></span></div></th>`).join('') + `</tr>`;
+}
+
+function stageCells(t) {
+  const cs = P.stages.map((s) => cell(t, s.key));
+  return P.stages.map((st, i) => {
+    const c = cs[i], cls = ['c'];
+    if (i > 0 && c.s === 'done' && cs[i - 1].s === 'done') cls.push('lk');
+    if (i < cs.length - 1 && c.s === 'done' && cs[i + 1].s === 'done') cls.push('rk');
+    if (i === cs.length - 1) cls.push('last');
+    if (i > 0 && st.section !== P.stages[i - 1].section) cls.push('gap');
+    const tip = `${st.label}: ${WORD[c.s] || c.s}${c.note ? ' · ' + c.note : ''}`;
+    const sc = st.key === 'anim' && t.scene && scenes.get(t.scene);
+    const dk = st.key === 'design' && t.scene && docs.has(t.scene);
+    const dot = `<span class="dot ${esc(c.s)}">${c.s === 'done' && !sc && !dk ? CHECK : ''}${sc ? PLAY : ''}${dk ? BOOK : ''}</span>`;
+    const inner = sc ? `<button class="play" type="button" data-scene="${esc(t.scene)}" title="Play the animation · ${esc(tip)}" aria-label="Play ${esc(t.id)} animation">${dot}</button>`
+      : dk ? `<button class="doc" type="button" data-doc="${esc(t.scene)}" title="Read the design · ${esc(tip)}" aria-label="Read ${esc(t.id)} design">${dot}</button>` : dot;
+    return `<td class="${cls.join(' ')}" title="${esc(tip)}">${inner}</td>`;
+  }).join('');
+}
+
+function detail(t) {
+  const notes = P.stages.map((s) => [s, cell(t, s.key)]).filter(([, c]) => c.note);
+  const sc = t.scene && scenes.get(t.scene);
+  const link = (u) => `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(u.replace(/^https?:\/\//, ''))}</a>`;
+  return `<div class="det">
+    <dl><dt>Task</dt><dd>${esc(t.what)}</dd><dt>Metric</dt><dd>${esc(t.metric || '—')}</dd>
+      ${t.track ? `<dt>Track</dt><dd>${esc(t.track)}</dd>` : ''}
+      ${t.where ? `<dt>Where</dt><dd><code>${esc(t.where)}</code></dd>` : ''}
+      ${t.source ? `<dt>Source</dt><dd>${link(t.source)}</dd>` : ''}</dl>
+    <ul>${t.result ? `<li><b>Result</b>${esc(t.result)}</li>` : ''}
+      ${notes.map(([s, c]) => `<li><b>${esc(s.label)}</b>${esc(c.note)}</li>`).join('')}
+      ${!t.result && !notes.length ? `<li style="color:var(--mute)">No notes yet.</li>` : ''}
+      ${sc ? `<li><b>Design check</b>${esc(sc.check)}</li>` : ''}</ul>
+    ${sc || (t.scene && docs.has(t.scene)) ? `<div class="acts">${t.scene && docs.has(t.scene) ? `<button class="btn" type="button" data-doc="${esc(t.scene)}">Read the design</button>` : ''}${sc ? `<button class="btn" type="button" data-scene="${esc(t.scene)}">Play the animation</button>` : ''}</div>` : ''}
+  </div>`;
+}
+
+function render() {
+  const q = query.trim().toLowerCase();
+  const rows = P.tasks.filter((t) => (group === 'all' || t.group === group) &&
+    (!q || [t.id, t.what, t.track, t.metric].join(' ').toLowerCase().includes(q)));
+  renderHead(rows);
+  const ncol = 2 + P.stages.length;
+  let html = '';
+  for (const g of P.groups) {
+    const rs = rows.filter((t) => t.group === g.key);
+    if (!rs.length) continue;
+    html += `<tr class="grp"><td colspan="${ncol}"><span class="gl">${esc(g.label)}</span><span class="gn">${rs.length} task${rs.length > 1 ? 's' : ''}${g.note ? ' · ' + esc(g.note) : ''}</span></td></tr>`;
+    for (const t of rs) {
+      const open = openId === t.id;
+      html += `<tr class="row${open ? ' open' : ''}" data-id="${esc(t.id)}" aria-expanded="${open}"><td class="task"><span class="id">${esc(t.id)}</span><span class="what">${esc(t.what)}</span></td>` +
+        `<td class="agents">${esc(t.agents)}</td>${stageCells(t)}</tr>`;
+      if (open) html += `<tr class="detail"><td colspan="${ncol}">${detail(t)}</td></tr>`;
+    }
+  }
+  $('t').tBodies[0].innerHTML = html || `<tr><td class="empty" colspan="${ncol}">No task matches “${esc(query)}”.</td></tr>`;
+}
+
+function renderChips() {
+  const opts = [['all', 'All'], ...P.groups.map((g) => [g.key, g.label.split(':')[0]])];
+  $('chips').innerHTML = opts.map(([k, l]) => `<button type="button" data-g="${esc(k)}" aria-pressed="${k === group}">${esc(l)}</button>`).join('');
+}
+
+async function openDoc(id) {
+  const t = P.tasks.find((x) => x.scene === id);
+  $('ovt').textContent = `${t ? t.id : id} · design`; $('ovs').textContent = `scenes/${id}/DESIGN.md`;
+  $('ovf').hidden = true; $('ovd').hidden = false; $('ov').hidden = false; $('ovx').focus();
+  $('ovda').textContent = 'Loading…';
+  try {
+    const md = await fetch(`docs/${id}.md`).then((r) => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.text(); });
+    $('ovda').innerHTML = window.marked ? marked.parse(md) : `<pre>${esc(md)}</pre>`;
+    $('ovd').scrollTop = 0;
+  } catch (err) { $('ovda').textContent = `Could not load the design (${err.message}).`; }
+}
+function openScene(id) {
+  const sc = scenes.get(id); if (!sc) return;
+  $('ovt').textContent = sc.label; $('ovs').textContent = sc.check;
+  $('ovd').hidden = true; $('ovf').hidden = false;
+  $('ovf').src = `viewer.html#${id}`; $('ov').hidden = false; $('ovx').focus();
+  try { history.replaceState(null, '', '#' + id.replace(/_/g, '-')); } catch (e) {}
+}
+function closeScene() {
+  $('ov').hidden = true; $('ovf').src = 'about:blank';
+  try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
+}
+
+document.addEventListener('click', (e) => {
+  const p = e.target.closest('[data-scene]'); if (p) { e.stopPropagation(); openScene(p.dataset.scene); return; }
+  const d = e.target.closest('[data-doc]'); if (d) { e.stopPropagation(); openDoc(d.dataset.doc); return; }
+  const g = e.target.closest('#chips button'); if (g) { group = g.dataset.g; renderChips(); render(); return; }
+  if (e.target.closest('tr.detail a')) return;
+  const r = e.target.closest('tr.row'); if (r) { openId = openId === r.dataset.id ? null : r.dataset.id; render(); }
+});
+$('q').addEventListener('input', (e) => { query = e.target.value; render(); });
+$('ovx').addEventListener('click', closeScene);
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !$('ov').hidden) closeScene(); });
+
+async function boot() {
+  try {
+    const [text, idx, dl, rev] = await Promise.all([
+      fetch('pipeline.yaml').then((r) => { if (!r.ok) throw new Error(`pipeline.yaml: HTTP ${r.status}`); return r.text(); }),
+      fetch('data/scenes.json').then((r) => (r.ok ? r.json() : [])).catch(() => []),
+      fetch('docs/index.json').then((r) => (r.ok ? r.json() : [])).catch(() => []),
+      // On the review site (dashboard/server.py) the review database decides the Design and Animation cells.
+      fetch('api/tasks').then((r) => (r.ok ? r.json() : [])).catch(() => []),
+    ]);
+    docs = new Set(dl);
+    P = jsyaml.load(text);
+    for (const s of idx) scenes.set(s.id, s);
+    const rv = new Map(rev.map((r) => [r.scene, r]));
+    for (const t of P.tasks) {
+      const r = rv.get(t.scene); if (!r) continue;
+      t.stages = t.stages || {};
+      t.stages.design = r.design_state === 'approved' ? { s: 'done', note: `Approved (v${r.approved_version}) on the review site.` }
+        : { s: 'wip', note: r.design_state === 'changes' ? 'Changes requested on the review site.'
+          : `Written${r.design_state === 'formalized' ? ' and formalized' : ''}; waiting for review.` };
+      if (scenes.get(t.scene)) t.stages.anim = r.anim_state === 'approved' ? { s: 'done', note: 'Approved on the review site.' }
+        : { s: 'wip', note: r.anim_state === 'flagged' ? `${r.flags} flag(s) on the review site.` : 'Animated; waiting for review.' };
+    }
+    const done = P.tasks.filter((t) => P.stages.every((s) => ['done', 'skip'].includes(cell(t, s.key).s))).length;
+    const anim = P.tasks.filter((t) => t.scene && scenes.get(t.scene)).length;
+    const designed = P.tasks.filter((t) => ['idea', 'design', 'anim'].every((k) => cell(t, k).s === 'done')).length;
+    $('lede').innerHTML = `<b>${P.tasks.length} tasks</b>; <b>${designed}</b> have finished section A (design). ` +
+      `${anim ? `<b>${anim}</b> have an animation you can play. ` : ''}${done ? `${done} are through every stage. ` : ''}` +
+      `Click a row for notes. Updated ${esc(P.updated instanceof Date ? P.updated.toISOString().slice(0, 10) : P.updated)}.`;
+    renderChips(); render();
+    const h = location.hash.slice(1).replace(/-/g, '_');
+    if (h && scenes.get(h)) openScene(h);
+  } catch (err) {
+    $('lede').textContent = `Could not load the task list (${err.message}).`;
+  }
+}
+boot();
+</script>
+
+</body></html>

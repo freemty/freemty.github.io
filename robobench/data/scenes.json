@@ -3,30 +3,55 @@
   "id": "01_sheet_transfer",
   "label": "Slide-sheet transfer",
   "check": "every IK target reached",
-  "duration": 18.0
+  "duration": 18.0,
+  "robots": 2,
+  "miss_s": 0.0,
+  "arm_miss_s": 0,
+  "load_kg": 0,
+  "over_limit_s": 0
  },
  {
   "id": "02a_scoop_pickup",
   "label": "Scoop stretcher pickup",
   "check": "3.3 s with IK targets out of reach (worst robot)",
-  "duration": 27.0
+  "duration": 27.0,
+  "robots": 2,
+  "miss_s": 3.29,
+  "arm_miss_s": 1.82,
+  "load_kg": 0,
+  "over_limit_s": 0
  },
  {
   "id": "02b_logroll_backboard",
   "label": "Log roll onto a backboard",
   "check": "3.4 s with IK targets out of reach (worst robot)",
-  "duration": 32.0
+  "duration": 32.0,
+  "robots": 2,
+  "miss_s": 3.42,
+  "arm_miss_s": 1.92,
+  "load_kg": 0,
+  "over_limit_s": 0
  },
  {
   "id": "02c_direct_lift",
   "label": "Direct two-robot lift",
   "check": "1.6 s with IK targets out of reach (worst robot)",
-  "duration": 28.0
+  "duration": 28.0,
+  "robots": 2,
+  "miss_s": 1.62,
+  "arm_miss_s": 0,
+  "load_kg": 0,
+  "over_limit_s": 0
  },
  {
   "id": "03_stretcher_carry_load",
   "label": "Stretcher carry and load",
   "check": "0.5 s with IK targets out of reach (worst robot)",
-  "duration": 47.0
+  "duration": 47.0,
+  "robots": 2,
+  "miss_s": 0.54,
+  "arm_miss_s": 0,
+  "load_kg": 0,
+  "over_limit_s": 0
  }
 ]

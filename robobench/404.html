@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Robobench Review</title>
+<base href="/robobench/">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="/robobench/gallery">Robobench</a>
+  <nav>
+    <a href="/robobench/gallery" data-tab="gallery">Gallery</a>
+    <a href="/robobench/pipeline" data-tab="pipeline">Pipeline</a>
+    <a href="/robobench/standard" data-tab="standard">Design standard</a>
+  </nav>
+  <span id="dbinfo" class="mute"></span>
+  <a href="#" id="keys" class="mute keyhint" title="Keyboard shortcuts"><kbd>?</kbd> keys</a>
+</header>
+
+<main>
+  <section id="gallery" class="tab">
+    <div class="intro">
+      <h1>Every task, animated</h1>
+      <p>Hover a card to play its clip. Open one to read the design, approve or edit it, and flag problems in the motion
+        at the exact second they happen.</p>
+    </div>
+    <div class="filters">
+      <input id="q" type="search" placeholder="Search tasks" aria-label="Search tasks">
+      <select id="fgroup" aria-label="Group"><option value="">All groups</option></select>
+      <div class="seg" id="fstate" role="group" aria-label="Review state">
+        <button data-v="" class="on">All</button>
+        <button data-v="todo">Needs review</button>
+        <button data-v="flagged">Flagged</button>
+        <button data-v="approved">Approved</button>
+      </div>
+      <span id="count" class="mute"></span>
+    </div>
+    <div id="grid" class="grid"></div>
+  </section>
+
+  <section id="task" class="tab" hidden>
+    <div class="taskbar">
+      <a href="/robobench/gallery" class="back">← Gallery</a>
+      <h1 id="ttitle"></h1>
+      <span class="spacer"></span>
+      <button id="prev" title="Previous task (k)">‹ Prev</button>
+      <button id="next" title="Next task (j)">Next ›</button>
+    </div>
+    <p id="tline" class="mute tline"></p>
+    <div class="split">
+      <div class="left">
+        <div class="player"><iframe id="viewer" title="Animation"></iframe></div>
+        <div class="card">
+          <div class="cardhead">
+            <h2>Animation</h2>
+            <span id="animstate" class="chip"></span>
+            <span class="spacer"></span>
+            <button id="animok" class="primary">Approve animation</button>
+          </div>
+          <p id="checks" class="mute small"></p>
+          <form id="flag" class="flag">
+            <div class="row">
+              <label>At <input id="fat" type="number" step="0.1" min="0" inputmode="decimal"> s</label>
+              <button type="button" id="fnow">Use current time</button>
+              <select id="fcat" aria-label="Problem">
+                <option value="contact_person">Touches or steps on a person</option>
+                <option value="pass_through">Passes through an object</option>
+                <option value="floats">Object floats or is not held</option>
+                <option value="overload">Too heavy for the robots</option>
+                <option value="unrealistic">Too fast or not physical</option>
+                <option value="fall_risk">Balance or fall risk</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <textarea id="fnote" rows="2" placeholder="What is wrong, and what should happen instead"></textarea>
+            <div class="row"><button class="warnbtn">Flag at this time</button><span id="fmsg" class="mute small"></span></div>
+          </form>
+          <ol id="animlog" class="log"></ol>
+        </div>
+      </div>
+      <div class="right card">
+        <div class="cardhead">
+          <h2>Design</h2>
+          <span id="dstate" class="chip"></span>
+          <span class="spacer"></span>
+          <select id="vpick" aria-label="Version"></select>
+        </div>
+        <div class="actions" id="dactions">
+          <button id="dapprove" class="primary">Approve this version</button>
+          <button id="dchanges">Request changes</button>
+          <button id="dedit">Edit</button>
+        </div>
+        <form id="changes" class="changes" hidden>
+          <textarea id="cnote" rows="3" placeholder="What should change"></textarea>
+          <div class="row"><button class="warnbtn">Send</button><button type="button" id="ccancel">Cancel</button></div>
+        </form>
+        <div id="editor" class="editor" hidden>
+          <div class="row"><input id="enote" placeholder="What you changed (optional)"><button id="esave" class="primary">Save as new version</button><button id="ecancel">Cancel</button></div>
+          <div class="edgrid"><textarea id="etext" spellcheck="true" aria-label="Design markdown"></textarea><div id="eprev" class="md"></div></div>
+        </div>
+        <article id="doc" class="md"></article>
+        <h3 class="sub">Design history</h3>
+        <ol id="dlog" class="log"></ol>
+      </div>
+    </div>
+  </section>
+
+  <section id="pipeline" class="tab" hidden>
+    <iframe id="pipeframe" title="Pipeline" class="full"></iframe>
+  </section>
+
+  <section id="standard" class="tab" hidden>
+    <article id="stddoc" class="md narrow"></article>
+  </section>
+</main>
+<div id="toast" role="status" hidden></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
