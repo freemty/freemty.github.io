@@ -5,14 +5,14 @@
    Choices (data attributes on <html>; also ?font=…&labels=…&mark=… in the URL, which wins and is saved):
      font    inter | plex | geist | archivo   the text and heading family with its monospace companion (Inter = the poster's)
      labels  mono | pixel                     small data labels in the monospace, or in Departure Mono (a pixel face)
-     mark    type | pixel                     the ORA wordmark set in type, or drawn on the logo's pixel grid
+     mark    pixel | type                     the ORA wordmark drawn on the logo's pixel grid (default), or set in type
    The script tag may carry data-labels="<selector list>": the label elements, snapped to 11 px in pixel mode. */
 (function () {
   var me = document.currentScript, base = me.src.replace(/[^/]*$/, ""), root = document.documentElement;
-  var KEY = "fastrua-design-2", GROUPS = [
+  var KEY = "fastrua-design-3", GROUPS = [
     { key: "font", name: "Text", options: [["inter", "Inter"], ["plex", "IBM Plex"], ["geist", "Geist"], ["archivo", "Archivo"]] },
     { key: "labels", name: "Labels", options: [["mono", "Mono"], ["pixel", "Pixel"]] },
-    { key: "mark", name: "Wordmark", options: [["type", "Type"], ["pixel", "Pixel"]], needs: "[data-wordmark]" }
+    { key: "mark", name: "Wordmark", options: [["pixel", "Pixel"], ["type", "Type"]], needs: "[data-wordmark]" }
   ];
   var WEB = {
     plex: "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
@@ -36,9 +36,6 @@
     ':root[data-font="archivo"] :is(h1,h2,h3){font-stretch:112%}',
     ':root[data-labels="pixel"]{--label:"Departure Mono",var(--mono)}',
     labels ? ':root[data-labels="pixel"] :is(' + labels + "){font-size:11px;letter-spacing:.02em;-webkit-font-smoothing:none}" : "",
-    ".wm-pix{display:none}",
-    ':root[data-mark="pixel"] .wm-type{display:none}',
-    ':root[data-mark="pixel"] .wm-pix{display:inline-block}',
     /* the bar: its own system font and neutral colours, so it never changes with the choice */
     "#dbar{position:fixed;left:50%;bottom:12px;transform:translateX(-50%);z-index:2147483000;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px 14px;max-width:calc(100vw - 16px);padding:7px 10px;background:#161616;border:1px solid #2e2e2e;border-radius:10px;box-shadow:0 8px 28px rgba(0,0,0,.55);font:500 12px/1 system-ui,-apple-system,'Segoe UI',sans-serif;color:#b0b0b0;letter-spacing:0}",
     "#dbar[hidden]{display:none}",

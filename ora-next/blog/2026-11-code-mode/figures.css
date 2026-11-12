@@ -11,11 +11,11 @@
 --of-sans:var(--sans,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif);
 --of-mono:var(--mono,ui-monospace,SFMono-Regular,Menlo,Consolas,monospace);
 margin:44px 0 36px;padding-top:22px;border-top:1px solid var(--of-line)}
-/* The site is white paper (its <html> says data-theme="light"), and its tokens are the figures' ink and rules. The
-   standalone draft may be dark: there the fills are deep neutrals. */
+/* On the site the tokens are the figures' ink and rules in both themes; <html data-theme> picks the series and fills
+   (dark by default, light for the bright theme). The standalone draft follows the reader's system setting. */
 article .ofig{--of-ink:var(--text,#0e0f10);--of-ink2:var(--text-2,#4a4e54);--of-mute:var(--text-3,#6b6f76);--of-line:var(--line-2,#e3e5e8);--of-bg:var(--bg,#fff)}
-:root[data-theme="dark"] .ofig{--of-tool:#9aa0a6;--of-code:#1f9ea0;--of-fill-tool:#1d1f22;--of-fill-code:#06292b}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .ofig{--of-tool:#9aa0a6;--of-code:#1f9ea0;--of-fill-tool:#1d1f22;--of-fill-code:#06292b}}
+:root[data-theme="dark"] .ofig{--of-tool:#a3a8ae;--of-code:#17888c;--of-fill-tool:#1d1f22;--of-fill-code:#06292b}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .ofig{--of-tool:#a3a8ae;--of-code:#17888c;--of-fill-tool:#1d1f22;--of-fill-code:#06292b}}
 .ofig .of-box{display:grid;gap:18px;min-width:0}
 .ofig .of-title{font:600 14.5px/1.4 var(--of-sans);letter-spacing:-.005em;color:var(--of-ink);margin:0}
 .ofig .of-note{font:400 13px/1.55 var(--of-sans);color:var(--of-mute);margin:0;max-width:none}

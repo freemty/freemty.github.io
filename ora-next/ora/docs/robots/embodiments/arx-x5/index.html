@@ -1,7 +1,8 @@
 <!doctype html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
+<script>(function(){var t="dark";try{var u=new URLSearchParams(location.search).get("theme"),q=u||localStorage.getItem("fastrua-theme");if(q==="light"||q==="dark")t=q;if(u)localStorage.setItem("fastrua-theme",t)}catch(e){}document.documentElement.setAttribute("data-theme",t)})()</script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
 <title>ARX X5 · ORA docs</title>
@@ -11,30 +12,39 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
 <style>
+:root,.stage,.nav,.foot,.r3d{
+  /* One language for the whole site (site/DESIGN.md): a dark ground by default, ink-on-paper as the bright theme
+     (the Bright / Dark switch in the top bar sets data-theme on <html>). One teal for what is ours, greys for
+     everything else, red only for errors and drafts. No gradients, no glows. Things you watch (the top bar, the
+     footer, videos, terminals, the 3D viewer) are stages: they keep these dark values in both themes. */
+  --bg:#0E0F10; --bg-2:#131416; --panel:#17181B; --panel-2:#1D1F22; --line:#1F2124; --line-2:#2A2D31;
+  --text:#F2F3F5; --text-body:#D9DBDF; --text-2:#B4B8BE; --text-3:#7F858D;
+  --teal:#17888C; --teal-hi:#48B0B4; --teal-deep:#0F6C72; --teal-ink:#06292B; --teal-soft:#0E5B5F;
+  --grey:#50545A; --grey-2:#383B40;
+  --amber:#E8596B; --amber-bg:#2A0A0E;
+  color-scheme:dark;
+}
 :root{
-  /* One language for the whole site, the project poster's (CoRL 2026): white paper, ink, one teal (the logo's), greys
-     for everything that is not ours, red only for errors and drafts. No gradients, no glows. Things you watch (the top
-     bar, the footer, videos, the 3D viewer, terminals) are black stages: .stage re-declares the same tokens in dark. */
-  --bg:#FFFFFF; --bg-2:#FAFAFB; --panel:#F6F7F8; --panel-2:#F1F2F4; --line:#ECEEF0; --line-2:#E3E5E8;
-  --text:#0E0F10; --text-body:#2B2D30; --text-2:#4A4E54; --text-3:#6B6F76;
-  --teal:#147F85; --teal-hi:#0F6C72; --teal-deep:#0F6C72; --teal-ink:#E4F3F1; --teal-soft:#8CC6C4;
-  --grey:#8A8F96; --grey-2:#C9CDD2;
-  --amber:#C6011F; --amber-bg:#FBE8EB;
   --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   --display:"Inter Tight","Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
   --label:var(--mono);   /* small data labels; the design preview bar can switch them to a pixel face */
   --max:1120px; --max-wide:1360px; --read:700px;
+}
+:root[data-theme="light"]{
+  --bg:#FFFFFF; --bg-2:#FAFAFB; --panel:#F6F7F8; --panel-2:#F1F2F4; --line:#ECEEF0; --line-2:#E3E5E8;
+  --text:#0E0F10; --text-body:#2B2D30; --text-2:#4A4E54; --text-3:#6B6F76;
+  --teal:#147F85; --teal-hi:#0F6C72; --teal-deep:#0F6C72; --teal-ink:#E4F3F1; --teal-soft:#8CC6C4;
+  --grey:#9AA0A6; --grey-2:#C9CDD2;
+  --amber:#C6011F; --amber-bg:#FBE8EB;
   color-scheme:light;
 }
-.stage,.nav,.foot,.r3d{
-  --bg:#0E0F10; --bg-2:#131416; --panel:#17181B; --panel-2:#1D1F22; --line:#1F2124; --line-2:#2A2D31;
-  --text:#F2F3F5; --text-body:#D9DBDF; --text-2:#B4B8BE; --text-3:#7F858D;
-  --teal:#1F9EA0; --teal-hi:#48B0B4; --teal-deep:#0F6C72; --teal-ink:#06292B; --teal-soft:#0F6C72;
-  --grey:#7F858D; --grey-2:#4A4E54;
-  --amber:#E8596B; --amber-bg:#2A0A0E;
-  background:var(--bg); color:var(--text); color-scheme:dark;
-}
+.stage,.nav,.foot,.r3d{background:var(--bg);color:var(--text)}
+.stage{border:1px solid var(--line-2)}
+/* an image or element for one theme only (a mark drawn in ink for paper, in light strokes for the dark ground) */
+.on-light{display:none!important}
+:root[data-theme="light"] .on-light{display:revert!important}
+:root[data-theme="light"] .on-dark{display:none!important}
 h1,h2,.brand,.proj{--sans:var(--display)}   /* large headings and names in the display face, wherever a rule says --sans */
 h3,h4{letter-spacing:0}
 *{box-sizing:border-box}
@@ -62,6 +72,17 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .nav nav a{color:var(--text-2)}
 .nav nav a:hover,.nav nav a[aria-current="page"]{color:var(--text);text-decoration:none}
 .ext::after{content:" \2197";font-size:.85em;color:var(--text-3)}
+.pxw{display:inline-block;vertical-align:-1px;flex:none}
+.nav nav a .pxw{vertical-align:-2px}
+.themebtn{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 10px;border:1px solid var(--line-2);border-radius:7px;background:none;color:var(--text-2);font:500 13px/1 var(--sans);cursor:pointer;flex:none}
+.themebtn:hover{color:var(--text);border-color:var(--text-3)}
+.themebtn svg{width:15px;height:15px;flex:none}
+.themebtn .i-moon{display:none}
+:root[data-theme="light"] .themebtn .i-sun{display:none}
+:root[data-theme="light"] .themebtn .i-moon{display:block}
+.themebtn span::after{content:"Bright"}
+:root[data-theme="light"] .themebtn span::after{content:"Dark"}
+@media (max-width:760px){.themebtn span{display:none}.themebtn{padding:0 7px}}
 .nav .wrap,.foot .wrap,.wide .wrap{max-width:var(--max-wide)}
 .nav.root .wrap,.foot.root .wrap{max-width:var(--max)}
 @media (max-width:760px){.nav .proj~.glob .ext,.nav .sub .ext{display:none}.nav nav{gap:18px}}
@@ -81,7 +102,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .sechead h2{text-align:left;margin:0}
 .sechead a{font-size:14px}
 /* footer */
-.foot{margin-top:96px}
+.foot{margin-top:96px;border-top:1px solid var(--line-2)}
 .foot .wrap{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,2fr);gap:32px 48px;padding-top:48px;padding-bottom:40px}
 .foot .fb p{margin:14px 0 0;max-width:22em;color:var(--text-3);font-size:14px;line-height:1.6}
 .fcols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
@@ -164,8 +185,8 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .audit-btn:hover{border-color:var(--teal-hi)}
 .audit-mark{position:relative;display:inline;background:var(--teal-ink);color:var(--text);border-bottom:1.5px dashed var(--teal-hi);padding:1px 6px;border-radius:5px;cursor:help;transition:background .15s}
 .audit-mark:hover,.audit-mark:focus-within{background:var(--teal-soft);z-index:40}
-.audit-tag{font:600 9.5px/1 var(--label);letter-spacing:.06em;color:var(--bg);background:var(--teal);padding:2px 5px;border-radius:4px;margin-left:5px;vertical-align:middle;display:inline-block}
-.audit-pop{display:none;position:absolute;left:0;bottom:calc(100% + 8px);width:min(420px,86vw);background:var(--panel-2);color:var(--text-2);border:1px solid var(--teal);border-radius:10px;padding:11px 14px;font:400 13px/1.55 var(--sans);box-shadow:0 10px 28px rgba(14,15,16,.16);z-index:60;white-space:normal;text-align:left;pointer-events:none}
+.audit-tag{font:600 9.5px/1 var(--label);letter-spacing:.06em;color:var(--bg);background:var(--teal-hi);padding:2px 5px;border-radius:4px;margin-left:5px;vertical-align:middle;display:inline-block}
+.audit-pop{display:none;position:absolute;left:0;bottom:calc(100% + 8px);width:min(420px,86vw);background:var(--panel-2);color:var(--text-2);border:1px solid var(--teal);border-radius:10px;padding:11px 14px;font:400 13px/1.55 var(--sans);box-shadow:0 10px 28px rgba(0,0,0,.28);z-index:60;white-space:normal;text-align:left;pointer-events:none}
 .audit-pop strong{color:var(--teal-hi);display:block;font:600 11.5px/1.3 var(--label);letter-spacing:.04em;text-transform:uppercase;margin-bottom:4px}
 .audit-pop code{background:var(--bg);color:var(--text);border-color:var(--line-2);font-size:.85em;padding:1px 4px}
 .audit-mark:hover .audit-pop,.audit-mark:focus .audit-pop,.audit-mark:focus-within .audit-pop{display:block}
@@ -247,10 +268,10 @@ body.show-audits .audit-pop{display:block;position:static;width:auto;margin:8px 
   .pager{grid-template-columns:1fr}.pager .next{grid-column:1}
 }
 </style>
-<script src="../../../../../assets/design/design-bar.js" data-labels=".post .meta,.draft,.fcols p,.posthead .meta,.prose h2 small,.prose h3 small,.cbtn,.prose th,.slot,.draftbar,.audit-btn,.audit-tag,.audit-pop strong,.loop li b,.three li,.copy,.side .grp&gt;p,.toc p,.crumb,.pager small,.dochero .ora-meta,.gcard .more"></script>
+<script src="../../../../../assets/design/design-bar.js" data-labels=".post .meta,.draft,.fcols p,.posthead .meta,.prose h2 small,.prose h3 small,.cbtn,.prose th,.slot,.draftbar,.audit-btn,.audit-tag,.audit-pop strong,.loop li b,.three li,.copy,.pill b,.side .grp&gt;p,.toc p,.crumb,.pager small,.dochero .ora-meta,.gcard .more,.r3d-legend,.r3d-hint,.r3d-swap span,.r3d-tick,.r3d-st,.r3d-n,.gv,.gpager a span,.gfilter button span"></script>
 </head>
 <body class="wide">
-<header class="nav in-proj"><div class="wrap"><a class="brand" href="../../../../../index.html"><img src="../../../../../assets/brand/fastrua-mark-96.png" alt="" width="40" height="40"><span>FastRUA</span></a><span class="sep" aria-hidden="true">/</span><a class="proj" href="../../../../index.html">ORA</a><nav class="sub" aria-label="ORA"><a href="../../../../index.html">Overview</a><a href="../../../../gallery/index.html">Gallery</a><a href="../../../../docs/index.html" aria-current="page">Docs</a><a class="ext" href="../../../../paper/ora-two-page.pdf" target="_blank" rel="noopener">Paper</a><a class="ext" href="https://github.com/hao-ai-lab/ORA" target="_blank" rel="noopener">Code</a></nav><nav class="glob" aria-label="FastRUA"><a href="../../../../../blog/index.html">Blog</a><a class="ext" href="https://github.com/fast-rua" target="_blank" rel="noopener">GitHub</a></nav></div></header>
+<header class="nav in-proj"><div class="wrap"><a class="brand" href="../../../../../index.html"><img src="../../../../../assets/brand/fastrua-mark-96.png" alt="" width="40" height="40"><span>FastRUA</span></a><span class="sep" aria-hidden="true">/</span><a class="proj" href="../../../../index.html"><svg class="pxw" width="40" height="14" viewBox="0 0 20 7" role="img" aria-label="ORA" shape-rendering="crispEdges"><path fill="currentColor" d="M1 0h4v1h-4zM7 0h5v1h-5zM15 0h4v1h-4zM0 1h2v1h-2zM4 1h2v1h-2zM7 1h2v1h-2zM11 1h2v1h-2zM14 1h2v1h-2zM18 1h2v1h-2zM0 2h2v1h-2zM4 2h2v1h-2zM7 2h2v1h-2zM11 2h2v1h-2zM14 2h2v1h-2zM18 2h2v1h-2zM0 3h2v1h-2zM4 3h2v1h-2zM7 3h5v1h-5zM14 3h6v1h-6zM0 4h2v1h-2zM4 4h2v1h-2zM7 4h2v1h-2zM10 4h2v1h-2zM14 4h2v1h-2zM18 4h2v1h-2zM0 5h2v1h-2zM4 5h2v1h-2zM7 5h2v1h-2zM11 5h2v1h-2zM14 5h2v1h-2zM18 5h2v1h-2zM1 6h4v1h-4zM7 6h2v1h-2zM11 6h2v1h-2zM14 6h2v1h-2zM18 6h2v1h-2z"/></svg></a><nav class="sub" aria-label="ORA"><a href="../../../../index.html">Overview</a><a href="../../../../gallery/index.html">Gallery</a><a href="../../../../docs/index.html" aria-current="page">Docs</a><a class="ext" href="../../../../paper/ora-two-page.pdf" target="_blank" rel="noopener">Paper</a><a class="ext" href="https://github.com/hao-ai-lab/ORA" target="_blank" rel="noopener">Code</a></nav><nav class="glob" aria-label="FastRUA"><a href="../../../../../blog/index.html">Blog</a><a class="ext" href="https://github.com/fast-rua" target="_blank" rel="noopener">GitHub</a><button class="themebtn" type="button" data-theme-toggle aria-label="Switch to the bright theme"><svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></svg><svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg><span></span></button></nav></div></header>
 <div class="docs"><button class="menu" type="button" aria-controls="docnav" aria-expanded="false">Menu · <b>ARX X5 (RoboDojo)</b></button><aside class="side" id="docnav" aria-label="Documentation"><a class="top" href="../../../index.html">Welcome</a><a class="top" href="../../../how-ora-works/index.html">How ORA works</a><div class="grp"><p>Get started</p><ul><li><a href="../../../getting-started/installation/index.html">Installation</a></li><li><a href="../../../quickstart/index.html">First episode</a></li><li><a href="../../../getting-started/model-apis/index.html">Model APIs</a></li><li><a href="../../../getting-started/single-gpu/index.html">Run on one GPU</a></li><li><a href="../../../getting-started/local/index.html">Run on your computer (CPU)</a></li><li><a href="../../../getting-started/libero/index.html">LIBERO / LIBERO-Pro quick run</a></li><li><a href="../../../getting-started/robotwin/index.html">RoboTwin quick run</a></li><li><a href="../../../getting-started/robodojo/index.html">RoboDojo quick run</a></li><li><a href="../../../getting-started/robocasa/index.html">RoboCasa365 quick run</a></li><li><a href="../../../getting-started/robolab/index.html">RoboLab quick run</a></li><li><a href="../../../getting-started/official-suite/index.html">Official suites on a cluster</a></li><li><a href="../../../support/index.html">Supported setups</a></li><li><a href="../../../getting-started/troubleshooting/index.html">Troubleshooting</a></li></ul></div><div class="grp"><p>Use ORA</p><ul><li><a href="../../../usage/runs/index.html">Run and inspect</a></li><li><a href="../../../usage/play/index.html">Free play</a></li><li><a href="../../../usage/real-cells/index.html">Run a real robot cell</a></li><li><a href="../../../usage/interactive/index.html">Interactive sessions</a></li><li><a href="../../../usage/remote/index.html">Remote GPU server and web view</a></li><li><a href="../../../usage/safety/index.html">Run ORA safely</a></li><li><a href="../../../usage/rl-interface/index.html">Connect a training loop</a></li><li><a href="../../../usage/viewer/index.html">Evidence viewer</a></li><li><a href="../../../usage/examples/index.html">Examples</a></li><li><a href="../../../usage/official-suite/index.html">Official-suite cookbook</a></li><li><a href="../../../usage/compute-usage/index.html">Compute tool</a></li><li><a href="../../../usage/commands/index.html">Commands and what they write</a></li><li><a href="../../../usage/cli-reference/index.html">Command-line reference</a></li></ul></div><div class="grp"><p>Environments</p><ul><li><a href="../../../environments/index.html">Overview</a></li><li><a href="../../../environments/common/index.html">Host and perception setup</a></li><li><a href="../../../environments/libero/index.html">LIBERO / LIBERO-Pro</a></li><li><a href="../../../environments/robotwin/index.html">RoboTwin</a></li><li><a href="../../../environments/robodojo/index.html">RoboDojo</a></li><li><a href="../../../environments/robodojo-installation/index.html">RoboDojo installation reference</a></li><li><a href="../../../environments/robocasa/index.html">RoboCasa365</a></li><li><a href="../../../environments/robolab/index.html">RoboLab</a></li></ul></div><div class="grp"><p>Robots and tasks</p><ul><li><a href="../../frames-and-units/index.html">Frames and units</a></li><li><a href="../franka-panda/index.html">Franka Panda (LIBERO)</a></li><li><a href="../aloha-agilex/index.html">ALOHA-AgileX (RoboTwin)</a></li><li><a href="index.html" aria-current="page">ARX X5 (RoboDojo)</a></li><li><a href="../panda-omron/index.html">PandaOmron (RoboCasa365)</a></li><li><a href="../droid-franka-robotiq/index.html">DROID Franka with Robotiq (RoboLab)</a></li><li><a href="../yam-station/index.html">Dual I2RT YAM (real cell)</a></li><li><a href="../../tasks/libero/index.html">LIBERO / LIBERO-Pro tasks</a></li><li><a href="../../tasks/robotwin/index.html">RoboTwin tasks</a></li><li><a href="../../tasks/robodojo/index.html">RoboDojo tasks</a></li><li><a href="../../tasks/robocasa/index.html">RoboCasa365 tasks</a></li><li><a href="../../tasks/robolab/index.html">RoboLab tasks</a></li></ul></div><div class="grp"><p>Evaluation</p><ul><li><a href="../../../evaluation/protocol/index.html">Evaluation protocol</a></li></ul></div><div class="grp"><p>Concepts</p><ul><li><a href="../../../architecture/index.html">Architecture</a></li><li><a href="../../../context-assembly/index.html">Context assembly</a></li><li><a href="../../../reference/runtime-lifecycle/index.html">Runtime lifecycle</a></li><li><a href="../../../glossary/index.html">Glossary</a></li></ul></div><div class="grp"><p>Reference</p><ul><li><a href="../../../reference/index.html">Overview</a></li><li><a href="../../../reference/public-interfaces/index.html">Public interfaces</a></li><li><a href="../../../reference/toolkit-io/index.html">Toolkit I/O evidence</a></li><li><a href="../../../reference/toolkit-protocol/index.html">Toolkit protocol and replay compatibility</a></li><li><a href="../../../reference/toolkit-data/index.html">Toolkit data API</a></li><li><a href="../../../reference/toolkit-execution/index.html">Toolkit synchronous execution</a></li><li><a href="../../../reference/toolkit-state/index.html">Toolkit state and admission</a></li><li><a href="../../../reference/toolkit-surface/index.html">File-backed toolkit surfaces</a></li><li><a href="../../../reference/context-schemes/index.html">Context schemes and policy selection</a></li><li><a href="../../../reference/append-only-context/index.html">Append-only context (management v8)</a></li><li><a href="../../../reference/exchange-aging-context/index.html">Exchange aging (management v9)</a></li><li><a href="../../../reference/keep-written-context/index.html">Keep what the model wrote (management v10)</a></li><li><a href="../../../reference/tasks/index.html">Task files</a></li><li><a href="../../../reference/source-overlay/index.html">Source overlays</a></li><li><a href="../../../reference/policy-io/index.html">Policy I/O</a></li><li><a href="../../../reference/configuration-and-evidence/index.html">Configuration and evidence</a></li><li><a href="../../../reference/context-packs/index.html">Context packs</a></li><li><a href="../../../reference/experiment-identity/index.html">Experiment identity</a></li><li><a href="../../../reference/robotwin-contact-recovery/index.html">RoboTwin contact recovery</a></li><li><a href="../../../reference/robotwin-qualification/index.html">RoboTwin seed and scene qualification</a></li><li><a href="../../../reference/motion-speed/index.html">Motion speed and wrist checks</a></li><li><a href="../../../reference/latency-profile/index.html">Latency profile</a></li><li><a href="../../../reference/robodojo-motion-qualification/index.html">RoboDojo motion qualification</a></li><li><a href="../../../reference/provider-replay/index.html">Recorded-provider tape replay</a></li><li><a href="../../../reference/robodojo-reset-diagnostics/index.html">RoboDojo reset crash diagnostics</a></li><li><a href="../../../reference/ora-local-cpu-compatibility/index.html">Local CPU compatibility</a></li><li><a href="../../../reference/robocasa-robolab-backends/index.html">RoboCasa365 and RoboLab</a></li><li><a href="../../../reference/robolab-tasks/index.html">RoboLab tasks and contracts</a></li></ul></div><div class="grp"><p>Python API</p><ul><li><a href="../../../api/index.html">Overview</a></li><li><a href="../../../api/plans/index.html">Plans and benchmark cells</a></li><li><a href="../../../api/policy/index.html">Policy sessions</a></li><li><a href="../../../api/environment/index.html">Environment sessions</a></li><li><a href="../../../api/actions/index.html">Action contracts</a></li></ul></div><div class="grp"><p>Contribute</p><ul><li><a href="../../../developer/onboarding/index.html">Start contributing</a></li><li><a href="../../../developer/contributing/index.html">Contributing</a></li><li><a href="../../../code-map/index.html">Code map</a></li><li><a href="../../../developer/repository-structure/index.html">Repository structure</a></li><li><a href="../../../developer/documentation/index.html">Documentation</a></li><li><a href="../../../developer/docs-style/index.html">Docs style guide</a></li><li><a href="../../../developer/testing/index.html">Testing</a></li><li><details><summary>Authoring guides</summary><ul><li><a href="../../../developer/add-backend/index.html">Add an environment</a></li><li><a href="../../../developer/authoring/environment-compatibility/index.html">Environment compatibility</a></li><li><a href="../../../developer/authoring/tool-surface/index.html">Tool surfaces</a></li><li><a href="../../../developer/authoring/prompt-bundle/index.html">Prompt bundles</a></li><li><a href="../../../developer/authoring/task-contract/index.html">Task contracts</a></li><li><a href="../../../developer/authoring/qualification/index.html">Qualification</a></li><li><a href="../../../developer/authoring/trajectory-capture/index.html">Trajectory and viewer integration</a></li><li><a href="../../../developer/authoring/frontend-style/index.html">Viewer style</a></li></ul></details></li><li><details><summary>Templates</summary><ul><li><a href="../../../templates/environment-compatibility-record/index.html">Environment compatibility record</a></li><li><a href="../../../templates/task-contract-review/index.html">Task contract review</a></li></ul></details></li></ul></div></aside><main id="content"><p class="crumb">Robots and tasks</p><h1 class="doctitle">ARX X5</h1><article class="prose"><p>The robot in <a href="../../../environments/robodojo/index.html">RoboDojo</a>. This page is the robot manual ORA gives the model at the start of every episode, generated from <code>ora/policy/embodiments/arx-x5/manual-public-geometry-v5.md</code>: what you read here is what the policy reads. Values measured during a run (poses, calibration, finger state) arrive with each observation instead; see <a href="../../../reference/policy-io/index.html">Policy I/O</a> and <a href="../../frames-and-units/index.html">Frames and units</a>.</p>
 <h2 id="identity-and-topology">Identity and topology</h2>
 <p>Fixed-base ARX X5: left 6-DoF arm, right 6-DoF arm; parallel-jaw grippers.</p>
@@ -351,7 +372,7 @@ action's home route is the deliberate way back.</p>
   }
 })();
 </script>
-<footer class="foot"><div class="wrap"><div class="fb"><a class="brand" href="../../../../index.html"><img src="../../../../../assets/brand/ora-mark-96.png" alt="" width="40" height="40">ORA</a><p>Open Robot-Use Agents: an open harness that lets language models operate robots. A FastRUA project.</p></div><nav class="fcols" aria-label="Footer"><div><p>ORA</p><a href="../../../../index.html">Overview</a><a href="../../../../gallery/index.html">Gallery</a><a href="../../../../docs/index.html">Docs</a><a href="../../../../paper/ora-two-page.pdf" target="_blank" rel="noopener">Paper (PDF)</a></div><div><p>Docs</p><a href="../../../../docs/getting-started/installation/index.html">Installation</a><a href="../../../../docs/quickstart/index.html">First episode</a><a href="../../../../docs/how-ora-works/index.html">How ORA works</a><a href="../../../../docs/reference/index.html">Reference</a></div><div><p>FastRUA</p><a href="../../../../../index.html">Home</a><a href="../../../../../blog/index.html">Blog</a><a class="ext" href="https://github.com/hao-ai-lab/ORA" target="_blank" rel="noopener">GitHub</a><a class="ext" href="https://haoailab.com/blogs/ora/" target="_blank" rel="noopener">Hao AI Lab blog</a></div></nav><p class="fbase">© 2026 ORA contributors · Hao AI Lab, UC San Diego</p></div></footer>
+<footer class="foot"><div class="wrap"><div class="fb"><a class="brand" href="../../../../index.html"><img src="../../../../../assets/brand/ora-mark-96.png" alt="" width="40" height="40"><svg class="pxw" width="40" height="14" viewBox="0 0 20 7" role="img" aria-label="ORA" shape-rendering="crispEdges"><path fill="currentColor" d="M1 0h4v1h-4zM7 0h5v1h-5zM15 0h4v1h-4zM0 1h2v1h-2zM4 1h2v1h-2zM7 1h2v1h-2zM11 1h2v1h-2zM14 1h2v1h-2zM18 1h2v1h-2zM0 2h2v1h-2zM4 2h2v1h-2zM7 2h2v1h-2zM11 2h2v1h-2zM14 2h2v1h-2zM18 2h2v1h-2zM0 3h2v1h-2zM4 3h2v1h-2zM7 3h5v1h-5zM14 3h6v1h-6zM0 4h2v1h-2zM4 4h2v1h-2zM7 4h2v1h-2zM10 4h2v1h-2zM14 4h2v1h-2zM18 4h2v1h-2zM0 5h2v1h-2zM4 5h2v1h-2zM7 5h2v1h-2zM11 5h2v1h-2zM14 5h2v1h-2zM18 5h2v1h-2zM1 6h4v1h-4zM7 6h2v1h-2zM11 6h2v1h-2zM14 6h2v1h-2zM18 6h2v1h-2z"/></svg></a><p>Open Robot-Use Agents: an open harness that lets language models operate robots. A FastRUA project.</p></div><nav class="fcols" aria-label="Footer"><div><p>ORA</p><a href="../../../../index.html">Overview</a><a href="../../../../gallery/index.html">Gallery</a><a href="../../../../docs/index.html">Docs</a><a href="../../../../paper/ora-two-page.pdf" target="_blank" rel="noopener">Paper (PDF)</a></div><div><p>Docs</p><a href="../../../../docs/getting-started/installation/index.html">Installation</a><a href="../../../../docs/quickstart/index.html">First episode</a><a href="../../../../docs/how-ora-works/index.html">How ORA works</a><a href="../../../../docs/reference/index.html">Reference</a></div><div><p>FastRUA</p><a href="../../../../../index.html">Home</a><a href="../../../../../blog/index.html">Blog</a><a class="ext" href="https://github.com/hao-ai-lab/ORA" target="_blank" rel="noopener">GitHub</a><a class="ext" href="https://haoailab.com/blogs/ora/" target="_blank" rel="noopener">Hao AI Lab blog</a></div></nav><p class="fbase">© 2026 ORA contributors · Hao AI Lab, UC San Diego</p></div></footer>
 <script>
 document.querySelectorAll('[data-tabs]').forEach(function(box){
   var tabs=box.querySelectorAll('.tabs button'), panes=box.querySelectorAll('[data-pane]');
@@ -370,6 +391,16 @@ document.querySelectorAll('.audit-btn').forEach(function(b){b.addEventListener('
   var on=document.body.classList.toggle('show-audits');
   b.textContent=on?'Hide inline audit notes':'Expand all audit notes ('+b.dataset.count+')';
 })});
+
+document.querySelectorAll('[data-theme-toggle]').forEach(function(b){
+  var r=document.documentElement;
+  function label(){var l=r.getAttribute('data-theme')==='light';b.setAttribute('aria-label',l?'Switch to the dark theme':'Switch to the bright theme')}
+  label();
+  b.addEventListener('click',function(){
+    var t=r.getAttribute('data-theme')==='light'?'dark':'light';
+    r.setAttribute('data-theme',t);try{localStorage.setItem('fastrua-theme',t)}catch(e){}
+    label();if(document.querySelector('.mermaid'))location.reload();   /* diagrams are drawn once, in the theme's colours */
+  })});
 </script>
 </body>
 </html>
