@@ -1,0 +1,572 @@
+# Robobench pipeline: one row per task, one column per stage.
+# Add a task by adding a row. Cell values: done | wip | todo | skip, or {s: <value>, note: "...", link: "..."}.
+# The anim cell of a row with `scene:` opens that scene in the three.js viewer once it is compiled.
+updated: 2026-11-06
+stages:
+  - {key: idea, label: Idea, help: "The task is written down: what is tested and why."}
+  - {key: design, label: Design, help: "A design note or task card fixes the layout, agents, observations and metric."}
+  - {key: anim, label: Animation, help: "A keyframed three.js animation shows the intended motion, with a kinematic feasibility check."}
+  - {key: sim, label: Sim env, help: "An Isaac Lab env runs on GB200."}
+  - {key: scripted, label: Scripted, help: "A scripted policy clearly beats the zero policy, and the GPU smoke test encodes that."}
+  - {key: eval, label: Agent eval, help: "At least one learned or LLM agent has been evaluated against the scripted baseline."}
+  - {key: demo, label: Demo, help: "A rendered demo is ready to show people."}
+groups:
+  - {key: rescue, label: Rescue scenes, note: "Humanoid G1 pairs, animation first. Branch scenes/demo-animations."}
+  - {key: v0, label: Done in v0, note: "Abstract effectors. On main."}
+  - {key: ideas, label: New ideas, note: "Proposed 2026-11-06, not yet designed."}
+  - {key: batch-a, label: "Batch A: dynamic and long", note: "Branch tasks/a."}
+  - {key: batch-b, label: "Batch B: precision and repair", note: "Branch tasks/b."}
+  - {key: batch-c, label: "Batch C: art and wet lab", note: "Branch tasks/c."}
+  - {key: batch-d, label: "Batch D: collaboration", note: "Branch tasks/d."}
+  - {key: batch-e, label: "Batch E: team logistics", note: "Branch tasks/e."}
+  - {key: batch-f, label: "Batch F: ball sports", note: "Branch tasks/f."}
+  - {key: batch-g, label: "Batch G: arena", note: "Branch tasks/g."}
+  - {key: batch-h, label: "Batch H: NVL72 datacenter", note: "Branch tasks/h."}
+tasks:
+  - id: SheetTransfer
+    group: rescue
+    scene: 01_sheet_transfer
+    agents: "2 G1"
+    what: "Move a 50 kg patient from the gurney to the OR table on a slide sheet with handle bars"
+    metric: "patient centered on the table, peak tilt, falls"
+    where: main (robobench/envs/collab/patient_transfer)
+    stages:
+      idea: done
+      design: done
+      anim: done
+      sim: {s: wip, note: "PatientTransfer env with handle bars on the sheet runs on GB200."}
+      scripted: {s: wip, note: "A downward pull over the table edge moves the sheet 25–28 cm per stroke, but the G1 falls backward at the bottom of the squat."}
+      eval: todo
+      demo: {s: wip, note: "Three.js replay of the sim exists (scripts/replay)."}
+  - id: ScoopPickup
+    group: rescue
+    scene: 02a_scoop_pickup
+    agents: "2 G1"
+    what: "Slide the two halves of a scoop stretcher under a patient on the road, latch them and lift level"
+    metric: "lift tilt, patient slip, time"
+    where: scenes/02a_scoop_pickup
+    stages: {idea: done, design: done, anim: {s: wip, note: "3.3 s of IK misses: feet during the stooped slide, 5.3–7.9 s (worst 6 cm), and both hands 3 cm short as the lift starts (18.9–19.8 s)."}, sim: todo, scripted: todo, eval: todo, demo: todo}
+  - id: LogRollBackboard
+    group: rescue
+    scene: 02b_logroll_backboard
+    agents: "2 G1"
+    what: "Log-roll the patient as one unit, slide a backboard under, roll back and lift the board"
+    metric: "spine twist during the roll, board tilt"
+    where: scenes/02b_logroll_backboard
+    stages: {idea: done, design: done, anim: {s: wip, note: "3.4 s of IK misses: B's feet while it shuffles stooped pushing the board, 9.2–11 s (worst 10 cm); brief step misses walking to the ends; hands 3 cm short as the lift starts."}, sim: todo, scripted: todo, eval: todo, demo: todo}
+  - id: DirectLift
+    group: rescue
+    scene: 02c_direct_lift
+    agents: "2 G1"
+    what: "Both G1s lift the patient off the ground from the same side, cradle to chest and set them on the cot"
+    metric: "drop events, hip torque, time"
+    where: scenes/02c_direct_lift
+    stages: {idea: done, design: done, anim: {s: wip, note: "1.6 s of IK misses: feet during the side-step carry to the cot, 16–18.4 s (worst 4 cm)."}, sim: todo, scripted: todo, eval: todo, demo: todo}
+  - id: StretcherLoad
+    group: rescue
+    scene: 03_stretcher_carry_load
+    agents: "2 G1"
+    what: "Lift a pole stretcher by its end handles, carry it level and load it into the ambulance"
+    metric: "max tilt, loaded, time"
+    where: scenes/03_stretcher_carry_load
+    stages: {idea: done, design: done, anim: {s: wip, note: "0.5 s of IK misses: single steps at the ambulance (26–40 s, worst 3 cm)."}, sim: todo, scripted: todo, eval: todo, demo: todo}
+  - id: Stretcher
+    group: v0
+    agents: "2 (4)"
+    what: "Carry a 70 kg patient 5 m level under wind and dropout (Stretcher4 uses four carriers)"
+    metric: "success, max tilt"
+    where: main
+    stages:
+      idea: done
+      design: done
+      anim: todo
+      sim: done
+      scripted: done
+      eval: {s: done, note: "DeepSeek-V4.1-Flash and Qwen3.8-Flash: 0% success vs scripted 100% (docs/status/llm-eval.md on eval/llm)."}
+      demo: todo
+  - id: BallPass
+    group: v0
+    agents: "2"
+    what: "Keep a ball going between two paddles"
+    metric: "passes (10 = success)"
+    where: main
+    stages:
+      idea: done
+      design: done
+      anim: todo
+      sim: done
+      scripted: done
+      eval: {s: done, note: "Both LLMs: 0 passes vs scripted 10."}
+      demo: todo
+  - id: AirHockey
+    group: v0
+    agents: "1v1"
+    what: "First to score"
+    metric: "win rate, score"
+    where: main
+    stages:
+      idea: done
+      design: done
+      anim: todo
+      sim: done
+      scripted: done
+      eval: {s: done, note: "DeepSeek ties scripted 0.50/0.50; Qwen loses 0.31/0.69."}
+      demo: todo
+  - id: PickBall
+    group: v0
+    agents: "1 G1"
+    what: "Humanoid G1 picks up a ball"
+    metric: "success"
+    where: main (robobench/envs/humanoid/pick_ball)
+    stages: {idea: done, design: wip, anim: todo, sim: done, scripted: wip, eval: todo, demo: todo}
+  - id: HideAndSeek
+    group: ideas
+    agents: "2v2"
+    what: "Hiders and seekers in a room with movable boxes and ramps; teams can lock objects. Tests emergent tool use."
+    metric: "hider survival rate, tool-use events"
+    source: "https://openai.com/index/emergent-tool-use/"
+    stages: {idea: done, design: todo, anim: todo, sim: todo, scripted: todo, eval: todo, demo: todo}
+  - id: VmasScenarios
+    group: ideas
+    agents: "2–8"
+    what: "Port a few VMAS-style scenarios (joint transport, balance a pole on a team, give-way in a corridor, flocking) to Isaac Lab for vectorized multi-agent comparison"
+    metric: "per-scenario success, throughput"
+    source: "https://github.com/proroklab/VectorizedMultiAgentSimulator"
+    stages: {idea: done, design: todo, anim: todo, sim: todo, scripted: todo, eval: todo, demo: todo}
+  - id: CoopKitchen
+    group: ideas
+    agents: "2"
+    what: "Overcooked-style shared kitchen: fetch ingredients, cook, plate and serve orders in a tight layout where the two agents must split work and avoid blocking each other"
+    metric: "orders served per minute, collisions"
+    source: "https://github.com/HumanCompatibleAI/overcooked_ai"
+    stages: {idea: done, design: todo, anim: todo, sim: todo, scripted: todo, eval: todo, demo: todo}
+  - id: EscapeRoom
+    group: ideas
+    agents: "2–3"
+    what: "Cooperative escape room: one agent holds a lever or reads a clue the other cannot see, so the door opens only with communication and turn-taking"
+    metric: "escape rate, time, messages used"
+    stages: {idea: done, design: todo, anim: todo, sim: todo, scripted: todo, eval: todo, demo: todo}
+  - id: WaiterTray
+    group: batch-a
+    track: dynamic
+    agents: "1"
+    what: "Carry a tray of 3 glasses and 2 plates along a path with turns; wind on the tray"
+    metric: "items tipped or dropped, time"
+    where: tasks/a
+    stages: {idea: done, design: done, anim: todo, sim: done, scripted: done, eval: todo, demo: todo}
+    result: "GPU smoke PASS. items lost 2.8438 → 0; intact delivery 0 → 5"
+  - id: WaiterAisle
+    group: batch-a
+    track: dynamic
+    agents: "2"
+    what: "Two waiters with trays pass each other in a narrow aisle"
+    metric: "collisions, items lost, wait time"
+    where: tasks/a
+    stages: {idea: done, design: done, anim: todo, sim: done, scripted: done, eval: todo, demo: todo}
+    result: "GPU smoke PASS. items lost 1.0312 → 0; wait 11.1907 → .08 agent-s; scripted collisions 0"
+  - id: TrayHandover
+    group: batch-a
+    track: dynamic
+    agents: "2"
+    what: "Waiter hands a loaded tray to a second waiter while both move"
+    metric: "items lost, handover time"
+    where: tasks/a
+    stages: {idea: done, design: done, anim: todo, sim: done, scripted: done, eval: todo, demo: todo}
+    result: "GPU smoke PASS. handovers 0 → 1; items lost 3 → 0; handover time 2.48 s"
+  - id: ConveyorPick
+    group: batch-a
+    track: dynamic
+    agents: "1–2"
+    what: "Pick items off a moving conveyor into bins by color"
+    metric: "picks per minute, misses"
+    where: tasks/a
+    stages: {idea: done, design: done, anim: todo, sim: done, scripted: done, eval: todo, demo: todo}
+    result: "GPU smoke PASS. correct picks/min 0 → 13.0588; misses 2 → 0"
+  - id: WarehousePickPack
+    group: batch-a
+    track: long
+    agents: "2–3"
+    what: "Fetch an order from shelves, pack it in a box, hand it on"
+    metric: "orders completed, errors"
+    where: tasks/a
+    stages: {idea: done, design: done, anim: todo, sim: done, scripted: done, eval: todo, demo: todo}
+    result: "GPU smoke PASS. orders 0 → 1; packed products 0 → 2; scripted errors 0"
+  - id: GpuInsert
+    group: batch-b
+    track: precision
+    agents: "1"
+    what: "Seat a GPU card in a PCIe slot (tight clearance, insertion force limit)"
+    metric: "seated, peak force, misalignment"
+    where: tasks/b
+    stages: {idea: done, design: done, anim: todo, sim: done, scripted: done, eval: todo, demo: todo}
+    result: "GPU smoke PASS. seating 0% vs 100%; scripted 2.4819 s, peak modeled load 2.66 N, 0 damage"
+  - id: ScrewDrive
+    group: batch-b
+    track: precision
+    agents: "1"
+    what: "Drive 4 screws to target torque without cross-threading (modeled)"
+    metric: "screws at torque, overtorque events"
+    where: tasks/b
+    stages: {idea: done, design: done, anim: todo, sim: done, scripted: done, eval: todo, demo: todo}
+    result: "GPU smoke PASS. screws 0 vs 4; success 0% vs 100%; torque error 0.0425 N m, 10.5 s"
+  - id: DiskSwap
+    group: batch-b
+    track: precision
+    agents: "1"
+    what: "Pull a failed drive from a server bay, seat a spare"
+    metric: "seated, bay contacts, time"
+    where: tasks/b
+    stages: {idea: done, design: done, anim: todo, sim: done, scripted: done, eval: todo, demo: todo}
+    result: "GPU smoke PASS. steps 0 vs 6; seating 0% vs 100%; 10.1677 s, 0 damage/contact"
+  - id: LugNuts
+    group: batch-b
+    track: precision
+    agents: "1"
+    what: "Car repair: loosen and retighten 5 lug nuts in star order"
+    metric: "order correct, torque error"
+    where: tasks/b
+    stages: {idea: done, design: done, anim: todo, sim: done, scripted: done, eval: todo, demo: todo}
+    result: "GPU smoke PASS. operations 0 vs 10; valid completion 0% vs 100%; 4.8224 N m error, 24.7441 s"
+  - id: PcAssembly
+    group: batch-b
+    track: long
+    agents: "1–2"
+    what: "Build a PC: board, CPU, RAM, GPU, screws, in a valid order"
+    metric: "steps done, damage events, time"
+    where: tasks/b
+    stages: {idea: done, design: done, anim: todo, sim: done, scripted: done, eval: todo, demo: todo}
+    result: "GPU smoke PASS. steps 0 vs 12; success 0% vs 100%; 4 parts + 4 screws, 41.2784 s"
+  - id: RackService
+    group: batch-b
+    track: long
+    agents: "2"
+    what: "Datacenter: swap a drive, reseat a cable, close the rack"
+    metric: "steps done, time"
+    where: tasks/b
+    stages: {idea: done, design: done, anim: todo, sim: done, scripted: done, eval: todo, demo: todo}
+    result: "GPU smoke PASS. steps 0 vs 9; success 0% vs 100%; 20.2677 s, door 0.0214 rad; no-assistant 0/16"
+  - id: PaintCanvas
+    group: batch-c
+    track: art
+    agents: "1"
+    what: "Paint strokes on a canvas (own renderer) to match a target image"
+    metric: "SSIM to target, paint used"
+    where: tasks/c
+    stages: {idea: done, design: done, anim: todo, sim: done, scripted: done, eval: todo, demo: todo}
+    result: "GPU smoke PASS. SSIM 0.0000 vs 0.9903; success 0% vs 100% (128 each)"
+  - id: LineDrawing
+    group: batch-c
+    track: art
+    agents: "1"
+    what: "Draw a target line drawing with a pen under contact force"
+    metric: "Chamfer distance, lifts"
+    where: tasks/c
+    stages: {idea: done, design: done, anim: todo, sim: done, scripted: done, eval: todo, demo: todo}
+    result: "GPU smoke PASS. Chamfer 1.1314 vs .0002 m; success 0% vs 100% (128 each)"
+  - id: Sanding
+    group: batch-c
+    track: precision
+    agents: "1"
+    what: "Sand a curved panel to a target finish: keep contact force in band, cover the area"
+    metric: "coverage in band, force violations"
+    where: tasks/c
+    stages: {idea: done, design: done, anim: todo, sim: done, scripted: done, eval: todo, demo: todo}
+    result: "GPU smoke PASS. coverage 0 vs .9801; success 0% vs 100%; violations .0010"
+  - id: PourBeads
+    group: batch-c
+    track: precision
+    agents: "1"
+    what: "Wet lab with beads as liquid: pour into a beaker to a fill line"
+    metric: "fill error, spill"
+    where: tasks/c
+    stages: {idea: done, design: done, anim: todo, sim: done, scripted: done, eval: todo, demo: todo}
+    result: "GPU smoke PASS. fill error .6667 vs .0059; success 0% vs 98.44%; spill .0059"
+  - id: PipetteTransfer
+    group: batch-c
+    track: precision
+    agents: "1"
+    what: "Move aliquots between wells without cross-contamination (modeled)"
+    metric: "volume error, wrong wells"
+    where: tasks/c
+    stages: {idea: done, design: done, anim: todo, sim: done, scripted: done, eval: todo, demo: todo}
+    result: "GPU smoke PASS. volume error 1 vs 0; success 0% vs 100%; contamination 0"
+  - id: PitStop
+    group: batch-d
+    track: collab
+    agents: "4–6"
+    what: "F1 stop: jack up, 4 wheels off and on, release; conductor gives \"go\""
+    metric: "stop time, loose wheels, unsafe release"
+    where: tasks/d
+    stages: {idea: done, design: done, anim: todo, sim: done, scripted: done, eval: todo, demo: todo}
+    result: "GPU smoke PASS. Success 0% / 100%; 15.98 / 3.98 s; loose wheels 4 / 0"
+  - id: BeamRaise
+    group: batch-d
+    track: collab
+    agents: "4"
+    what: "Lift a beam on a count, keep it level, set it on posts"
+    metric: "beam twist, peak load per agent"
+    where: tasks/d
+    stages: {idea: done, design: done, anim: todo, sim: done, scripted: done, eval: todo, demo: todo}
+    result: "GPU smoke PASS. Success 0% / 100%; scripted 9.86 s, 1.55 cm error, 260.6 N per carrier"
+  - id: SofaDoor
+    group: batch-d
+    track: collab
+    agents: "2"
+    what: "Carry a sofa through a door with a turn"
+    metric: "wall contacts, time"
+    where: tasks/d
+    stages: {idea: done, design: done, anim: todo, sim: done, scripted: done, eval: todo, demo: todo}
+    result: "GPU smoke PASS. Success 0% / 100%; scripted 12.40 s, 4.04 cm error, 0 wall contacts"
+  - id: SurgeryHandover
+    group: batch-d
+    track: collab
+    agents: "3"
+    what: "Leader–follower: nurse hands instruments to the surgeon on demand"
+    metric: "handover latency, drops, field breaches"
+    where: tasks/d
+    stages: {idea: done, design: done, anim: todo, sim: done, scripted: done, eval: todo, demo: todo}
+    result: "GPU smoke PASS. Success 0% / 100%; latency 20 / 1.605 s; scripted 2 transfers, 0 drops/breaches"
+  - id: ToolHandover
+    group: batch-d
+    track: collab
+    agents: "2"
+    what: "Pass tools of varied shape hand to hand while both move"
+    metric: "success, handover time"
+    where: tasks/d
+    stages: {idea: done, design: done, anim: todo, sim: done, scripted: done, eval: todo, demo: todo}
+    result: "GPU smoke PASS. Success 0% / 100%; latency 16 / 1.778 s; scripted 0 drops"
+  - id: BucketBrigade
+    group: batch-e
+    track: collab
+    agents: "4–6"
+    what: "Pass items down a line to a goal (pipeline)"
+    metric: "throughput, drops, stall propagation"
+    where: tasks/e
+    stages: {idea: done, design: done, anim: todo, sim: done, scripted: done, eval: todo, demo: todo}
+    result: "GPU smoke PASS. delivered 0 → 3; 7.7014 items/min; 23.3725 s"
+  - id: KitchenBrigade
+    group: batch-e
+    track: collab
+    agents: "3–4"
+    what: "Tickets arrive; stations prep and plate; conductor routes"
+    metric: "tickets per minute, latency"
+    where: tasks/e
+    stages: {idea: done, design: done, anim: todo, sim: done, scripted: done, eval: todo, demo: todo}
+    result: "GPU smoke PASS. served 0 → 3; 6.8285 tickets/min; mean latency 17.32 s"
+  - id: AirportTurnaround
+    group: batch-e
+    track: collab
+    agents: "4–6"
+    what: "Unload and load luggage between cart, belt and hold before departure"
+    metric: "turnaround time, bags missed"
+    where: tasks/e
+    stages: {idea: done, design: done, anim: todo, sim: done, scripted: done, eval: todo, demo: todo}
+    result: "GPU smoke PASS. missed 4 → 0; censored turnaround 74.96 → 42.5828 s"
+  - id: SearchRescue
+    group: batch-e
+    track: collab
+    agents: "3–6"
+    what: "Find and mark targets in a cluttered field (market allocation)"
+    metric: "time to find all, redundant visits"
+    where: tasks/e
+    stages: {idea: done, design: done, anim: todo, sim: done, scripted: done, eval: todo, demo: todo}
+    result: "GPU smoke PASS. found 0 → 6; censored find-all time 19.96 → 3.4128 s"
+  - id: MoveInBlueprint
+    group: batch-e
+    track: long
+    agents: "2–3"
+    what: "Place furniture to a floor plan, carrying large pieces together"
+    metric: "placement error, collisions, time"
+    where: tasks/e
+    stages: {idea: done, design: done, anim: todo, sim: done, scripted: done, eval: todo, demo: todo}
+    result: "GPU smoke PASS. placed 0 → 2; mean position error 2.6003 → 0.0173 m; 10.8566 s"
+  - id: TossCatch
+    group: batch-f
+    track: sport
+    agents: "2"
+    what: "Throw to a reachable spot; catcher predicts the flight; distance grows"
+    metric: "catch rate vs distance"
+    where: tasks/f
+    stages: {idea: done, design: done, anim: todo, sim: done, scripted: done, eval: todo, demo: todo}
+    result: "GPU smoke PASS. catches 0 / 3 / 0"
+  - id: BasketballPassShoot
+    group: batch-f
+    track: sport
+    agents: "2"
+    what: "Chest or bounce pass, receiver shoots at a hoop"
+    metric: "completions, shots made"
+    where: tasks/f
+    stages: {idea: done, design: done, anim: todo, sim: done, scripted: done, eval: todo, demo: todo}
+    result: "GPU smoke PASS. shots 0 / 1 / 0; scripted 1 pass"
+  - id: SoccerTriangle
+    group: batch-f
+    track: sport
+    agents: "3"
+    what: "Pass around a triangle; receive, turn and pass"
+    metric: "completions, passes per minute"
+    where: tasks/f
+    stages: {idea: done, design: done, anim: todo, sim: done, scripted: done, eval: todo, demo: todo}
+    result: "GPU smoke PASS. completions 0 / 6 / 0; scripted 67.1306 passes/min"
+  - id: Volleyball3Touch
+    group: batch-f
+    track: sport
+    agents: "3"
+    what: "Bump, set, spike over a net"
+    metric: "valid 3-touch sequences"
+    where: tasks/f
+    stages: {idea: done, design: done, anim: todo, sim: done, scripted: done, eval: todo, demo: todo}
+    result: "GPU smoke PASS. valid sequences 0 / 1 / 0; scripted 3 touches"
+  - id: BaseballDoublePlay
+    group: batch-f
+    track: sport
+    agents: "3–4"
+    what: "Catch, throw, tag before the runner arrives"
+    metric: "outs, relay time"
+    where: tasks/f
+    stages: {idea: done, design: done, anim: todo, sim: done, scripted: done, eval: todo, demo: todo}
+    result: "GPU smoke PASS. outs 0 / 2 / 0"
+  - id: RelayBaton
+    group: batch-f
+    track: sport
+    agents: "2–4"
+    what: "Hand a baton within the zone at matched speed"
+    metric: "handoffs in zone, speed lost"
+    where: tasks/f
+    stages: {idea: done, design: done, anim: todo, sim: done, scripted: done, eval: todo, demo: todo}
+    result: "GPU smoke PASS. handoffs 0 / 1 / 0; scripted speed loss 0.3532 m/s"
+  - id: TableTennis
+    group: batch-g
+    track: arena
+    agents: "1v1"
+    what: "Rally and score"
+    metric: "win rate, rally length"
+    where: tasks/g
+    stages: {idea: done, design: done, anim: todo, sim: done, scripted: done, eval: todo, demo: todo}
+    result: "GPU smoke PASS. zero 0 returns; selfplay 13; scripted wins 100% either side vs zero"
+  - id: SumoPush
+    group: batch-g
+    track: arena
+    agents: "1v1"
+    what: "Push the opponent out of the ring"
+    metric: "win rate"
+    where: tasks/g
+    stages: {idea: done, design: done, anim: todo, sim: done, scripted: done, eval: todo, demo: todo}
+    result: "GPU smoke PASS. zero 0% wins; scripted 100% either side, 100% vs random"
+  - id: TugOfWar
+    group: batch-g
+    track: arena
+    agents: "1v1, 2v2"
+    what: "Pull a rope's mark over the line"
+    metric: "win rate, peak force"
+    where: tasks/g
+    stages: {idea: done, design: done, anim: todo, sim: done, scripted: done, eval: todo, demo: todo}
+    result: "GPU smoke PASS. zero 0% wins; scripted 100% either side in 1v1 and 2v2; peak 29.58/29.57 N"
+  - id: Soccer2v2
+    group: batch-g
+    track: arena
+    agents: "2v2"
+    what: "Small-sided game"
+    metric: "goal difference, passes per goal"
+    where: tasks/g
+    stages: {idea: done, design: done, anim: todo, sim: done, scripted: done, eval: todo, demo: todo}
+    result: "GPU smoke PASS. zero 0 goals; scripted 100% either team, goal diff +1/-1; 0 passes/goal"
+  - id: PitRace
+    group: batch-g
+    track: arena
+    agents: "team vs team"
+    what: "Two pit crews race on two cars"
+    metric: "stop time difference, faults"
+    where: tasks/g
+    stages: {idea: done, design: done, anim: todo, sim: done, scripted: done, eval: todo, demo: todo}
+    result: "GPU smoke PASS. scripted 2.50 s, 100% finish / 0 faults; zero unfinished at 20 s; +/-17.50 s censored difference"
+  - id: Badminton
+    group: batch-g
+    track: arena
+    agents: "1v1"
+    what: "Shuttle with high drag; rally and score"
+    metric: "win rate"
+    where: tasks/g
+    stages: {idea: done, design: done, anim: todo, sim: done, scripted: done, eval: todo, demo: todo}
+    result: "GPU smoke PASS. zero 0 returns; selfplay 23.4531; scripted 100% either side vs zero"
+  - id: WaiterSpill
+    group: batch-a
+    track: dynamic
+    agents: "1"
+    what: "WaiterTray with liquid as beads in open cups"
+    metric: "beads spilled"
+    where: tasks/a
+    stages: {idea: done, design: done, anim: todo, sim: done, scripted: done, eval: todo, demo: todo}
+    result: "GPU smoke PASS. beads spilled 9 → 0; delivered beads 0 → 9"
+  - id: Stretcher4Stairs
+    group: batch-d
+    track: collab
+    agents: "4"
+    what: "Stretcher4 up 3 stairs"
+    metric: "success, max tilt"
+    where: tasks/d
+    stages: {idea: done, design: done, anim: todo, sim: done, scripted: done, eval: todo, demo: todo}
+    result: "GPU smoke PASS. Success 0% / 100%; scripted 9.98 s, tilt 0.271 deg, slip 3.19 cm"
+  - id: Nvl72TraySwap
+    group: batch-h
+    track: datacenter
+    agents: "1–2"
+    what: "Telemetry flags a failed compute tray: pull it on its rails, set it on a cart, slide a spare in and seat it inside a blind-mate force window"
+    metric: "seated, peak force, rail binds, time"
+    where: tasks/h
+    stages: {idea: done, design: done, anim: todo, sim: done, scripted: done, eval: todo, demo: todo}
+    result: "GPU smoke PASS. seated 0 / 1; 17.07 s, 150 N, 0 binds/damage"
+  - id: Nvl72SwitchTraySwap
+    group: batch-h
+    track: datacenter
+    agents: "1–2"
+    what: "The same for an NVLink switch tray (heavier, more connectors)"
+    metric: "seated, peak force, time"
+    where: tasks/h
+    stages: {idea: done, design: done, anim: todo, sim: done, scripted: done, eval: todo, demo: todo}
+    result: "GPU smoke PASS. seated 0 / 1; 17.21 s, 270 N, 0 binds/damage"
+  - id: Nvl72QuickDisconnect
+    group: batch-h
+    track: datacenter
+    agents: "1"
+    what: "Disconnect and reconnect a liquid quick-disconnect at the manifold without a leak (beads as coolant)"
+    metric: "leaked beads, connector misalignment"
+    where: tasks/h
+    stages: {idea: done, design: done, anim: todo, sim: done, scripted: done, eval: todo, demo: todo}
+    result: "GPU smoke PASS. service 0 / 1; 3.80 s, 0 leaked beads"
+  - id: Nvl72CableReseat
+    group: batch-h
+    track: datacenter
+    agents: "1"
+    what: "Reseat network and power cables at the asset's connection points, in the right ports"
+    metric: "correct ports, pull force violations"
+    where: tasks/h
+    stages: {idea: done, design: done, anim: todo, sim: done, scripted: done, eval: todo, demo: todo}
+    result: "GPU smoke PASS. correct ports 0 / 2; 4.24 s, 4.8 N, 0 violations"
+  - id: Nvl72FaultTriage
+    group: batch-h
+    track: datacenter
+    agents: "1–2 (LLM-centric)"
+    what: "An alarm (text) plus the rack map: locate the tray, isolate it, swap, reconnect, verify. Wrong-slot actions are penalized"
+    metric: "fixed, wrong actions, time to repair"
+    where: tasks/h
+    stages: {idea: done, design: done, anim: todo, sim: done, scripted: done, eval: todo, demo: todo}
+    result: "GPU smoke PASS. fixed 0 / 1; 17.13 s, 0 wrong actions/damage"
+  - id: Nvl72Populate
+    group: batch-h
+    track: datacenter
+    agents: "2–4"
+    what: "Assemble an empty NVL72 rack from a parts cart (18 compute trays, 9 switch trays, power shelves) in valid slots and order"
+    metric: "trays seated, order violations, time"
+    where: tasks/h
+    stages: {idea: done, design: done, anim: todo, sim: done, scripted: done, eval: todo, demo: todo}
+    result: "GPU smoke PASS. modules 0 / 35; 235 s, 270 N, 0 violations/damage"
+  - id: Nvl72RollIn
+    group: batch-h
+    track: datacenter
+    agents: "2–4"
+    what: "Roll the 1.5 t rack into its row position and align it to floor marks"
+    metric: "alignment error, peak push per agent, collisions"
+    where: tasks/h
+    stages: {idea: done, design: done, anim: todo, sim: done, scripted: done, eval: todo, demo: todo}
+    result: "GPU smoke PASS. alignment 2.5097 / 0.0250 m; 6.84 s, 848.53 N peak push, 0 collisions"
+
