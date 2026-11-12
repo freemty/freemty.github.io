@@ -252,7 +252,7 @@ Structure: (1) Code mode; (2) Shared motion stack; (3) Tool calls vs. code mode;
 
 <h3>40% on RoboDojo, zero-shot</h3>
 <p>RoboDojo is the hardest benchmark we run. Two ARX X5 arms work a tabletop: play a xylophone in order, thread nuts onto bolts, fold a cloth, insert tubes into a rack, build a tower from planks. Most tasks need dozens of motions, and each one depends on the geometry the earlier ones left behind.</p>
-<p>With code mode and self-hosted <code>DeepSeek-V4.1-Flash</code>, ORA solves <strong>80 of 198 cases (40.4%)</strong> across 40 tasks with five layouts each; two cases were invalid. Zero-shot here means:</p>
+<p>With code mode and self-hosted <code>DeepSeek-V4.1-Flash</code>, ORA solves <strong>79 of 198 cases (39.9%)</strong> across 40 tasks with five layouts each; two cases were invalid. Zero-shot here means:</p>
 <ul>
 <li><strong>no exploration:</strong> the agent never practises on a case or its layout before the scored episode;</li>
 <li><strong>no demonstrations and no task memory:</strong> nothing carries over from one case to another;</li>
@@ -832,15 +832,15 @@ gains: [2.93, 0.03]</pre>
 </tr>
 <tr>
 <td>RoboDojo</td>
-<td>40.4%</td>
-<td>10.1%</td>
+<td>39.9%</td>
+<td>10.6%</td>
 </tr>
 </tbody>
 </table></div>
 <p><strong>Why we count successes after the limit.</strong> The step limits were set for learned policies that act at a fixed control rate. ORA is a turn-based agent: it measures, plans, moves, and checks, and it spends simulator steps where a policy does not. Each ORA motion uses about twice the native steps of a direct joint command, and failed or retried motions add more. The late successes are real task completions by the benchmark's own check. They are not leaderboard numbers.</p>
 <ul>
-<li><strong>How late.</strong> The median late success lands at 1.57 times the limit on RoboDojo and 1.70 times on RoboLab.</li>
-<li><strong>Speed does not explain it.</strong> The default motion speed is already near the arms' joint limits on RoboDojo. Re-timing every move at the fastest preset would turn at most 10 of 60 (RoboDojo) and 3 of 61 (RoboLab) late successes into official ones. The steps go to extra decisions and stalled moves.</li>
+<li><strong>How late.</strong> The median late success lands at 1.54 times the limit on RoboDojo and 1.70 times on RoboLab.</li>
+<li><strong>Speed does not explain it.</strong> The default motion speed is already near the arms' joint limits on RoboDojo. Re-timing every move at the fastest preset would turn at most 10 of 58 (RoboDojo) and 3 of 61 (RoboLab) late successes into official ones. The steps go to extra decisions and stalled moves.</li>
 <li><strong>Comparisons in this post.</strong></li>
 <li><em>The paired experiment (Section 3):</em> of the 20 cases programs solved, 5 were within the limit; of the 6 cases tool calls solved, 2 were.</li>
 <li><em>Against Uni-Robot-Agent (Section 1):</em> it reaches more successes within the limit than ORA (16 vs. 9 of 72), because each ORA motion takes about twice the simulator steps.</li>
