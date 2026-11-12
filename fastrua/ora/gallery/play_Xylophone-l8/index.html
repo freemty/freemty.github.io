@@ -60,26 +60,23 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .nav .wrap{display:flex;align-items:center;gap:16px;height:64px}
 .brand{display:flex;align-items:center;gap:10px;color:var(--text);font:600 18px/1 var(--sans);letter-spacing:.02em;flex:none}
 .brand:hover{text-decoration:none}
-/* left: where you are (FastRUA, then "/ ORA" and its sections inside the project); right: the group's destinations */
-.nav .sep{color:var(--text-3);font-size:18px;flex:none}
-.nav .proj{color:var(--text);font:600 16px/1 var(--sans);letter-spacing:.02em;flex:none}
-.nav .proj:hover{text-decoration:none}
+/* left: who we are (FastRUA and, beside it, the lab it belongs to, in the accent); right: where to go (ORA, with its
+   sections inside the project; the blog; GitHub; the theme) */
+.nav .by{width:1px;height:22px;background:var(--line-2);flex:none}
+.nav a.lab{display:inline-flex;flex:none}
+.nav a.lab:hover{opacity:.85}
+.nav .go{margin-left:auto;display:flex;align-items:center;gap:26px;min-width:0}
+.nav .proj{display:inline-flex;align-items:center;color:var(--text-2);flex:none}
+.nav .proj:hover,.nav .proj[aria-current="page"]{color:var(--text);text-decoration:none}
 .nav nav{display:flex;gap:26px;font-size:15px;white-space:nowrap}
-.nav .sub{margin-left:14px;min-width:0;overflow-x:auto;scrollbar-width:none}
+.nav .sub{min-width:0;overflow-x:auto;scrollbar-width:none}
 .nav .sub::-webkit-scrollbar{display:none}
-.nav .glob{margin-left:auto;flex:none}
-.nav .sub+.glob{border-left:1px solid var(--line-2);padding-left:22px}
+.nav .glob{flex:none;align-items:center}
+.nav .sub+.glob{border-left:1px solid var(--line-2);padding-left:24px}
 .nav nav a{color:var(--text-2)}
 .nav nav a:hover,.nav nav a[aria-current="page"]{color:var(--text);text-decoration:none}
 .ext::after{content:" \2197";font-size:.85em;color:var(--text-3)}
 .pxw{display:inline-block;vertical-align:-1px;flex:none}
-/* affiliation: "… of [Hao AI Lab]" with the lab's own logo */
-.aff{display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;color:var(--text-3);font-size:14.5px;line-height:1.4;margin:28px 0 0}
-.aff a.lab,.foot a.lab{display:inline-flex}
-.aff a.lab img,.foot a.lab img{display:block;height:30px;width:auto}
-.aff a:not(.lab){color:var(--text-2);text-decoration:underline;text-decoration-color:var(--line-2);text-underline-offset:3px}
-.foot .fb .from{display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;margin:18px 0 0;color:var(--text-3);font-size:13.5px}
-.nav nav a .pxw{vertical-align:-2px}
 .themebtn{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 10px;border:1px solid var(--line-2);border-radius:7px;background:none;color:var(--text-2);font:500 13px/1 var(--sans);cursor:pointer;flex:none}
 .themebtn:hover{color:var(--text);border-color:var(--text-3)}
 .themebtn svg{width:15px;height:15px;flex:none}
@@ -91,13 +88,25 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 @media (max-width:760px){.themebtn span{display:none}.themebtn{padding:0 7px}}
 .nav .wrap,.foot .wrap,.wide .wrap{max-width:var(--max-wide)}
 .nav.root .wrap,.foot.root .wrap{max-width:var(--max)}
-@media (max-width:760px){.nav .proj~.glob .ext,.nav .sub .ext{display:none}.nav nav{gap:18px}}
-@media (max-width:560px){.nav nav{gap:14px;font-size:13.5px}.brand{font-size:16px;gap:8px}.nav nav .ext::after{content:none}
-  .nav.in-proj .brand span{display:none}.nav .wrap{gap:10px}.nav .sub{margin-left:6px}.nav .sub+.glob{padding-left:12px}}
+@media (max-width:1100px){.nav.in-proj a.lab,.nav.in-proj .by{display:none}}
+@media (max-width:760px){.nav .ext{display:none}.nav nav,.nav .go{gap:18px}.nav{--lab-h:22px}}
+@media (max-width:560px){.nav nav,.nav .go{gap:14px}.nav nav{font-size:13.5px}.brand{font-size:16px;gap:8px}
+  .nav .brand span{display:none}.nav .wrap{gap:10px}.nav .sub+.glob{padding-left:12px}}
 /* blog cards */
 .posts{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
 .post{display:block;border:1px solid var(--line-2);border-radius:12px;overflow:hidden;background:var(--bg);color:inherit;transition:border-color .2s}
 .post:hover{text-decoration:none;border-color:var(--text-3)}
+.post[hidden]{display:none}
+/* the blog's index: its name, the tags as filters, one line to the lab's blog */
+.blhead{padding:72px 0 30px}
+.blhead h1{font:700 clamp(2.2rem,5vw,3.2rem)/1.05 var(--sans);letter-spacing:-.03em;margin:0}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 0}
+.tags button{font:500 13px/1 var(--sans);padding:8px 13px;border:1px solid var(--line-2);border-radius:999px;background:none;color:var(--text-2);cursor:pointer}
+.tags button:hover{color:var(--text);border-color:var(--text-3)}
+.tags button.on{background:var(--text);border-color:var(--text);color:var(--bg)}
+.also{margin:28px 0 0;color:var(--text-3);font-size:14.5px}
+.also a{color:var(--text-2);text-decoration:underline;text-decoration-color:var(--teal);text-underline-offset:3px}
+.also a:hover{color:var(--text)}
 .post img{display:block;width:100%;aspect-ratio:16/8;object-fit:cover;border-bottom:1px solid var(--line)}
 .post .body{padding:20px 22px 22px}
 .post .meta{display:flex;gap:10px;align-items:center;font:400 12.5px/1 var(--label);color:var(--text-3);margin:0 0 12px}
@@ -109,14 +118,10 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .sechead a{font-size:14px}
 /* footer */
 .foot{margin-top:96px;border-top:1px solid var(--line-2)}
-.foot .wrap{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,2fr);gap:32px 48px;padding-top:48px;padding-bottom:40px}
-.foot .fb p{margin:14px 0 0;max-width:22em;color:var(--text-3);font-size:14px;line-height:1.6}
-.fcols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
-.fcols p{margin:0 0 12px;font:500 11.5px/1 var(--label);letter-spacing:.1em;text-transform:uppercase;color:var(--text-3)}
-.fcols a{display:block;color:var(--text-2);font-size:14px;padding:4px 0}
-.fcols a:hover{color:var(--text)}
-.fbase{grid-column:1 / -1;margin:8px 0 0;padding-top:22px;border-top:1px solid var(--line);color:var(--text-3);font-size:13px}
-@media (max-width:760px){.foot .wrap{grid-template-columns:1fr}.fcols{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.foot .wrap{padding-top:24px;padding-bottom:calc(28px + env(safe-area-inset-bottom,0px))}
+.foot p{margin:0;color:var(--text-3);font-size:13px}
+.foot a{color:var(--text-2)}
+.foot a:hover{color:var(--text)}
 /* article: blog posts and docs pages share these */
 .posthead{padding:72px 0 28px;text-align:center}
 .posthead .meta{font:400 13px/1 var(--label);color:var(--text-3);display:flex;gap:12px;justify-content:center;align-items:center;flex-wrap:wrap;margin:0}
@@ -235,7 +240,7 @@ body.show-audits .audit-pop{display:block;position:static;width:auto;margin:8px 
 <script src="../../../assets/design/design-bar.js" data-labels=".post .meta,.draft,.fcols p,.posthead .meta,.prose h2 small,.prose h3 small,.cbtn,.prose th,.slot,.draftbar,.audit-btn,.audit-tag,.audit-pop strong,.loop li b,.three li,.copy,.pill b,.side .grp&gt;p,.toc p,.crumb,.pager small,.dochero .ora-meta,.gcard .more,.r3d-legend,.r3d-hint,.r3d-swap span,.r3d-tick,.r3d-st,.r3d-n,.gv,.gpager a span,.gfilter button span"></script>
 </head>
 <body>
-<header class="nav in-proj"><div class="wrap"><a class="brand" href="../../../index.html"><img src="../../../assets/brand/fastrua-mark-96.png" alt="" width="40" height="40"><span>FastRUA</span></a><span class="sep" aria-hidden="true">/</span><a class="proj" href="../../index.html"><svg class="pxw" width="40" height="14" viewBox="0 0 20 7" role="img" aria-label="ORA" shape-rendering="crispEdges"><path fill="currentColor" d="M1 0h4v1h-4zM7 0h5v1h-5zM15 0h4v1h-4zM0 1h2v1h-2zM4 1h2v1h-2zM7 1h2v1h-2zM11 1h2v1h-2zM14 1h2v1h-2zM18 1h2v1h-2zM0 2h2v1h-2zM4 2h2v1h-2zM7 2h2v1h-2zM11 2h2v1h-2zM14 2h2v1h-2zM18 2h2v1h-2zM0 3h2v1h-2zM4 3h2v1h-2zM7 3h5v1h-5zM14 3h6v1h-6zM0 4h2v1h-2zM4 4h2v1h-2zM7 4h2v1h-2zM10 4h2v1h-2zM14 4h2v1h-2zM18 4h2v1h-2zM0 5h2v1h-2zM4 5h2v1h-2zM7 5h2v1h-2zM11 5h2v1h-2zM14 5h2v1h-2zM18 5h2v1h-2zM1 6h4v1h-4zM7 6h2v1h-2zM11 6h2v1h-2zM14 6h2v1h-2zM18 6h2v1h-2z"/></svg></a><nav class="sub" aria-label="ORA"><a href="../../index.html">Overview</a><a href="../../gallery/index.html" aria-current="page">Gallery</a><a href="../../docs/index.html">Docs</a><a class="ext" href="../../paper/ora-two-page.pdf" target="_blank" rel="noopener">Paper</a><a class="ext" href="https://github.com/hao-ai-lab/ORA" target="_blank" rel="noopener">Code</a></nav><nav class="glob" aria-label="FastRUA"><a href="../../../blog/index.html">Blog</a><a class="ext" href="https://github.com/fast-rua" target="_blank" rel="noopener">GitHub</a><button class="themebtn" type="button" data-theme-toggle aria-label="Switch to the bright theme"><svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></svg><svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg><span></span></button></nav></div></header>
+<header class="nav in-proj"><div class="wrap"><a class="brand" href="../../../index.html"><img src="../../../assets/brand/fastrua-mark-96.png" alt="" width="40" height="40"><span>FastRUA</span></a><span class="by" aria-hidden="true"></span><a class="lab" href="https://haoailab.com/" target="_blank" rel="noopener" aria-label="Hao AI Lab, UC San Diego" title="Hao AI Lab, UC San Diego"><span style="display:block;height:var(--lab-h,30px);aspect-ratio:471/96;background:var(--teal);-webkit-mask:url(../../../assets/brand/hao-ai-lab-night.png) center/contain no-repeat;mask:url(../../../assets/brand/hao-ai-lab-night.png) center/contain no-repeat"></span></a><div class="go"><a class="proj" href="../../index.html" aria-current="page"><svg class="pxw" width="40" height="14" viewBox="0 0 20 7" role="img" aria-label="ORA" shape-rendering="crispEdges"><path fill="currentColor" d="M1 0h4v1h-4zM7 0h5v1h-5zM15 0h4v1h-4zM0 1h2v1h-2zM4 1h2v1h-2zM7 1h2v1h-2zM11 1h2v1h-2zM14 1h2v1h-2zM18 1h2v1h-2zM0 2h2v1h-2zM4 2h2v1h-2zM7 2h2v1h-2zM11 2h2v1h-2zM14 2h2v1h-2zM18 2h2v1h-2zM0 3h2v1h-2zM4 3h2v1h-2zM7 3h5v1h-5zM14 3h6v1h-6zM0 4h2v1h-2zM4 4h2v1h-2zM7 4h2v1h-2zM10 4h2v1h-2zM14 4h2v1h-2zM18 4h2v1h-2zM0 5h2v1h-2zM4 5h2v1h-2zM7 5h2v1h-2zM11 5h2v1h-2zM14 5h2v1h-2zM18 5h2v1h-2zM1 6h4v1h-4zM7 6h2v1h-2zM11 6h2v1h-2zM14 6h2v1h-2zM18 6h2v1h-2z"/></svg></a><nav class="sub" aria-label="ORA"><a href="../../index.html">Overview</a><a href="../../gallery/index.html" aria-current="page">Gallery</a><a href="../../docs/index.html">Docs</a><a class="ext" href="../../paper/ora-two-page.pdf" target="_blank" rel="noopener">Paper</a></nav><nav class="glob" aria-label="FastRUA"><a href="../../../blog/index.html">Blog</a><a class="ext" href="https://github.com/hao-ai-lab/ORA" target="_blank" rel="noopener">GitHub</a><button class="themebtn" type="button" data-theme-toggle aria-label="Switch to the bright theme"><svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></svg><svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg><span></span></button></nav></div></div></header>
 
 <main class="wrap gal grun">
   <p class="crumb"><a href="../index.html">Gallery</a> · RoboDojo</p>
@@ -245,7 +250,7 @@ body.show-audits .audit-pop{display:block;position:static;width:auto;margin:8px 
   <nav class="gpager" aria-label="Runs"><a href="../play_tic_tac_toe-l9/index.html"><span>Previous run</span>play tic tac toe</a><a href="../pour_balls_into_vase-l6/index.html"><span>Next run</span>pour balls into vase</a></nav>
 </main>
 
-<footer class="foot"><div class="wrap"><div class="fb"><a class="brand" href="../../index.html"><img src="../../../assets/brand/ora-mark-96.png" alt="" width="40" height="40"><svg class="pxw" width="40" height="14" viewBox="0 0 20 7" role="img" aria-label="ORA" shape-rendering="crispEdges"><path fill="currentColor" d="M1 0h4v1h-4zM7 0h5v1h-5zM15 0h4v1h-4zM0 1h2v1h-2zM4 1h2v1h-2zM7 1h2v1h-2zM11 1h2v1h-2zM14 1h2v1h-2zM18 1h2v1h-2zM0 2h2v1h-2zM4 2h2v1h-2zM7 2h2v1h-2zM11 2h2v1h-2zM14 2h2v1h-2zM18 2h2v1h-2zM0 3h2v1h-2zM4 3h2v1h-2zM7 3h5v1h-5zM14 3h6v1h-6zM0 4h2v1h-2zM4 4h2v1h-2zM7 4h2v1h-2zM10 4h2v1h-2zM14 4h2v1h-2zM18 4h2v1h-2zM0 5h2v1h-2zM4 5h2v1h-2zM7 5h2v1h-2zM11 5h2v1h-2zM14 5h2v1h-2zM18 5h2v1h-2zM1 6h4v1h-4zM7 6h2v1h-2zM11 6h2v1h-2zM14 6h2v1h-2zM18 6h2v1h-2z"/></svg></a><p>Open Robot-Use Agents: an open harness that lets language models operate robots.</p><p class="from"><span>A <a href="../../../index.html">FastRUA</a> project from</span><a class="lab" href="https://haoailab.com/" target="_blank" rel="noopener"><img src="../../../assets/brand/hao-ai-lab-night.png" alt="Hao AI Lab, UC San Diego" width="147" height="30"></a></p></div><nav class="fcols" aria-label="Footer"><div><p>ORA</p><a href="../../index.html">Overview</a><a href="../../gallery/index.html">Gallery</a><a href="../../docs/index.html">Docs</a><a href="../../paper/ora-two-page.pdf" target="_blank" rel="noopener">Paper (PDF)</a></div><div><p>Docs</p><a href="../../docs/getting-started/installation/index.html">Installation</a><a href="../../docs/quickstart/index.html">First episode</a><a href="../../docs/how-ora-works/index.html">How ORA works</a><a href="../../docs/reference/index.html">Reference</a></div><div><p>FastRUA</p><a href="../../../index.html">Home</a><a href="../../../blog/index.html">Blog</a><a class="ext" href="https://github.com/hao-ai-lab/ORA" target="_blank" rel="noopener">GitHub</a><a class="ext" href="https://haoailab.com/" target="_blank" rel="noopener">Hao AI Lab</a></div></nav><p class="fbase">© 2026 ORA contributors · Hao AI Lab, UC San Diego</p></div></footer>
+<footer class="foot"><div class="wrap"><p>© 2026 FastRUA · <a href="https://haoailab.com/" target="_blank" rel="noopener">Hao AI Lab</a>, UC San Diego</p></div></footer>
 <script>
 document.querySelectorAll('[data-tabs]').forEach(function(box){
   var tabs=box.querySelectorAll('.tabs button'), panes=box.querySelectorAll('[data-pane]');
