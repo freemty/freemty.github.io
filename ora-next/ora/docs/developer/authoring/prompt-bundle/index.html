@@ -1,0 +1,717 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Prompt Bundle authoring guide · ORA docs</title>
+<link rel="icon" type="image/png" href="data:image/png;base64,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">
+<meta name="description" content="ORA documentation: Prompt Bundle authoring guide.">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  /* Swiss neutrals plus one deep accent: the personal homepage's scheme, its red #C6011F swapped for the teal of the
+     same OKLCH lightness (0.52). --teal-hi only for small accent text on dark. No gradients or glows on the accent. */
+  --bg:#0A0A0A; --bg-2:#0E0E0E; --panel:#111111; --panel-2:#161616; --line:#1A1A1A; --line-2:#222222;
+  --text:#F0F0F0; --text-2:#B0B0B0; --text-3:#777777; --text-body:#D4D4D4;
+  --teal:#11787B; --teal-hi:#48B0B4; --teal-deep:#05585B; --teal-ink:#012526;
+  --amber:#E8596B; --amber-bg:#2A0A0E;
+  --sans:"Geist",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:"Geist Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --label:var(--mono);   /* small data labels; the design preview bar can switch them to a pixel face */
+  --max:1120px; --max-wide:1360px; --read:700px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font:400 16px/1.65 var(--sans);-webkit-font-smoothing:antialiased;letter-spacing:-.005em}
+a{color:var(--teal-hi);text-decoration:none}a:hover{text-decoration:underline;text-underline-offset:3px}
+:focus-visible{outline:2px solid var(--teal);outline-offset:3px;border-radius:4px}
+.wrap{max-width:var(--max);margin:0 auto;padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px))}
+.read{max-width:var(--read);margin:0 auto;padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px))}
+/* nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(10,10,10,.82);backdrop-filter:saturate(140%) blur(14px);-webkit-backdrop-filter:saturate(140%) blur(14px);border-bottom:1px solid var(--line-2)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+.nav .wrap{display:flex;align-items:center;gap:16px;height:64px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--text);font:600 18px/1 var(--sans);letter-spacing:.02em;flex:none}
+.brand:hover{text-decoration:none}
+/* left: where you are (FastRUA, then "/ ORA" and its sections inside the project); right: the group's destinations */
+.nav .sep{color:var(--text-3);font-size:18px;flex:none}
+.nav .proj{color:var(--text);font:600 16px/1 var(--sans);letter-spacing:.02em;flex:none}
+.nav .proj:hover{text-decoration:none}
+.nav nav{display:flex;gap:26px;font-size:15px;white-space:nowrap}
+.nav .sub{margin-left:14px;min-width:0;overflow-x:auto;scrollbar-width:none}
+.nav .sub::-webkit-scrollbar{display:none}
+.nav .glob{margin-left:auto;flex:none}
+.nav .sub+.glob{border-left:1px solid var(--line-2);padding-left:22px}
+.nav nav a{color:var(--text-2)}
+.nav nav a:hover,.nav nav a[aria-current="page"]{color:var(--text);text-decoration:none}
+.ext::after{content:" \2197";font-size:.85em;color:var(--text-3)}
+.nav .wrap,.foot .wrap,.wide .wrap{max-width:var(--max-wide)}
+.nav.root .wrap,.foot.root .wrap{max-width:var(--max)}
+@media (max-width:760px){.nav .proj~.glob .ext,.nav .sub .ext{display:none}.nav nav{gap:18px}}
+@media (max-width:560px){.nav nav{gap:14px;font-size:13.5px}.brand{font-size:16px;gap:8px}.nav nav .ext::after{content:none}
+  .nav.in-proj .brand span{display:none}.nav .wrap{gap:10px}.nav .sub{margin-left:6px}.nav .sub+.glob{padding-left:12px}}
+/* blog cards */
+.posts{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+.post{display:block;border:1px solid var(--line-2);border-radius:16px;overflow:hidden;background:var(--bg-2);color:inherit;transition:border-color .2s,transform .2s}
+.post:hover{text-decoration:none;border-color:var(--teal-deep);transform:translateY(-2px)}
+.post img{display:block;width:100%;aspect-ratio:16/8;object-fit:cover;border-bottom:1px solid var(--line)}
+.post .body{padding:20px 22px 22px}
+.post .meta{display:flex;gap:10px;align-items:center;font:400 12.5px/1 var(--label);color:var(--text-3);margin:0 0 12px}
+.post h3{font:600 1.25rem/1.25 var(--sans);letter-spacing:-.02em;margin:0 0 10px;color:var(--text)}
+.post p{margin:0;color:var(--text-2);font-size:14.5px}
+.draft{font:500 11px/1 var(--label);letter-spacing:.06em;color:var(--amber);background:var(--amber-bg);padding:4px 7px;border-radius:999px}
+.sechead{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin:0 0 24px}
+.sechead h2{text-align:left;margin:0}
+.sechead a{font-size:14px}
+/* footer */
+.foot{border-top:1px solid var(--line);margin-top:112px;background:var(--bg-2)}
+.foot .wrap{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,2fr);gap:32px 48px;padding-top:48px;padding-bottom:40px}
+.foot .fb p{margin:14px 0 0;max-width:22em;color:var(--text-3);font-size:14px;line-height:1.6}
+.fcols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.fcols p{margin:0 0 12px;font:500 11.5px/1 var(--label);letter-spacing:.1em;text-transform:uppercase;color:var(--text-3)}
+.fcols a{display:block;color:var(--text-2);font-size:14px;padding:4px 0}
+.fcols a:hover{color:var(--text)}
+.fbase{grid-column:1 / -1;margin:8px 0 0;padding-top:22px;border-top:1px solid var(--line);color:var(--text-3);font-size:13px}
+@media (max-width:760px){.foot .wrap{grid-template-columns:1fr}.fcols{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* article: blog posts and docs pages share these */
+.posthead{padding:72px 0 28px;text-align:center}
+.posthead .meta{font:400 13px/1 var(--label);color:var(--text-3);display:flex;gap:12px;justify-content:center;align-items:center;flex-wrap:wrap;margin:0}
+.posthead h1{font:600 clamp(2.2rem,5vw,3.6rem)/1.06 var(--sans);letter-spacing:-.035em;margin:20px auto 0;max-width:15em;text-wrap:balance}
+.prose{font-size:17px;line-height:1.75;color:var(--text-body);overflow-wrap:break-word}
+.prose h1{display:none}
+.prose h2{font:600 1.75rem/1.2 var(--sans);letter-spacing:-.025em;color:var(--text);margin:64px 0 16px;text-wrap:balance}
+.prose h3{font:600 1.22rem/1.3 var(--sans);letter-spacing:-.015em;color:var(--text);margin:40px 0 10px}
+.prose h4{font:600 1.02rem/1.4 var(--sans);color:var(--text);margin:28px 0 8px}
+.prose h2 small,.prose h3 small{font:500 11.5px/1 var(--label);color:var(--text-3);margin-left:8px;letter-spacing:.04em}
+.prose [id]{scroll-margin-top:84px}
+.prose p{margin:0 0 18px}
+.prose a,.lede a,.callout a{color:var(--text);text-decoration:underline;text-decoration-color:var(--teal);text-decoration-thickness:1px;text-underline-offset:3px;overflow-wrap:break-word}
+.prose a:hover,.lede a:hover,.callout a:hover{color:var(--teal-hi);text-decoration-color:var(--teal-hi)}
+.prose a.md-button{text-decoration:none}
+.prose strong{color:var(--text);font-weight:600}
+.prose ul,.prose ol{padding-left:1.2em;margin:0 0 18px}
+.prose li{margin:0 0 6px}
+.prose li>ul,.prose li>ol{margin:6px 0 0}
+.prose li>p{margin:0 0 8px}
+.prose li::marker{color:var(--teal)}
+.prose code{font:400 .86em var(--mono);background:var(--panel-2);border:1px solid var(--line);padding:1px 6px;border-radius:5px;color:var(--text);overflow-wrap:break-word}
+.prose a code{color:inherit}
+.prose pre{margin:0 0 22px;padding:15px 18px;border:1px solid var(--line-2);border-radius:12px;background:var(--panel);overflow-x:auto;font:400 13.5px/1.65 var(--mono);color:var(--text);tab-size:4}
+.prose pre code{font:inherit;background:none;border:0;padding:0;border-radius:0;overflow-wrap:normal;color:inherit}
+.prose pre.mermaid{background:var(--bg-2);text-align:center;color:var(--text-3)}
+.prose pre.mermaid svg{max-width:100%;height:auto}
+.codewrap{position:relative}
+.cbtn{position:absolute;top:9px;right:9px;height:26px;padding:0 9px;border:1px solid var(--line-2);border-radius:7px;background:var(--panel);color:var(--text-2);font:500 11.5px var(--label);cursor:pointer;opacity:0;transition:opacity .15s}
+.codewrap:hover .cbtn,.cbtn:focus-visible{opacity:1}
+@media (hover:none){.cbtn{opacity:.85}}
+.prose kbd{font:500 .82em var(--mono);border:1px solid var(--line-2);border-bottom-width:2px;border-radius:5px;padding:0 5px;color:var(--text)}
+.prose img{max-width:100%;height:auto;border-radius:12px;border:1px solid var(--line-2)}
+.prose blockquote{margin:0 0 36px;border:1px solid var(--line-2);border-left:3px solid var(--teal);border-radius:12px;background:var(--panel);padding:18px 22px;color:var(--text)}
+.prose blockquote p{margin:0 0 8px}.prose blockquote ol{margin:0;padding-left:1.2em}
+.prose .admonition{margin:24px 0;border:1px solid var(--line-2);border-left:3px solid var(--teal);border-radius:10px;background:var(--bg-2);padding:14px 18px;font-size:15.5px}
+.prose .admonition>:last-child{margin-bottom:0}
+.prose .admonition-title{font:600 13.5px/1.3 var(--sans);color:var(--teal-hi);margin:0 0 8px}
+.prose .admonition.warning,.prose .admonition.caution,.prose .admonition.danger{border-left-color:var(--amber)}
+.prose .admonition.warning .admonition-title,.prose .admonition.caution .admonition-title,.prose .admonition.danger .admonition-title{color:var(--amber)}
+.prose .tbl{overflow-x:auto;margin:22px 0 26px}
+@media (min-width:720px){.prose .tbl{overflow:visible}}
+.prose table{border-collapse:collapse;width:100%;font-size:14.5px;line-height:1.55}
+.prose th,.prose td{text-align:left;vertical-align:top;padding:9px 16px 9px 0;border-bottom:1px solid var(--line)}
+.prose th{font:500 12.5px/1.4 var(--label);color:var(--text-3);white-space:nowrap}
+.prose td code{font-size:.82em}
+@media (max-width:620px){.prose table:has(th:nth-child(4)){min-width:620px}}
+.prose hr{border:0;border-top:1px solid var(--line);margin:56px 0}
+.prose figure{margin:30px 0}
+.prose figure img{display:block;width:100%;border-radius:12px;border:1px solid var(--line-2)}
+.prose figcaption{font-size:13.5px;color:var(--text-3);margin-top:10px}
+/* code colours (Pygments classes) */
+.hl .c,.hl .c1,.hl .cm,.hl .ch,.hl .cs,.hl .cp,.hl .cpf{color:var(--text-3)}
+.hl .k,.hl .kn,.hl .kd,.hl .kc,.hl .kr,.hl .kt,.hl .kp,.hl .ow{color:var(--teal-hi)}
+.hl .s,.hl .s1,.hl .s2,.hl .sb,.hl .sd,.hl .se,.hl .sh,.hl .si,.hl .sx,.hl .sa,.hl .sc,.hl .ss,.hl .dl{color:var(--text-2)}
+.hl .nf,.hl .fm,.hl .nc,.hl .nn,.hl .nd,.hl .nt,.hl .na{color:var(--text)}
+.hl .o,.hl .p{color:var(--text-3)}
+.hl .gp{color:var(--text-3);user-select:none}
+.hl .go{color:var(--text-2)}
+.hl .err{color:inherit;background:none}
+.slot{font:500 11px/1 var(--label);letter-spacing:.1em;text-transform:uppercase;color:var(--teal-hi)}
+.callout{border:1px solid var(--line-2);border-radius:12px;padding:16px 18px;margin:26px 0;background:var(--bg-2)}
+.callout a{font-weight:600}
+.tbd{background:var(--amber-bg);color:var(--amber);border-radius:5px;padding:1px 7px;font-size:.88em}
+.postvid{margin:8px auto 48px;max-width:1008px}
+.postvid .frame{border-radius:14px;overflow:hidden;border:1px solid var(--line-2)}
+.postvid video{display:block;width:100%;aspect-ratio:1600/750}
+.postvid .cap{font-size:12.5px;color:var(--text-3);margin-top:12px;text-align:center}
+.draftbar{font:400 12.5px/1.6 var(--label);color:var(--amber);background:var(--amber-bg);border-radius:10px;padding:10px 14px;margin:0 0 36px;display:flex;flex-wrap:wrap;align-items:center;gap:6px 18px}
+.draftbar a{color:inherit;text-decoration:underline}
+.audit-btn{margin-left:auto;font:500 11.5px/1.2 var(--label);color:var(--teal-hi);background:var(--teal-ink);border:1px solid var(--teal);border-radius:6px;padding:5px 10px;cursor:pointer;transition:background .15s}
+.audit-btn:hover{background:#05393B}
+.audit-mark{position:relative;display:inline;background:rgba(17,120,123,.14);color:var(--text);border-bottom:1.5px dashed var(--teal-hi);padding:1px 6px;border-radius:5px;cursor:help;transition:background .15s}
+.audit-mark:hover,.audit-mark:focus-within{background:rgba(17,120,123,.26);z-index:40}
+.audit-tag{font:600 9.5px/1 var(--label);letter-spacing:.06em;color:#F0F0F0;background:var(--teal);padding:2px 5px;border-radius:4px;margin-left:5px;vertical-align:middle;display:inline-block}
+.audit-pop{display:none;position:absolute;left:0;bottom:calc(100% + 8px);width:min(420px,86vw);background:var(--panel-2);color:var(--text-2);border:1px solid var(--teal);border-radius:10px;padding:11px 14px;font:400 13px/1.55 var(--sans);box-shadow:0 12px 32px rgba(0,0,0,.65);z-index:60;white-space:normal;text-align:left;pointer-events:none}
+.audit-pop strong{color:var(--teal-hi);display:block;font:600 11.5px/1.3 var(--label);letter-spacing:.04em;text-transform:uppercase;margin-bottom:4px}
+.audit-pop code{background:rgba(255,255,255,.06);color:var(--text);border-color:var(--line-2);font-size:.85em;padding:1px 4px}
+.audit-mark:hover .audit-pop,.audit-mark:focus .audit-pop,.audit-mark:focus-within .audit-pop{display:block}
+body.show-audits .audit-pop{display:block;position:static;width:auto;margin:8px 0 6px;pointer-events:auto;box-shadow:none}
+.brand img{width:40px;height:40px;display:block;object-fit:contain}</style>
+<style>
+/* docs layout: sidebar, content, on-page contents */
+.docs{display:grid;grid-template-columns:240px minmax(0,1fr) 200px;gap:0 52px;max-width:var(--max-wide);margin:0 auto;padding:0 max(24px,env(safe-area-inset-right,0px)) 0 max(24px,env(safe-area-inset-left,0px))}
+.docs>main{grid-column:2;grid-row:1;min-width:0;padding:44px 0 0;max-width:760px}
+.docs.home>main{grid-column:2 / 4;max-width:none}
+.side{grid-column:1;grid-row:1;position:sticky;top:64px;align-self:start;max-height:calc(100vh - 64px);overflow-y:auto;padding:36px 8px 48px 0;font-size:14px;scrollbar-width:thin;scrollbar-color:var(--line-2) transparent}
+.side a{display:block;color:var(--text-2);padding:5px 10px;border-radius:7px;line-height:1.4}
+.side a:hover{color:var(--text);background:var(--panel);text-decoration:none}
+.side a[aria-current="page"]{color:var(--teal-hi);background:var(--teal-ink)}
+.side .top{font-weight:500;color:var(--text)}
+.side .grp{margin:22px 0 0}
+.side .grp>p{margin:0 0 6px;padding:0 10px;font:500 11.5px/1 var(--label);letter-spacing:.1em;text-transform:uppercase;color:var(--text-3)}
+.side ul{list-style:none;margin:0;padding:0}
+.side details{margin:2px 0}
+.side summary{cursor:pointer;color:var(--text-2);padding:5px 10px;border-radius:7px;list-style:none}
+.side summary::-webkit-details-marker{display:none}
+.side summary::before{content:"\203A";display:inline-block;width:14px;color:var(--text-3);transition:transform .15s}
+.side details[open]>summary::before{transform:rotate(90deg)}
+.side summary:hover{color:var(--text);background:var(--panel)}
+.side details ul{margin-left:14px;border-left:1px solid var(--line);padding-left:4px}
+.toc{grid-column:3;grid-row:1;position:sticky;top:64px;align-self:start;max-height:calc(100vh - 64px);overflow-y:auto;padding:52px 0 40px;font-size:13px;scrollbar-width:thin}
+.toc p{margin:0 0 10px;font:500 11.5px/1 var(--label);letter-spacing:.1em;text-transform:uppercase;color:var(--text-3)}
+.toc a{display:block;color:var(--text-3);padding:4px 0 4px 12px;border-left:1px solid var(--line);line-height:1.4}
+.toc a.h3{padding-left:24px}
+.toc a:hover{color:var(--text);text-decoration:none}
+.toc a[aria-current="true"]{color:var(--teal-hi);border-left-color:var(--teal-hi)}
+.toc code{font:400 .92em var(--mono)}
+.menu{display:none}
+.crumb{margin:0 0 14px;font:500 12px/1 var(--label);letter-spacing:.1em;text-transform:uppercase;color:var(--teal-hi)}
+.doctitle{font:600 clamp(2rem,4vw,2.75rem)/1.1 var(--sans);letter-spacing:-.03em;margin:0 0 28px;text-wrap:balance;overflow-wrap:break-word}
+.doctitle code{font-size:.85em}
+.docs .prose>:first-child{margin-top:0}
+.docs .prose h2{margin-top:52px}
+.pager{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:64px 0 0;padding-top:28px;border-top:1px solid var(--line)}
+.pager a{display:block;border:1px solid var(--line-2);border-radius:12px;padding:14px 16px;color:var(--text);background:var(--bg-2)}
+.pager a:hover{border-color:var(--teal-deep);text-decoration:none}
+.pager small{display:block;font:400 12px/1 var(--label);color:var(--text-3);margin-bottom:8px}
+.pager .next{text-align:right;grid-column:2}
+.srcline{margin:22px 0 0;font-size:13px;color:var(--text-3)}
+.srcline a{color:var(--text-2)}
+/* the Docs landing */
+.dochero{padding:24px 0 8px;max-width:760px}
+.dochero h1{font:600 clamp(2.4rem,5vw,3.4rem)/1.05 var(--sans);letter-spacing:-.035em;margin:0 0 18px}
+.dochero .ora-intro{font-size:clamp(1.05rem,1.8vw,1.18rem);color:var(--text-2);font-weight:300;margin:0 0 12px;line-height:1.6}
+.dochero .ora-meta{font:400 13px/1.5 var(--label);color:var(--text-3);margin:0 0 26px}
+.btns p{display:flex;flex-wrap:wrap;gap:10px;margin:0}
+.md-button{display:inline-flex;align-items:center;height:40px;padding:0 16px;border:1px solid var(--line-2);border-radius:10px;color:var(--text);background:var(--panel);font-size:14.5px;font-weight:500}
+.md-button:hover{text-decoration:none;border-color:var(--teal-deep)}
+.md-button--primary{background:var(--teal);border-color:var(--teal);color:var(--text)}
+.md-button--primary:hover{background:var(--teal-deep);border-color:var(--teal-deep)}
+.groups{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:44px 0 12px}
+@media (max-width:1180px){.groups{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:620px){.groups{grid-template-columns:1fr}}
+.gcard{border:1px solid var(--line-2);border-radius:14px;background:var(--bg-2);padding:20px 20px 18px;display:flex;flex-direction:column}
+.gcard:hover{border-color:var(--teal-deep)}
+.gcard h3{margin:0 0 8px;font:600 1.08rem/1.3 var(--sans);letter-spacing:-.01em}
+.gcard h3 a{color:var(--text)}
+.gcard>p{margin:0 0 14px;color:var(--text-2);font-size:14px;line-height:1.55}
+.gcard ul{list-style:none;margin:auto 0 0;padding:12px 0 0;border-top:1px solid var(--line);display:grid;gap:5px;font-size:13.5px}
+.gcard li a{color:var(--text-2)}
+.gcard li a:hover{color:var(--teal-hi)}
+.gcard .more{color:var(--text-3);font:400 12.5px var(--label)}
+.home .prose{max-width:760px;margin-top:40px}
+@media (max-width:1240px){.docs{grid-template-columns:232px minmax(0,1fr);gap:0 44px}.toc{display:none}.docs.home>main{grid-column:2}}
+@media (max-width:900px){
+  .docs{grid-template-columns:minmax(0,1fr);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  .docs>main,.docs.home>main,.side{grid-column:1;grid-row:auto}
+  .docs>main{padding-top:6px}
+  .menu{display:flex;align-items:center;gap:8px;width:100%;margin:20px 0 16px;height:42px;padding:0 14px;border:1px solid var(--line-2);border-radius:10px;background:var(--bg-2);color:var(--text-2);font:500 14px var(--sans);cursor:pointer}
+  .menu b{color:var(--text);font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .menu::after{content:"\203A";margin-left:auto;transform:rotate(90deg);color:var(--text-3)}
+  .side{display:none;position:static;max-height:none;padding:0 0 18px;margin:0 0 18px;border-bottom:1px solid var(--line)}
+  .docs.open .side{display:block}
+  .pager{grid-template-columns:1fr}.pager .next{grid-column:1}
+}
+</style>
+<script src="../../../../../assets/design/design-bar.js" data-labels=".post .meta,.draft,.fcols p,.posthead .meta,.prose h2 small,.prose h3 small,.cbtn,.prose th,.slot,.draftbar,.audit-btn,.audit-tag,.audit-pop strong,.pill b,.scene-hud,.copy,.feat .k,.card h3,.side .grp&gt;p,.toc p,.crumb,.pager small,.dochero .ora-meta,.gcard .more"></script>
+</head>
+<body class="wide">
+<header class="nav in-proj"><div class="wrap"><a class="brand" href="../../../../../index.html"><img src="../../../../../assets/brand/fastrua-mark-96.png" alt="" width="40" height="40"><span>FastRUA</span></a><span class="sep" aria-hidden="true">/</span><a class="proj" href="../../../../index.html">ORA</a><nav class="sub" aria-label="ORA"><a href="../../../../index.html">Overview</a><a href="../../../../gallery/index.html">Gallery</a><a href="../../../../docs/index.html" aria-current="page">Docs</a><a class="ext" href="../../../../paper/ora-two-page.pdf" target="_blank" rel="noopener">Paper</a><a class="ext" href="https://github.com/hao-ai-lab/ORA" target="_blank" rel="noopener">Code</a></nav><nav class="glob" aria-label="FastRUA"><a href="../../../../../blog/index.html">Blog</a><a class="ext" href="https://github.com/fast-rua" target="_blank" rel="noopener">GitHub</a></nav></div></header>
+<div class="docs"><button class="menu" type="button" aria-controls="docnav" aria-expanded="false">Menu · <b>Prompt bundles</b></button><aside class="side" id="docnav" aria-label="Documentation"><a class="top" href="../../../index.html">Welcome</a><a class="top" href="../../../how-ora-works/index.html">How ORA works</a><div class="grp"><p>Get started</p><ul><li><a href="../../../getting-started/installation/index.html">Installation</a></li><li><a href="../../../quickstart/index.html">First episode</a></li><li><a href="../../../getting-started/model-apis/index.html">Model APIs</a></li><li><a href="../../../getting-started/single-gpu/index.html">Run on one GPU</a></li><li><a href="../../../getting-started/local/index.html">Run on your computer (CPU)</a></li><li><a href="../../../getting-started/libero/index.html">LIBERO / LIBERO-Pro quick run</a></li><li><a href="../../../getting-started/robotwin/index.html">RoboTwin quick run</a></li><li><a href="../../../getting-started/robodojo/index.html">RoboDojo quick run</a></li><li><a href="../../../getting-started/robocasa/index.html">RoboCasa365 quick run</a></li><li><a href="../../../getting-started/robolab/index.html">RoboLab quick run</a></li><li><a href="../../../getting-started/official-suite/index.html">Official suites on a cluster</a></li><li><a href="../../../support/index.html">Supported setups</a></li><li><a href="../../../getting-started/troubleshooting/index.html">Troubleshooting</a></li></ul></div><div class="grp"><p>Use ORA</p><ul><li><a href="../../../usage/runs/index.html">Run and inspect</a></li><li><a href="../../../usage/play/index.html">Free play</a></li><li><a href="../../../usage/real-cells/index.html">Run a real robot cell</a></li><li><a href="../../../usage/interactive/index.html">Interactive sessions</a></li><li><a href="../../../usage/remote/index.html">Remote GPU server and web view</a></li><li><a href="../../../usage/safety/index.html">Run ORA safely</a></li><li><a href="../../../usage/rl-interface/index.html">Connect a training loop</a></li><li><a href="../../../usage/viewer/index.html">Evidence viewer</a></li><li><a href="../../../usage/examples/index.html">Examples</a></li><li><a href="../../../usage/official-suite/index.html">Official-suite cookbook</a></li><li><a href="../../../usage/compute-usage/index.html">Compute tool</a></li><li><a href="../../../usage/commands/index.html">Commands and what they write</a></li><li><a href="../../../usage/cli-reference/index.html">Command-line reference</a></li></ul></div><div class="grp"><p>Environments</p><ul><li><a href="../../../environments/index.html">Overview</a></li><li><a href="../../../environments/common/index.html">Host and perception setup</a></li><li><a href="../../../environments/libero/index.html">LIBERO / LIBERO-Pro</a></li><li><a href="../../../environments/robotwin/index.html">RoboTwin</a></li><li><a href="../../../environments/robodojo/index.html">RoboDojo</a></li><li><a href="../../../environments/robodojo-installation/index.html">RoboDojo installation reference</a></li><li><a href="../../../environments/robocasa/index.html">RoboCasa365</a></li><li><a href="../../../environments/robolab/index.html">RoboLab</a></li></ul></div><div class="grp"><p>Robots and tasks</p><ul><li><a href="../../../robots/frames-and-units/index.html">Frames and units</a></li><li><a href="../../../robots/embodiments/franka-panda/index.html">Franka Panda (LIBERO)</a></li><li><a href="../../../robots/embodiments/aloha-agilex/index.html">ALOHA-AgileX (RoboTwin)</a></li><li><a href="../../../robots/embodiments/arx-x5/index.html">ARX X5 (RoboDojo)</a></li><li><a href="../../../robots/embodiments/panda-omron/index.html">PandaOmron (RoboCasa365)</a></li><li><a href="../../../robots/embodiments/droid-franka-robotiq/index.html">DROID Franka with Robotiq (RoboLab)</a></li><li><a href="../../../robots/embodiments/yam-station/index.html">Dual I2RT YAM (real cell)</a></li><li><a href="../../../robots/tasks/libero/index.html">LIBERO / LIBERO-Pro tasks</a></li><li><a href="../../../robots/tasks/robotwin/index.html">RoboTwin tasks</a></li><li><a href="../../../robots/tasks/robodojo/index.html">RoboDojo tasks</a></li><li><a href="../../../robots/tasks/robocasa/index.html">RoboCasa365 tasks</a></li><li><a href="../../../robots/tasks/robolab/index.html">RoboLab tasks</a></li></ul></div><div class="grp"><p>Evaluation</p><ul><li><a href="../../../evaluation/protocol/index.html">Evaluation protocol</a></li></ul></div><div class="grp"><p>Concepts</p><ul><li><a href="../../../architecture/index.html">Architecture</a></li><li><a href="../../../context-assembly/index.html">Context assembly</a></li><li><a href="../../../reference/runtime-lifecycle/index.html">Runtime lifecycle</a></li><li><a href="../../../glossary/index.html">Glossary</a></li></ul></div><div class="grp"><p>Reference</p><ul><li><a href="../../../reference/index.html">Overview</a></li><li><a href="../../../reference/public-interfaces/index.html">Public interfaces</a></li><li><a href="../../../reference/toolkit-io/index.html">Toolkit I/O evidence</a></li><li><a href="../../../reference/toolkit-protocol/index.html">Toolkit protocol and replay compatibility</a></li><li><a href="../../../reference/toolkit-data/index.html">Toolkit data API</a></li><li><a href="../../../reference/toolkit-execution/index.html">Toolkit synchronous execution</a></li><li><a href="../../../reference/toolkit-state/index.html">Toolkit state and admission</a></li><li><a href="../../../reference/toolkit-surface/index.html">File-backed toolkit surfaces</a></li><li><a href="../../../reference/context-schemes/index.html">Context schemes and policy selection</a></li><li><a href="../../../reference/append-only-context/index.html">Append-only context (management v8)</a></li><li><a href="../../../reference/exchange-aging-context/index.html">Exchange aging (management v9)</a></li><li><a href="../../../reference/keep-written-context/index.html">Keep what the model wrote (management v10)</a></li><li><a href="../../../reference/tasks/index.html">Task files</a></li><li><a href="../../../reference/source-overlay/index.html">Source overlays</a></li><li><a href="../../../reference/policy-io/index.html">Policy I/O</a></li><li><a href="../../../reference/configuration-and-evidence/index.html">Configuration and evidence</a></li><li><a href="../../../reference/context-packs/index.html">Context packs</a></li><li><a href="../../../reference/experiment-identity/index.html">Experiment identity</a></li><li><a href="../../../reference/robotwin-contact-recovery/index.html">RoboTwin contact recovery</a></li><li><a href="../../../reference/robotwin-qualification/index.html">RoboTwin seed and scene qualification</a></li><li><a href="../../../reference/motion-speed/index.html">Motion speed and wrist checks</a></li><li><a href="../../../reference/latency-profile/index.html">Latency profile</a></li><li><a href="../../../reference/robodojo-motion-qualification/index.html">RoboDojo motion qualification</a></li><li><a href="../../../reference/provider-replay/index.html">Recorded-provider tape replay</a></li><li><a href="../../../reference/robodojo-reset-diagnostics/index.html">RoboDojo reset crash diagnostics</a></li><li><a href="../../../reference/ora-local-cpu-compatibility/index.html">Local CPU compatibility</a></li><li><a href="../../../reference/robocasa-robolab-backends/index.html">RoboCasa365 and RoboLab</a></li><li><a href="../../../reference/robolab-tasks/index.html">RoboLab tasks and contracts</a></li></ul></div><div class="grp"><p>Python API</p><ul><li><a href="../../../api/index.html">Overview</a></li><li><a href="../../../api/plans/index.html">Plans and benchmark cells</a></li><li><a href="../../../api/policy/index.html">Policy sessions</a></li><li><a href="../../../api/environment/index.html">Environment sessions</a></li><li><a href="../../../api/actions/index.html">Action contracts</a></li></ul></div><div class="grp"><p>Contribute</p><ul><li><a href="../../onboarding/index.html">Start contributing</a></li><li><a href="../../contributing/index.html">Contributing</a></li><li><a href="../../../code-map/index.html">Code map</a></li><li><a href="../../repository-structure/index.html">Repository structure</a></li><li><a href="../../documentation/index.html">Documentation</a></li><li><a href="../../docs-style/index.html">Docs style guide</a></li><li><a href="../../testing/index.html">Testing</a></li><li><details open><summary>Authoring guides</summary><ul><li><a href="../../add-backend/index.html">Add an environment</a></li><li><a href="../environment-compatibility/index.html">Environment compatibility</a></li><li><a href="../tool-surface/index.html">Tool surfaces</a></li><li><a href="index.html" aria-current="page">Prompt bundles</a></li><li><a href="../task-contract/index.html">Task contracts</a></li><li><a href="../qualification/index.html">Qualification</a></li><li><a href="../trajectory-capture/index.html">Trajectory and viewer integration</a></li><li><a href="../frontend-style/index.html">Viewer style</a></li></ul></details></li><li><details><summary>Templates</summary><ul><li><a href="../../../templates/environment-compatibility-record/index.html">Environment compatibility record</a></li><li><a href="../../../templates/task-contract-review/index.html">Task contract review</a></li></ul></details></li></ul></div></aside><main id="content"><p class="crumb">Contribute · Authoring guides</p><h1 class="doctitle">Prompt Bundle authoring guide</h1><article class="prose"><p>ORA authors a robot policy as one versioned bundle of independently
+owned layers. The purpose is not to make the prompt longer. It is to ensure
+that every fact has one owner, every first-action fact is actually visible, and
+adding a robot cannot silently mix task strategy, camera folklore, tool syntax,
+or private evaluator details into a convenient system prompt.</p>
+<p>The machine contract is <code>ora.prompt-bundle-authoring.v1</code>. It is an
+offline authoring and preflight surface; creating or auditing a bundle does not
+select it in a RunPlan, start a simulator, or modify a historical experiment.</p>
+<p>The product <code>native_full_v1</code> catalog explicitly registers the two
+<code>prompt_bundles/native_full/</code> bundles as inputs to Native robot default
+expansion. Merely adding another bundle does not enroll it. The resolver binds
+the chosen bundle and each expanded source by hash; archived and example
+bundles retain their existing selection boundary.</p>
+<h2 id="the-bundle-and-its-delivery">The bundle and its delivery</h2>
+<p>Every bundle contains these layers in this semantic order:</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Owns</th>
+<th>Must not own</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Planner</td>
+<td>Policy-runtime role, turn protocol, runtime-wide unavailable facilities</td>
+<td>Task, benchmark, robot, camera, frame, or individual tool names</td>
+</tr>
+<tr>
+<td>Core</td>
+<td>Evidence/inference/candidate/executed/verified distinctions, freshness, replanning and claim boundaries</td>
+<td>Provider features, task tactics, robot facts, tool syntax</td>
+</tr>
+<tr>
+<td>Environment</td>
+<td>Task authority, public/private state, reset/termination and official-verdict owner</td>
+<td>Robot topology, camera mounting, frames, tool syntax, evaluator implementation</td>
+</tr>
+<tr>
+<td>Embodiment</td>
+<td>Body topology, controlled points, frames, axes, stable motion/gripper semantics, sensor mounting and physical non-guarantees</td>
+<td>Task objective, evaluator, individual tool names or experiment identity</td>
+</tr>
+<tr>
+<td>Episode task</td>
+<td>Exact instruction and optional public task contract</td>
+<td>Generic robot manual, hidden predicate, canonical coordinates, expert trajectory</td>
+</tr>
+<tr>
+<td>Tool manual delivery</td>
+<td>Whether a separate manual is eager, on demand, or manifest-only</td>
+<td>A second drifting copy of tool syntax</td>
+</tr>
+<tr>
+<td>ToolSurface</td>
+<td>Exact tool purpose, selection boundary, inputs, effect, returns, non-guarantees and recovery</td>
+<td>General policy philosophy or benchmark solution</td>
+</tr>
+<tr>
+<td>Dynamic Runtime</td>
+<td>Current observation, calibration, measured state, receipt, budget and recoverability</td>
+<td>Stable facts that should have been present before the first action</td>
+</tr>
+</tbody>
+</table></div>
+<p>ORA owns the Native request roles and records the exact canonical and provider-wire requests.</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Semantic layer</th>
+<th>Native delivery</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Planner</td>
+<td>Protected <code>harness_system</code> / provider system input.</td>
+</tr>
+<tr>
+<td>Core/environment/embodiment</td>
+<td>Protected project instructions.</td>
+</tr>
+<tr>
+<td>Episode task</td>
+<td>Protected episode-task input.</td>
+</tr>
+<tr>
+<td>Tools</td>
+<td>Provider tools field on each call.</td>
+</tr>
+<tr>
+<td>Measurements/history</td>
+<td>Causal current state and retained interaction history.</td>
+</tr>
+<tr>
+<td>Manifest-only manual</td>
+<td>Bound evidence, not automatically provider-visible.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="physical-prefix-template-for-new-bundles">Physical prefix template for new bundles</h3>
+<p>The semantic table above is not permission to concatenate all Markdown into
+one large system prompt. New compositions must map the bundle into this
+stable-to-dynamic physical template:</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Stability tier</th>
+<th>Content</th>
+<th>Native placement</th>
+<th>Change rule</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Global/session-stable</td>
+<td>Planner identity and only the Runtime facts that cannot change inside the session</td>
+<td>Protected <code>harness_system</code>; Native v2 may inline separately hashed session <code>runtime_facts</code></td>
+<td>Version the source; do not patch it mid-session</td>
+</tr>
+<tr>
+<td>Project-stable</td>
+<td>Core, environment and eager embodiment facts needed before the first action</td>
+<td>Protected user <code>project_instructions</code></td>
+<td>Keep exact ordered source/hash inventory</td>
+</tr>
+<tr>
+<td>Episode-stable</td>
+<td>Exact task and optional public completion contract</td>
+<td>Protected first user <code>episode_task</code></td>
+<td>Render <code>{{TASK}}</code> once; later turns use task identity, not repeated task prose</td>
+</tr>
+<tr>
+<td>Optional protected state</td>
+<td>An admitted rollout checkpoint only at a context epoch</td>
+<td>Protected current user slot</td>
+<td>Never imply hidden or automatic Memory</td>
+</tr>
+<tr>
+<td>Growing history</td>
+<td>Assistant decisions, tool calls/results, receipts and prior observations retained by policy</td>
+<td>Runtime projection after protected sources</td>
+<td>Retention/compaction is a separate treatment axis</td>
+</tr>
+<tr>
+<td>Current state</td>
+<td>Fresh observation, budget, lifecycle and recoverability notices</td>
+<td>Final causal observation or <code>dynamic_runtime</code> user tail</td>
+<td>Append/update only here; never rewrite stable sources</td>
+</tr>
+<tr>
+<td>Tool catalog</td>
+<td>Canonical names, descriptions, input and public result schemas</td>
+<td>Separate provider <code>tools</code> field</td>
+<td>Deterministic order and independent hash; schema/help changes create a new ToolSurface</td>
+</tr>
+</tbody>
+</table></div>
+<p>For Native v3, the concrete protected sequence is
+<code>harness_system → project_instructions → episode_task</code>.
+An admitted rollout checkpoint may follow those sources at an explicit
+condensation epoch. Projected ActionStep history and the current causal
+observation follow; tools remain outside the message list. The provider adapter
+may serialize that canonical request differently—for example Anthropic uses a
+top-level <code>system</code> field—but the exact provider wire is evidence, not an
+authoring guess.</p>
+<p>The current Native catalog is intentionally eager: all tools on the selected
+surface are projected in the provider <code>tools</code> field on every call. There is no
+progressive tool disclosure today. A future dynamic catalog would be a separate
+policy treatment and would need to preserve discovery, schema hashes, tool-call
+continuity and comparable evidence.</p>
+<h2 id="what-moves-where-in-the-current-robotwin-wording">What moves where in the current RoboTwin wording</h2>
+<p>The standard changes ownership, not necessarily the underlying fact. Concrete
+examples from the current engineering prompt are:</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Existing wording or topic</th>
+<th>Standard owner</th>
+<th>Standard form</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>“Use only the fourteen advertised tools”</td>
+<td>Planner</td>
+<td>“Control one episode through the advertised tools”; the exact fourteen names come only from ToolSurface delivery.</td>
+</tr>
+<tr>
+<td>“<code>observer_camera</code> is widest; head/front are partial; wrist views move”</td>
+<td>Embodiment</td>
+<td>Put mounting, stable qualitative role and calibration lifetime under <code>Sensors and cameras</code>.</td>
+</tr>
+<tr>
+<td>“If observer is absent, move an unused open arm high/far”</td>
+<td>Embodiment capability + tool-local recovery</td>
+<td>Embodiment says a wrist camera may be physically repositioned for broader coverage and that this is not optical zoom. The relevant motion/observation help explains when that action is useful. It is not a universal system-policy tactic.</td>
+</tr>
+<tr>
+<td>“Lowering world z cannot rotate the gripper”</td>
+<td>ToolSurface + embodiment frames</td>
+<td>Embodiment defines world z and the end-effector axes; the position-only tool says that it preserves orientation and gives this near-miss counterexample.</td>
+</tr>
+<tr>
+<td>“Use wrist roll versus pitch versus full pose”</td>
+<td>ToolSurface</td>
+<td>Each overlapping tool owns a positive selection test, adjacent counterexample, effect and recovery. The planner does not duplicate the catalog.</td>
+</tr>
+<tr>
+<td>“A close target is not a grasp”</td>
+<td>Embodiment + gripper tool</td>
+<td>Embodiment separates command, measurement, contact and retention; the gripper tool states its exact immediate/deferred evidence.</td>
+</tr>
+<tr>
+<td>“Only the official checker decides success”</td>
+<td>Environment + checker tool</td>
+<td>Environment owns verdict authority; the tool owns only the exact Boolean call/result contract.</td>
+</tr>
+<tr>
+<td>“Fresh evidence contradicted the old plan”</td>
+<td>Core</td>
+<td>One cross-task rule: revise the relevant belief or geometry before repeating a risky action. Do not list every observed failure episode.</td>
+</tr>
+</tbody>
+</table></div>
+<p>This is also the boundary for behavior-specific advice. “Observe more,” “raise
+the camera,” or “always inspect every view” is not appropriate global system
+text. Stable sensor capabilities and occlusion limits belong to the embodiment;
+a concrete uncertainty-to-view decision belongs to tool help; the current
+visibility result remains dynamic evidence. Only a genuinely cross-task
+invariant such as “current conflicting evidence invalidates the old plan”
+belongs in the core.</p>
+<h2 id="embodiment-card-format">Embodiment card format</h2>
+<p>Every new bundle-format embodiment card has exactly these nine level-two
+sections, in order:</p>
+<ol>
+<li><code>Identity and topology</code></li>
+<li><code>Controlled points</code></li>
+<li><code>Frames and units</code></li>
+<li><code>End-effector axes</code></li>
+<li><code>Motion capabilities</code></li>
+<li><code>Gripper semantics</code></li>
+<li><code>Sensors and cameras</code></li>
+<li><code>Preservation and evidence limits</code></li>
+<li><code>Dynamic facts and provenance</code></li>
+</ol>
+<p>The preflight requires all nine headings, checks that every public camera in the selected
+environment profile appears in the card, and requires at least one descriptor
+or control-profile binding.</p>
+<p>The card describes the body; it does not teach API syntax. “The end effector
+can change orientation while holding position” belongs here. “Call
+<code>rotate_pitch({targets: ...})</code>” belongs only in that tool's canonical schema and
+description. For a two-arm embodiment, the card states sparse selection,
+synchronization and omission semantics; the ToolSurface states the exact
+<code>targets</code> object.</p>
+<p>The current standard examples preserve the distinctive facts from both
+embodiments without activating new defaults:</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Node</th>
+<th>Panda example</th>
+<th>ALOHA example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Topology</td>
+<td>One fixed 7-DoF serial arm, symmetric parallel jaws</td>
+<td>Fixed dual body, independent left/right arms and parallel jaws</td>
+</tr>
+<tr>
+<td>Controlled point</td>
+<td>RoboSuite grip site</td>
+<td>Per-arm public planner <code>end_effector</code></td>
+</tr>
+<tr>
+<td>Axes</td>
+<td>Grip-site axes; top-down normally maps local +Z to world -Z</td>
+<td>+X approach, +Y jaw separation, +Z lateral</td>
+</tr>
+<tr>
+<td>Motion</td>
+<td>Position/orientation/combined target; action-start relative/hold rules</td>
+<td>Sparse one-/two-arm planning from one snapshot; all planners succeed before synchronized execution</td>
+</tr>
+<tr>
+<td>Gripper</td>
+<td>Actuator-target preservation is not invariant measured aperture</td>
+<td>Public open/close/unknown command target; private <code>[0,1]</code> cache is not aperture</td>
+</tr>
+<tr>
+<td>Cameras</td>
+<td>Fixed <code>agentview</code>, moving <code>wrist</code></td>
+<td>Optional observer, partial head/front, moving left/right wrists</td>
+</tr>
+<tr>
+<td>Evidence</td>
+<td>Tracking outcome is not collision/contact/success</td>
+<td>Omitted command is not physical immobility; inactive drift remains measured evidence</td>
+</tr>
+</tbody>
+</table></div>
+<p>The concrete non-default cards are
+<code>franka-panda/manual-v4.md</code> and <code>aloha-agilex/manual-v7.md</code>. Their matching
+environment profiles end in <code>standard_bundle_v1</code>. A numerically newer file or
+profile is never selected automatically.</p>
+<h2 id="project-instructions-indexes-and-manuals">Project instructions, indexes and manuals</h2>
+<p>Project instructions are stable eager semantics needed before the first
+action; they are not primarily a context-compression index. Native robot
+sessions currently have no general shell or file reader, so a referenced file
+is useless unless an advertised tool can retrieve it. Native first-action facts
+must therefore be in the visible planner/core/environment/embodiment/task
+layers or in the eager tool schemas.</p>
+<p>A <code>tool_manual</code> source is still materialized and hash-bound for composition
+evidence, but that does not make it visible. Use one of the exact delivery
+claims:</p>
+<ul>
+<li><code>manifest_only</code>: not injected and no reader tool;</li>
+<li><code>on_demand</code>: the named reader exists on the selected ToolSurface;</li>
+</ul>
+<p>Do not copy ToolSurface descriptions into a manual. Before retiring an old
+manual, relocate every unique body fact to the embodiment, every environment
+fact to the boundary, and every tool-local fact to the canonical tool
+definition.</p>
+<h2 id="authoring-workflow">Authoring workflow</h2>
+<p>Create a draft manifest:</p>
+<pre class="hl" data-lang="bash"><code>./scripts/ora<span class="w"> </span>dev<span class="w"> </span>prompt-bundle<span class="w"> </span>template<span class="w"> </span>/tmp/my-robot-bundle.yaml<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--bundle-id<span class="w"> </span>my_robot_native_v1
+</code></pre>
+<p>Copy the Markdown templates under
+<code>ora/policy/prompt_bundles/templates/</code> into versioned shared or
+experiment-owned locations, resolve every <code>__REQUIRED__</code>, and bind an exact
+environment prompt profile plus ToolSurface. Then run the simulator-free
+preflight:</p>
+<pre class="hl" data-lang="bash"><code>./scripts/ora<span class="w"> </span>dev<span class="w"> </span>prompt-bundle<span class="w"> </span>audit<span class="w"> </span>/tmp/my-robot-bundle.yaml
+</code></pre>
+<p>The shipped default bundles under <code>ora/policy/prompt_bundles/current_v4/</code> pass
+the same audit and are complete worked manifests to compare against, for
+example:</p>
+<pre class="hl" data-lang="bash"><code>./scripts/ora<span class="w"> </span>dev<span class="w"> </span>prompt-bundle<span class="w"> </span>audit<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>ora/policy/prompt_bundles/current_v4/libero-panda-native_api-v4.yaml
+./scripts/ora<span class="w"> </span>dev<span class="w"> </span>prompt-bundle<span class="w"> </span>audit<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>ora/policy/prompt_bundles/current_v4/robotwin-aloha-native_api-v4.yaml
+</code></pre>
+<p>The audit fails on:</p>
+<ul>
+<li>unknown/missing manifest fields, unresolved sentinels or unsafe paths;</li>
+<li>wrong layer delivery in the Native request;</li>
+<li>missing or reordered embodiment nodes and missing public cameras;</li>
+<li>environment metadata/profile/manual mismatches;</li>
+<li>a new ToolSurface without <code>policy_tool_help_v1</code>;</li>
+<li>a manual that claims on-demand visibility without a reader;</li>
+<li>environment, embodiment or exact tool vocabulary in the wrong authored
+layer;</li>
+<li>task templates without exactly one <code>{{TASK}}</code> slot; or</li>
+<li>descriptor/control-profile embodiment drift.</li>
+</ul>
+<p>The audit emits exact source hashes, ToolSurface composition hash, layer order
+and a delivery inventory with tri-state provider visibility. It also inventories
+estimated tokens against the existing per-layer review targets and detects
+long exact sentences duplicated across semantic layers. Token targets are
+review prompts rather than correctness gates: a multi-arm/five-camera card may
+remain longer when removing text would remove an owned first-action fact.</p>
+<p>The preflight is a necessary authoring gate, not Runtime qualification or
+behavioral evidence. A bundle becomes active only when a separately reviewed
+RunSpec/RunPlan selects its exact sources and hashes.</p>
+<h2 id="naming-assets-by-path">Naming assets by path</h2>
+<p>A bundle names its layers, descriptor and control profile by path and holds no
+hashes. The assets it selects follow the same rule
+(<a href="../../../reference/configuration-and-evidence/index.html#path-only-asset-references">path-only asset references</a>).
+An environment prompt profile names its compiled descriptor and wording review
+by path:</p>
+<pre class="hl" data-lang="json"><code><span class="nt">&quot;compiled_embodiment&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;descriptor&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ora/policy/embodiments/arx-x5/descriptor-public-geometry-v6.json&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;review&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ora/policy/embodiments/arx-x5/wording-review-public-geometry-v5.json&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;card_sha256&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;sha256 of the reviewed card text&gt;&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;runtime_verification&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;loaded_robot_geometry_before_policy_v1&quot;</span>
+<span class="p">}</span>
+</code></pre>
+<p><code>card_sha256</code> stays: it is the human-review pin that says this exact card text
+was reviewed. The wording review carries the same <code>card_sha256</code> and nothing
+about the descriptor's bytes (unit L3): the card must be the descriptor's
+compiled projection, so a descriptor edit that leaves the card unchanged needs
+no new review. Beside the source review (<code>reviewer</code>), it may record the
+maintainer's approval of that card text, <code>approval</code>: <code>{&quot;by&quot;: &quot;maintainer&quot;, &quot;date&quot;: &quot;YYYY-MM-DD&quot;, &quot;words&quot;: ...}</code>, which pins nothing; the loader refuses any
+other shape. A descriptor names its repository provenance sources by path
+only. A baseline catalog names
+<code>runtime.motion_profile</code> and <code>runtime.control_profile</code> by path. The resolver
+hashes every file it reads and records <code>{path, sha256}</code> in the RunPlan.</p>
+<p>To change a layer, profile or card, edit or add the file, <code>git add</code> it, run
+<code>./scripts/ora lock</code> and commit <code>policy.lock</code> with it. A changed card
+also needs its new <code>card_sha256</code> in the profile and a new wording review; that
+is a human-review step, not part of the lock. The loader refuses an inline
+<code>{path, sha256}</code> binding, and it refuses a path that <code>policy.lock</code> does not
+list.</p>
+<h2 id="review-and-documentation-contract">Review and documentation contract</h2>
+<p>Treat these as different experimental axes even when they change in one file:</p>
+<ul>
+<li>semantic wording or fact ownership;</li>
+<li>provider role/physical slot;</li>
+<li>ToolSurface names, descriptions, schemas, order or eager/deferred disclosure;</li>
+<li>observation delivery;</li>
+<li>history retention, Memory or condensation; and</li>
+<li>controller/action execution semantics.</li>
+</ul>
+<p>A review must say which axis changed and freeze the others or name the joint
+treatment. “Same prompt” is insufficient unless source text, semantic owner,
+provider role, delivery timing and visibility all match. “Same tools” is
+insufficient unless canonical order, descriptions, input/public-result schemas
+and disclosure mode match.</p>
+<p>Any future prompt/context change updates, in the same review unit:</p>
+<ol>
+<li>the mapped current reference in <code>docs/reference/</code>;</li>
+<li><code>docs/context-assembly.md</code> when physical order, visibility, retention or
+evidence changes;</li>
+<li>this guide when authoring shape, ownership or preflight changes;</li>
+<li><code>docs/developer/authoring/tool-surface.md</code> when tool-help/schema rules change;</li>
+<li>the policy asset README when selection/default behavior changes; and</li>
+<li>the experiment README when an experiment-owned prompt or treatment changes.</li>
+</ol>
+<p>Historical prompt assets and experiment traces are never edited to conform to
+the latest template. A new bundle versions the changed source, binds an exact
+environment/embodiment/ToolSurface tuple, records delivery inventory and hashes,
+and passes <code>ora dev prompt-bundle</code> before live qualification.</p>
+<h2 id="versioning-and-experiments">Versioning and experiments</h2>
+<p>Never rewrite a layer bound to historical evidence. Add a versioned source,
+new environment profile or experiment-owned layer, then bind it in a separately
+named treatment. Prompt-only, ToolSurface-only, observation-delivery and
+controller changes remain different experimental axes.</p>
+<p>Use fresh resolved configurations to verify actual default selection. Historical compositions remain bound to their recorded source and do not inherit current wording or delivery changes.</p>
+</article><nav class="pager" aria-label="Previous and next"><a class="prev" href="../tool-surface/index.html"><small>← Previous</small>Tool surfaces</a><a class="next" href="../task-contract/index.html"><small>Next →</small>Task contracts</a></nav></main><aside class="toc" aria-label="On this page"><p>On this page</p><a class="h2" href="#the-bundle-and-its-delivery">The bundle and its delivery</a><a class="h3" href="#physical-prefix-template-for-new-bundles">Physical prefix template for new bundles</a><a class="h2" href="#what-moves-where-in-the-current-robotwin-wording">What moves where in the current RoboTwin wording</a><a class="h2" href="#embodiment-card-format">Embodiment card format</a><a class="h2" href="#project-instructions-indexes-and-manuals">Project instructions, indexes and manuals</a><a class="h2" href="#authoring-workflow">Authoring workflow</a><a class="h2" href="#naming-assets-by-path">Naming assets by path</a><a class="h2" href="#review-and-documentation-contract">Review and documentation contract</a><a class="h2" href="#versioning-and-experiments">Versioning and experiments</a></aside></div><script>
+(function(){
+  var d=document.querySelector('.docs'), b=document.querySelector('.menu');
+  if(b)b.addEventListener('click',function(){var o=d.classList.toggle('open');b.setAttribute('aria-expanded',o?'true':'false')});
+  var side=document.querySelector('.side'), cur=side&&side.querySelector('[aria-current="page"]');
+  if(cur&&getComputedStyle(side).position==='sticky'){var r=cur.offsetTop-side.clientHeight/2;if(r>0)side.scrollTop=r}
+  document.querySelectorAll('.prose pre.hl').forEach(function(pre){
+    if(!navigator.clipboard)return;
+    var w=document.createElement('div');w.className='codewrap';pre.parentNode.insertBefore(w,pre);w.appendChild(pre);
+    var c=document.createElement('button');c.type='button';c.className='cbtn';c.textContent='copy';c.setAttribute('aria-label','Copy the code');
+    c.addEventListener('click',function(){navigator.clipboard.writeText(pre.innerText).then(function(){c.textContent='copied';setTimeout(function(){c.textContent='copy'},1200)},function(){})});
+    w.appendChild(c);
+  });
+  var links=[].slice.call(document.querySelectorAll('.toc a'));
+  if(links.length&&'IntersectionObserver' in window){
+    var map={};links.forEach(function(a){map[decodeURIComponent(a.hash.slice(1))]=a});
+    var hs=[].slice.call(document.querySelectorAll('.prose h2[id],.prose h3[id]')).filter(function(h){return map[h.id]});
+    var on=function(){var y=window.scrollY+120,best=null;hs.forEach(function(h){if(h.offsetTop<=y)best=h});
+      links.forEach(function(a){a.removeAttribute('aria-current')});if(best)map[best.id].setAttribute('aria-current','true')};
+    window.addEventListener('scroll',on,{passive:true});on();
+  }
+})();
+</script>
+<footer class="foot"><div class="wrap"><div class="fb"><a class="brand" href="../../../../index.html"><img src="../../../../../assets/brand/ora-mark-96.png" alt="" width="40" height="40">ORA</a><p>Open Robot-Use Agents: an open harness that lets language models operate robots. A FastRUA project.</p></div><nav class="fcols" aria-label="Footer"><div><p>ORA</p><a href="../../../../index.html">Overview</a><a href="../../../../gallery/index.html">Gallery</a><a href="../../../../docs/index.html">Docs</a><a href="../../../../paper/ora-two-page.pdf" target="_blank" rel="noopener">Paper (PDF)</a></div><div><p>Docs</p><a href="../../../../docs/getting-started/installation/index.html">Installation</a><a href="../../../../docs/quickstart/index.html">First episode</a><a href="../../../../docs/how-ora-works/index.html">How ORA works</a><a href="../../../../docs/reference/index.html">Reference</a></div><div><p>FastRUA</p><a href="../../../../../index.html">Home</a><a href="../../../../../blog/index.html">Blog</a><a class="ext" href="https://github.com/hao-ai-lab/ORA" target="_blank" rel="noopener">GitHub</a><a class="ext" href="https://haoailab.com/blogs/ora/" target="_blank" rel="noopener">Hao AI Lab blog</a></div></nav><p class="fbase">© 2026 ORA contributors · Hao AI Lab, UC San Diego</p></div></footer>
+<script>
+document.querySelectorAll('[data-tabs]').forEach(function(box){
+  var tabs=box.querySelectorAll('.tabs button'), panes=box.querySelectorAll('[data-pane]');
+  tabs.forEach(function(t){t.addEventListener('click',function(){
+    tabs.forEach(function(x){x.setAttribute('aria-selected',x===t?'true':'false')});
+    panes.forEach(function(p){p.hidden=p.dataset.pane!==t.dataset.tab});
+  })});
+});
+document.querySelectorAll('.copy').forEach(function(b){b.addEventListener('click',function(){
+  var pane=b.closest('.code').querySelector('pre:not([hidden])');
+  var txt=pane.innerText.split('\n').map(function(l){return l.replace(/\s+#.*$/,'')}).join('\n');
+  var done=function(){b.textContent='copied';setTimeout(function(){b.textContent='copy'},1200)};
+  try{navigator.clipboard.writeText(txt).then(done,function(){})}catch(e){}
+})});
+document.querySelectorAll('.audit-btn').forEach(function(b){b.addEventListener('click',function(){
+  var on=document.body.classList.toggle('show-audits');
+  b.textContent=on?'Hide inline audit notes':'Expand all audit notes ('+b.dataset.count+')';
+})});
+</script>
+</body>
+</html>

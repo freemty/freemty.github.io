@@ -1,0 +1,2190 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>ORA command reference · ORA docs</title>
+<link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAALS0lEQVR42u1bTWhkV3b+zr33vaqS5FbL3RK07Q7d6cG40wTcJJBFNvEiCyeLgRlbQzbZeDEEvM0iDEx14WSRzDBDks3sEkPwQA+GrEwgEJuE9CoJE7fljgOhhbtVmulqtaT6U1W9e8+XxXuv6tWP/loyVogOiPek996995x7znf+roBzOqdzOqdzOqf/tySHvUDSnNJcFBGei/z/kgZ89NFHpZWVlVdOMkGsMcsXy9LpdLZu3769k815ZjTB7af2IqI3b968ubCw8G8hBJIUAQARgNn6pSg/7idTv3TxonvSaHwPwJ+TtCLiz7QAihoSR5ENxsxg+IiGr4q4VLIA7Fk0gcMEgKCBqkqSsp8AZGL/Of5MVdUYgzMJgGZS9Uk6AI6kCyHYjCeBiEjGn4gEgCqCICIBIkFEgsnvAZWM8u9FZGzs7EfOlAaIiALQ/PfP/v2zHbkkBSsnKpWKiaOSEZmwegFIQiBQVbTbbTDTBiOCENjObN+fORO4e/euXV1dDWv3779zeWXld9rtdgCAKIqWVJnzGBYWXrC/2Nz8EE4+dOIsyTDLGowxL5VLpR+KCAiYbrcLa8w3NzY2LjMEK9b6crlstra2/ubVV1/9n2q1amq1mn5tUshUE48fP75Lkv1ej9579vt9Pm00uPX0KRuNJ4kG5f379//4sPEePHjwUuPJE25tbfFpo8HGkyfsdjrUEBi8p08SkuQXX3zxe9n89kyYAMmW9963Wi3P9JmIiGUKAiAI59z8xx9/7K5du+bW19fH1Hl5edk0Gg2dm5tbygZMgcYYdDod7XS7mhmUlisVA2Bw1ryAERHHlHOHoRXLSL9JfeONNzxJXL9+3c+KHx4+fBimPIUxRgCTyoQqIkZCMBkQylcBiEcJvWe4Qc4MFEd/1aMtVGaPmPtJEUHCJGSL9GdCA0JIRisnxwKf09iegiCk3+thZeWlnzR++ctdGDMKH1QBM55/qU7j42AwgKpCRCBpdErmgiTEWCOtVusPb968+UWumYcKIJ2nEOZOhLwEkEfER+LWyMyASUQkhIBKufwNa+3sIDqbfjLYLowxfDY00sKarbVot9sXjqUBZsTlTH4k3Y2jp8fkUJOkyEDKAXq9niK302zOnLnJNRDTwiApIsL8mo8jYmisEZJ6LAGINczzdmaqIBAZMjICu/2AS0hKvV6f2nlNXyYn4mUWVIqj8fcNtwtXEWMEJCQ3maHZphI5vhdQOuucQCRy1oAENIShGWS7k2TSTmalDgCwtrYWlpcvF4Yl4iiWKI5kuEhytNvAgTs++UTEoN/rwYeQacvordF3RBRFRxZAAIBnOzvfjzY3/2pvb08Gg4HGcfza0tLS32kIBGlbzSYuXbr0R7/Y3PwWihMXhZ3uSMkYA6ZMhhdeWLD1jfo/RHH8gyRJIpLBWssQggCAcw7ee1hrR7x6D589K8oghGAAoFwu/2jp4sVf73S6KkaGqVaOBapEp9M5mhvM7ef27dvrANbzhw8fPuzIaOfFe4/5+bkrkYuu8ADPoKrY6/WGgUMcxRgkgy9/9caNfzot97WxsdFwzgGSsS6ZcRRY7vf7x4sDqtWquXXrlrz99tsCQL/88st51UAAVBIign5/wH6vP0Lc/UwtxwcRqiqNsXEW8roT+n0DQOv1DcepDHs8GY/j+HgYkCckud9cX19nKS6Jqkq+4yEECSGkjB9QH4jiGBCB9z6yzsGIOBEJGWKHE+QtFBF99OjRqVQYDiyI9Ho93+50tpNkkBkB6Kybi0ulkuZCmMG8ktpstZpZeBJKcWy7e3u7p1zM5Ji7zXJyHjNoc/vE0AoAn3766dru7u43ms0mlpeXXaPR8G+99dZfXF5efmd7e9tL8fsUxTUul83Ozs6T999//zcrlcpeHMdSLpf5+PHjXja2PyUJcFb0JYX1DAaDk2nA6upqAPAsWzhI4g++851uMQob879MF8BA/eCDDxqff/75V5jtSXHH9sllTqEmWAh2HABfr9fNDJUZj4Ct4M0334zW1tby5IKZv38+q61Wh3Pe+eQTg2oVJIXkzKBp6EmNEVSrJv8mAzoW13GoAHIXmYEP6/U6D90XEbRaLWZhKk7cESpUi97L7kvf/a6PnUNs7XATZCKJu16p9FGr6XsHVJvcaSolx/HgdKhadYveXYXzAud4ASXT7PX1Ubs9HyoVNDsdjEW9BRT86dp/XVv83nvdF+atbXU6AW5B2OztNH9ce5Zr5vEFoKDMSE7GMjMRXLly5aSMG9Rquuj9VbFuzWgUMYG2tWesEX7zpx+6yFqoiC0kFgWbJDq9wd8bUXY7FCMlb0qRY9yrAfhTVKsWtZp3x+df8yLwVIJSFMQmNk9HAzpBzLyWrHOGJGANBEDXJ6BPDlQ4a8RZmtxnihGxniE6kQkYM10zmjn/5inalkkDqLQyTwGEVowClGLtYLT3hWwcMFnipSCMseN49BwYYGbm58McfcotnZDKJUjabpA8maYRMXFsOMwAMxc84Q1FFcxjgfQlgZ4CCE6q/+T9qYJgrw/MV/JCCmGNMPit0B38MwEDCEEFJK8JaMqsGELMVePMbzDovnUsdxKwn5Wv5xpwYhCcEfgRUIkiIz75eePPat867JvFP6m+ZePKz9DdCxy2r8ZFcXwQVE1bhDKtAV9h5ybzLsO5HO7etdjeNlhamvbxm5sOV654+Y/P5jmZsZpZBn2gN6qa7JiMybJEYSHvHtr9hASWl5fHvnv+un9vXN9EQBjF6mpAvR6wujr98+xZeg1Bx/Z7hh0cKoBaraYioiIyyK7JrB0fByDy3Xff7Wbvh+z6nEpSHhnXsGCrx1Ge4WrluBhQrVbNt3//29fsi9Zab6211pO87ENICx4y3TjJVC66d+/ercXFxR4AlEoltNvt3ddff/3JWAX3mHkPnxOwUycyG5z3OyIjIsKrV6/Ov/jSi/86Nze3MhgMmDUhTLPZhIjMamiaZDBAHMcrN27c+Hk2oV9cXHTrDx/+LYB3kJ4UOXpK3O8Bc+VhbzLj6kjmFABEUiyYcqrkfKAGXLhwgXEUSeSc0RDS8nOegc3yK6P6ISLnTAaaNi6VjI3s82FACSAVxRL/EflPz+QQB3a3Djwhsry87EIIVJIkNTsqc6A+yshbpEdrAGoIWUA2dULk8CaLtQTpqfAkfHqvRyuppSv3IDyVnqpeJgDkwBMiAHY263WaNK+FSW3gwECHhcFyFDLGSpIkg+c5IUJVK6Vy2UQRGIIz5QpCt3vxaN9K2VTmHFUdqJByBdzdmZ8SQF4EvXfv3m9fv379d1utFoUUBUrW2gvee0iBoVEJWvbXrYKW7e11sbCw8FuNRuOOqrchBH9p6ZJ9+uzZP7788sv/MrN5eecOUauBg9I29rp/qX0xBJWaGBX8d/GdmTkbABfb/9RO66/ZaSuMhYqYoP6T4jsZONKJiH+w9qD22q+99v1Bvw/rHATAzu4uivaPg2L9IjYU7qmKcqWCubkKQMCHgDiOsbHx6M4rr/xKLZ8fXwNNgmA7BD9otppBIFbTvp0FIKo6ivk5o4M87XzHnvX2etrv9QIBAekvLi05Z1z7SJ6sWh33OJ/fIn62ejgOkII7d+yUdhQqRG4CEmNrXWyMzVtSh4a5+7WvZ1iGZQbMwfvIOYdAxkcxZdRqz6cdRzh8MXE+QFv9Xq+RJIlPksSlwQ4gaUKKzI1KXoMv1ubHm5kUEcP8r1kiP1IM1dDv9Zwhm/iayRVr9Wtraz+p1+vvJ0lCAGi327IEIFlYYLvdloWFBUZRW7ANbGcDLBSeDe0o+714zd/N34miSLa3t/dOtVdwTifqLkz1Ab76yc//geKczumczumczunrpP8FNN95Ns+85cEAAAAASUVORK5CYII=">
+<meta name="description" content="ORA documentation: ORA command reference.">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  /* Swiss neutrals plus one deep accent: the personal homepage's scheme, its red #C6011F swapped for the teal of the
+     same OKLCH lightness (0.52). --teal-hi only for small accent text on dark. No gradients or glows on the accent. */
+  --bg:#0A0A0A; --bg-2:#0E0E0E; --panel:#111111; --panel-2:#161616; --line:#1A1A1A; --line-2:#222222;
+  --text:#F0F0F0; --text-2:#B0B0B0; --text-3:#777777; --text-body:#D4D4D4;
+  --teal:#11787B; --teal-hi:#48B0B4; --teal-deep:#05585B; --teal-ink:#012526;
+  --amber:#E8596B; --amber-bg:#2A0A0E;
+  --sans:"Geist",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:"Geist Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --label:var(--mono);   /* small data labels; the design preview bar can switch them to a pixel face */
+  --max:1120px; --max-wide:1360px; --read:700px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font:400 16px/1.65 var(--sans);-webkit-font-smoothing:antialiased;letter-spacing:-.005em}
+a{color:var(--teal-hi);text-decoration:none}a:hover{text-decoration:underline;text-underline-offset:3px}
+:focus-visible{outline:2px solid var(--teal);outline-offset:3px;border-radius:4px}
+.wrap{max-width:var(--max);margin:0 auto;padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px))}
+.read{max-width:var(--read);margin:0 auto;padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px))}
+/* nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(10,10,10,.82);backdrop-filter:saturate(140%) blur(14px);-webkit-backdrop-filter:saturate(140%) blur(14px);border-bottom:1px solid var(--line-2)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+.nav .wrap{display:flex;align-items:center;gap:16px;height:64px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--text);font:600 18px/1 var(--sans);letter-spacing:.02em;flex:none}
+.brand:hover{text-decoration:none}
+/* left: where you are (FastRUA, then "/ ORA" and its sections inside the project); right: the group's destinations */
+.nav .sep{color:var(--text-3);font-size:18px;flex:none}
+.nav .proj{color:var(--text);font:600 16px/1 var(--sans);letter-spacing:.02em;flex:none}
+.nav .proj:hover{text-decoration:none}
+.nav nav{display:flex;gap:26px;font-size:15px;white-space:nowrap}
+.nav .sub{margin-left:14px;min-width:0;overflow-x:auto;scrollbar-width:none}
+.nav .sub::-webkit-scrollbar{display:none}
+.nav .glob{margin-left:auto;flex:none}
+.nav .sub+.glob{border-left:1px solid var(--line-2);padding-left:22px}
+.nav nav a{color:var(--text-2)}
+.nav nav a:hover,.nav nav a[aria-current="page"]{color:var(--text);text-decoration:none}
+.ext::after{content:" \2197";font-size:.85em;color:var(--text-3)}
+.nav .wrap,.foot .wrap,.wide .wrap{max-width:var(--max-wide)}
+.nav.root .wrap,.foot.root .wrap{max-width:var(--max)}
+@media (max-width:760px){.nav .proj~.glob .ext,.nav .sub .ext{display:none}.nav nav{gap:18px}}
+@media (max-width:560px){.nav nav{gap:14px;font-size:13.5px}.brand{font-size:16px;gap:8px}.nav nav .ext::after{content:none}
+  .nav.in-proj .brand span{display:none}.nav .wrap{gap:10px}.nav .sub{margin-left:6px}.nav .sub+.glob{padding-left:12px}}
+/* blog cards */
+.posts{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+.post{display:block;border:1px solid var(--line-2);border-radius:16px;overflow:hidden;background:var(--bg-2);color:inherit;transition:border-color .2s,transform .2s}
+.post:hover{text-decoration:none;border-color:var(--teal-deep);transform:translateY(-2px)}
+.post img{display:block;width:100%;aspect-ratio:16/8;object-fit:cover;border-bottom:1px solid var(--line)}
+.post .body{padding:20px 22px 22px}
+.post .meta{display:flex;gap:10px;align-items:center;font:400 12.5px/1 var(--label);color:var(--text-3);margin:0 0 12px}
+.post h3{font:600 1.25rem/1.25 var(--sans);letter-spacing:-.02em;margin:0 0 10px;color:var(--text)}
+.post p{margin:0;color:var(--text-2);font-size:14.5px}
+.draft{font:500 11px/1 var(--label);letter-spacing:.06em;color:var(--amber);background:var(--amber-bg);padding:4px 7px;border-radius:999px}
+.sechead{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin:0 0 24px}
+.sechead h2{text-align:left;margin:0}
+.sechead a{font-size:14px}
+/* footer */
+.foot{border-top:1px solid var(--line);margin-top:112px;background:var(--bg-2)}
+.foot .wrap{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,2fr);gap:32px 48px;padding-top:48px;padding-bottom:40px}
+.foot .fb p{margin:14px 0 0;max-width:22em;color:var(--text-3);font-size:14px;line-height:1.6}
+.fcols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.fcols p{margin:0 0 12px;font:500 11.5px/1 var(--label);letter-spacing:.1em;text-transform:uppercase;color:var(--text-3)}
+.fcols a{display:block;color:var(--text-2);font-size:14px;padding:4px 0}
+.fcols a:hover{color:var(--text)}
+.fbase{grid-column:1 / -1;margin:8px 0 0;padding-top:22px;border-top:1px solid var(--line);color:var(--text-3);font-size:13px}
+@media (max-width:760px){.foot .wrap{grid-template-columns:1fr}.fcols{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* article: blog posts and docs pages share these */
+.posthead{padding:72px 0 28px;text-align:center}
+.posthead .meta{font:400 13px/1 var(--label);color:var(--text-3);display:flex;gap:12px;justify-content:center;align-items:center;flex-wrap:wrap;margin:0}
+.posthead h1{font:600 clamp(2.2rem,5vw,3.6rem)/1.06 var(--sans);letter-spacing:-.035em;margin:20px auto 0;max-width:15em;text-wrap:balance}
+.prose{font-size:17px;line-height:1.75;color:var(--text-body);overflow-wrap:break-word}
+.prose h1{display:none}
+.prose h2{font:600 1.75rem/1.2 var(--sans);letter-spacing:-.025em;color:var(--text);margin:64px 0 16px;text-wrap:balance}
+.prose h3{font:600 1.22rem/1.3 var(--sans);letter-spacing:-.015em;color:var(--text);margin:40px 0 10px}
+.prose h4{font:600 1.02rem/1.4 var(--sans);color:var(--text);margin:28px 0 8px}
+.prose h2 small,.prose h3 small{font:500 11.5px/1 var(--label);color:var(--text-3);margin-left:8px;letter-spacing:.04em}
+.prose [id]{scroll-margin-top:84px}
+.prose p{margin:0 0 18px}
+.prose a,.lede a,.callout a{color:var(--text);text-decoration:underline;text-decoration-color:var(--teal);text-decoration-thickness:1px;text-underline-offset:3px;overflow-wrap:break-word}
+.prose a:hover,.lede a:hover,.callout a:hover{color:var(--teal-hi);text-decoration-color:var(--teal-hi)}
+.prose a.md-button{text-decoration:none}
+.prose strong{color:var(--text);font-weight:600}
+.prose ul,.prose ol{padding-left:1.2em;margin:0 0 18px}
+.prose li{margin:0 0 6px}
+.prose li>ul,.prose li>ol{margin:6px 0 0}
+.prose li>p{margin:0 0 8px}
+.prose li::marker{color:var(--teal)}
+.prose code{font:400 .86em var(--mono);background:var(--panel-2);border:1px solid var(--line);padding:1px 6px;border-radius:5px;color:var(--text);overflow-wrap:break-word}
+.prose a code{color:inherit}
+.prose pre{margin:0 0 22px;padding:15px 18px;border:1px solid var(--line-2);border-radius:12px;background:var(--panel);overflow-x:auto;font:400 13.5px/1.65 var(--mono);color:var(--text);tab-size:4}
+.prose pre code{font:inherit;background:none;border:0;padding:0;border-radius:0;overflow-wrap:normal;color:inherit}
+.prose pre.mermaid{background:var(--bg-2);text-align:center;color:var(--text-3)}
+.prose pre.mermaid svg{max-width:100%;height:auto}
+.codewrap{position:relative}
+.cbtn{position:absolute;top:9px;right:9px;height:26px;padding:0 9px;border:1px solid var(--line-2);border-radius:7px;background:var(--panel);color:var(--text-2);font:500 11.5px var(--label);cursor:pointer;opacity:0;transition:opacity .15s}
+.codewrap:hover .cbtn,.cbtn:focus-visible{opacity:1}
+@media (hover:none){.cbtn{opacity:.85}}
+.prose kbd{font:500 .82em var(--mono);border:1px solid var(--line-2);border-bottom-width:2px;border-radius:5px;padding:0 5px;color:var(--text)}
+.prose img{max-width:100%;height:auto;border-radius:12px;border:1px solid var(--line-2)}
+.prose blockquote{margin:0 0 36px;border:1px solid var(--line-2);border-left:3px solid var(--teal);border-radius:12px;background:var(--panel);padding:18px 22px;color:var(--text)}
+.prose blockquote p{margin:0 0 8px}.prose blockquote ol{margin:0;padding-left:1.2em}
+.prose .admonition{margin:24px 0;border:1px solid var(--line-2);border-left:3px solid var(--teal);border-radius:10px;background:var(--bg-2);padding:14px 18px;font-size:15.5px}
+.prose .admonition>:last-child{margin-bottom:0}
+.prose .admonition-title{font:600 13.5px/1.3 var(--sans);color:var(--teal-hi);margin:0 0 8px}
+.prose .admonition.warning,.prose .admonition.caution,.prose .admonition.danger{border-left-color:var(--amber)}
+.prose .admonition.warning .admonition-title,.prose .admonition.caution .admonition-title,.prose .admonition.danger .admonition-title{color:var(--amber)}
+.prose .tbl{overflow-x:auto;margin:22px 0 26px}
+@media (min-width:720px){.prose .tbl{overflow:visible}}
+.prose table{border-collapse:collapse;width:100%;font-size:14.5px;line-height:1.55}
+.prose th,.prose td{text-align:left;vertical-align:top;padding:9px 16px 9px 0;border-bottom:1px solid var(--line)}
+.prose th{font:500 12.5px/1.4 var(--label);color:var(--text-3);white-space:nowrap}
+.prose td code{font-size:.82em}
+@media (max-width:620px){.prose table:has(th:nth-child(4)){min-width:620px}}
+.prose hr{border:0;border-top:1px solid var(--line);margin:56px 0}
+.prose figure{margin:30px 0}
+.prose figure img{display:block;width:100%;border-radius:12px;border:1px solid var(--line-2)}
+.prose figcaption{font-size:13.5px;color:var(--text-3);margin-top:10px}
+/* code colours (Pygments classes) */
+.hl .c,.hl .c1,.hl .cm,.hl .ch,.hl .cs,.hl .cp,.hl .cpf{color:var(--text-3)}
+.hl .k,.hl .kn,.hl .kd,.hl .kc,.hl .kr,.hl .kt,.hl .kp,.hl .ow{color:var(--teal-hi)}
+.hl .s,.hl .s1,.hl .s2,.hl .sb,.hl .sd,.hl .se,.hl .sh,.hl .si,.hl .sx,.hl .sa,.hl .sc,.hl .ss,.hl .dl{color:var(--text-2)}
+.hl .nf,.hl .fm,.hl .nc,.hl .nn,.hl .nd,.hl .nt,.hl .na{color:var(--text)}
+.hl .o,.hl .p{color:var(--text-3)}
+.hl .gp{color:var(--text-3);user-select:none}
+.hl .go{color:var(--text-2)}
+.hl .err{color:inherit;background:none}
+.slot{font:500 11px/1 var(--label);letter-spacing:.1em;text-transform:uppercase;color:var(--teal-hi)}
+.callout{border:1px solid var(--line-2);border-radius:12px;padding:16px 18px;margin:26px 0;background:var(--bg-2)}
+.callout a{font-weight:600}
+.tbd{background:var(--amber-bg);color:var(--amber);border-radius:5px;padding:1px 7px;font-size:.88em}
+.postvid{margin:8px auto 48px;max-width:1008px}
+.postvid .frame{border-radius:14px;overflow:hidden;border:1px solid var(--line-2)}
+.postvid video{display:block;width:100%;aspect-ratio:1600/750}
+.postvid .cap{font-size:12.5px;color:var(--text-3);margin-top:12px;text-align:center}
+.draftbar{font:400 12.5px/1.6 var(--label);color:var(--amber);background:var(--amber-bg);border-radius:10px;padding:10px 14px;margin:0 0 36px;display:flex;flex-wrap:wrap;align-items:center;gap:6px 18px}
+.draftbar a{color:inherit;text-decoration:underline}
+.audit-btn{margin-left:auto;font:500 11.5px/1.2 var(--label);color:var(--teal-hi);background:var(--teal-ink);border:1px solid var(--teal);border-radius:6px;padding:5px 10px;cursor:pointer;transition:background .15s}
+.audit-btn:hover{background:#05393B}
+.audit-mark{position:relative;display:inline;background:rgba(17,120,123,.14);color:var(--text);border-bottom:1.5px dashed var(--teal-hi);padding:1px 6px;border-radius:5px;cursor:help;transition:background .15s}
+.audit-mark:hover,.audit-mark:focus-within{background:rgba(17,120,123,.26);z-index:40}
+.audit-tag{font:600 9.5px/1 var(--label);letter-spacing:.06em;color:#F0F0F0;background:var(--teal);padding:2px 5px;border-radius:4px;margin-left:5px;vertical-align:middle;display:inline-block}
+.audit-pop{display:none;position:absolute;left:0;bottom:calc(100% + 8px);width:min(420px,86vw);background:var(--panel-2);color:var(--text-2);border:1px solid var(--teal);border-radius:10px;padding:11px 14px;font:400 13px/1.55 var(--sans);box-shadow:0 12px 32px rgba(0,0,0,.65);z-index:60;white-space:normal;text-align:left;pointer-events:none}
+.audit-pop strong{color:var(--teal-hi);display:block;font:600 11.5px/1.3 var(--label);letter-spacing:.04em;text-transform:uppercase;margin-bottom:4px}
+.audit-pop code{background:rgba(255,255,255,.06);color:var(--text);border-color:var(--line-2);font-size:.85em;padding:1px 4px}
+.audit-mark:hover .audit-pop,.audit-mark:focus .audit-pop,.audit-mark:focus-within .audit-pop{display:block}
+body.show-audits .audit-pop{display:block;position:static;width:auto;margin:8px 0 6px;pointer-events:auto;box-shadow:none}
+.brand img{width:40px;height:40px;display:block;object-fit:contain}</style>
+<style>
+/* docs layout: sidebar, content, on-page contents */
+.docs{display:grid;grid-template-columns:240px minmax(0,1fr) 200px;gap:0 52px;max-width:var(--max-wide);margin:0 auto;padding:0 max(24px,env(safe-area-inset-right,0px)) 0 max(24px,env(safe-area-inset-left,0px))}
+.docs>main{grid-column:2;grid-row:1;min-width:0;padding:44px 0 0;max-width:760px}
+.docs.home>main{grid-column:2 / 4;max-width:none}
+.side{grid-column:1;grid-row:1;position:sticky;top:64px;align-self:start;max-height:calc(100vh - 64px);overflow-y:auto;padding:36px 8px 48px 0;font-size:14px;scrollbar-width:thin;scrollbar-color:var(--line-2) transparent}
+.side a{display:block;color:var(--text-2);padding:5px 10px;border-radius:7px;line-height:1.4}
+.side a:hover{color:var(--text);background:var(--panel);text-decoration:none}
+.side a[aria-current="page"]{color:var(--teal-hi);background:var(--teal-ink)}
+.side .top{font-weight:500;color:var(--text)}
+.side .grp{margin:22px 0 0}
+.side .grp>p{margin:0 0 6px;padding:0 10px;font:500 11.5px/1 var(--label);letter-spacing:.1em;text-transform:uppercase;color:var(--text-3)}
+.side ul{list-style:none;margin:0;padding:0}
+.side details{margin:2px 0}
+.side summary{cursor:pointer;color:var(--text-2);padding:5px 10px;border-radius:7px;list-style:none}
+.side summary::-webkit-details-marker{display:none}
+.side summary::before{content:"\203A";display:inline-block;width:14px;color:var(--text-3);transition:transform .15s}
+.side details[open]>summary::before{transform:rotate(90deg)}
+.side summary:hover{color:var(--text);background:var(--panel)}
+.side details ul{margin-left:14px;border-left:1px solid var(--line);padding-left:4px}
+.toc{grid-column:3;grid-row:1;position:sticky;top:64px;align-self:start;max-height:calc(100vh - 64px);overflow-y:auto;padding:52px 0 40px;font-size:13px;scrollbar-width:thin}
+.toc p{margin:0 0 10px;font:500 11.5px/1 var(--label);letter-spacing:.1em;text-transform:uppercase;color:var(--text-3)}
+.toc a{display:block;color:var(--text-3);padding:4px 0 4px 12px;border-left:1px solid var(--line);line-height:1.4}
+.toc a.h3{padding-left:24px}
+.toc a:hover{color:var(--text);text-decoration:none}
+.toc a[aria-current="true"]{color:var(--teal-hi);border-left-color:var(--teal-hi)}
+.toc code{font:400 .92em var(--mono)}
+.menu{display:none}
+.crumb{margin:0 0 14px;font:500 12px/1 var(--label);letter-spacing:.1em;text-transform:uppercase;color:var(--teal-hi)}
+.doctitle{font:600 clamp(2rem,4vw,2.75rem)/1.1 var(--sans);letter-spacing:-.03em;margin:0 0 28px;text-wrap:balance;overflow-wrap:break-word}
+.doctitle code{font-size:.85em}
+.docs .prose>:first-child{margin-top:0}
+.docs .prose h2{margin-top:52px}
+.pager{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:64px 0 0;padding-top:28px;border-top:1px solid var(--line)}
+.pager a{display:block;border:1px solid var(--line-2);border-radius:12px;padding:14px 16px;color:var(--text);background:var(--bg-2)}
+.pager a:hover{border-color:var(--teal-deep);text-decoration:none}
+.pager small{display:block;font:400 12px/1 var(--label);color:var(--text-3);margin-bottom:8px}
+.pager .next{text-align:right;grid-column:2}
+.srcline{margin:22px 0 0;font-size:13px;color:var(--text-3)}
+.srcline a{color:var(--text-2)}
+/* the Docs landing */
+.dochero{padding:24px 0 8px;max-width:760px}
+.dochero h1{font:600 clamp(2.4rem,5vw,3.4rem)/1.05 var(--sans);letter-spacing:-.035em;margin:0 0 18px}
+.dochero .ora-intro{font-size:clamp(1.05rem,1.8vw,1.18rem);color:var(--text-2);font-weight:300;margin:0 0 12px;line-height:1.6}
+.dochero .ora-meta{font:400 13px/1.5 var(--label);color:var(--text-3);margin:0 0 26px}
+.btns p{display:flex;flex-wrap:wrap;gap:10px;margin:0}
+.md-button{display:inline-flex;align-items:center;height:40px;padding:0 16px;border:1px solid var(--line-2);border-radius:10px;color:var(--text);background:var(--panel);font-size:14.5px;font-weight:500}
+.md-button:hover{text-decoration:none;border-color:var(--teal-deep)}
+.md-button--primary{background:var(--teal);border-color:var(--teal);color:var(--text)}
+.md-button--primary:hover{background:var(--teal-deep);border-color:var(--teal-deep)}
+.groups{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:44px 0 12px}
+@media (max-width:1180px){.groups{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:620px){.groups{grid-template-columns:1fr}}
+.gcard{border:1px solid var(--line-2);border-radius:14px;background:var(--bg-2);padding:20px 20px 18px;display:flex;flex-direction:column}
+.gcard:hover{border-color:var(--teal-deep)}
+.gcard h3{margin:0 0 8px;font:600 1.08rem/1.3 var(--sans);letter-spacing:-.01em}
+.gcard h3 a{color:var(--text)}
+.gcard>p{margin:0 0 14px;color:var(--text-2);font-size:14px;line-height:1.55}
+.gcard ul{list-style:none;margin:auto 0 0;padding:12px 0 0;border-top:1px solid var(--line);display:grid;gap:5px;font-size:13.5px}
+.gcard li a{color:var(--text-2)}
+.gcard li a:hover{color:var(--teal-hi)}
+.gcard .more{color:var(--text-3);font:400 12.5px var(--label)}
+.home .prose{max-width:760px;margin-top:40px}
+@media (max-width:1240px){.docs{grid-template-columns:232px minmax(0,1fr);gap:0 44px}.toc{display:none}.docs.home>main{grid-column:2}}
+@media (max-width:900px){
+  .docs{grid-template-columns:minmax(0,1fr);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  .docs>main,.docs.home>main,.side{grid-column:1;grid-row:auto}
+  .docs>main{padding-top:6px}
+  .menu{display:flex;align-items:center;gap:8px;width:100%;margin:20px 0 16px;height:42px;padding:0 14px;border:1px solid var(--line-2);border-radius:10px;background:var(--bg-2);color:var(--text-2);font:500 14px var(--sans);cursor:pointer}
+  .menu b{color:var(--text);font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .menu::after{content:"\203A";margin-left:auto;transform:rotate(90deg);color:var(--text-3)}
+  .side{display:none;position:static;max-height:none;padding:0 0 18px;margin:0 0 18px;border-bottom:1px solid var(--line)}
+  .docs.open .side{display:block}
+  .pager{grid-template-columns:1fr}.pager .next{grid-column:1}
+}
+</style>
+<script src="../../../../assets/design/design-bar.js" data-labels=".post .meta,.draft,.fcols p,.posthead .meta,.prose h2 small,.prose h3 small,.cbtn,.prose th,.slot,.draftbar,.audit-btn,.audit-tag,.audit-pop strong,.pill b,.scene-hud,.copy,.feat .k,.card h3,.side .grp&gt;p,.toc p,.crumb,.pager small,.dochero .ora-meta,.gcard .more"></script>
+</head>
+<body class="wide">
+<header class="nav in-proj"><div class="wrap"><a class="brand" href="../../../../index.html"><img src="../../../../assets/brand/fastrua-mark-96.png" alt="" width="40" height="40"><span>FastRUA</span></a><span class="sep" aria-hidden="true">/</span><a class="proj" href="../../../index.html">ORA</a><nav class="sub" aria-label="ORA"><a href="../../../index.html">Overview</a><a href="../../../gallery/index.html">Gallery</a><a href="../../../docs/index.html" aria-current="page">Docs</a><a class="ext" href="../../../paper/ora-two-page.pdf" target="_blank" rel="noopener">Paper</a><a class="ext" href="https://github.com/hao-ai-lab/ORA" target="_blank" rel="noopener">Code</a></nav><nav class="glob" aria-label="FastRUA"><a href="../../../../blog/index.html">Blog</a><a class="ext" href="https://github.com/fast-rua" target="_blank" rel="noopener">GitHub</a></nav></div></header>
+<div class="docs"><button class="menu" type="button" aria-controls="docnav" aria-expanded="false">Menu · <b>Command-line reference</b></button><aside class="side" id="docnav" aria-label="Documentation"><a class="top" href="../../index.html">Welcome</a><a class="top" href="../../how-ora-works/index.html">How ORA works</a><div class="grp"><p>Get started</p><ul><li><a href="../../getting-started/installation/index.html">Installation</a></li><li><a href="../../quickstart/index.html">First episode</a></li><li><a href="../../getting-started/model-apis/index.html">Model APIs</a></li><li><a href="../../getting-started/single-gpu/index.html">Run on one GPU</a></li><li><a href="../../getting-started/local/index.html">Run on your computer (CPU)</a></li><li><a href="../../getting-started/libero/index.html">LIBERO / LIBERO-Pro quick run</a></li><li><a href="../../getting-started/robotwin/index.html">RoboTwin quick run</a></li><li><a href="../../getting-started/robodojo/index.html">RoboDojo quick run</a></li><li><a href="../../getting-started/robocasa/index.html">RoboCasa365 quick run</a></li><li><a href="../../getting-started/robolab/index.html">RoboLab quick run</a></li><li><a href="../../getting-started/official-suite/index.html">Official suites on a cluster</a></li><li><a href="../../support/index.html">Supported setups</a></li><li><a href="../../getting-started/troubleshooting/index.html">Troubleshooting</a></li></ul></div><div class="grp"><p>Use ORA</p><ul><li><a href="../runs/index.html">Run and inspect</a></li><li><a href="../play/index.html">Free play</a></li><li><a href="../real-cells/index.html">Run a real robot cell</a></li><li><a href="../interactive/index.html">Interactive sessions</a></li><li><a href="../remote/index.html">Remote GPU server and web view</a></li><li><a href="../safety/index.html">Run ORA safely</a></li><li><a href="../rl-interface/index.html">Connect a training loop</a></li><li><a href="../viewer/index.html">Evidence viewer</a></li><li><a href="../examples/index.html">Examples</a></li><li><a href="../official-suite/index.html">Official-suite cookbook</a></li><li><a href="../compute-usage/index.html">Compute tool</a></li><li><a href="../commands/index.html">Commands and what they write</a></li><li><a href="index.html" aria-current="page">Command-line reference</a></li></ul></div><div class="grp"><p>Environments</p><ul><li><a href="../../environments/index.html">Overview</a></li><li><a href="../../environments/common/index.html">Host and perception setup</a></li><li><a href="../../environments/libero/index.html">LIBERO / LIBERO-Pro</a></li><li><a href="../../environments/robotwin/index.html">RoboTwin</a></li><li><a href="../../environments/robodojo/index.html">RoboDojo</a></li><li><a href="../../environments/robodojo-installation/index.html">RoboDojo installation reference</a></li><li><a href="../../environments/robocasa/index.html">RoboCasa365</a></li><li><a href="../../environments/robolab/index.html">RoboLab</a></li></ul></div><div class="grp"><p>Robots and tasks</p><ul><li><a href="../../robots/frames-and-units/index.html">Frames and units</a></li><li><a href="../../robots/embodiments/franka-panda/index.html">Franka Panda (LIBERO)</a></li><li><a href="../../robots/embodiments/aloha-agilex/index.html">ALOHA-AgileX (RoboTwin)</a></li><li><a href="../../robots/embodiments/arx-x5/index.html">ARX X5 (RoboDojo)</a></li><li><a href="../../robots/embodiments/panda-omron/index.html">PandaOmron (RoboCasa365)</a></li><li><a href="../../robots/embodiments/droid-franka-robotiq/index.html">DROID Franka with Robotiq (RoboLab)</a></li><li><a href="../../robots/embodiments/yam-station/index.html">Dual I2RT YAM (real cell)</a></li><li><a href="../../robots/tasks/libero/index.html">LIBERO / LIBERO-Pro tasks</a></li><li><a href="../../robots/tasks/robotwin/index.html">RoboTwin tasks</a></li><li><a href="../../robots/tasks/robodojo/index.html">RoboDojo tasks</a></li><li><a href="../../robots/tasks/robocasa/index.html">RoboCasa365 tasks</a></li><li><a href="../../robots/tasks/robolab/index.html">RoboLab tasks</a></li></ul></div><div class="grp"><p>Evaluation</p><ul><li><a href="../../evaluation/protocol/index.html">Evaluation protocol</a></li></ul></div><div class="grp"><p>Concepts</p><ul><li><a href="../../architecture/index.html">Architecture</a></li><li><a href="../../context-assembly/index.html">Context assembly</a></li><li><a href="../../reference/runtime-lifecycle/index.html">Runtime lifecycle</a></li><li><a href="../../glossary/index.html">Glossary</a></li></ul></div><div class="grp"><p>Reference</p><ul><li><a href="../../reference/index.html">Overview</a></li><li><a href="../../reference/public-interfaces/index.html">Public interfaces</a></li><li><a href="../../reference/toolkit-io/index.html">Toolkit I/O evidence</a></li><li><a href="../../reference/toolkit-protocol/index.html">Toolkit protocol and replay compatibility</a></li><li><a href="../../reference/toolkit-data/index.html">Toolkit data API</a></li><li><a href="../../reference/toolkit-execution/index.html">Toolkit synchronous execution</a></li><li><a href="../../reference/toolkit-state/index.html">Toolkit state and admission</a></li><li><a href="../../reference/toolkit-surface/index.html">File-backed toolkit surfaces</a></li><li><a href="../../reference/context-schemes/index.html">Context schemes and policy selection</a></li><li><a href="../../reference/append-only-context/index.html">Append-only context (management v8)</a></li><li><a href="../../reference/exchange-aging-context/index.html">Exchange aging (management v9)</a></li><li><a href="../../reference/keep-written-context/index.html">Keep what the model wrote (management v10)</a></li><li><a href="../../reference/tasks/index.html">Task files</a></li><li><a href="../../reference/source-overlay/index.html">Source overlays</a></li><li><a href="../../reference/policy-io/index.html">Policy I/O</a></li><li><a href="../../reference/configuration-and-evidence/index.html">Configuration and evidence</a></li><li><a href="../../reference/context-packs/index.html">Context packs</a></li><li><a href="../../reference/experiment-identity/index.html">Experiment identity</a></li><li><a href="../../reference/robotwin-contact-recovery/index.html">RoboTwin contact recovery</a></li><li><a href="../../reference/robotwin-qualification/index.html">RoboTwin seed and scene qualification</a></li><li><a href="../../reference/motion-speed/index.html">Motion speed and wrist checks</a></li><li><a href="../../reference/latency-profile/index.html">Latency profile</a></li><li><a href="../../reference/robodojo-motion-qualification/index.html">RoboDojo motion qualification</a></li><li><a href="../../reference/provider-replay/index.html">Recorded-provider tape replay</a></li><li><a href="../../reference/robodojo-reset-diagnostics/index.html">RoboDojo reset crash diagnostics</a></li><li><a href="../../reference/ora-local-cpu-compatibility/index.html">Local CPU compatibility</a></li><li><a href="../../reference/robocasa-robolab-backends/index.html">RoboCasa365 and RoboLab</a></li><li><a href="../../reference/robolab-tasks/index.html">RoboLab tasks and contracts</a></li></ul></div><div class="grp"><p>Python API</p><ul><li><a href="../../api/index.html">Overview</a></li><li><a href="../../api/plans/index.html">Plans and benchmark cells</a></li><li><a href="../../api/policy/index.html">Policy sessions</a></li><li><a href="../../api/environment/index.html">Environment sessions</a></li><li><a href="../../api/actions/index.html">Action contracts</a></li></ul></div><div class="grp"><p>Contribute</p><ul><li><a href="../../developer/onboarding/index.html">Start contributing</a></li><li><a href="../../developer/contributing/index.html">Contributing</a></li><li><a href="../../code-map/index.html">Code map</a></li><li><a href="../../developer/repository-structure/index.html">Repository structure</a></li><li><a href="../../developer/documentation/index.html">Documentation</a></li><li><a href="../../developer/docs-style/index.html">Docs style guide</a></li><li><a href="../../developer/testing/index.html">Testing</a></li><li><details><summary>Authoring guides</summary><ul><li><a href="../../developer/add-backend/index.html">Add an environment</a></li><li><a href="../../developer/authoring/environment-compatibility/index.html">Environment compatibility</a></li><li><a href="../../developer/authoring/tool-surface/index.html">Tool surfaces</a></li><li><a href="../../developer/authoring/prompt-bundle/index.html">Prompt bundles</a></li><li><a href="../../developer/authoring/task-contract/index.html">Task contracts</a></li><li><a href="../../developer/authoring/qualification/index.html">Qualification</a></li><li><a href="../../developer/authoring/trajectory-capture/index.html">Trajectory and viewer integration</a></li><li><a href="../../developer/authoring/frontend-style/index.html">Viewer style</a></li></ul></details></li><li><details><summary>Templates</summary><ul><li><a href="../../templates/environment-compatibility-record/index.html">Environment compatibility record</a></li><li><a href="../../templates/task-contract-review/index.html">Task contract review</a></li></ul></details></li></ul></div></aside><main id="content"><p class="crumb">Use ORA</p><h1 class="doctitle">ORA command reference</h1><article class="prose"><!-- Generated by `ora dev cli-reference --write` from ora's parser; do not edit by hand. -->
+<p>This page is <code>ora --help</code> and every command's <code>--help</code>, generated from the
+parser (<code>ora/app/main.py</code> and one module per command group in <code>ora/app/</code>). The
+<a href="../commands/index.html">command guide</a> explains what each command writes and
+when to use it. A command that hands the rest of its line to an operator tool
+lists the tool here; <code>ora COMMAND ... --help</code> prints the tool's own arguments.</p>
+<h2 id="ora---help"><code>ora --help</code></h2>
+<pre class="hl" data-lang="text"><code>ora — Open Robot-Use Agents
+
+Run an episode
+  setup           install the local environment or one simulator
+  doctor          check the host, credentials, simulators and services
+  run             compose, preflight, launch and seal one episode
+  play            free play in one scene
+  replay          replay a finished run in the browser, export a video, or check its replay program
+  web             a live run in the browser
+  cameras         a run&#39;s cameras in the terminal, beside its conversation
+  interactive     run ORA in Pi&#39;s terminal UI and steer it
+  attach          show a running run&#39;s terminal UI here
+  sessions        list runs with Pi sessions, or export one
+  local           the local CPU MuJoCo task picker
+
+Formal runs and evidence
+  plan            validate, show, preview or preflight one RunSpec
+  launch          preflight and launch one confirmed run
+  retry           retry an unsealed, action-free incomplete run
+  status          one run, or every run on this workspace
+  stop            stop one active run
+  watch           follow a live run, or replay a finished one, as a transcript
+  workspace       the shared evidence and state roots
+  task            resolve, run or submit a task file (ora.task.v1)
+  evaluate        official verdict and evidence checks of one run
+  seal            make an evaluated run immutable
+  revalidate      review completed runs into separate reports
+  export          archive one sealed run for transfer
+  export-sft      export a run&#39;s model calls as tool-call JSONL
+  report          stop-reason and cost report of runs
+  metadata        one run&#39;s context and environment manifest
+  state           one run&#39;s public policy state
+  metrics         one run&#39;s Runtime metrics
+  ownership       one run&#39;s behavioral-ownership audit
+  trace-validate  one run&#39;s agent trace and artifact graph
+
+Environment qualification and suites
+  spec            compose tasks and RunSpecs per environment
+  qualify         environment, lane and seed qualification
+  suite           the official-suite queue
+  play audit      audit free-play scenes
+
+Configuration
+  providers       model API keys and profiles
+  services        the resident perception services
+  cell            set up, watch and recover a real robot cell
+  baselines       the default composition and how it resolves
+  lock            policy.lock, the hash of every policy asset
+
+Developer
+  toolkit         try toolkit code at a recorded tool call
+  dev             authoring tools (embodiment, prompt bundle, task contract, CLI reference)
+  help            ora help COMMAND, or a topic: runs, evidence, play, remote, safety, rl-interface
+
+ora &lt;command&gt; --help shows one command; ora help topics lists the topic pages.
+</code></pre>
+<h2 id="run-an-episode">Run an episode</h2>
+<h3 id="ora-setup"><code>ora setup</code></h3>
+<pre class="hl" data-lang="text"><code>usage: ora setup [-h] [--json] [--root ROOT] [--python PYTHON]
+                 [--graphics {auto,cgl,glfw,egl,osmesa}]
+                 [--env {libero,robotwin,robodojo,perception}] [--prefix PREFIX]
+                 [--cuda-home CUDA_HOME] [--cuda-arch CUDA_ARCH] [--env-file ENV_FILE] [--dry-run]
+
+``ora setup``: install the local CPU simulator, or with ``--env`` the single-GPU stacks.
+
+    ora setup [--root DIR] [--python PY] [--graphics MODE] [--json]
+        the locked Harness, the agent core&#39;s Pi packages and terminal UI, pinned CPU
+        LIBERO sources and assets and a separate simulator runtime (``local_setup``)
+    ora setup --env libero|robotwin|robodojo|perception [--env ...] [--prefix DIR] [--cuda-home DIR]
+              [--cuda-arch X.Y] [--env-file .env] [--dry-run] [--json]
+        the pinned single-GPU simulator, CuRobo and perception stacks and their .env keys
+        (``gpu_setup`` with ``gpu_recipes``)
+
+Both are idempotent and start no simulator, service or Provider call.
+
+options:
+  -h, --help            show this help message and exit
+  --json                print the report as JSON
+
+the local CPU installation (without --env):
+  --root ROOT           local setup root (default: ORA_LOCAL_ROOT or the user data directory)
+  --python PYTHON       existing Python 3.11 interpreter
+  --graphics {auto,cgl,glfw,egl,osmesa}
+                        auto (the default): CGL on macOS; on Linux EGL when an NVIDIA EGL vendor
+                        file exists, else OSMesa
+
+the single-GPU stacks (--env):
+  --env {libero,robotwin,robodojo,perception}
+                        libero, robotwin and robodojo include the perception services (repeatable)
+  --prefix PREFIX       persistent install directory (default: ORA_GPU_PREFIX from the environment
+                        or .env, else ~/.local/share/ora/gpu)
+  --cuda-home CUDA_HOME
+                        CUDA 12.8 toolkit for the CuRobo build (default: CUDA_HOME,
+                        /usr/local/cuda-12.8, /usr/local/cuda)
+  --cuda-arch CUDA_ARCH
+                        TORCH_CUDA_ARCH_LIST base for CuRobo, e.g. 12.0 (default: nvidia-smi
+                        --query-gpu=compute_cap)
+  --env-file ENV_FILE   the .env to update (default: the checkout&#39;s .env)
+  --dry-run             list each step as done or pending; change nothing
+</code></pre>
+<h3 id="ora-doctor"><code>ora doctor</code></h3>
+<pre class="hl" data-lang="text"><code>usage: ora doctor [-h] [--env {synthetic,robotwin,libero_pro,robodojo,local}] [--root ROOT] [--json]
+
+``ora doctor``: read-only setup checks; never display credential values or start a simulator.
+
+    ora doctor [--env synthetic|robotwin|libero_pro|robodojo] [--json]
+    ora doctor --env local [--root DIR] [--json]     the local CPU setup (``local.doctor``)
+
+A simulator backend says what to discover (``backends.registry.DoctorProbe``).
+The ``agent_core`` check reports the Node.js and ora-pi package readiness of the
+default Pi agent core (``episode/agent_core.py``); it runs ``node --version`` only.
+Where the environment&#39;s default policy runs code mode (RoboDojo), the code-mode
+sandbox&#39;s host prerequisites are checked too: ``bwrap``, unprivileged user
+namespaces and the sandbox interpreter against its lock.
+
+options:
+  -h, --help            show this help message and exit
+  --env {synthetic,robotwin,libero_pro,robodojo,local}
+  --root ROOT           with --env local: the local setup root
+  --json                machine-readable readiness report
+</code></pre>
+<h3 id="ora-run"><code>ora run</code></h3>
+<pre class="hl" data-lang="text"><code>usage: ora run [-h] [--env {synthetic,libero,robotwin,robodojo}] [--provider-profile ID]
+               [--task TASK] [--seed SEED] [--task-config {demo_randomized,demo_clean}]
+               [--candidates CANDIDATES] [--gpu N] [--requalify] [--yes] [--confirm-launch]
+               [--prepare-only] [--env-file ENV_FILE] [--emit {jsonl}] [--poll POLL]
+               [--world-view {auto,off}] [--world-port WORLD_PORT] [--world-browser {auto,off}]
+               [--world-public-url WORLD_PUBLIC_URL]
+
+Run the bounded Synthetic quickstart episode, or prepare one GPU task on the single-gpu host and
+open ORA on it.
+
+options:
+  -h, --help            show this help message and exit
+  --env {synthetic,libero,robotwin,robodojo}
+                        synthetic (the default) or a GPU environment
+  --provider-profile ID
+                        the model&#39;s Provider profile (ora providers lists them; its key from the
+                        environment or ora providers key). Synthetic: instead of ORA_API_KEY and the
+                        ORA_* variables. GPU task: default deepseek_flash_openai_low_16k_v1, e.g.
+                        muse_spark_open_openrouter_high_16k_v1
+
+a GPU task (--env libero|robotwin|robodojo):
+  --task TASK           LIBERO: &lt;suite&gt;/&lt;task id&gt; (base or LIBERO-Pro core suite); RoboTwin and
+                        RoboDojo: the task name (required)
+  --seed SEED           LIBERO initial state 0-49 (default 0); RoboTwin: an admitted seed (default:
+                        the first seed the qualification accepted)
+  --task-config {demo_randomized,demo_clean}
+                        RoboTwin scene configuration (default demo_randomized)
+  --candidates CANDIDATES
+                        RoboTwin seeds a new scan may try (default 4)
+  --gpu N               this machine&#39;s CUDA device index to run on, 0-7 (default 0): the simulator&#39;s
+                        slot and the perception services ora run starts
+  --requalify           run the qualification even if a record is reusable
+  --yes                 confirm qualification simulator episodes without asking
+  --confirm-launch      authorize launching the selected task after its normal preflight passes
+  --prepare-only        stop after composing the RunSpec and print its path
+  --env-file ENV_FILE   GPU task only: the .env with its simulator, service and key settings
+                        (default: the checkout&#39;s .env); Synthetic reads only the environment
+  --emit {jsonl}        JSON-lines interactive backend instead of the Pi UI
+  --poll POLL           event polling interval in seconds (default 0.2)
+  --world-view {auto,off}
+                        automatically show the exact live run&#39;s cameras (default: human terminal
+                        only)
+  --world-port WORLD_PORT
+                        loopback world-view port; 0 chooses a free port
+  --world-browser {auto,off}
+                        open the local world view after its server is ready
+  --world-public-url WORLD_PUBLIC_URL
+                        browser-facing /live URL, for example a local SSH-forwarded URL
+
+Examples: ora run; ora run --provider-profile deepseek_flash_openai_low_16k_v1; ora run --env libero
+--task libero_goal/0 --confirm-launch; ora run --env robotwin --task click_bell --confirm-launch;
+ora run --env robodojo --task general_pickup --confirm-launch
+</code></pre>
+<h3 id="ora-play"><code>ora play</code></h3>
+<pre class="hl" data-lang="text"><code>usage: ora play [-h] [--env {synthetic,libero,robotwin,robodojo,yam}] [--spec SPEC]
+                [--provider PROFILE] [--host HOST] [--resource-profile SLOT]
+                [--service-report SERVICE_REPORT] [--scene-set SET] [--scene NAME] [--scenes SCENES]
+                [--rig-mode {sim,read,on}] [--operator-present] [--auto-approve] [--setup]
+                [--cell CELL.json] [--code-mode] [--draw-seed DRAW_SEED] [--prepare-only]
+                [--confirm-launch] [--no-attach] [--world-view {auto,off}] [--world-port WORLD_PORT]
+                [--world-browser {auto,off}] [--world-public-url WORLD_PUBLIC_URL]
+                audit ...
+
+Free play: a random qualified scene, no task; type instructions in turn.
+
+positional arguments:
+  audit
+    audit               audit ORA&#39;s own free-play scenes on this host
+
+options:
+  -h, --help            show this help message and exit
+  --env {synthetic,libero,robotwin,robodojo,yam}
+                        the environment (required)
+  --spec SPEC           launch this free-play RunSpec (from --prepare-only) as it is
+  --provider PROFILE    provider profile (`ora providers`), or env for
+                        ORA_BASE_URL/ORA_MODEL/ORA_API_KEY
+  --host HOST           execution host of a real environment (default: ORA_EXECUTION_HOST)
+  --resource-profile SLOT
+                        the host&#39;s simulator slot to run on (default: its first), e.g. the slot a
+                        router allocation leased
+  --service-report SERVICE_REPORT
+                        a real environment&#39;s perception readiness report (`ora services qualify`)
+  --scene-set SET       draw among the audited scenes of one of ORA&#39;s scene sets: RoboTwin&#39;s
+                        tabletop-v1 (instead of the official tasks) or RoboDojo&#39;s isaac-tabletop-v1
+                        (its default)
+  --scene NAME          the task or scene to play (a LIBERO or RoboTwin task, or a scene of a scene
+                        set); its seeds or initial states are still drawn
+  --scenes SCENES       scenes drawn for /reset (1-32, default 8)
+  --rig-mode {sim,read,on}
+                        YAM: the station model (sim), the real cell read only (read), or the real
+                        arms with each motion approved by the operator (on); required with --env yam
+  --operator-present    YAM --rig-mode on: a person stands beside the cell with a hand on the stop
+  --auto-approve        YAM --rig-mode on: motions run without asking; the operator still approves
+                        enabling the arms once
+  --setup               YAM --rig-mode on: first finish the cell&#39;s setup (ora cell setup), its
+                        questions answered in the play terminal, then start the arms
+  --cell CELL.json      YAM: the real cell&#39;s config (ora.cell-config.v1), read by the worker
+  --code-mode           the agent works in ORA&#39;s code mode (bash and the robot library in ORA&#39;s
+                        sandbox, the environment baseline&#39;s policy.code_mode) instead of Pi&#39;s own
+                        tools and codemode
+  --draw-seed DRAW_SEED
+                        seed of the random draw (default: fresh)
+  --prepare-only        write the free-play RunSpec and stop
+  --confirm-launch      authorize launching a real environment after its normal preflight passes
+  --no-attach           launch and print the `ora attach` command
+  --world-view {auto,off}
+                        automatically show the exact live run&#39;s cameras (default: human terminal
+                        only)
+  --world-port WORLD_PORT
+                        loopback world-view port; 0 chooses a free port
+  --world-browser {auto,off}
+                        open the local world view after its server is ready
+  --world-public-url WORLD_PUBLIC_URL
+                        browser-facing /live URL, for example a local SSH-forwarded URL
+
+Keys in the session: Enter sends an instruction, Esc stops the running one, /reset loads another
+scene, /quit ends and seals the session, Ctrl+D detaches.
+</code></pre>
+<h4 id="ora-play-audit"><code>ora play audit</code></h4>
+<pre class="hl" data-lang="text"><code>Qualify ORA&#39;s own free-play scenes on this host.
+
+    ora play audit --env robotwin --scene-set tabletop-v1 [--scene NAME ...] ...
+    ora play audit --env robodojo [--scene-set isaac-tabletop-v1] ...
+
+The backend&#39;s play-scene audit (``play_audit`` in ``orchestrator.backends.registry``)
+gets the rest of the line (``ora play audit --env robotwin --help``).
+</code></pre>
+<p>Runs <code>ora.app.play:audit</code> on the rest of the line.</p>
+<h3 id="ora-replay"><code>ora replay</code></h3>
+<pre class="hl" data-lang="text"><code>usage: ora replay [-h] [--speed SPEED] [--motion-speed X|same] [--view {compact,detailed}]
+                  [--expand-thinking] [--lang {en,zh}] [--publish] [--from S] [--port PORT]
+                  [--no-browser] [--export OUT.mp4] [--fps FPS] [--size SIZE] [--scale SCALE]
+                  [--zoom ZOOM] [--to S] [--workers WORKERS] [--crf CRF] [--ffmpeg FFMPEG]
+                  [--chromium CHROMIUM] [--export-python EXPORT_PYTHON] [--program DIR]
+                  [--check OUT] [--resource-profile RESOURCE_PROFILE] [--scene] [--scene-traces DIR]
+                  [--incident N] [--report OUT] [--stack-run RUN] [--branch {both,recorded,current}]
+                  [--preview]
+                  run
+
+`ora replay`: a finished run in the browser, replayed from its evidence, or made into a video.
+
+    ora replay RUN [--speed 16] [--motion-speed 1|same] [--from S] [--port N] [--no-browser]
+                   [--view compact|detailed] [--expand-thinking] [--lang en|zh] [--publish]
+    ora replay RUN --program DIR | --check OUT [--resource-profile P]
+    ora replay RUN --scene [--scene-traces DIR] [--resource-profile P]
+    ora replay RUN --incident N --report OUT [--stack-run RUN] [--branch both|recorded|current] [--preview]
+                   [--resource-profile P]
+    ora replay RUN --export OUT.mp4 [--speed 16] [--motion-speed 1|same] [--fps 30] [--size 1920x1080] [--scale 2] [--zoom 1]
+                   [--from S] [--to S] [--workers N] [--publish] [--ffmpeg PATH] [--chromium PATH]
+                   [--export-python PY]
+
+The page is `ora web`&#39;s own (ora-pi/web), shown at a clock over the run&#39;s recorded
+time: its web server rebuilds what the live page showed from the run&#39;s evidence
+(Pi&#39;s session, the Supervisor&#39;s events, the execution capture and the operator
+views: ora-pi/web/server/replay.ts) and attaches to nothing. The gateway in front
+is `ora web`&#39;s (launch token, cookie, loopback Host), passing the page and its one
+route, GET /api/replay. Nothing in the run is written, and a live run is refused
+(`ora web` shows it).
+
+The replay has two rates: the waiting and thinking between the robot&#39;s actions play at
+`--speed` (16x by default), and each action, from its start to its end with any settling
+frames, plays its execution capture by the frames&#39; simulated time at `--motion-speed` (1x by
+default: real simulated time, never shorter than the action at `--speed`). Only captured frames
+are shown, each held until the next; nothing is interpolated. `--motion-speed same` keeps one
+speed throughout. The page has the same switches. `--export` draws the replay into a video at
+those rates: a headless Chromium opens the page, the page&#39;s playback is set to each frame&#39;s
+moment in turn (a virtual clock, so the video keeps the replay&#39;s rates whatever the machine&#39;s
+speed and is the same every time), each frame is a screenshot drawn at `--scale` device pixels
+per CSS pixel and scaled down to `--size`, and ffmpeg encodes H.264 (yuv420p, CRF 16). A corner
+of the page says what plays and how fast (&quot;robot motion · real time&quot;, &quot;thinking · 16×&quot;); the
+report beside the video lists every stretch with its rate and times. `--publish` leaves the
+run&#39;s ID and absolute paths out of the page.
+
+`--program` and `--check` work on the run&#39;s replay program: its agent actions as code
+that reproduces the run (`environment/replay_program.py`). Every run sealed with this
+version carries it in `replay-program/`; `--program DIR` writes it for any run, outside
+the run. `--check OUT` re-executes it on the run&#39;s simulator (the plan&#39;s interpreter,
+the caller&#39;s CUDA_VISIBLE_DEVICES first), compares every action&#39;s end pose with its
+receipt bit for bit and the official verdict with the run&#39;s, and writes
+OUT/replay-program-check.json. A RoboCasa365 check also compares the base&#39;s end pose and a
+hash of the whole scene at every action. A RoboDojo check runs the qualification control
+replay on `--resource-profile` and needs the run&#39;s host marker. A RoboLab check runs in the
+environment worker a run uses, on one card. A run that records no per-tick controls (a
+RoboCasa365 or RoboLab run sealed before they were recorded) has no program, so `--check`
+refuses it and `--program DIR` writes DIR/unavailable.json.
+
+`--scene` runs the same check on a RoboTwin, LIBERO-Pro, RoboCasa365, RoboDojo or RoboLab run and, when it passes,
+keeps the scene of that re-execution for the run dashboard&#39;s 3D replay: every body&#39;s world pose (about 50 Hz on
+RoboTwin and LIBERO-Pro, every fifth SAPIEN step and every tenth MuJoCo step, every native action on
+RoboDojo, 25 Hz, RoboCasa365, 20 Hz, and RoboLab, 15 Hz, plus each action&#39;s last step) and each body&#39;s visual mesh,
+in `scene-trace/&lt;run_id&gt;/` beside the run&#39;s `runs/` directory or under `--scene-traces DIR` (`environment/scene_trace.py`). A
+RoboDojo run needs `--resource-profile`, as its `--check` does. The run itself is not written. A run
+whose re-execution diverges gets no trace; the report beside the traces says why. A re-execution that matches
+the run bit for bit keeps its trace even if its verdict reads differently: the result and the report say
+`verdict_differs`. Scene poses are
+private simulator state: the trace is for a developer and reaches no policy.
+
+`--incident N` replays the run up to action N and runs N again with no model, to see what
+this checkout does with a move that once went wrong (`orchestrator/evaluation/incident_replay.py`).
+On RoboTwin and LIBERO-Pro the `recorded` branch runs the recorded controls and the `current`
+branch submits the recorded target to the motion stack of `--stack-run`, a run sealed on this
+checkout such as a merge smoke; `--stack-run` must share the source run&#39;s simulator revisions.
+On RoboDojo `--resource-profile` names a slot on the run&#39;s host and the run must be a toolkit
+run: only `current` runs, through `ora toolkit replay --live --execute-action`, on the default
+baseline&#39;s tool surface, planner and timing, and it needs a clean checkout.
+OUT/incident-replay.json says whether the prefix matched bit for bit, each branch&#39;s receipt or
+refusal, the stack it ran on, and which bodies moved. Scene poses are private simulator state:
+the report is for a developer and reaches no policy.
+
+The export needs Playwright for Python with its Chromium (`pip install
+playwright==1.56.0 &amp;&amp; playwright install chromium`, or `uv` on PATH, which runs it
+as `uv run --no-project --with playwright==1.56.0`) and ffmpeg (on PATH,
+ORA_FFMPEG or --ffmpeg). Neither is a dependency of ORA.
+
+positional arguments:
+  run                   the finished run&#39;s ID or directory
+
+options:
+  -h, --help            show this help message and exit
+  --speed SPEED         the speed of the waiting and thinking between the robot&#39;s actions (default
+                        16)
+  --motion-speed X|same
+                        the speed of each action&#39;s motion against its simulated time (default 1:
+                        real time); `same`: --speed throughout
+  --view {compact,detailed}
+                        how the conversation is drawn (default compact)
+  --expand-thinking     every thought open
+  --lang {en,zh}        the page&#39;s language (default: the browser&#39;s)
+  --publish             leave the run&#39;s ID and absolute paths out of the page
+  --from S              start S seconds into the run&#39;s recorded time
+
+the page:
+  --port PORT           loopback port (default: a free one)
+  --no-browser          print the link instead of opening it
+
+a video (--export):
+  --export OUT.mp4      draw the replay into this H.264 video and exit
+  --fps FPS             frames per second (default 30)
+  --size SIZE           the video&#39;s WIDTHxHEIGHT (default 1920x1080)
+  --scale SCALE         device pixels per CSS pixel the page is drawn at before scaling to --size
+                        (default 2)
+  --zoom ZOOM           the page&#39;s zoom: its layout is --size / zoom CSS pixels (default 1)
+  --to S                end S seconds into the run&#39;s recorded time (default: its end)
+  --workers WORKERS     pages drawing frames side by side (default 4)
+  --crf CRF             H.264 quality, lower is better (default 16)
+  --ffmpeg FFMPEG       ffmpeg to encode with (default: ORA_FFMPEG, then PATH)
+  --chromium CHROMIUM   Chromium to draw with (default: Playwright&#39;s)
+  --export-python EXPORT_PYTHON
+                        a Python with Playwright (default: this one, else uv)
+
+the replay program (--program, --check):
+  --program DIR         write the run&#39;s replay program (program.json, program.py) to DIR outside the
+                        run and exit; a sealed run already carries it in replay-program/
+  --check OUT           re-execute the replay program on the run&#39;s simulator, check every action&#39;s
+                        end pose against its receipt bit for bit and the verdict, write OUT/replay-
+                        program-check.json
+  --resource-profile RESOURCE_PROFILE
+                        RoboDojo --check, --scene or --incident: the qualified slot to replay on
+
+the scene trace (--scene):
+  --scene               re-execute the run as --check does on RoboTwin, LIBERO-Pro, RoboCasa365,
+                        RoboDojo or RoboLab and, if it passes, write its scene trace for the run
+                        dashboard: every body&#39;s pose per step and visual mesh
+  --scene-traces DIR    --scene: write DIR/&lt;run_id&gt;/ (default: scene-trace/&lt;run_id&gt;/ beside the
+                        run&#39;s runs/)
+
+one bad action (--incident):
+  --incident N          replay the run up to action N, then run N again on this checkout&#39;s motion
+                        stack; needs --report, and --stack-run or --resource-profile
+  --report OUT          --incident: an empty directory for the report
+  --stack-run RUN       --incident on RoboTwin or LIBERO-Pro: a run sealed on this checkout, whose
+                        motion stack the action runs on
+  --branch {both,recorded,current}
+                        --incident: which branches to run (default both)
+  --preview             --incident on RoboDojo: what a dry run of the action shows at that state,
+                        written to OUT/preview.png, instead of running it
+</code></pre>
+<h3 id="ora-web"><code>ora web</code></h3>
+<pre class="hl" data-lang="text"><code>usage: ora web [-h] [--last] [--port PORT] [--socket SOCKET] [--token-file TOKEN_FILE]
+               [--no-browser]
+               [run]
+
+`ora web`: a live run in the browser, ORA&#39;s own page over the run&#39;s Pi RPC.
+
+    ora web setup                       install and build the page (ora-pi/web: npm ci, then vite build)
+    ora web [RUN] [--last] [--port N | --socket PATH] [--token-file PATH] [--no-browser]
+
+The run&#39;s agent core serves Pi&#39;s RPC protocol (ora-pi/src/rpc/host.ts). ORA&#39;s
+web server (ora-pi/web/server, Node; its page seeded from Watercol/pi-web-ui,
+MIT) attaches to it through `ora-rpc-attach` as one controlling client and
+serves the page: the conversation, the robot&#39;s cameras and each step&#39;s images
+on one screen. In front of it the gateway (web_gateway.py) adds a one-time
+launch token exchanged for a cookie, loopback Host and same-origin checks, the
+routes the page uses and nothing else, the run&#39;s stored images and its world
+view (world_view.py), and on a real robot cell the cell&#39;s controls
+(web_cell.py).
+
+The page is built once by `ora web setup`; the build records a digest of the
+sources it was built from (dist/ora-build.json), and `ora web` refuses a page
+built from other sources. Nothing in ora-pi/web is patched after install, so
+`npm ci` there changes nothing `ora web` relies on; a changed page is rebuilt
+by `ora web setup`.
+
+`--socket` serves the gateway on a unix socket for `ssh -L` (ora-remote);
+otherwise it listens on 127.0.0.1 and prints the link with the token. A run
+that is not live is refused: no Pi of ours opens a finished run&#39;s session.
+A finished run is replayed from its evidence by `ora replay` (replay.py),
+on the same page and gateway with no Pi RPC.
+
+positional arguments:
+  run                   run ID or directory, or `setup` (default: the live run)
+
+options:
+  -h, --help            show this help message and exit
+  --last                the most recent live run when several are
+  --port PORT           loopback port (default: a free one)
+  --socket SOCKET       serve on this unix socket (0600) instead, for `ssh -L` (ora-remote)
+  --token-file TOKEN_FILE
+                        the launch token, in a file this command removes (ora-remote)
+  --no-browser          print the link instead of opening it
+</code></pre>
+<h3 id="ora-cameras"><code>ora cameras</code></h3>
+<pre class="hl" data-lang="text"><code>usage: ora cameras [-h] [--last] [--protocol {auto,kitty,iterm2}] [--interval INTERVAL] [--once]
+                   [run]
+
+``ora cameras``: a run&#39;s cameras in the terminal, beside its conversation.
+
+    ora cameras [RUN] [--last] [--protocol auto|kitty|iterm2] [--interval S] [--once]
+
+The page of ``ora web`` shows a run&#39;s cameras next to its conversation; a terminal
+shows them in a pane of its own: run Pi&#39;s terminal (``ora play``, ``ora attach``) in
+one pane and ``ora cameras`` in the pane beside it. It draws one picture, the run&#39;s
+cameras two by two with their names, the capture&#39;s phase and action and how old it
+is, and redraws it whenever the run captures a new frame
+(``native/execution-capture/timeline.jsonl``: at every observation and every action&#39;s
+end). The line under it says which observation step the agent last read
+(``policy-observations``).
+
+The picture goes to the terminal through its own image protocol: kitty&#39;s (kitty,
+Ghostty) or iTerm2&#39;s (iTerm2, WezTerm). A terminal with neither (macOS Terminal) is
+refused with that reason. Inside tmux the picture passes through to the terminal
+outside, which needs ``set -g allow-passthrough on``; the command says so when it is
+off. ``--protocol`` names the protocol when the terminal cannot be recognised (over
+SSH, say). Nothing is written to the run; ``q`` or Ctrl-C ends the command.
+
+positional arguments:
+  run                   run ID or directory (default: the live run)
+
+options:
+  -h, --help            show this help message and exit
+  --last                the most recent live run when several are
+  --protocol {auto,kitty,iterm2}
+                        the terminal&#39;s image protocol (default: recognised from the terminal)
+  --interval INTERVAL   seconds between looks for a new frame
+  --once                draw the latest frame once and end
+</code></pre>
+<h3 id="ora-interactive"><code>ora interactive</code></h3>
+<pre class="hl" data-lang="text"><code>usage: ora interactive [-h] [--spec SPEC] [--ui {pi,watch}] [--provider PROFILE] [--task TEXT]
+                       [--actions ACTIONS] [--no-attach] [--confirm-launch] [--emit {jsonl}]
+                       [--poll POLL] [--world-view {auto,off}] [--world-port WORLD_PORT]
+                       [--world-browser {auto,off}] [--world-public-url WORLD_PUBLIC_URL]
+
+options:
+  -h, --help            show this help message and exit
+  --spec SPEC           prepared Native benchmark RunSpec; repeat to populate the task picker
+                        (without --spec: a Synthetic episode in Pi&#39;s terminal UI)
+  --ui {pi,watch}       pi: the run&#39;s own Pi terminal UI on the Pi agent core (the default without
+                        --spec); watch: the task picker and transcript (the default with --spec)
+  --provider PROFILE    provider profile (`ora providers`), or env for
+                        ORA_BASE_URL/ORA_MODEL/ORA_API_KEY; asked in a terminal when omitted
+  --task TEXT           Synthetic task instruction (default: three moves)
+  --actions ACTIONS     Synthetic robot decisions before the episode ends
+  --no-attach           launch and print the `ora attach` command instead of attaching
+  --confirm-launch      authorize launching a selected task after its normal preflight passes
+  --emit {jsonl}        JSON-lines RPC backend instead of the Pi UI
+  --poll POLL           event polling interval in seconds
+  --world-view {auto,off}
+                        automatically show the exact live run&#39;s cameras (default: human terminal
+                        only)
+  --world-port WORLD_PORT
+                        loopback world-view port; 0 chooses a free port
+  --world-browser {auto,off}
+                        open the local world view after its server is ready
+  --world-public-url WORLD_PUBLIC_URL
+                        browser-facing /live URL, for example a local SSH-forwarded URL
+</code></pre>
+<h3 id="ora-attach"><code>ora attach</code></h3>
+<pre class="hl" data-lang="text"><code>usage: ora attach [-h] [--last] [--world-view {auto,off}] [--world-port WORLD_PORT]
+                  [--world-browser {auto,off}] [--world-public-url WORLD_PUBLIC_URL]
+                  [run_id]
+
+positional arguments:
+  run_id                run ID or run directory (default: choose a running one)
+
+options:
+  -h, --help            show this help message and exit
+  --last                the most recently active running run
+  --world-view {auto,off}
+                        automatically show the exact live run&#39;s cameras (default: human terminal
+                        only)
+  --world-port WORLD_PORT
+                        loopback world-view port; 0 chooses a free port
+  --world-browser {auto,off}
+                        open the local world view after its server is ready
+  --world-public-url WORLD_PUBLIC_URL
+                        browser-facing /live URL, for example a local SSH-forwarded URL
+</code></pre>
+<h3 id="ora-sessions"><code>ora sessions</code></h3>
+<pre class="hl" data-lang="text"><code>usage: ora sessions [-h] [--output OUTPUT] [--json] [{list,export}] [run_id]
+
+positional arguments:
+  {list,export}
+  run_id                with export: run ID or run directory
+
+options:
+  -h, --help            show this help message and exit
+  --output OUTPUT, -o OUTPUT
+                        with export: .html (Pi&#39;s viewer) or .jsonl (the raw Pi session)
+  --json
+</code></pre>
+<h3 id="ora-local"><code>ora local</code></h3>
+<pre class="hl" data-lang="text"><code>usage: ora local [-h] [--root ROOT] [--suite {libero_object,libero_goal,libero_spatial,libero_10}]
+                 [--task-id TASK_ID] [--seed SEED] [--confirm-launch] [--emit {jsonl}] [--poll POLL]
+                 [--world-view {auto,off}] [--world-port WORLD_PORT] [--world-browser {auto,off}]
+                 [--world-public-url WORLD_PUBLIC_URL]
+
+options:
+  -h, --help            show this help message and exit
+  --root ROOT           local setup root (default: ORA_LOCAL_ROOT or the user data directory)
+  --suite {libero_object,libero_goal,libero_spatial,libero_10}
+  --task-id TASK_ID     source-bound task in the selected suite, 0 through 9 (default: 0)
+  --seed SEED           official initial state, 0 through 49 (default: 0)
+  --confirm-launch      authorize the manually selected task after its normal preflight passes
+  --emit {jsonl}        JSON-lines interactive backend instead of the Pi UI
+  --poll POLL
+  --world-view {auto,off}
+                        automatically show the exact live run&#39;s cameras (default: human terminal
+                        only)
+  --world-port WORLD_PORT
+                        loopback world-view port; 0 chooses a free port
+  --world-browser {auto,off}
+                        open the local world view after its server is ready
+  --world-public-url WORLD_PUBLIC_URL
+                        browser-facing /live URL, for example a local SSH-forwarded URL
+</code></pre>
+<h2 id="formal-runs-and-evidence">Formal runs and evidence</h2>
+<h3 id="ora-plan"><code>ora plan</code></h3>
+<pre class="hl" data-lang="text"><code>usage: ora plan [-h] &lt;action&gt; ...
+
+``ora plan``: one RunSpec bound, shown, previewed or preflighted, never launched.
+
+    ora plan validate SPEC     bind the RunSpec; print its plan id and sha256
+    ora plan show SPEC         the resolved, content-addressed RunPlan
+    ora plan context SPEC      the exact project-owned model context and tools
+    ora plan preflight SPEC    the launch gates, without starting an episode
+
+``display_plan`` is the summary ``ora plan show``, ``ora launch`` and
+``ora retry`` print before the plan itself or the confirmation prompt.
+
+positional arguments:
+  &lt;action&gt;
+    validate  validate and bind one RunSpec without writing a run
+    show      print the resolved, content-addressed RunPlan
+    context   preview exact project-owned model context and tools
+    preflight
+              run launch gates without starting an episode
+
+options:
+  -h, --help  show this help message and exit
+</code></pre>
+<h4 id="ora-plan-validate"><code>ora plan validate</code></h4>
+<pre class="hl" data-lang="text"><code>usage: ora plan validate [-h] run_spec
+
+validate and bind one RunSpec without writing a run
+
+positional arguments:
+  run_spec
+
+options:
+  -h, --help  show this help message and exit
+</code></pre>
+<h4 id="ora-plan-show"><code>ora plan show</code></h4>
+<pre class="hl" data-lang="text"><code>usage: ora plan show [-h] run_spec
+
+print the resolved, content-addressed RunPlan
+
+positional arguments:
+  run_spec
+
+options:
+  -h, --help  show this help message and exit
+</code></pre>
+<h4 id="ora-plan-context"><code>ora plan context</code></h4>
+<pre class="hl" data-lang="text"><code>usage: ora plan context [-h] run_spec
+
+preview exact project-owned model context and tools
+
+positional arguments:
+  run_spec
+
+options:
+  -h, --help  show this help message and exit
+</code></pre>
+<h4 id="ora-plan-preflight"><code>ora plan preflight</code></h4>
+<pre class="hl" data-lang="text"><code>usage: ora plan preflight [-h] run_spec
+
+run launch gates without starting an episode
+
+positional arguments:
+  run_spec
+
+options:
+  -h, --help  show this help message and exit
+</code></pre>
+<h3 id="ora-launch"><code>ora launch</code></h3>
+<pre class="hl" data-lang="text"><code>usage: ora launch [-h] [--yes] run_spec
+
+positional arguments:
+  run_spec
+
+options:
+  -h, --help  show this help message and exit
+  --yes
+</code></pre>
+<h3 id="ora-retry"><code>ora retry</code></h3>
+<pre class="hl" data-lang="text"><code>usage: ora retry [-h] [--yes] run_id
+
+positional arguments:
+  run_id
+
+options:
+  -h, --help  show this help message and exit
+  --yes
+</code></pre>
+<h3 id="ora-status"><code>ora status</code></h3>
+<pre class="hl" data-lang="text"><code>usage: ora status [-h] [run_id]
+
+positional arguments:
+  run_id
+
+options:
+  -h, --help  show this help message and exit
+</code></pre>
+<h3 id="ora-stop"><code>ora stop</code></h3>
+<pre class="hl" data-lang="text"><code>usage: ora stop [-h] run_id
+
+positional arguments:
+  run_id
+
+options:
+  -h, --help  show this help message and exit
+</code></pre>
+<h3 id="ora-watch"><code>ora watch</code></h3>
+<pre class="hl" data-lang="text"><code>usage: ora watch [-h] [--speed SPEED] [--max-gap MAX_GAP] [--plain] [--ui {auto,pi,ansi,plain}]
+                 [--emit {jsonl}] [--poll POLL] [--world-view {auto,off}] [--world-port WORLD_PORT]
+                 [--world-browser {auto,off}] [--world-public-url WORLD_PUBLIC_URL] [--raw]
+                 run_id
+
+Follow a live Native run, or replay a finished one, as ORA&#39;s terminal transcript. Read-only: writes
+nothing under the run and takes no lease; Ctrl-C stops watching, not the run.
+
+positional arguments:
+  run_id                run ID or run directory
+
+options:
+  -h, --help            show this help message and exit
+  --speed SPEED         replay speed of a finished run (default 10 in a terminal, 0 = print at once,
+                        the default when not a terminal)
+  --max-gap MAX_GAP     longest recorded pause replayed, in seconds (default 30)
+  --plain               no colours and no live status region
+  --ui {auto,pi,ansi,plain}
+                        front end: pi (pi-tui, needs Node.js &gt;= 22.19 and `npm ci` in ora-pi/), ansi
+                        (built in), plain; auto picks pi in a terminal when installed
+  --emit {jsonl}        write UI operations as JSON lines instead of drawing (the pi front end reads
+                        them)
+  --poll POLL           seconds between reads of a live run&#39;s events (default 0.2)
+  --world-view {auto,off}
+                        automatically show the exact live run&#39;s cameras (default: human terminal
+                        only)
+  --world-port WORLD_PORT
+                        loopback world-view port; 0 chooses a free port
+  --world-browser {auto,off}
+                        open the local world view after its server is ready
+  --world-public-url WORLD_PUBLIC_URL
+                        browser-facing /live URL, for example a local SSH-forwarded URL
+  --raw                 print the run&#39;s canonical causal events as JSON lines until it terminates
+</code></pre>
+<h3 id="ora-workspace"><code>ora workspace</code></h3>
+<pre class="hl" data-lang="text"><code>usage: ora workspace [-h]
+
+options:
+  -h, --help  show this help message and exit
+</code></pre>
+<h3 id="ora-task"><code>ora task</code></h3>
+<pre class="hl" data-lang="text"><code>usage: ora task [-h] {resolve,run,submit} ...
+
+run a task file (ora.task.v1) many times, changing only what each run needs
+
+positional arguments:
+  {resolve,run,submit}
+    resolve             print the task after overrides
+    run                 run the task once on its binding and wait for it
+    submit              send one run of the task to the scheduler
+
+options:
+  -h, --help            show this help message and exit
+</code></pre>
+<h4 id="ora-task-resolve"><code>ora task resolve</code></h4>
+<pre class="hl" data-lang="text"><code>usage: ora task resolve [-h] [--task CELL] [--seed SEED] [--layout LAYOUT] [--set KEY=VALUE] file
+
+positional arguments:
+  file
+
+options:
+  -h, --help       show this help message and exit
+  --task CELL      the task name
+  --seed SEED
+  --layout LAYOUT
+  --set KEY=VALUE  any other task key (policy.*, budgets.* included); VALUE is YAML
+</code></pre>
+<h4 id="ora-task-run"><code>ora task run</code></h4>
+<pre class="hl" data-lang="text"><code>usage: ora task run [-h] [--resolved RESOLVED] [--task CELL] [--seed SEED] [--layout LAYOUT]
+                    [--set KEY=VALUE] [--binding BINDING] [--summary SUMMARY] [--no-wait]
+                    [file]
+
+positional arguments:
+  file
+
+options:
+  -h, --help           show this help message and exit
+  --resolved RESOLVED  the resolved task as JSON (what submit sends)
+  --task CELL          the task name
+  --seed SEED
+  --layout LAYOUT
+  --set KEY=VALUE      any other task key (policy.*, budgets.* included); VALUE is YAML
+  --binding BINDING    an ora.run-binding.v1 or allocation file (default: ORA_ROUTER_ALLOCATION)
+  --summary SUMMARY    also write the task record here
+  --no-wait            return once the run is launched
+</code></pre>
+<h4 id="ora-task-submit"><code>ora task submit</code></h4>
+<pre class="hl" data-lang="text"><code>usage: ora task submit [-h] [--task CELL] [--seed SEED] [--layout LAYOUT] [--set KEY=VALUE]
+                       [--defaults DEFAULTS] [--scheduler-url SCHEDULER_URL] [--owner OWNER]
+                       [--name NAME] [--priority PRIORITY] [--job-type JOB_TYPE] [--window WINDOW]
+                       [--workspace WORKSPACE] [--pin PIN] [--cpu] [--env NAME=VALUE]
+                       [--env-file NAME=FILE] [--summary SUMMARY] [--print]
+                       file
+
+positional arguments:
+  file
+
+options:
+  -h, --help            show this help message and exit
+  --task CELL           the task name
+  --seed SEED
+  --layout LAYOUT
+  --set KEY=VALUE       any other task key (policy.*, budgets.* included); VALUE is YAML
+  --defaults DEFAULTS   standing request fields (YAML)
+  --scheduler-url SCHEDULER_URL
+  --owner OWNER
+  --name NAME
+  --priority PRIORITY
+  --job-type JOB_TYPE
+  --window WINDOW
+  --workspace WORKSPACE
+  --pin PIN
+  --cpu
+  --env NAME=VALUE
+  --env-file NAME=FILE
+  --summary SUMMARY     the run also writes its task record here (shared storage)
+  --print               print the request instead of sending it
+</code></pre>
+<h3 id="ora-evaluate"><code>ora evaluate</code></h3>
+<pre class="hl" data-lang="text"><code>usage: ora evaluate [-h] run_id
+
+positional arguments:
+  run_id
+
+options:
+  -h, --help  show this help message and exit
+</code></pre>
+<h3 id="ora-seal"><code>ora seal</code></h3>
+<pre class="hl" data-lang="text"><code>usage: ora seal [-h] [--backfill] run_id
+
+positional arguments:
+  run_id
+
+options:
+  -h, --help  show this help message and exit
+  --backfill  seal an old unsealed run with today&#39;s evaluator, pinning its recorded source identity
+              and marking the seal as a backfill
+</code></pre>
+<h3 id="ora-revalidate"><code>ora revalidate</code></h3>
+<pre class="hl" data-lang="text"><code>usage: ora revalidate [-h] [--run-list RUN_LIST] --output-dir OUTPUT_DIR [--workers WORKERS]
+                      [run_dirs ...]
+
+positional arguments:
+  run_dirs
+
+options:
+  -h, --help            show this help message and exit
+  --run-list RUN_LIST   JSON list of absolute run directories
+  --output-dir OUTPUT_DIR
+  --workers WORKERS
+</code></pre>
+<h3 id="ora-export"><code>ora export</code></h3>
+<pre class="hl" data-lang="text"><code>usage: ora export [-h] [--destination DESTINATION] run_id
+
+positional arguments:
+  run_id
+
+options:
+  -h, --help            show this help message and exit
+  --destination DESTINATION
+</code></pre>
+<h3 id="ora-export-sft"><code>ora export-sft</code></h3>
+<pre class="hl" data-lang="text"><code>usage: ora export-sft [-h] [--destination DESTINATION] [--view {sft,wire,openai}] [--check]
+                      [--tokenize-url URL] [--tokenize-key-env NAME]
+                      run_id
+
+positional arguments:
+  run_id
+
+options:
+  -h, --help            show this help message and exit
+  --destination DESTINATION
+  --view {sft,wire,openai}
+                        sft: one training record per accepted call (default); wire: every call as
+                        sent, each image once, rebuilt and checked against the archived requests;
+                        openai: a self-contained package of standard OpenAI conversations with the
+                        wire export, a README and a verify tool
+  --check               with --view wire or openai: check an existing export at --destination
+                        instead of writing one
+  --tokenize-url URL    with --view wire or openai: the serving engine&#39;s tokenize endpoint (vLLM
+                        &lt;root&gt;/tokenize, sglang &lt;root&gt;/v1/tokenize); each policy call&#39;s prompt token
+                        ids are taken from it and checked against the call&#39;s usage
+  --tokenize-key-env NAME
+                        with --tokenize-url: the environment variable holding the endpoint&#39;s bearer
+                        key
+</code></pre>
+<h3 id="ora-report"><code>ora report</code></h3>
+<pre class="hl" data-lang="text"><code>``ora report``: the read-only stop-reason and cost report of runs (``orchestrator.reports.run_report``).
+
+    ora report RUN [RUN ...] [--json FILE] [--markdown FILE]
+    ora report --namespace NS --cohort ID [--cohort ID ...]
+
+The rest of the line goes to the report&#39;s own parser (``ora report --help``).
+</code></pre>
+<p>Runs <code>ora.orchestrator.reports.run_report:main</code> on the rest of the line.</p>
+<h3 id="ora-metadata"><code>ora metadata</code></h3>
+<pre class="hl" data-lang="text"><code>usage: ora metadata [-h] run_id
+
+positional arguments:
+  run_id
+
+options:
+  -h, --help  show this help message and exit
+</code></pre>
+<h3 id="ora-state"><code>ora state</code></h3>
+<pre class="hl" data-lang="text"><code>usage: ora state [-h] [--step STEP] run_id
+
+positional arguments:
+  run_id
+
+options:
+  -h, --help   show this help message and exit
+  --step STEP
+</code></pre>
+<h3 id="ora-metrics"><code>ora metrics</code></h3>
+<pre class="hl" data-lang="text"><code>usage: ora metrics [-h] run_id
+
+positional arguments:
+  run_id
+
+options:
+  -h, --help  show this help message and exit
+</code></pre>
+<h3 id="ora-ownership"><code>ora ownership</code></h3>
+<pre class="hl" data-lang="text"><code>usage: ora ownership [-h] run_id
+
+positional arguments:
+  run_id
+
+options:
+  -h, --help  show this help message and exit
+</code></pre>
+<h3 id="ora-trace-validate"><code>ora trace-validate</code></h3>
+<pre class="hl" data-lang="text"><code>usage: ora trace-validate [-h] run_id
+
+positional arguments:
+  run_id
+
+options:
+  -h, --help  show this help message and exit
+</code></pre>
+<h2 id="environment-qualification-and-suites">Environment qualification and suites</h2>
+<h3 id="ora-spec"><code>ora spec</code></h3>
+<pre class="hl" data-lang="text"><code>``ora spec``: tasks and RunSpecs of one environment, from the RunSpec composer its backend declares.
+
+    ora spec robotwin {tasks,spec,compose} ...        RoboTwin (orchestrator.spec.benchmark)
+    ora spec libero {tasks,spec,compose} ...          a LIBERO base or LIBERO-Pro core suite cell, by its suite
+    ora spec robodojo {tasks,spec,compose} ...        RoboDojo (backends.robodojo.spec)
+    ora spec robocasa {language,compose} ...          RoboCasa365 (backends.robocasa.spec)
+    ora spec robolab {tasks,compose} ...              RoboLab (backends.robolab.spec, task_catalog)
+
+The backend&#39;s ``spec_tools`` (``orchestrator.backends.registry``) name each
+tool; the rest of the line goes to its own parser
+(``ora spec robotwin compose --help``). ``ora spec ENVIRONMENT`` lists them.
+</code></pre>
+<p>Runs <code>ora.app.spec:main</code> on the rest of the line.</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Environment</th>
+<th>Tool</th>
+<th>What it does</th>
+<th>Runs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>robotwin</td>
+<td><code>tasks</code></td>
+<td>list the RoboTwin roster and its public instructions</td>
+<td><code>ora.orchestrator.spec.benchmark:robotwin_main tasks</code></td>
+</tr>
+<tr>
+<td>robotwin</td>
+<td><code>spec</code></td>
+<td>print one task's RunSpec</td>
+<td><code>ora.orchestrator.spec.benchmark:robotwin_main spec</code></td>
+</tr>
+<tr>
+<td>robotwin</td>
+<td><code>compose</code></td>
+<td>write one task's RunSpec and import the seed manifest that admits it</td>
+<td><code>ora.orchestrator.spec.benchmark:robotwin_main compose</code></td>
+</tr>
+<tr>
+<td>libero_pro, libero</td>
+<td><code>tasks</code></td>
+<td>list the LIBERO base suites' and LIBERO-Pro core suites' task languages</td>
+<td><code>ora.orchestrator.spec.benchmark:libero_main tasks</code></td>
+</tr>
+<tr>
+<td>libero_pro, libero</td>
+<td><code>spec</code></td>
+<td>print one suite task's RunSpec</td>
+<td><code>ora.orchestrator.spec.benchmark:libero_main spec</code></td>
+</tr>
+<tr>
+<td>libero_pro, libero</td>
+<td><code>compose</code></td>
+<td>write one suite task's RunSpec</td>
+<td><code>ora.orchestrator.spec.benchmark:libero_main compose</code></td>
+</tr>
+<tr>
+<td>robodojo</td>
+<td><code>tasks</code></td>
+<td>list the contracted tasks with their physics device and limits</td>
+<td><code>ora.orchestrator.backends.robodojo.spec:main tasks</code></td>
+</tr>
+<tr>
+<td>robodojo</td>
+<td><code>spec</code></td>
+<td>print one task's RunSpec</td>
+<td><code>ora.orchestrator.backends.robodojo.spec:main spec</code></td>
+</tr>
+<tr>
+<td>robodojo</td>
+<td><code>compose</code></td>
+<td>write one task's RunSpec</td>
+<td><code>ora.orchestrator.backends.robodojo.spec:main compose</code></td>
+</tr>
+<tr>
+<td>robocasa</td>
+<td><code>language</code></td>
+<td>print the official instruction of one cell</td>
+<td><code>ora.orchestrator.backends.robocasa.spec:main language</code></td>
+</tr>
+<tr>
+<td>robocasa</td>
+<td><code>compose</code></td>
+<td>write one cell's RunSpec</td>
+<td><code>ora.orchestrator.backends.robocasa.spec:main compose</code></td>
+</tr>
+<tr>
+<td>robolab</td>
+<td><code>compose</code></td>
+<td>write one cell's RunSpec</td>
+<td><code>ora.orchestrator.backends.robolab.spec:main</code></td>
+</tr>
+<tr>
+<td>robolab</td>
+<td><code>tasks</code></td>
+<td>list the roster with each task's contract and compatibility state</td>
+<td><code>ora.orchestrator.backends.robolab.task_catalog:main tasks</code></td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="ora-qualify"><code>ora qualify</code></h3>
+<pre class="hl" data-lang="text"><code>``ora qualify``: environment, lane and seed qualification, from the tools each backend declares.
+
+    ora qualify robotwin {configs,prepare,qualify,merge,seal} ...   expert seed scans and their seed manifests
+    ora qualify robodojo {card,task,smoke,revalidate} TASK ...     one lane for the composed RunSpecs
+    ora qualify robodojo {physics-probe,motion-replay,motion-metrics} ...
+    ora qualify libero motion --run RUN --output RECORD ...       scripted sparse-motion record
+    ora qualify robocasa motion --output RECORD ...               scripted sparse-motion record
+    ora qualify robolab motion --gpu N --output RECORD ...        scripted sparse-motion record
+    ora qualify robolab contract-witness --task T --gpu N ...     seed-0 task-contract witnesses
+
+The backend&#39;s ``qualify_tools`` (``orchestrator.backends.registry``) name each
+tool; the rest of the line goes to its own parser
+(``ora qualify robotwin prepare --help``). ``ora qualify ENVIRONMENT`` lists
+them. Free-play scene audits are ``ora play audit``.
+</code></pre>
+<p>Runs <code>ora.app.qualify:main</code> on the rest of the line.</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Environment</th>
+<th>Tool</th>
+<th>What it does</th>
+<th>Runs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>robotwin</td>
+<td><code>configs</code></td>
+<td>print the evaluation protocol and the task roster</td>
+<td><code>ora.orchestrator.backends.robotwin.evaluation_seeds:main configs</code></td>
+</tr>
+<tr>
+<td>robotwin</td>
+<td><code>prepare</code></td>
+<td>plan an expert seed scan of explicit tasks on explicit slots</td>
+<td><code>ora.orchestrator.backends.robotwin.evaluation_seeds:main prepare</code></td>
+</tr>
+<tr>
+<td>robotwin</td>
+<td><code>qualify</code></td>
+<td>run a prepared seed scan (--plan, --confirm) and write its seed manifests</td>
+<td><code>ora.orchestrator.backends.robotwin.evaluation_seeds:main qualify</code></td>
+</tr>
+<tr>
+<td>robotwin</td>
+<td><code>merge</code></td>
+<td>merge a task's scan segments into one first-N seed manifest</td>
+<td><code>ora.orchestrator.backends.robotwin.evaluation_seeds:main merge</code></td>
+</tr>
+<tr>
+<td>robotwin</td>
+<td><code>seal</code></td>
+<td>write interim seed manifests from scans still running</td>
+<td><code>ora.orchestrator.backends.robotwin.evaluation_seeds:main seal</code></td>
+</tr>
+<tr>
+<td>libero_pro, libero</td>
+<td><code>motion</code></td>
+<td>the scripted sparse-motion qualification record</td>
+<td><code>ora.orchestrator.backends.libero_pro.qualification:main</code></td>
+</tr>
+<tr>
+<td>robodojo</td>
+<td><code>motion</code></td>
+<td>scripted sparse-motion qualification with host-owned execution state</td>
+<td><code>ora.orchestrator.backends.robodojo.qualification:main</code></td>
+</tr>
+<tr>
+<td>robodojo</td>
+<td><code>card</code></td>
+<td>the lane's card record: two full-length episodes (35-56 min)</td>
+<td><code>ora.orchestrator.backends.robodojo.lane_qualification:main card</code></td>
+</tr>
+<tr>
+<td>robodojo</td>
+<td><code>task</code></td>
+<td>the lane's round-0 task record on a card record</td>
+<td><code>ora.orchestrator.backends.robodojo.lane_qualification:main task</code></td>
+</tr>
+<tr>
+<td>robodojo</td>
+<td><code>smoke</code></td>
+<td>the bounded scene smoke of one lane</td>
+<td><code>ora.orchestrator.backends.robodojo.lane_qualification:main smoke</code></td>
+</tr>
+<tr>
+<td>robodojo</td>
+<td><code>revalidate</code></td>
+<td>the lane gate, offline</td>
+<td><code>ora.orchestrator.backends.robodojo.lane_qualification:main revalidate</code></td>
+</tr>
+<tr>
+<td>robodojo</td>
+<td><code>physics-probe</code></td>
+<td>the physics scene probe of the CPU-physics lane</td>
+<td><code>ora.orchestrator.backends.robodojo.physics_probe:main</code></td>
+</tr>
+<tr>
+<td>robodojo</td>
+<td><code>motion-replay</code></td>
+<td>control replay of a sealed run (layer L0)</td>
+<td><code>ora.orchestrator.backends.robodojo.motion.replay:main</code></td>
+</tr>
+<tr>
+<td>robodojo</td>
+<td><code>motion-metrics</code></td>
+<td>pinned motion-quality metrics of sealed runs (layer L0)</td>
+<td><code>ora.orchestrator.backends.robodojo.motion.metrics:main</code></td>
+</tr>
+<tr>
+<td>robocasa</td>
+<td><code>motion</code></td>
+<td>the scripted sparse-motion qualification record</td>
+<td><code>ora.orchestrator.backends.robocasa.qualification:main</code></td>
+</tr>
+<tr>
+<td>robolab</td>
+<td><code>motion</code></td>
+<td>the scripted sparse-motion qualification record</td>
+<td><code>ora.orchestrator.backends.robolab.qualification:main</code></td>
+</tr>
+<tr>
+<td>robolab</td>
+<td><code>contract-witness</code></td>
+<td>seed-0 task-contract witnesses; fills the reviews' witness checks</td>
+<td><code>ora.orchestrator.backends.robolab.contract_witness:main</code></td>
+</tr>
+<tr>
+<td>yam</td>
+<td><code>motion</code></td>
+<td>the scripted sparse-motion qualification record (simulated station)</td>
+<td><code>ora.orchestrator.backends.yam.qualification:main</code></td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="ora-suite"><code>ora suite</code></h3>
+<pre class="hl" data-lang="text"><code>``ora suite``: the official-suite queue (``orchestrator.suite.queue``).
+
+    ora suite run --cells CELLS.json --experiment EXP --cohort ID --group G --lanes PROFILE ...
+                  --service-report REPORT --yes        one single-attempt launch per listed cell
+    ora suite status|drain --experiment EXP --group G
+
+The rest of the line goes to the queue&#39;s own parser (``ora suite --help``).
+</code></pre>
+<p>Runs <code>ora.orchestrator.suite.queue:main</code> on the rest of the line.</p>
+<h2 id="configuration">Configuration</h2>
+<h3 id="ora-providers"><code>ora providers</code></h3>
+<pre class="hl" data-lang="text"><code>usage: ora providers [-h] [--json] {key,add,remove,test} ...
+
+``ora providers``: provider profiles and their keys, configured in the terminal.
+
+positional arguments:
+  {key,add,remove,test}
+    key                 enter a profile&#39;s key (not echoed) and store it outside the run
+    add                 add an OpenAI-compatible or Anthropic endpoint of your own
+    remove              remove a profile added here
+    test                probe a profile&#39;s provider with its key
+
+options:
+  -h, --help            show this help message and exit
+  --json
+</code></pre>
+<h4 id="ora-providers-key"><code>ora providers key</code></h4>
+<pre class="hl" data-lang="text"><code>usage: ora providers key [-h] [--remove] [--stdin] [--no-test] PROFILE|VARIABLE
+
+positional arguments:
+  PROFILE|VARIABLE
+
+options:
+  -h, --help        show this help message and exit
+  --remove          remove the stored key instead
+  --stdin           read the key from standard input
+  --no-test         store it without probing the provider
+</code></pre>
+<h4 id="ora-providers-add"><code>ora providers add</code></h4>
+<pre class="hl" data-lang="text"><code>usage: ora providers add [-h] --protocol {anthropic_messages,openai_compatible} --endpoint ENDPOINT
+                         --model MODEL [--images] [--context-window N] [--max-output N]
+                         [--reasoning-effort REASONING_EFFORT] [--request-options JSON]
+                         [--recovery-window SECONDS] [--key-env KEY_ENV] [--no-key] [--stdin]
+                         [--no-test]
+                         ID
+
+positional arguments:
+  ID
+
+options:
+  -h, --help            show this help message and exit
+  --protocol {anthropic_messages,openai_compatible}
+  --endpoint ENDPOINT   https://..., or http://127.0.0.1:PORT/... on this machine
+  --model MODEL         the model id the endpoint serves
+  --images              the model reads images
+  --context-window N    the model&#39;s context window in tokens (default 131072)
+  --max-output N        the reply&#39;s token limit (default 8192)
+  --reasoning-effort REASONING_EFFORT
+  --request-options JSON
+                        request fields every call adds (openai_compatible): temperature, top_p,
+                        top_k, chat_template_kwargs, reasoning, provider, return_token_ids (vLLM);
+                        e.g. &#39;{&quot;temperature&quot;:0.6,&quot;chat_template_kwargs&quot;:{&quot;enable_thinking&quot;:true}}&#39;
+  --recovery-window SECONDS
+                        how long each attempt may wait for its first token, and how long failures
+                        before any content are retried before the call ends, 30..1800 s (default
+                        180); raise it for a slow self-hosted model
+  --key-env KEY_ENV     the key&#39;s variable (default ORA_&lt;ID&gt;_API_KEY)
+  --no-key              add the profile without entering a key
+  --stdin               read the key from standard input
+  --no-test             add it without probing the provider
+</code></pre>
+<h4 id="ora-providers-remove"><code>ora providers remove</code></h4>
+<pre class="hl" data-lang="text"><code>usage: ora providers remove [-h] [--keep-key] ID
+
+positional arguments:
+  ID
+
+options:
+  -h, --help  show this help message and exit
+  --keep-key  keep its stored key
+</code></pre>
+<h4 id="ora-providers-test"><code>ora providers test</code></h4>
+<pre class="hl" data-lang="text"><code>usage: ora providers test [-h] PROFILE
+
+positional arguments:
+  PROFILE
+
+options:
+  -h, --help  show this help message and exit
+</code></pre>
+<h3 id="ora-services"><code>ora services</code></h3>
+<pre class="hl" data-lang="text"><code>usage: ora services [-h] [--state STATE] {start,status,stop,qualify}
+
+``ora services``: operate the resident SAM3 and Contact-GraspNet services from the shared workspace.
+
+    ora services start|status|stop|qualify [--state DIR]
+
+`start` reads the `ORA_SAM_*` / `ORA_GRASP_*` selectors and the `ORA_SAM_PORT` /
+`ORA_GRASP_PORT` ports from the environment, `status` reports readiness,
+`stop` refuses while Runtime leases exist (and exits 1 naming any service it
+left running because it could not prove that process&#39;s identity), and `qualify` writes the
+hash-named readiness report a launch binds. The host layer supplies the
+workspace and Runtime state roots; the service module resolves no paths.
+
+positional arguments:
+  {start,status,stop,qualify}
+
+options:
+  -h, --help            show this help message and exit
+  --state STATE         service state and log directory (default: model-services under the
+                        configured output storage; services started by the retired scripts/b2 used
+                        b2-model-services)
+</code></pre>
+<h3 id="ora-cell"><code>ora cell</code></h3>
+<pre class="hl" data-lang="text"><code>usage: ora cell [-h] ACTION ...
+
+``ora cell``: set up, watch and recover a real robot cell (``ora/cell``, docs/usage/real-cells.md).
+
+    ora cell init [--example PATH]          validate the cell config against its robot, list devices
+    ora cell check                          buses, other controllers, cameras and their depth
+    ora cell read | record-rest             the arms, read without enabling anything
+    ora cell grippers [--orient]            each gripper opens and closes once to find its limits;
+                                            then (or with --orient alone, nothing moving) you say which way each is
+    ora cell calibrate --method arm-poses|board-poses|board-relative|charuco|wrists [--square-mm N] [--pattern CxR] [--role R]
+    ora cell calibrate --method hand-eye [--square-mm N] [--pattern CxR] [--placements N] [--arms A,B]
+                       [--records DIR ...] [--ask terminal|broker]
+    ora cell setup [--status] [--redo STEP ...] [--only STEP ...]
+                                            a new cell, step by step: devices, rest, grippers, fixed cameras,
+                                            hand-eye calibration, table, verify (what is not done yet)
+    ora cell board [--port 8765]            the operator&#39;s page: state, live cloud, verbs
+    ora cell depth-service [...]            the depth completion service (ora.cell.depth.service)
+    ora cell home | hold | float | release | estop | diagnose | stop | kill | cameras | can
+    ora cell pending | approve [--id ID] [--value V] | decline [--id ID] [--reason TEXT]
+    ora cell auto-approve [on|off|status]   motions of the running play worker answer themselves
+    ora cell mode [ask|safe|auto|status]    the permission mode: every motion asked, small ones not, or none
+    ora cell stop-motion                    the running motion ends where the arms are; they stay held there
+    ora cell sim init PATH | status | place X Y [--yaw DEG] | clear | operator [--seconds S]
+                                            a simulated cell (``robot.sim``): write one, compare its
+                                            calibration with the injected truth, move its board, answer
+                                            its questions as the person at the cell would
+
+Every command reads the cell config (``--cell``, else ``$ORA_CELL``, else
+``~/.config/ora/cell.yaml``). The operator verbs (home ... can) act at once, also while a
+play session moves the arms; ``hold`` and ``float`` keep the arms held and so need a
+running cell board, which they reach over HTTP; with a board running every verb goes
+through it. ``--json`` prints ``{&quot;ok&quot;: true, &quot;result&quot;: ...}`` or ``{&quot;ok&quot;: false,
+&quot;error&quot;: ...}`` (exit 1); ``--yes`` skips the confirmation of verbs that make arms limp
+or move them by hand.
+
+``calibrate --method hand-eye`` is the guided calibration of a new cell
+(``ora/cell/operator/handeye.py``): the person places a checkerboard a few times, the arms
+look at it, and one fit measures the fixed cameras, the wrist cameras&#39; mounts, the arms&#39;
+bases and their joint zeros; it asks every step (place the board, each motion, the
+measured square, writing the result) on this terminal, or through the approval broker
+when it has none (``--ask broker``) and prints its progress on stderr (JSON lines with
+``--json``). ``--records`` fits earlier captures again without moving anything.
+
+``pending``, ``approve`` and ``decline`` answer the questions a robot&#39;s worker asks the
+operator (enable the arms, run a motion, release arms that could not get home): they
+read and write only the cell&#39;s approval files (``$ORA_CELL_APPROVALS``, else beside the
+cell lock), never the lock or the hardware. An answer names the question&#39;s ``--id``
+(``pending`` lists them); without one, on a terminal, the one waiting question is shown
+and answered after a yes.
+
+``auto-approve on`` (the operator&#39;s &quot;YOLO&quot; switch) makes the play worker that drives the
+arms now (``rig_mode on``) answer its own motion questions; enabling the arms and releasing
+them are still asked. ``off`` turns it off; ``status`` (the default) says whether it is on.
+It too touches only the approval files: the switch lives for that worker only, and a new
+worker clears it unless its run was started with ``ora play ... --auto-approve``.
+
+A simulated cell (``robot.sim: true``, docs/usage/real-cells.md) runs every command above
+with no hardware: the robot&#39;s simulated adapter renders its cameras and moves kinematic
+arms. Its lock, approvals and alerts live in its state directory unless
+``ORA_CELL_LOCK``, ``ORA_CELL_APPROVALS`` or ``ORA_CELL_ALERTS`` name others, so it never
+shares them with a real cell. ``ora cell sim init PATH`` writes such a config;
+``sim status`` compares the calibration with the errors the simulation injected (its
+``world.json``), ``sim place`` and ``sim clear`` move the checkerboard, and ``sim operator``
+is the person at the cell: it answers the broker&#39;s questions (board placements, motions,
+square size, which way a gripper opens, writing) until stopped.
+
+positional arguments:
+  ACTION
+    init         validate the cell config, list devices
+    check        buses, other controllers, cameras
+    read         the arms, read without enabling
+    record-rest  record the rest pose
+    grippers     find each gripper&#39;s limits (opens and closes once)
+    calibrate    place the fixed cameras
+    setup        a new cell, step by step
+    board        the operator&#39;s page
+    depth-service
+                 the depth completion service
+    home         arms back to rest, then released
+    hold         hold the arms where they are (needs a board)
+    float        float the arms for hand guiding (needs a board)
+    release      the arms go limp
+    estop        disable every motor, whoever holds the cell
+    diagnose     who holds the cell, faults, rest
+    stop         ask the holder to home and release
+    kill         end the holder
+    cameras      hardware-reset the cameras
+    can          re-initialise the buses (sudo)
+    pending      the worker&#39;s questions waiting for an answer
+    approve      approve one waiting question (by --id)
+    decline      decline one waiting question (by --id)
+    auto-approve
+                 the running worker&#39;s motions answer themselves (on|off|status)
+    mode         the permission mode (ask|safe|auto|status)
+    stop-motion  end the running motion where the arms are, and hold there
+    sim          a simulated cell: init, status, place, clear, operator
+
+options:
+  -h, --help     show this help message and exit
+</code></pre>
+<h4 id="ora-cell-init"><code>ora cell init</code></h4>
+<pre class="hl" data-lang="text"><code>usage: ora cell init [-h] [--cell CELL] [--json] [--yes] [--board-port BOARD_PORT]
+                     [--example EXAMPLE]
+
+options:
+  -h, --help            show this help message and exit
+  --cell CELL           the cell config (default: $ORA_CELL, else ~/.config/ora/cell.yaml)
+  --json                print one JSON object
+  --yes                 skip confirmations
+  --board-port BOARD_PORT
+                        the port a running cell board serves on
+  --example EXAMPLE     write an example cell config here and stop
+</code></pre>
+<h4 id="ora-cell-check"><code>ora cell check</code></h4>
+<pre class="hl" data-lang="text"><code>usage: ora cell check [-h] [--cell CELL] [--json] [--yes] [--board-port BOARD_PORT]
+
+options:
+  -h, --help            show this help message and exit
+  --cell CELL           the cell config (default: $ORA_CELL, else ~/.config/ora/cell.yaml)
+  --json                print one JSON object
+  --yes                 skip confirmations
+  --board-port BOARD_PORT
+                        the port a running cell board serves on
+</code></pre>
+<h4 id="ora-cell-read"><code>ora cell read</code></h4>
+<pre class="hl" data-lang="text"><code>usage: ora cell read [-h] [--cell CELL] [--json] [--yes] [--board-port BOARD_PORT]
+
+options:
+  -h, --help            show this help message and exit
+  --cell CELL           the cell config (default: $ORA_CELL, else ~/.config/ora/cell.yaml)
+  --json                print one JSON object
+  --yes                 skip confirmations
+  --board-port BOARD_PORT
+                        the port a running cell board serves on
+</code></pre>
+<h4 id="ora-cell-record-rest"><code>ora cell record-rest</code></h4>
+<pre class="hl" data-lang="text"><code>usage: ora cell record-rest [-h] [--cell CELL] [--json] [--yes] [--board-port BOARD_PORT]
+
+options:
+  -h, --help            show this help message and exit
+  --cell CELL           the cell config (default: $ORA_CELL, else ~/.config/ora/cell.yaml)
+  --json                print one JSON object
+  --yes                 skip confirmations
+  --board-port BOARD_PORT
+                        the port a running cell board serves on
+</code></pre>
+<h4 id="ora-cell-grippers"><code>ora cell grippers</code></h4>
+<pre class="hl" data-lang="text"><code>usage: ora cell grippers [-h] [--cell CELL] [--json] [--yes] [--board-port BOARD_PORT]
+                         [--ask {terminal,broker}] [--orient] [--no-save]
+
+options:
+  -h, --help            show this help message and exit
+  --cell CELL           the cell config (default: $ORA_CELL, else ~/.config/ora/cell.yaml)
+  --json                print one JSON object
+  --yes                 skip confirmations
+  --board-port BOARD_PORT
+                        the port a running cell board serves on
+  --ask {terminal,broker}
+                        where to ask the person (default: the terminal when there is one)
+  --orient              only check which way each gripper opens (nothing moves)
+  --no-save             report without saving
+</code></pre>
+<h4 id="ora-cell-calibrate"><code>ora cell calibrate</code></h4>
+<pre class="hl" data-lang="text"><code>usage: ora cell calibrate [-h] [--cell CELL] [--json] [--yes] [--board-port BOARD_PORT] --method
+                          {arm-poses,board-poses,board-relative,charuco,wrists,hand-eye}
+                          [--reference REFERENCE] [--pattern PATTERN] [--role ROLE]
+                          [--square-mm SQUARE_MM] [--placements PLACEMENTS] [--arms ARMS]
+                          [--records RECORDS [RECORDS ...]] [--ask {terminal,broker}] [--no-save]
+
+options:
+  -h, --help            show this help message and exit
+  --cell CELL           the cell config (default: $ORA_CELL, else ~/.config/ora/cell.yaml)
+  --json                print one JSON object
+  --yes                 skip confirmations
+  --board-port BOARD_PORT
+                        the port a running cell board serves on
+  --method {arm-poses,board-poses,board-relative,charuco,wrists,hand-eye}
+  --reference REFERENCE
+                        --method board-relative: a placed fixed camera that also sees the board
+  --pattern PATTERN     --method board-poses|board-relative|hand-eye: inner corners COLSxROWS of a
+                        plain checkerboard
+  --role ROLE           --method wrists: the fixed camera to place
+  --square-mm SQUARE_MM
+                        --method charuco|board-*|hand-eye: one square, measured
+  --placements PLACEMENTS
+                        --method hand-eye: how many board placements (default 5)
+  --arms ARMS           --method hand-eye: the arms that look, comma-separated (default: every arm)
+  --records RECORDS [RECORDS ...]
+                        --method hand-eye: fit these earlier placements again; nothing moves
+  --ask {terminal,broker}
+                        where to ask the person (default: the terminal when there is one)
+  --no-save             report without saving
+</code></pre>
+<h4 id="ora-cell-setup"><code>ora cell setup</code></h4>
+<pre class="hl" data-lang="text"><code>usage: ora cell setup [-h] [--cell CELL] [--json] [--yes] [--board-port BOARD_PORT] [--status]
+                      [--redo STEP [STEP ...]] [--only STEP [STEP ...]] [--ask {terminal,broker}]
+
+options:
+  -h, --help            show this help message and exit
+  --cell CELL           the cell config (default: $ORA_CELL, else ~/.config/ora/cell.yaml)
+  --json                print one JSON object
+  --yes                 skip confirmations
+  --board-port BOARD_PORT
+                        the port a running cell board serves on
+  --status              only say what is done and what comes next
+  --redo STEP [STEP ...]
+                        do these steps again
+  --only STEP [STEP ...]
+                        do only these steps
+  --ask {terminal,broker}
+                        where to ask the person (default: the terminal when there is one)
+</code></pre>
+<h4 id="ora-cell-board"><code>ora cell board</code></h4>
+<pre class="hl" data-lang="text"><code>usage: ora cell board [-h] [--cell CELL] [--json] [--yes] [--board-port BOARD_PORT] [--port PORT]
+                      [--host HOST] [--depth-service DEPTH_SERVICE]
+
+options:
+  -h, --help            show this help message and exit
+  --cell CELL           the cell config (default: $ORA_CELL, else ~/.config/ora/cell.yaml)
+  --json                print one JSON object
+  --yes                 skip confirmations
+  --board-port BOARD_PORT
+                        the port a running cell board serves on
+  --port PORT           the port to serve on (default 8765)
+  --host HOST           the address to serve on
+  --depth-service DEPTH_SERVICE
+                        a depth service URL (default: the cell config&#39;s)
+</code></pre>
+<h4 id="ora-cell-depth-service"><code>ora cell depth-service</code></h4>
+<pre class="hl" data-lang="text"><code>usage: ora cell depth-service ...
+
+positional arguments:
+  rest  arguments of ora.cell.depth.service
+</code></pre>
+<h4 id="ora-cell-home"><code>ora cell home</code></h4>
+<pre class="hl" data-lang="text"><code>usage: ora cell home [-h] [--cell CELL] [--json] [--yes] [--board-port BOARD_PORT]
+
+options:
+  -h, --help            show this help message and exit
+  --cell CELL           the cell config (default: $ORA_CELL, else ~/.config/ora/cell.yaml)
+  --json                print one JSON object
+  --yes                 skip confirmations
+  --board-port BOARD_PORT
+                        the port a running cell board serves on
+</code></pre>
+<h4 id="ora-cell-hold"><code>ora cell hold</code></h4>
+<pre class="hl" data-lang="text"><code>usage: ora cell hold [-h] [--cell CELL] [--json] [--yes] [--board-port BOARD_PORT]
+
+options:
+  -h, --help            show this help message and exit
+  --cell CELL           the cell config (default: $ORA_CELL, else ~/.config/ora/cell.yaml)
+  --json                print one JSON object
+  --yes                 skip confirmations
+  --board-port BOARD_PORT
+                        the port a running cell board serves on
+</code></pre>
+<h4 id="ora-cell-float"><code>ora cell float</code></h4>
+<pre class="hl" data-lang="text"><code>usage: ora cell float [-h] [--cell CELL] [--json] [--yes] [--board-port BOARD_PORT]
+
+options:
+  -h, --help            show this help message and exit
+  --cell CELL           the cell config (default: $ORA_CELL, else ~/.config/ora/cell.yaml)
+  --json                print one JSON object
+  --yes                 skip confirmations
+  --board-port BOARD_PORT
+                        the port a running cell board serves on
+</code></pre>
+<h4 id="ora-cell-release"><code>ora cell release</code></h4>
+<pre class="hl" data-lang="text"><code>usage: ora cell release [-h] [--cell CELL] [--json] [--yes] [--board-port BOARD_PORT]
+
+options:
+  -h, --help            show this help message and exit
+  --cell CELL           the cell config (default: $ORA_CELL, else ~/.config/ora/cell.yaml)
+  --json                print one JSON object
+  --yes                 skip confirmations
+  --board-port BOARD_PORT
+                        the port a running cell board serves on
+</code></pre>
+<h4 id="ora-cell-estop"><code>ora cell estop</code></h4>
+<pre class="hl" data-lang="text"><code>usage: ora cell estop [-h] [--cell CELL] [--json] [--yes] [--board-port BOARD_PORT]
+
+options:
+  -h, --help            show this help message and exit
+  --cell CELL           the cell config (default: $ORA_CELL, else ~/.config/ora/cell.yaml)
+  --json                print one JSON object
+  --yes                 skip confirmations
+  --board-port BOARD_PORT
+                        the port a running cell board serves on
+</code></pre>
+<h4 id="ora-cell-diagnose"><code>ora cell diagnose</code></h4>
+<pre class="hl" data-lang="text"><code>usage: ora cell diagnose [-h] [--cell CELL] [--json] [--yes] [--board-port BOARD_PORT]
+
+options:
+  -h, --help            show this help message and exit
+  --cell CELL           the cell config (default: $ORA_CELL, else ~/.config/ora/cell.yaml)
+  --json                print one JSON object
+  --yes                 skip confirmations
+  --board-port BOARD_PORT
+                        the port a running cell board serves on
+</code></pre>
+<h4 id="ora-cell-stop"><code>ora cell stop</code></h4>
+<pre class="hl" data-lang="text"><code>usage: ora cell stop [-h] [--cell CELL] [--json] [--yes] [--board-port BOARD_PORT]
+
+options:
+  -h, --help            show this help message and exit
+  --cell CELL           the cell config (default: $ORA_CELL, else ~/.config/ora/cell.yaml)
+  --json                print one JSON object
+  --yes                 skip confirmations
+  --board-port BOARD_PORT
+                        the port a running cell board serves on
+</code></pre>
+<h4 id="ora-cell-kill"><code>ora cell kill</code></h4>
+<pre class="hl" data-lang="text"><code>usage: ora cell kill [-h] [--cell CELL] [--json] [--yes] [--board-port BOARD_PORT]
+
+options:
+  -h, --help            show this help message and exit
+  --cell CELL           the cell config (default: $ORA_CELL, else ~/.config/ora/cell.yaml)
+  --json                print one JSON object
+  --yes                 skip confirmations
+  --board-port BOARD_PORT
+                        the port a running cell board serves on
+</code></pre>
+<h4 id="ora-cell-cameras"><code>ora cell cameras</code></h4>
+<pre class="hl" data-lang="text"><code>usage: ora cell cameras [-h] [--cell CELL] [--json] [--yes] [--board-port BOARD_PORT]
+
+options:
+  -h, --help            show this help message and exit
+  --cell CELL           the cell config (default: $ORA_CELL, else ~/.config/ora/cell.yaml)
+  --json                print one JSON object
+  --yes                 skip confirmations
+  --board-port BOARD_PORT
+                        the port a running cell board serves on
+</code></pre>
+<h4 id="ora-cell-can"><code>ora cell can</code></h4>
+<pre class="hl" data-lang="text"><code>usage: ora cell can [-h] [--cell CELL] [--json] [--yes] [--board-port BOARD_PORT]
+
+options:
+  -h, --help            show this help message and exit
+  --cell CELL           the cell config (default: $ORA_CELL, else ~/.config/ora/cell.yaml)
+  --json                print one JSON object
+  --yes                 skip confirmations
+  --board-port BOARD_PORT
+                        the port a running cell board serves on
+</code></pre>
+<h4 id="ora-cell-pending"><code>ora cell pending</code></h4>
+<pre class="hl" data-lang="text"><code>usage: ora cell pending [-h] [--cell CELL] [--json] [--yes] [--board-port BOARD_PORT]
+
+options:
+  -h, --help            show this help message and exit
+  --cell CELL           the cell config (default: $ORA_CELL, else ~/.config/ora/cell.yaml)
+  --json                print one JSON object
+  --yes                 skip confirmations
+  --board-port BOARD_PORT
+                        the port a running cell board serves on
+</code></pre>
+<h4 id="ora-cell-approve"><code>ora cell approve</code></h4>
+<pre class="hl" data-lang="text"><code>usage: ora cell approve [-h] [--cell CELL] [--json] [--yes] [--board-port BOARD_PORT] [--id ID]
+                        [--by BY] [--value VALUE]
+
+options:
+  -h, --help            show this help message and exit
+  --cell CELL           the cell config (default: $ORA_CELL, else ~/.config/ora/cell.yaml)
+  --json                print one JSON object
+  --yes                 skip confirmations
+  --board-port BOARD_PORT
+                        the port a running cell board serves on
+  --id ID               the question&#39;s id (`ora cell pending`); required with --json or no terminal
+  --by BY               who answers, kept with the answer
+  --value VALUE         the answer to a value question (a measured length, ...)
+</code></pre>
+<h4 id="ora-cell-decline"><code>ora cell decline</code></h4>
+<pre class="hl" data-lang="text"><code>usage: ora cell decline [-h] [--cell CELL] [--json] [--yes] [--board-port BOARD_PORT] [--id ID]
+                        [--by BY] [--reason REASON]
+
+options:
+  -h, --help            show this help message and exit
+  --cell CELL           the cell config (default: $ORA_CELL, else ~/.config/ora/cell.yaml)
+  --json                print one JSON object
+  --yes                 skip confirmations
+  --board-port BOARD_PORT
+                        the port a running cell board serves on
+  --id ID               the question&#39;s id (`ora cell pending`); required with --json or no terminal
+  --by BY               who answers, kept with the answer
+  --reason REASON       why not; a declined motion&#39;s reason reaches the agent
+</code></pre>
+<h4 id="ora-cell-auto-approve"><code>ora cell auto-approve</code></h4>
+<pre class="hl" data-lang="text"><code>usage: ora cell auto-approve [-h] [--cell CELL] [--json] [--yes] [--board-port BOARD_PORT] [--by BY]
+                             [{on,off,status}]
+
+positional arguments:
+  {on,off,status}       on: motions run without asking (enabling and releasing are still asked);
+                        off; status (default)
+
+options:
+  -h, --help            show this help message and exit
+  --cell CELL           the cell config (default: $ORA_CELL, else ~/.config/ora/cell.yaml)
+  --json                print one JSON object
+  --yes                 skip confirmations
+  --board-port BOARD_PORT
+                        the port a running cell board serves on
+  --by BY               who turns it on, kept with every auto-approval
+</code></pre>
+<h4 id="ora-cell-mode"><code>ora cell mode</code></h4>
+<pre class="hl" data-lang="text"><code>usage: ora cell mode [-h] [--cell CELL] [--json] [--yes] [--board-port BOARD_PORT] [--by BY]
+                     [{ask,safe,auto,status}]
+
+positional arguments:
+  {ask,safe,auto,status}
+                        ask: every motion waits for a person; safe: a motion inside the safe limits
+                        runs without asking; auto: every motion of the running worker does; status
+                        (default). Enabling and releasing the arms are always asked
+
+options:
+  -h, --help            show this help message and exit
+  --cell CELL           the cell config (default: $ORA_CELL, else ~/.config/ora/cell.yaml)
+  --json                print one JSON object
+  --yes                 skip confirmations
+  --board-port BOARD_PORT
+                        the port a running cell board serves on
+  --by BY               who sets it, kept with every self-answered motion
+</code></pre>
+<h4 id="ora-cell-stop-motion"><code>ora cell stop-motion</code></h4>
+<pre class="hl" data-lang="text"><code>usage: ora cell stop-motion [-h] [--cell CELL] [--json] [--yes] [--board-port BOARD_PORT] [--by BY]
+                            [--withdraw]
+
+options:
+  -h, --help            show this help message and exit
+  --cell CELL           the cell config (default: $ORA_CELL, else ~/.config/ora/cell.yaml)
+  --json                print one JSON object
+  --yes                 skip confirmations
+  --board-port BOARD_PORT
+                        the port a running cell board serves on
+  --by BY               who stops it, kept with the stop
+  --withdraw            take back a stop nobody has read yet
+</code></pre>
+<h4 id="ora-cell-sim"><code>ora cell sim</code></h4>
+<pre class="hl" data-lang="text"><code>usage: ora cell sim [-h] [--cell CELL] [--json] [--yes] [--board-port BOARD_PORT] [--yaw YAW]
+                    [--seconds SECONDS] [--python PYTHON]
+                    {init,status,place,clear,operator} [values ...]
+
+positional arguments:
+  {init,status,place,clear,operator}
+                        init PATH: write a simulated cell config; status: the truth against the
+                        calibration; place X Y: the board&#39;s middle at (X, Y) m on the table; clear:
+                        the board off the table; operator: answer the cell&#39;s questions until stopped
+  values                init: the config&#39;s path; place: X Y in metres
+
+options:
+  -h, --help            show this help message and exit
+  --cell CELL           the cell config (default: $ORA_CELL, else ~/.config/ora/cell.yaml)
+  --json                print one JSON object
+  --yes                 skip confirmations
+  --board-port BOARD_PORT
+                        the port a running cell board serves on
+  --yaw YAW             place: the board&#39;s turn, degrees
+  --seconds SECONDS     operator: stop after this long (default: Ctrl-C)
+  --python PYTHON       init: the interpreter with MuJoCo and i2rt (default: this one)
+</code></pre>
+<h3 id="ora-baselines"><code>ora baselines</code></h3>
+<pre class="hl" data-lang="text"><code>usage: ora baselines [-h] [--json] [--explain] [--environment KIND]
+
+options:
+  -h, --help          show this help message and exit
+  --json
+  --explain           show how the default resolves and what each tool does
+  --environment KIND  with --explain, show only this environment instance
+</code></pre>
+<h3 id="ora-lock"><code>ora lock</code></h3>
+<pre class="hl" data-lang="text"><code>usage: ora lock [-h] [--check] [--strip-pins]
+
+options:
+  -h, --help    show this help message and exit
+  --check       exit 1 and list drift instead of writing
+  --strip-pins  rewrite composable assets to path-only references, then write policy.lock
+</code></pre>
+<h2 id="developer">Developer</h2>
+<h3 id="ora-toolkit"><code>ora toolkit</code></h3>
+<pre class="hl" data-lang="text"><code>usage: ora toolkit [-h] {provider-replay,replay} ...
+
+positional arguments:
+  {provider-replay,replay}
+    provider-replay     serve recorded model replies or compare complete requests
+    replay              run a script before a recorded parent tool call
+
+options:
+  -h, --help            show this help message and exit
+</code></pre>
+<h4 id="ora-toolkit-provider-replay"><code>ora toolkit provider-replay</code></h4>
+<pre class="hl" data-lang="text"><code>usage: ora toolkit provider-replay [-h] {serve,compare} ...
+
+positional arguments:
+  {serve,compare}
+    serve          serve a read-only reply tape; does not start ORA
+    compare        compare every request, with per-image PSNR
+
+options:
+  -h, --help       show this help message and exit
+</code></pre>
+<h5 id="ora-toolkit-provider-replay-serve"><code>ora toolkit provider-replay serve</code></h5>
+<pre class="hl" data-lang="text"><code>usage: ora toolkit provider-replay serve [-h] --output OUTPUT [--listen LISTEN] [--port PORT]
+                                         [--ready-file READY_FILE]
+                                         source
+
+positional arguments:
+  source
+
+options:
+  -h, --help            show this help message and exit
+  --output OUTPUT
+  --listen LISTEN
+  --port PORT
+  --ready-file READY_FILE
+                        atomically publish the bound endpoint (port 0 supported)
+</code></pre>
+<h5 id="ora-toolkit-provider-replay-compare"><code>ora toolkit provider-replay compare</code></h5>
+<pre class="hl" data-lang="text"><code>usage: ora toolkit provider-replay compare [-h] --output OUTPUT source candidate
+
+positional arguments:
+  source
+  candidate
+
+options:
+  -h, --help       show this help message and exit
+  --output OUTPUT
+</code></pre>
+<h4 id="ora-toolkit-replay"><code>ora toolkit replay</code></h4>
+<pre class="hl" data-lang="text"><code>usage: ora toolkit replay [-h] [--at AT | --step STEP | --native-action NATIVE_ACTION] [--snapshot]
+                          (--list | --script SCRIPT | --tool TOOL) [--args ARGS]
+                          [--service-report SERVICE_REPORT] [--output OUTPUT] [--live]
+                          [--resource-profile RESOURCE_PROFILE] [--execute-action] [--json]
+                          run
+
+positional arguments:
+  run                   source run directory (read-only)
+
+options:
+  -h, --help            show this help message and exit
+  --at AT               parent tool_call_id or zero-based call ordinal; legacy diagnostic unless
+                        --snapshot
+  --step STEP           completed policy-state step; implies snapshot replay, no simulator/actions
+  --native-action NATIVE_ACTION
+                        completed native tick count N: state at end of controller native_action=N;
+                        N=0 is reset/before any native action; requires --resource-profile; implies
+                        snapshot, forbids new actions
+  --snapshot            phase-one snapshot path: original bytes and private tool state; planner
+                        requires simulator
+  --list                list parent calls and recording/gap availability
+  --script SCRIPT       Python file defining run(api, args)
+  --tool TOOL           run a migrated tool from the source surface, or check_task, at the selected
+                        boundary
+  --args ARGS           JSON object; required for a different tool, otherwise defaults to original
+                        arguments
+  --service-report SERVICE_REPORT
+                        qualified perception report, as for spec robodojo compose
+  --output OUTPUT       new output directory; default workspace/toolkit-replay/run_id/UTC-random
+                        outside runs
+  --live                restore a simulator on an already allocated resource profile
+  --resource-profile RESOURCE_PROFILE
+                        caller-allocated live simulator lane
+  --execute-action      execute one live proposal after the tool returns
+  --json                print machine-readable list or result including output path
+</code></pre>
+<h3 id="ora-dev"><code>ora dev</code></h3>
+<pre class="hl" data-lang="text"><code>usage: ora dev [-h] &lt;tool&gt; ...
+
+``ora dev``: authoring tools for embodiments, prompt bundles, task contracts and this CLI.
+
+    ora dev embodiment ...          validate and compile embodiment descriptors into cards
+    ora dev prompt-bundle ...       create or statically audit one modular prompt bundle
+    ora dev task-contracts ...      the offline task-contract review inventory and rendering
+    ora dev robolab-tasks ...       RoboLab-120&#39;s roster, contracts and review drafts from the pinned source
+    ora dev cli-reference ...       docs/usage/cli-reference.md, generated from ora&#39;s parser
+
+The rest of the line goes to the tool&#39;s own parser (``ora dev prompt-bundle --help``).
+The Viewer&#39;s own build steps are ``ora-viewer compile previews|videos`` (``viewer/``).
+
+positional arguments:
+  &lt;tool&gt;
+    embodiment    validate and compile policy-safe embodiment descriptors into cards
+    prompt-bundle
+                  create or statically audit one modular robot prompt bundle
+    task-contracts
+                  offline task-contract review inventory, private template and public rendering
+    robolab-tasks
+                  generate RoboLab-120&#39;s roster, completion contracts and review drafts; promote
+                  witnessed ones
+    cli-reference
+                  print, write or check docs/usage/cli-reference.md
+
+options:
+  -h, --help      show this help message and exit
+</code></pre>
+<h4 id="ora-dev-embodiment"><code>ora dev embodiment</code></h4>
+<pre class="hl" data-lang="text"><code>validate and compile policy-safe embodiment descriptors into cards
+</code></pre>
+<p>Runs <code>ora.agent.composition.embodiment.descriptor:main</code> on the rest of the line.</p>
+<h4 id="ora-dev-prompt-bundle"><code>ora dev prompt-bundle</code></h4>
+<pre class="hl" data-lang="text"><code>create or statically audit one modular robot prompt bundle
+</code></pre>
+<p>Runs <code>ora.agent.composition.prompt.bundle:main</code> on the rest of the line.</p>
+<h4 id="ora-dev-task-contracts"><code>ora dev task-contracts</code></h4>
+<pre class="hl" data-lang="text"><code>offline task-contract review inventory, private template and public rendering
+</code></pre>
+<p>Runs <code>ora.agent.composition.task_contract.review:main</code> on the rest of the line.</p>
+<h4 id="ora-dev-robolab-tasks"><code>ora dev robolab-tasks</code></h4>
+<pre class="hl" data-lang="text"><code>generate RoboLab-120&#39;s roster, completion contracts and review drafts; promote witnessed ones
+</code></pre>
+<p>Runs <code>ora.orchestrator.backends.robolab.task_catalog:main</code> on the rest of the line.</p>
+<h4 id="ora-dev-cli-reference"><code>ora dev cli-reference</code></h4>
+<pre class="hl" data-lang="text"><code>print, write or check docs/usage/cli-reference.md
+</code></pre>
+<p>Runs <code>ora.app.cli_reference:main</code> on the rest of the line.</p>
+<h3 id="ora-help"><code>ora help</code></h3>
+<pre class="hl" data-lang="text"><code>usage: ora help [-h] [COMMAND|TOPIC|topics ...]
+
+Print the overview, one command&#39;s help, or a topic page (ora help topics lists them). A topic comes
+before the command of the same name: ora help play is the page, ora play --help the command&#39;s
+options.
+
+positional arguments:
+  COMMAND|TOPIC|topics  a command (and its subcommands), a topic page, or `topics` to list them
+
+options:
+  -h, --help            show this help message and exit
+</code></pre>
+</article><nav class="pager" aria-label="Previous and next"><a class="prev" href="../commands/index.html"><small>← Previous</small>Commands and what they write</a><a class="next" href="../../environments/index.html"><small>Next →</small>Environments overview</a></nav></main><aside class="toc" aria-label="On this page"><p>On this page</p><a class="h2" href="#ora---help"><code>ora --help</code></a><a class="h2" href="#run-an-episode">Run an episode</a><a class="h2" href="#formal-runs-and-evidence">Formal runs and evidence</a><a class="h2" href="#environment-qualification-and-suites">Environment qualification and suites</a><a class="h2" href="#configuration">Configuration</a><a class="h2" href="#developer">Developer</a></aside></div><script>
+(function(){
+  var d=document.querySelector('.docs'), b=document.querySelector('.menu');
+  if(b)b.addEventListener('click',function(){var o=d.classList.toggle('open');b.setAttribute('aria-expanded',o?'true':'false')});
+  var side=document.querySelector('.side'), cur=side&&side.querySelector('[aria-current="page"]');
+  if(cur&&getComputedStyle(side).position==='sticky'){var r=cur.offsetTop-side.clientHeight/2;if(r>0)side.scrollTop=r}
+  document.querySelectorAll('.prose pre.hl').forEach(function(pre){
+    if(!navigator.clipboard)return;
+    var w=document.createElement('div');w.className='codewrap';pre.parentNode.insertBefore(w,pre);w.appendChild(pre);
+    var c=document.createElement('button');c.type='button';c.className='cbtn';c.textContent='copy';c.setAttribute('aria-label','Copy the code');
+    c.addEventListener('click',function(){navigator.clipboard.writeText(pre.innerText).then(function(){c.textContent='copied';setTimeout(function(){c.textContent='copy'},1200)},function(){})});
+    w.appendChild(c);
+  });
+  var links=[].slice.call(document.querySelectorAll('.toc a'));
+  if(links.length&&'IntersectionObserver' in window){
+    var map={};links.forEach(function(a){map[decodeURIComponent(a.hash.slice(1))]=a});
+    var hs=[].slice.call(document.querySelectorAll('.prose h2[id],.prose h3[id]')).filter(function(h){return map[h.id]});
+    var on=function(){var y=window.scrollY+120,best=null;hs.forEach(function(h){if(h.offsetTop<=y)best=h});
+      links.forEach(function(a){a.removeAttribute('aria-current')});if(best)map[best.id].setAttribute('aria-current','true')};
+    window.addEventListener('scroll',on,{passive:true});on();
+  }
+})();
+</script>
+<footer class="foot"><div class="wrap"><div class="fb"><a class="brand" href="../../../index.html"><img src="../../../../assets/brand/ora-mark-96.png" alt="" width="40" height="40">ORA</a><p>Open Robot-Use Agents: an open harness that lets language models operate robots. A FastRUA project.</p></div><nav class="fcols" aria-label="Footer"><div><p>ORA</p><a href="../../../index.html">Overview</a><a href="../../../gallery/index.html">Gallery</a><a href="../../../docs/index.html">Docs</a><a href="../../../paper/ora-two-page.pdf" target="_blank" rel="noopener">Paper (PDF)</a></div><div><p>Docs</p><a href="../../../docs/getting-started/installation/index.html">Installation</a><a href="../../../docs/quickstart/index.html">First episode</a><a href="../../../docs/how-ora-works/index.html">How ORA works</a><a href="../../../docs/reference/index.html">Reference</a></div><div><p>FastRUA</p><a href="../../../../index.html">Home</a><a href="../../../../blog/index.html">Blog</a><a class="ext" href="https://github.com/hao-ai-lab/ORA" target="_blank" rel="noopener">GitHub</a><a class="ext" href="https://haoailab.com/blogs/ora/" target="_blank" rel="noopener">Hao AI Lab blog</a></div></nav><p class="fbase">© 2026 ORA contributors · Hao AI Lab, UC San Diego</p></div></footer>
+<script>
+document.querySelectorAll('[data-tabs]').forEach(function(box){
+  var tabs=box.querySelectorAll('.tabs button'), panes=box.querySelectorAll('[data-pane]');
+  tabs.forEach(function(t){t.addEventListener('click',function(){
+    tabs.forEach(function(x){x.setAttribute('aria-selected',x===t?'true':'false')});
+    panes.forEach(function(p){p.hidden=p.dataset.pane!==t.dataset.tab});
+  })});
+});
+document.querySelectorAll('.copy').forEach(function(b){b.addEventListener('click',function(){
+  var pane=b.closest('.code').querySelector('pre:not([hidden])');
+  var txt=pane.innerText.split('\n').map(function(l){return l.replace(/\s+#.*$/,'')}).join('\n');
+  var done=function(){b.textContent='copied';setTimeout(function(){b.textContent='copy'},1200)};
+  try{navigator.clipboard.writeText(txt).then(done,function(){})}catch(e){}
+})});
+document.querySelectorAll('.audit-btn').forEach(function(b){b.addEventListener('click',function(){
+  var on=document.body.classList.toggle('show-audits');
+  b.textContent=on?'Hide inline audit notes':'Expand all audit notes ('+b.dataset.count+')';
+})});
+</script>
+</body>
+</html>

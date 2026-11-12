@@ -1,0 +1,670 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Getting Robot-Use Agents to Run in Real Time · FastRUA</title>
+<link rel="icon" type="image/png" href="data:image/png;base64,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">
+<meta name="description" content="Robot-use agents score well on benchmarks whose simulators wait for the model, but on a real robot every second of thinking is a second the robot stands still. On a two-arm robot, we cut the agent&#x27;s p">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  /* Swiss neutrals plus one deep accent: the personal homepage's scheme, its red #C6011F swapped for the teal of the
+     same OKLCH lightness (0.52). --teal-hi only for small accent text on dark. No gradients or glows on the accent. */
+  --bg:#0A0A0A; --bg-2:#0E0E0E; --panel:#111111; --panel-2:#161616; --line:#1A1A1A; --line-2:#222222;
+  --text:#F0F0F0; --text-2:#B0B0B0; --text-3:#777777; --text-body:#D4D4D4;
+  --teal:#11787B; --teal-hi:#48B0B4; --teal-deep:#05585B; --teal-ink:#012526;
+  --amber:#E8596B; --amber-bg:#2A0A0E;
+  --sans:"Geist",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:"Geist Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --label:var(--mono);   /* small data labels; the design preview bar can switch them to a pixel face */
+  --max:1120px; --max-wide:1360px; --read:700px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font:400 16px/1.65 var(--sans);-webkit-font-smoothing:antialiased;letter-spacing:-.005em}
+a{color:var(--teal-hi);text-decoration:none}a:hover{text-decoration:underline;text-underline-offset:3px}
+:focus-visible{outline:2px solid var(--teal);outline-offset:3px;border-radius:4px}
+.wrap{max-width:var(--max);margin:0 auto;padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px))}
+.read{max-width:var(--read);margin:0 auto;padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px))}
+/* nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(10,10,10,.82);backdrop-filter:saturate(140%) blur(14px);-webkit-backdrop-filter:saturate(140%) blur(14px);border-bottom:1px solid var(--line-2)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+.nav .wrap{display:flex;align-items:center;gap:16px;height:64px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--text);font:600 18px/1 var(--sans);letter-spacing:.02em;flex:none}
+.brand:hover{text-decoration:none}
+/* left: where you are (FastRUA, then "/ ORA" and its sections inside the project); right: the group's destinations */
+.nav .sep{color:var(--text-3);font-size:18px;flex:none}
+.nav .proj{color:var(--text);font:600 16px/1 var(--sans);letter-spacing:.02em;flex:none}
+.nav .proj:hover{text-decoration:none}
+.nav nav{display:flex;gap:26px;font-size:15px;white-space:nowrap}
+.nav .sub{margin-left:14px;min-width:0;overflow-x:auto;scrollbar-width:none}
+.nav .sub::-webkit-scrollbar{display:none}
+.nav .glob{margin-left:auto;flex:none}
+.nav .sub+.glob{border-left:1px solid var(--line-2);padding-left:22px}
+.nav nav a{color:var(--text-2)}
+.nav nav a:hover,.nav nav a[aria-current="page"]{color:var(--text);text-decoration:none}
+.ext::after{content:" \2197";font-size:.85em;color:var(--text-3)}
+.nav .wrap,.foot .wrap,.wide .wrap{max-width:var(--max-wide)}
+.nav.root .wrap,.foot.root .wrap{max-width:var(--max)}
+@media (max-width:760px){.nav .proj~.glob .ext,.nav .sub .ext{display:none}.nav nav{gap:18px}}
+@media (max-width:560px){.nav nav{gap:14px;font-size:13.5px}.brand{font-size:16px;gap:8px}.nav nav .ext::after{content:none}
+  .nav.in-proj .brand span{display:none}.nav .wrap{gap:10px}.nav .sub{margin-left:6px}.nav .sub+.glob{padding-left:12px}}
+/* blog cards */
+.posts{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+.post{display:block;border:1px solid var(--line-2);border-radius:16px;overflow:hidden;background:var(--bg-2);color:inherit;transition:border-color .2s,transform .2s}
+.post:hover{text-decoration:none;border-color:var(--teal-deep);transform:translateY(-2px)}
+.post img{display:block;width:100%;aspect-ratio:16/8;object-fit:cover;border-bottom:1px solid var(--line)}
+.post .body{padding:20px 22px 22px}
+.post .meta{display:flex;gap:10px;align-items:center;font:400 12.5px/1 var(--label);color:var(--text-3);margin:0 0 12px}
+.post h3{font:600 1.25rem/1.25 var(--sans);letter-spacing:-.02em;margin:0 0 10px;color:var(--text)}
+.post p{margin:0;color:var(--text-2);font-size:14.5px}
+.draft{font:500 11px/1 var(--label);letter-spacing:.06em;color:var(--amber);background:var(--amber-bg);padding:4px 7px;border-radius:999px}
+.sechead{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin:0 0 24px}
+.sechead h2{text-align:left;margin:0}
+.sechead a{font-size:14px}
+/* footer */
+.foot{border-top:1px solid var(--line);margin-top:112px;background:var(--bg-2)}
+.foot .wrap{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,2fr);gap:32px 48px;padding-top:48px;padding-bottom:40px}
+.foot .fb p{margin:14px 0 0;max-width:22em;color:var(--text-3);font-size:14px;line-height:1.6}
+.fcols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.fcols p{margin:0 0 12px;font:500 11.5px/1 var(--label);letter-spacing:.1em;text-transform:uppercase;color:var(--text-3)}
+.fcols a{display:block;color:var(--text-2);font-size:14px;padding:4px 0}
+.fcols a:hover{color:var(--text)}
+.fbase{grid-column:1 / -1;margin:8px 0 0;padding-top:22px;border-top:1px solid var(--line);color:var(--text-3);font-size:13px}
+@media (max-width:760px){.foot .wrap{grid-template-columns:1fr}.fcols{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* article: blog posts and docs pages share these */
+.posthead{padding:72px 0 28px;text-align:center}
+.posthead .meta{font:400 13px/1 var(--label);color:var(--text-3);display:flex;gap:12px;justify-content:center;align-items:center;flex-wrap:wrap;margin:0}
+.posthead h1{font:600 clamp(2.2rem,5vw,3.6rem)/1.06 var(--sans);letter-spacing:-.035em;margin:20px auto 0;max-width:15em;text-wrap:balance}
+.prose{font-size:17px;line-height:1.75;color:var(--text-body);overflow-wrap:break-word}
+.prose h1{display:none}
+.prose h2{font:600 1.75rem/1.2 var(--sans);letter-spacing:-.025em;color:var(--text);margin:64px 0 16px;text-wrap:balance}
+.prose h3{font:600 1.22rem/1.3 var(--sans);letter-spacing:-.015em;color:var(--text);margin:40px 0 10px}
+.prose h4{font:600 1.02rem/1.4 var(--sans);color:var(--text);margin:28px 0 8px}
+.prose h2 small,.prose h3 small{font:500 11.5px/1 var(--label);color:var(--text-3);margin-left:8px;letter-spacing:.04em}
+.prose [id]{scroll-margin-top:84px}
+.prose p{margin:0 0 18px}
+.prose a,.lede a,.callout a{color:var(--text);text-decoration:underline;text-decoration-color:var(--teal);text-decoration-thickness:1px;text-underline-offset:3px;overflow-wrap:break-word}
+.prose a:hover,.lede a:hover,.callout a:hover{color:var(--teal-hi);text-decoration-color:var(--teal-hi)}
+.prose a.md-button{text-decoration:none}
+.prose strong{color:var(--text);font-weight:600}
+.prose ul,.prose ol{padding-left:1.2em;margin:0 0 18px}
+.prose li{margin:0 0 6px}
+.prose li>ul,.prose li>ol{margin:6px 0 0}
+.prose li>p{margin:0 0 8px}
+.prose li::marker{color:var(--teal)}
+.prose code{font:400 .86em var(--mono);background:var(--panel-2);border:1px solid var(--line);padding:1px 6px;border-radius:5px;color:var(--text);overflow-wrap:break-word}
+.prose a code{color:inherit}
+.prose pre{margin:0 0 22px;padding:15px 18px;border:1px solid var(--line-2);border-radius:12px;background:var(--panel);overflow-x:auto;font:400 13.5px/1.65 var(--mono);color:var(--text);tab-size:4}
+.prose pre code{font:inherit;background:none;border:0;padding:0;border-radius:0;overflow-wrap:normal;color:inherit}
+.prose pre.mermaid{background:var(--bg-2);text-align:center;color:var(--text-3)}
+.prose pre.mermaid svg{max-width:100%;height:auto}
+.codewrap{position:relative}
+.cbtn{position:absolute;top:9px;right:9px;height:26px;padding:0 9px;border:1px solid var(--line-2);border-radius:7px;background:var(--panel);color:var(--text-2);font:500 11.5px var(--label);cursor:pointer;opacity:0;transition:opacity .15s}
+.codewrap:hover .cbtn,.cbtn:focus-visible{opacity:1}
+@media (hover:none){.cbtn{opacity:.85}}
+.prose kbd{font:500 .82em var(--mono);border:1px solid var(--line-2);border-bottom-width:2px;border-radius:5px;padding:0 5px;color:var(--text)}
+.prose img{max-width:100%;height:auto;border-radius:12px;border:1px solid var(--line-2)}
+.prose blockquote{margin:0 0 36px;border:1px solid var(--line-2);border-left:3px solid var(--teal);border-radius:12px;background:var(--panel);padding:18px 22px;color:var(--text)}
+.prose blockquote p{margin:0 0 8px}.prose blockquote ol{margin:0;padding-left:1.2em}
+.prose .admonition{margin:24px 0;border:1px solid var(--line-2);border-left:3px solid var(--teal);border-radius:10px;background:var(--bg-2);padding:14px 18px;font-size:15.5px}
+.prose .admonition>:last-child{margin-bottom:0}
+.prose .admonition-title{font:600 13.5px/1.3 var(--sans);color:var(--teal-hi);margin:0 0 8px}
+.prose .admonition.warning,.prose .admonition.caution,.prose .admonition.danger{border-left-color:var(--amber)}
+.prose .admonition.warning .admonition-title,.prose .admonition.caution .admonition-title,.prose .admonition.danger .admonition-title{color:var(--amber)}
+.prose .tbl{overflow-x:auto;margin:22px 0 26px}
+@media (min-width:720px){.prose .tbl{overflow:visible}}
+.prose table{border-collapse:collapse;width:100%;font-size:14.5px;line-height:1.55}
+.prose th,.prose td{text-align:left;vertical-align:top;padding:9px 16px 9px 0;border-bottom:1px solid var(--line)}
+.prose th{font:500 12.5px/1.4 var(--label);color:var(--text-3);white-space:nowrap}
+.prose td code{font-size:.82em}
+@media (max-width:620px){.prose table:has(th:nth-child(4)){min-width:620px}}
+.prose hr{border:0;border-top:1px solid var(--line);margin:56px 0}
+.prose figure{margin:30px 0}
+.prose figure img{display:block;width:100%;border-radius:12px;border:1px solid var(--line-2)}
+.prose figcaption{font-size:13.5px;color:var(--text-3);margin-top:10px}
+/* code colours (Pygments classes) */
+.hl .c,.hl .c1,.hl .cm,.hl .ch,.hl .cs,.hl .cp,.hl .cpf{color:var(--text-3)}
+.hl .k,.hl .kn,.hl .kd,.hl .kc,.hl .kr,.hl .kt,.hl .kp,.hl .ow{color:var(--teal-hi)}
+.hl .s,.hl .s1,.hl .s2,.hl .sb,.hl .sd,.hl .se,.hl .sh,.hl .si,.hl .sx,.hl .sa,.hl .sc,.hl .ss,.hl .dl{color:var(--text-2)}
+.hl .nf,.hl .fm,.hl .nc,.hl .nn,.hl .nd,.hl .nt,.hl .na{color:var(--text)}
+.hl .o,.hl .p{color:var(--text-3)}
+.hl .gp{color:var(--text-3);user-select:none}
+.hl .go{color:var(--text-2)}
+.hl .err{color:inherit;background:none}
+.slot{font:500 11px/1 var(--label);letter-spacing:.1em;text-transform:uppercase;color:var(--teal-hi)}
+.callout{border:1px solid var(--line-2);border-radius:12px;padding:16px 18px;margin:26px 0;background:var(--bg-2)}
+.callout a{font-weight:600}
+.tbd{background:var(--amber-bg);color:var(--amber);border-radius:5px;padding:1px 7px;font-size:.88em}
+.postvid{margin:8px auto 48px;max-width:1008px}
+.postvid .frame{border-radius:14px;overflow:hidden;border:1px solid var(--line-2)}
+.postvid video{display:block;width:100%;aspect-ratio:1600/750}
+.postvid .cap{font-size:12.5px;color:var(--text-3);margin-top:12px;text-align:center}
+.draftbar{font:400 12.5px/1.6 var(--label);color:var(--amber);background:var(--amber-bg);border-radius:10px;padding:10px 14px;margin:0 0 36px;display:flex;flex-wrap:wrap;align-items:center;gap:6px 18px}
+.draftbar a{color:inherit;text-decoration:underline}
+.audit-btn{margin-left:auto;font:500 11.5px/1.2 var(--label);color:var(--teal-hi);background:var(--teal-ink);border:1px solid var(--teal);border-radius:6px;padding:5px 10px;cursor:pointer;transition:background .15s}
+.audit-btn:hover{background:#05393B}
+.audit-mark{position:relative;display:inline;background:rgba(17,120,123,.14);color:var(--text);border-bottom:1.5px dashed var(--teal-hi);padding:1px 6px;border-radius:5px;cursor:help;transition:background .15s}
+.audit-mark:hover,.audit-mark:focus-within{background:rgba(17,120,123,.26);z-index:40}
+.audit-tag{font:600 9.5px/1 var(--label);letter-spacing:.06em;color:#F0F0F0;background:var(--teal);padding:2px 5px;border-radius:4px;margin-left:5px;vertical-align:middle;display:inline-block}
+.audit-pop{display:none;position:absolute;left:0;bottom:calc(100% + 8px);width:min(420px,86vw);background:var(--panel-2);color:var(--text-2);border:1px solid var(--teal);border-radius:10px;padding:11px 14px;font:400 13px/1.55 var(--sans);box-shadow:0 12px 32px rgba(0,0,0,.65);z-index:60;white-space:normal;text-align:left;pointer-events:none}
+.audit-pop strong{color:var(--teal-hi);display:block;font:600 11.5px/1.3 var(--label);letter-spacing:.04em;text-transform:uppercase;margin-bottom:4px}
+.audit-pop code{background:rgba(255,255,255,.06);color:var(--text);border-color:var(--line-2);font-size:.85em;padding:1px 4px}
+.audit-mark:hover .audit-pop,.audit-mark:focus .audit-pop,.audit-mark:focus-within .audit-pop{display:block}
+body.show-audits .audit-pop{display:block;position:static;width:auto;margin:8px 0 6px;pointer-events:auto;box-shadow:none}
+.brand img{width:40px;height:40px;display:block;object-fit:contain}</style>
+<style>html body.dark{--r-bg:#111111;--r-panel:#161616;--r-rule:#222222;--r-fg:#F0F0F0;--r-muted:#B0B0B0;--r-faint:#777777}.byline{margin:18px 0 0;color:var(--text-3);font-size:14.5px}.prose.post-content video,.prose.post-content img{max-width:100%;height:auto;border-radius:10px}</style>
+<script src="../../assets/design/design-bar.js" data-labels=".post .meta,.draft,.fcols p,.posthead .meta,.prose h2 small,.prose h3 small,.cbtn,.prose th,.slot,.draftbar,.audit-btn,.audit-tag,.audit-pop strong,.pill b,.scene-hud,.copy,.feat .k,.card h3,.side .grp&gt;p,.toc p,.crumb,.pager small,.dochero .ora-meta,.gcard .more"></script>
+</head>
+<body class="dark">
+<header class="nav root"><div class="wrap"><a class="brand" href="../../index.html"><img src="../../assets/brand/fastrua-mark-96.png" alt="" width="40" height="40"><span>FastRUA</span></a><nav class="glob" aria-label="FastRUA"><a href="../../ora/index.html">ORA</a><a href="../../blog/index.html" aria-current="page">Blog</a><a class="ext" href="https://github.com/fast-rua" target="_blank" rel="noopener">GitHub</a></nav></div></header>
+
+<main>
+  <section class="posthead read"><p class="meta"><span>Real-time</span><span>·</span><span>November 2026</span><span class="draft">DRAFT</span></p>
+  <h1>Getting Robot-Use Agents to Run in Real Time</h1><p class="byline">Shaoxiong Duan, Yang Yuanbo, Junda Chen, Yulun Wu, Hao Zhang</p></section>
+  <div class="read">
+    <div class="draftbar"><span>Draft · not published</span><span>source: blogs/realtime-rua/index.md</span></div>
+    <article class="prose post-content"><style>
+:root{--r-bg:#ffffff;--r-fg:#17191f;--r-muted:#5d6472;--r-faint:#8a909c;--r-rule:#e5e7ec;--r-panel:#f6f7f9;--r-think:#6c5bd4;--r-think-soft:#c9c1f2;--r-tool:#d8902a;--r-tool-soft:#f2d9ae;--r-robot:#1c9a86;--r-robot-soft:#bfe5dd;--r-idle:#eceef2;--r-bad:#d4553f;--r-link:#3c56c9;--r-note-bg:#fff7e6;--r-note-fg:#7a5410}
+body.dark{--r-bg:#1d1e20;--r-fg:#e7e9ee;--r-muted:#a3a9b5;--r-faint:#7c8290;--r-rule:#33363d;--r-panel:#25272b;--r-think:#9b8cf0;--r-think-soft:#4a4180;--r-tool:#e8a94a;--r-tool-soft:#6b5228;--r-robot:#3cc0aa;--r-robot-soft:#1f5a50;--r-idle:#2c2f36;--r-bad:#ec7a64;--r-link:#8ea3ff;--r-note-bg:#2e2615;--r-note-fg:#f0cf8a}
+.post-content figure.rua-wide,.post-content figure.rua-fig-plain{margin:28px 0 30px}
+@media (min-width:1000px){.post-content figure.rua-wide{margin-left:-80px;margin-right:-80px}}
+.post-content .rua-fig{border:1px solid var(--r-rule);border-radius:8px;padding:14px;overflow-x:auto;background:var(--r-bg);margin:0}
+.post-content .rua-fig svg{display:block;width:100%;height:auto;min-width:560px;margin:0}
+.post-content .rua-fig.rua-narrow svg{min-width:0}
+.post-content .rua-fig svg text{font-family:inherit;fill:var(--r-fg)}
+.post-content .rua-fig svg .sm{font-size:11px;fill:var(--r-muted)}
+.post-content .rua-fig svg .xs{font-size:10px;fill:var(--r-faint)}
+.post-content .rua-fig svg .lb{font-size:12.5px}
+.post-content .rua-fig svg .lbb{font-size:12.5px;font-weight:600}
+.post-content .rua-fig svg .mn{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11px}
+.post-content figure figcaption{font-size:.88em;font-weight:400;color:var(--secondary);margin-top:10px;line-height:1.5;text-align:left}
+.post-content .rua-legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:.82em;color:var(--secondary);margin-top:10px}
+.post-content .rua-legend span{display:inline-flex;align-items:center;gap:6px}
+.post-content .rua-legend i{width:12px;height:12px;border-radius:2px;display:inline-block}
+.post-content .rua-photos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:center}
+.post-content .rua-photos img{width:100%;height:auto;display:block;border-radius:8px;margin:0}
+@media (max-width:560px){.post-content .rua-photos{grid-template-columns:1fr}}
+.post-content .rua-tbl{overflow-x:auto;margin:6px 0 10px}
+.post-content .rua-tbl td.n,.post-content .rua-tbl th.n{text-align:right}
+.post-content .rua-tbl table{font-variant-numeric:tabular-nums}
+.post-content video{width:100%;border-radius:8px;display:block}
+.post-content .rua-c{opacity:.6}
+.post-content .rua-ref{font-size:.9em;margin:0 0 6px}
+</style>
+
+<p><strong>TL;DR</strong></p>
+<ul>
+<li>Robot-use agents are still far too slow for the real world. Benchmarks like RoboDojo don't show it, because their simulators wait for the model before stepping.</li>
+<li>The agent's time goes mostly to per-request overhead, TTFT above all, which it pays on every tool-call round trip. So we cut the number of requests, kept the context short and made the tools faster.</li>
+<li>We then let the robot carry out queued actions while the model plans the next ones, which hides most of the model's time behind motion.</li>
+<li>Finished towel-folding runs went from a median of about 17 minutes to about 6, and on a cup task the robot moved 84% of the time. What remains is latency: the robot acts on what it saw about 5 seconds earlier.</li>
+</ul>
+<p>Over the past year, robot-use agents (RUAs) have become a serious alternative to end-to-end robot policies. GPT-6 Astra, driving a robot through code, scored above all 40 public policies on RoboDojo <a href="#r1">[1]</a>. Uni-robot-agent put open-weight models such as Qwen3.8-Flash-Next on the same benchmark, well ahead of VLA and world-action-model baselines like π0.5 and OpenWAM-α <a href="#r2">[2]</a>. Anthropic reports 64.9% on RoboDojo Sim for Fable 5.2 <a href="#r3">[3]</a>.</p>
+<p>On a real robot, though, these agents are slow. In Fable 5.2's launch video the robot solves a puzzle cube <a href="#r3">[3]</a>, but even with the pauses cut out, the solve takes about an hour.</p>
+<p>Benchmarks like RoboDojo don't capture this. Their evaluation loop is synchronous: the simulator blocks until the policy returns its next actions, and episodes are limited by the number of steps, not by time <a href="#r4">[4]</a>. In this setting a long TTFT or slow decoding costs nothing. On a real robot the clock keeps running while the model thinks, and the robot sits idle until the next command arrives. Rankings can change once the world stops waiting, too: in a game setting, a stronger but slower model wins when the game pauses for it and falls behind when it doesn't <a href="#r5">[5]</a>.</p>
+<figure class="rua-wide">
+<div class="rua-fig">
+<svg viewBox="0 0 860 210" role="img" aria-label="In simulation the world pauses while the agent thinks; in the real world the robot idles.">
+  <text x="0" y="22" class="lbb">Benchmark simulator</text>
+  <text x="0" y="40" class="sm">the world waits for the agent</text>
+  <g transform="translate(180,12)">
+    <rect x="0" y="0" width="70" height="26" rx="3" fill="var(--r-think)"/><text x="35" y="17" text-anchor="middle" class="sm" style="fill:#fff">think</text>
+    <rect x="72" y="0" width="60" height="26" rx="3" fill="var(--r-robot)"/><text x="102" y="17" text-anchor="middle" class="sm" style="fill:#fff">act</text>
+    <rect x="134" y="0" width="110" height="26" rx="3" fill="var(--r-think)"/><text x="189" y="17" text-anchor="middle" class="sm" style="fill:#fff">think</text>
+    <rect x="246" y="0" width="60" height="26" rx="3" fill="var(--r-robot)"/><text x="276" y="17" text-anchor="middle" class="sm" style="fill:#fff">act</text>
+    <rect x="308" y="0" width="90" height="26" rx="3" fill="var(--r-think)"/><text x="353" y="17" text-anchor="middle" class="sm" style="fill:#fff">think</text>
+    <rect x="400" y="0" width="60" height="26" rx="3" fill="var(--r-robot)"/><text x="430" y="17" text-anchor="middle" class="sm" style="fill:#fff">act</text>
+    <line x1="0" y1="40" x2="460" y2="40" stroke="var(--r-rule)"/>
+    <text x="0" y="64" class="xs">sim clock</text>
+    <rect x="72" y="46" width="60" height="5" fill="var(--r-robot)"/><rect x="246" y="46" width="60" height="5" fill="var(--r-robot)"/><rect x="400" y="46" width="60" height="5" fill="var(--r-robot)"/>
+    <text x="480" y="17" class="sm">time that counts:<tspan dx="4" class="lbb" style="font-size:11px">only the acts</tspan></text>
+  </g>
+  <line x1="0" y1="100" x2="860" y2="100" stroke="var(--r-rule)" stroke-dasharray="3 4"/>
+  <text x="0" y="132" class="lbb">Real robot</text>
+  <text x="0" y="150" class="sm">the clock never stops</text>
+  <g transform="translate(180,122)">
+    <rect x="0" y="0" width="70" height="26" rx="3" fill="var(--r-think)"/>
+    <rect x="72" y="0" width="60" height="26" rx="3" fill="var(--r-robot)"/>
+    <rect x="134" y="0" width="110" height="26" rx="3" fill="var(--r-think)"/>
+    <rect x="246" y="0" width="60" height="26" rx="3" fill="var(--r-robot)"/>
+    <rect x="308" y="0" width="90" height="26" rx="3" fill="var(--r-think)"/>
+    <rect x="400" y="0" width="60" height="26" rx="3" fill="var(--r-robot)"/>
+    <line x1="0" y1="40" x2="460" y2="40" stroke="var(--r-rule)"/>
+    <text x="0" y="64" class="xs">wall clock</text>
+    <rect x="0" y="46" width="460" height="5" fill="var(--r-idle)"/>
+    <rect x="0" y="46" width="70" height="5" fill="var(--r-bad)" opacity=".55"/><rect x="134" y="46" width="110" height="5" fill="var(--r-bad)" opacity=".55"/><rect x="308" y="46" width="90" height="5" fill="var(--r-bad)" opacity=".55"/>
+    <rect x="72" y="46" width="60" height="5" fill="var(--r-robot)"/><rect x="246" y="46" width="60" height="5" fill="var(--r-robot)"/><rect x="400" y="46" width="60" height="5" fill="var(--r-robot)"/>
+    <text x="480" y="17" class="sm">time that counts:<tspan dx="4" class="lbb" style="font-size:11px">all of it</tspan></text>
+    <text x="480" y="34" class="sm">the robot idles while the model thinks</text>
+  </g>
+</svg>
+</div>
+<figcaption><b>Figure 1.</b> A simulator that waits for the model only counts the actions. On a real robot, every model step is time the robot spends standing still.</figcaption>
+</figure>
+
+<p>In this post we describe our first attempts at closing this gap on a real two-arm robot. We didn't change the model. Everything we did was in the harness around it: the tools the agent calls, what goes into its context, and how its actions are scheduled.</p>
+<h2>Setup</h2>
+<p>Our cell has two YAM arms and four cameras: one overhead, one in front and one on each wrist. The agent is GPT-6 Astra running in Codex at its ultrafast service tier and medium reasoning effort. It is given a task description and a Python robot API, with no scripted skills or demonstrations.</p>
+<figure class="rua-wide">
+<div class="rua-photos">
+<img src="img/setup-cell.jpg" alt="The two YAM arms at the back of a wooden table, with a blue towel laid out in front of them">
+<img src="img/setup-cams.jpg" alt="The four camera views tiled in one image: top, front, left wrist, right wrist">
+</div>
+<figcaption><b>Figure 2.</b> Our cell. Left: the two YAM arms, with a towel laid out for folding. Right: the four camera views tiled into one image, as the agent receives them.</figcaption>
+</figure>
+
+<p>Like PyRUA-Lean <a href="#r6">[6]</a>, we use code as the action interface: the robot is a Python object, and the agent acts by writing short programs against it. We also designed the tools as a white box. The robot API is ordinary Python source that the agent can read, and in practice it starts most tasks by reading it and then writing its own helper functions, such as one that lifts a particular cup. A separate robot server checks every command against a workspace fence and a minimum distance between the arms, which lets the agent run code it wrote itself without anyone reviewing it first.</p>
+<figure class="rua-wide">
+<div class="rua-fig">
+<svg viewBox="0 0 860 230" role="img" aria-label="Harness: model writes code that runs in a persistent Python kernel, which talks to the robot server and the cameras; reports flow back to the model.">
+  <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--r-muted)"/></marker></defs>
+  <rect x="10" y="60" width="170" height="96" rx="6" fill="var(--r-panel)" stroke="var(--r-think)" stroke-width="1.5"/>
+  <text x="95" y="98" text-anchor="middle" class="lbb">Model</text>
+  <text x="95" y="118" text-anchor="middle" class="sm">coding agent</text>
+  <rect x="290" y="40" width="250" height="136" rx="6" fill="var(--r-panel)" stroke="var(--r-tool)" stroke-width="1.5"/>
+  <text x="415" y="66" text-anchor="middle" class="lbb">Persistent Python kernel</text>
+  <text x="415" y="86" text-anchor="middle" class="sm">readable robot API</text>
+  <text x="415" y="102" text-anchor="middle" class="sm">the agent's own helpers and hooks</text>
+  <rect x="315" y="114" width="200" height="46" rx="4" fill="var(--r-bg)" stroke="var(--r-rule)"/>
+  <text x="415" y="133" text-anchor="middle" class="mn">kernel.queue([a, b, c])</text>
+  <text x="415" y="150" text-anchor="middle" class="xs">action queue</text>
+  <rect x="650" y="30" width="200" height="70" rx="6" fill="var(--r-panel)" stroke="var(--r-robot)" stroke-width="1.5"/>
+  <text x="750" y="58" text-anchor="middle" class="lbb">Robot server</text>
+  <text x="750" y="78" text-anchor="middle" class="sm">safety fence, IK, control</text>
+  <rect x="650" y="122" width="200" height="70" rx="6" fill="var(--r-panel)" stroke="var(--r-robot)" stroke-width="1.5"/>
+  <text x="750" y="150" text-anchor="middle" class="lbb">2 arms, 4 cameras</text>
+  <line x1="180" y1="88" x2="288" y2="88" stroke="var(--r-muted)" marker-end="url(#ar)"/>
+  <text x="234" y="80" text-anchor="middle" class="xs">code</text>
+  <path d="M288,140 L180,140" stroke="var(--r-muted)" marker-end="url(#ar)" fill="none"/>
+  <text x="234" y="132" text-anchor="middle" class="xs">results + images</text>
+  <text x="234" y="158" text-anchor="middle" class="xs">pushed reports</text>
+  <line x1="540" y1="70" x2="648" y2="62" stroke="var(--r-muted)" marker-end="url(#ar)"/>
+  <line x1="648" y1="152" x2="540" y2="146" stroke="var(--r-muted)" marker-end="url(#ar)"/>
+  <line x1="750" y1="100" x2="750" y2="120" stroke="var(--r-muted)" marker-end="url(#ar)"/>
+  <text x="594" y="58" text-anchor="middle" class="xs">commands</text>
+  <text x="594" y="164" text-anchor="middle" class="xs">frames, state</text>
+</svg>
+</div>
+<figcaption><b>Figure 3.</b> The harness. The model writes code, a long-lived Python process runs it against the robot, and results, images and reports flow back.</figcaption>
+</figure>
+
+<h2>Where the time goes</h2>
+<p>Our early towel-folding runs on the real robot took between 13 and 37 minutes. Figure 4 profiles one of the longest. The model accounted for 78% of the wall time and tool calls for nearly all the rest. The robot moved for only a quarter of the run, and much of that motion happened inside blocking calls the agent was waiting on.</p>
+<figure class="rua-wide">
+<div class="rua-fig">
+<svg id="f3" viewBox="0 0 860 170" role="img" aria-label="Time breakdown of an early towel run"></svg>
+</div>
+<figcaption><b>Figure 4.</b> Where the time went in an early towel-folding run. The summary hold is the API holding each response until its reasoning summary was written; we turned summaries off for later runs. TTFT is estimated as request time minus decoding.</figcaption>
+</figure>
+
+<p>Very little of the model's time went to producing output. About two thirds of it passed before each response produced anything at all, in TTFT: upload, queueing, and prefill of a long, image-heavy context. TTFT is a per-request cost, and an agent pays it on every tool-call round trip. A response with fewer than 100 output tokens still had a median TTFT of about two seconds, and TTFT grew as images accumulated in the context. Many of these requests did very little: the agent would spend a whole round trip viewing an image, checking on a program it had started, or asking where an arm had ended up. On average it made several requests per robot action, and the robot was idle through all of them.</p>
+<p>This is a different profile from chat, where output tokens usually dominate latency <a href="#r7">[7]</a>. An agent step emits a short tool call, often a couple of hundred tokens, so the fixed cost per request outweighs decoding. To go faster, we needed the agent to make fewer requests and make each one cheaper, and the requests that remained had to happen while the robot was moving rather than before it.</p>
+<h2>1. Faster decoding</h2>
+<p>In short timed requests, Astra's ultrafast tier generated tokens about four times faster than the Fast (priority) tier, with the same time to first output. In our towel runs the median model response fell from 2.9 s to 1.9 s, a third shorter. These were different episodes, so the comparison is rough, but it fits the profile above: decoding was the smaller part of each response, and a faster decoder leaves TTFT where it was.</p>
+<h2>2. Fewer round trips</h2>
+<p>Since every request has a fixed cost, we looked for requests that were predictable, meaning the agent almost always made them after a certain kind of action, and folded them into the action itself. The most common pattern was an action followed by several round trips of looking: polling until the program finished, reading each camera image one at a time, and then asking for the robot's state (Figure 5). None of these involves a decision, so we made the action return all of that information directly.</p>
+<figure class="rua-wide">
+<div class="rua-fig">
+<svg id="f4" viewBox="0 0 860 200" role="img" aria-label="Round trips for one action before and after"></svg>
+</div>
+<figcaption><b>Figure 5.</b> One action and the look after it (illustrative). Before: the model polls for the result, reads each camera image in its own request, then asks for the robot state. After: all of it comes back in one report.</figcaption>
+</figure>
+
+<p>A program that renders images now returns them as part of its tool result, so the model sees them without a separate request. Any program that moves the arms finishes by printing the robot's state: where each arm is, whether the grippers are holding something, and any faults. Error messages say which limit was hit and by how much, so the agent can usually fix the problem on its next try. Checking whether a set of candidate poses is reachable takes one call for the whole list rather than one call per pose.</p>
+<p>Instead of polling a running action, the agent now receives a report when the action ends, with the result, the robot's state and a camera view. The agent can also register its own checks, such as a segmentation of the towel, to run after every motion, and their output arrives in the same report.</p>
+<p>The same reasoning applies to approval. Early on, the agent often previewed an action with a dry run and looked at the result before running it for real, which costs a full round trip per action. Those previews changed its plan in only about 4 of 99 cases. It works better to let the action run and have the model stop or replace it when the report shows a problem.</p>
+<h2>3. Keep the context short</h2>
+<p>A robot agent looks at a lot of images, and as they pile up in the context, TTFT grows on every request. We handled this in two ways. First, we send the four camera views as a single tiled image instead of four separate ones, which keeps TTFT noticeably lower even at the same resolution (Figure 7). Second, once about 20 images have built up, the harness moves the conversation to a fresh thread in which older images are replaced by short text notes and only the newest few are kept (Figure 6). The first request after a prune can't use the prompt cache, so we prune between turns.</p>
+<figure class="rua-wide">
+<div class="rua-fig">
+<svg viewBox="0 0 860 200" role="img" aria-label="Image pruning: old images become text notes, newest images stay">
+  <text x="0" y="30" class="lbb">Before</text>
+  <g transform="translate(90,12)">
+    <rect x="0" y="0" width="110" height="30" rx="3" fill="var(--r-panel)" stroke="var(--r-rule)"/><text x="55" y="19" text-anchor="middle" class="sm">prompt + API</text>
+    <g id="imgs"></g>
+  </g>
+  <text x="0" y="110" class="lbb">After</text>
+  <g transform="translate(90,92)">
+    <rect x="0" y="0" width="110" height="30" rx="3" fill="var(--r-panel)" stroke="var(--r-rule)"/><text x="55" y="19" text-anchor="middle" class="sm">prompt + API</text>
+    <g id="imgs2"></g>
+  </g>
+  <text x="90" y="160" class="sm">Turns and text stay. Older images become notes like</text>
+  <text x="90" y="178" class="mn" style="fill:var(--r-muted)">[image omitted: views/after-grasp.png]</text>
+  <text x="530" y="160" class="sm">The newest images stay as they are.</text>
+</svg>
+</div>
+<div class="rua-legend"><span><i style="background:var(--r-tool-soft)"></i>image</span><span><i style="background:var(--r-idle)"></i>text turn</span><span><i style="background:var(--r-panel);border:1px dashed var(--r-faint)"></i>text note for a removed image</span></div>
+<figcaption><b>Figure 6.</b> Pruning old images. Every image still in the context adds to TTFT on every later request, so when about 20 have built up, the harness keeps the text of the conversation and the newest few images, and replaces the rest with short notes naming their files.</figcaption>
+</figure>
+
+<figure>
+<div class="rua-fig rua-narrow">
+<svg id="f5" viewBox="0 0 640 220" role="img" aria-label="TTFT after 45 four-camera looks"></svg>
+</div>
+<figcaption><b>Figure 7.</b> TTFT after 45 four-camera looks in one conversation. Tiling the four views into one image helps, and a smaller grid helps more.</figcaption>
+</figure>
+
+<h2>4. Faster tools</h2>
+<p>Once most of the extra requests were gone, the time spent inside tools became noticeable, at 6 to 10% of the run. Most of it sat between a look and the next action, where nothing else could happen. The largest improvement came from running the agent's code in a persistent Python process. Imports are paid for once, Python starts a call in tens of milliseconds instead of a few hundred, and variables and helper functions survive from one call to the next. We also made camera capture faster.</p>
+<h2>5. Pipelining: hiding time behind motion</h2>
+<p>Even with all of the above, the agent still makes a few requests for each action, and as long as each action blocks, the robot waits through every one of them. The last change was to let the model think while the robot moves.</p>
+<p>The agent writes each action as a Python function and adds it to a queue. The robot works through the queue in the background while the model plans what comes next, and the model can change the plan at any point: it can replace everything after a given action, or stop the one that is running.</p>
+<pre><code>kernel.queue([lift_left, lift_right])             <span class="rua-c"># run in order, in the background</span>
+kernel.queue(new_plan, replace_from="lift_right") <span class="rua-c"># replace the queue's tail while the head runs</span>
+kernel.action().stop()                            <span class="rua-c"># stop now; the arms hold</span></code></pre>
+
+<p>The timing of feedback turned out to matter (Figure 8). The report for one action arrives as the next one starts, so the model reads how the last action went while the robot is already busy, and still has time to revise the action after that. If the model finishes its turn while the robot is still moving, the harness sends it a fresh camera view so that it gets started on the next step instead of sitting idle. And because a queued action starts from wherever the previous one left off, the agent writes actions that check their own preconditions, for instance that a cup is still in the gripper before carrying it anywhere.</p>
+<figure class="rua-wide">
+<div class="rua-fig">
+<svg viewBox="0 0 860 250" role="img" aria-label="How the queue overlaps model time with robot motion">
+  <defs><marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--r-muted)"/></marker></defs>
+  <text x="0" y="46" class="lbb">Robot</text>
+  <text x="0" y="62" class="xs">runs the queue</text>
+  <rect x="110" y="30" width="200" height="34" rx="3" fill="var(--r-robot)"/><text x="210" y="52" text-anchor="middle" class="lbb" style="fill:#fff">action 1</text>
+  <rect x="312" y="30" width="230" height="34" rx="3" fill="var(--r-robot)"/><text x="427" y="52" text-anchor="middle" class="lbb" style="fill:#fff">action 2</text>
+  <rect x="544" y="30" width="200" height="34" rx="3" fill="var(--r-robot)"/><text x="644" y="52" text-anchor="middle" class="lbb" style="fill:#fff">action 3′</text>
+  <text x="0" y="146" class="lbb">Model</text>
+  <text x="0" y="162" class="xs">plans ahead</text>
+  <rect x="110" y="130" width="120" height="34" rx="3" fill="var(--r-think)"/><text x="170" y="151" text-anchor="middle" class="sm" style="fill:#fff">queue 2 and 3</text>
+  <rect x="330" y="130" width="160" height="34" rx="3" fill="var(--r-think)"/><text x="410" y="151" text-anchor="middle" class="sm" style="fill:#fff">read report 1, replace 3</text>
+  <rect x="560" y="130" width="140" height="34" rx="3" fill="var(--r-think)"/><text x="630" y="151" text-anchor="middle" class="sm" style="fill:#fff">read report 2, queue 4</text>
+  <line x1="312" y1="66" x2="330" y2="128" stroke="var(--r-muted)" marker-end="url(#ar2)"/>
+  <text x="300" y="98" text-anchor="end" class="xs">report 1 + camera grid</text>
+  <line x1="544" y1="66" x2="560" y2="128" stroke="var(--r-muted)" marker-end="url(#ar2)"/>
+  <text x="562" y="98" class="xs">report 2</text>
+  <path d="M490,130 C 520,100 540,80 560,66" stroke="var(--r-think)" fill="none" stroke-dasharray="4 3" marker-end="url(#ar2)"/>
+  <text x="500" y="112" text-anchor="end" class="xs" style="fill:var(--r-think)">replace_from=3</text>
+  <line x1="110" y1="196" x2="760" y2="196" stroke="var(--r-rule)"/>
+  <text x="110" y="216" class="sm">The report for action 1 arrives as action 2 starts. The model reads it while the arm moves,</text>
+  <text x="110" y="234" class="sm">and can still change action 3 before it begins.</text>
+</svg>
+</div>
+<figcaption><b>Figure 8.</b> How the queue overlaps thinking with motion. Each report lands while the next action is already running, so the model's request time is hidden, as long as it finishes before the queue runs dry.</figcaption>
+</figure>
+
+<figure class="rua-wide">
+<div class="rua-fig">
+<svg id="f6" viewBox="0 0 860 300" role="img" aria-label="Agent and robot lanes for the same work in three harnesses"></svg>
+</div>
+<div class="rua-legend"><span><i style="background:var(--r-think-soft)"></i>TTFT</span><span><i style="background:var(--r-think)"></i>generating</span><span><i style="background:var(--r-tool)"></i>tool / image read</span><span><i style="background:var(--r-robot)"></i>robot moving</span></div>
+<figcaption><b>Figure 9.</b> The same cup task in three harnesses, on one time axis. Top: a vanilla agent loop. Middle: sections 1–4, without the queue. Bottom: with the queue (the real run). Model time barely changes from middle to bottom; most of it now happens while the arm moves. The top two rows are replays of the real run, explained under Results.</figcaption>
+</figure>
+
+<p>Uni-robot-agent <a href="#r2">[2]</a> uses the same idea. Its tool calls can run in the background, so the model keeps reasoning while the robot executes, and in simulation this cut episode times substantially. Our version differs mainly in how results come back: instead of the agent fetching them, each report is pushed to it as the next action starts, while there is still time to change what comes next.</p>
+<h2>Results</h2>
+<p>We first compare real runs. Figure 10 shows every towel-folding run that finished the task or ran for at least a few minutes, grouped by the three versions of the harness we ran on the robot: the original, one with fewer round trips, a shorter context and faster tools but no queue, and the full harness with the queue. Run times vary a lot, because they depend on how the towel starts out and on the choices the agent makes, and many runs were stopped before the end. Alongside time to finish, we therefore show two measures that don't need a finished run: how much of the time the robot was moving, and how much of the model's time overlapped motion.</p>
+<p>Cutting round trips raised the robot's moving share from a median of 29% to 52%, because the robot spent less time waiting between actions. It hid none of the model's time, though, since every action still blocked. The queue is what hid it: the median share of model time that overlapped motion went from almost none to about half. Runs that finished took a median of about 6 minutes with the full harness, against 16 to 18 minutes with the earlier versions.</p>
+<figure class="rua-wide">
+<div class="rua-fig">
+<svg id="f9" viewBox="0 0 860 250" role="img" aria-label="Real towel runs before and after the queue"></svg>
+</div>
+<figcaption><b>Figure 10.</b> Real towel-folding runs, grouped by harness version. Filled dots finished the task; hollow dots were stopped early. Time to finish counts only finished runs. Vertical bars are medians.</figcaption>
+</figure>
+
+<p>Because real runs vary this much, they can't tell us what each design contributes on its own. For that we took one real run of the cup task, made with the full harness, and replayed it without each design in turn. The replay keeps the same model responses, tool calls and actions in the same order, and adds back the requests each design removes, at the step and tool costs we measured on the robot. Only the last bar in Figure 11 is the real run.</p>
+<figure>
+<div class="rua-fig rua-narrow">
+<svg id="f7" viewBox="0 0 640 300" role="img" aria-label="Wall time per stage"></svg>
+</div>
+<figcaption><b>Figure 11.</b> Wall time for the same cup task as each design is added. Model requests fall from 166 to 61. The queue removes no model time; it overlaps it with motion.</figcaption>
+</figure>
+
+<p>Together, the changes reduce the wall time of this task from 674 s to 211 s, a 3.2× speedup. Before the queue, almost all of the gain comes from cutting the number of model requests. The queue doesn't reduce the model's time at all, but it moves 137 of the 187 seconds of model time into periods when the robot is moving. From the first motion to the end, the robot goes from moving 24% of the time to 84%.</p>
+<p>The table below lists the three runs from our demo videos, all made with the full harness. The last column is the median time from the latest observation the model had received (a report or a camera view) to the moment it queued its next action.</p>
+<div class="rua-tbl"><div class="tbl"><table>
+<tr><th>Task (real runs)</th><th class="n">Time to finish</th><th class="n">Actions</th><th class="n">Robot moving*</th><th class="n">Model time hidden</th><th class="n">Observation → action</th></tr>
+<tr><td>Three cups hide a pear, a ball and nothing; put the pear under the empty cup</td><td class="n">211 s</td><td class="n">14</td><td class="n">84%</td><td class="n">73%</td><td class="n">5.7 s</td></tr>
+<tr><td>Spread a partly folded towel and fold it in half</td><td class="n">151 s</td><td class="n">11</td><td class="n">67%</td><td class="n">47%</td><td class="n">4.7 s</td></tr>
+<tr><td>The same, from a crumpled towel</td><td class="n">503 s</td><td class="n">32</td><td class="n">78%</td><td class="n">72%</td><td class="n">6.0 s</td></tr>
+</table></div></div>
+
+<p style="font-size:.85rem;color:var(--r-muted);margin-top:-12px">* From the first motion to the end of the task.</p>
+
+<figure>
+<video src="img/cups-02-timeline-2.5x.mp4" controls muted playsinline preload="metadata"></video>
+<figcaption><b>Video 1.</b> The cup task at 2.5×. Below the cameras: the robot lane (each queued action), the agent lane (violet while the model works, amber for tools) and the queue depth.</figcaption>
+</figure>
+
+<figure>
+<video src="img/towel-fold-18-timeline-2.5x.mp4" controls muted playsinline preload="metadata"></video>
+<figcaption><b>Video 2.</b> Spreading a partly folded towel and folding it in half, at 2.5×.</figcaption>
+</figure>
+
+<figure>
+<video src="img/towel-fold-23-timeline-3x.mp4" controls muted playsinline preload="metadata"></video>
+<figcaption><b>Video 3.</b> The same task from a crumpled towel, at 3×. The first fold comes out crinkled, and the agent lifts it until the cloth hangs taut, then lays it back down.</figcaption>
+</figure>
+
+<h2>Limitations</h2>
+<p>Hiding the model's time behind motion is not the same as making the agent fast. Even when the queue hides nearly all of it, every action is still based on an observation that is about 5 seconds old by the time the action is queued (Figure 12). The robot moves most of the time, but it reacts like a player in a game with very high ping.</p>
+<figure class="rua-wide">
+<div class="rua-fig">
+<svg viewBox="0 0 860 170" role="img" aria-label="Latency from observation to action">
+  <defs><marker id="ar3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--r-muted)"/></marker></defs>
+  <rect x="110" y="40" width="640" height="26" rx="3" fill="var(--r-robot-soft)"/>
+  <text x="0" y="58" class="lbb">World</text>
+  <text x="430" y="58" text-anchor="middle" class="sm">keeps changing: the towel settles, a held object slips</text>
+  <circle cx="130" cy="53" r="6" fill="var(--r-fg)"/>
+  <text x="130" y="28" text-anchor="middle" class="sm">observation</text>
+  <text x="0" y="112" class="lbb">Model</text>
+  <rect x="130" y="96" width="250" height="26" rx="3" fill="var(--r-think-soft)"/><text x="255" y="114" text-anchor="middle" class="sm">TTFT (prefill, hidden reasoning)</text>
+  <rect x="382" y="96" width="170" height="26" rx="3" fill="var(--r-think)"/><text x="467" y="114" text-anchor="middle" class="sm" style="fill:#fff">write the action</text>
+  <rect x="554" y="96" width="30" height="26" rx="3" fill="var(--r-tool)"/>
+  <line x1="590" y1="109" x2="680" y2="66" stroke="var(--r-muted)" marker-end="url(#ar3)"/>
+  <text x="690" y="96" class="sm">action starts from a</text>
+  <text x="690" y="112" class="sm">5-second-old view</text>
+  <line x1="130" y1="140" x2="584" y2="140" stroke="var(--r-fg)"/>
+  <line x1="130" y1="134" x2="130" y2="146" stroke="var(--r-fg)"/><line x1="584" y1="134" x2="584" y2="146" stroke="var(--r-fg)"/>
+  <text x="357" y="162" text-anchor="middle" class="lbb">median 4.7–6.0 s</text>
+</svg>
+</div>
+<figcaption><b>Figure 12.</b> The latency the queue can't hide: from the latest observation the model received to the action it queued in response. Median per run, for the three runs in the table.</figcaption>
+</figure>
+
+<p>This is also why the queue helps some tasks much more than others. Lifting three cups in turn can be planned from a single look, so several actions wait in the queue and the robot rarely stops. Cloth needs a look after almost every grasp, so the queue runs one deep, and every few actions the robot waits while the model looks and thinks (Figure 13). Tasks that need fine, live correction are the worst case. In our ring-stacking runs, where the agent had to line a ring up over a peg, the robot was moving only 28 to 36% of the time even with the queue, because each small correction depended on seeing the result of the last one.</p>
+<figure class="rua-wide">
+<div class="rua-fig">
+<svg id="f8" viewBox="0 0 860 190" role="img" aria-label="Towel run lanes with long gaps"></svg>
+</div>
+<figcaption><b>Figure 13.</b> Part of the crumpled-towel run where the queue didn't help. The robot waits while the agent looks before folding, and again while it re-plans after a sweep went wrong.</figcaption>
+</figure>
+
+<p>Closing this gap needs a shorter loop from observation to action. That means lower TTFT and less reasoning on routine steps, but it may also mean splitting the work, so that a faster, smaller model or a reactive controller handles the corrections that can't wait several seconds.</p>
+<h2>What's next</h2>
+<p>We treated the model server as a black box throughout this work, and much of the remaining latency comes from it. With a model we serve ourselves, we can work on that side too, for example by starting to process the next camera view while the arm is still moving, before the model is asked about it. We think designing the serving stack and the harness together can take this a good deal further.</p>
+<h2>References</h2>
+<p id="r1" class="rua-ref">[1] An Unexpected Robot Policy: Early Evaluations of GPT-6 Astra on RoboDojo. <a href="https://arxiv.org/abs/2609.24170">arXiv:2609.24170</a></p>
+<p id="r2" class="rua-ref">[2] Democratizing Robot-Use Agents: A Unified Harness with Open Models (uni-robot-agent). <a href="https://arxiv.org/abs/2611.01560">arXiv:2611.01560</a></p>
+<p id="r3" class="rua-ref">[3] Anthropic, Claude Fable and Mythos 5.2. <a href="https://www.anthropic.com/news/claude-fable-and-mythos-5-2">anthropic.com</a></p>
+<p id="r4" class="rua-ref">[4] RoboDojo. <a href="https://arxiv.org/abs/2607.04434">arXiv:2607.04434</a>; evaluation loop in <a href="https://github.com/robodojo-benchmark/RoboDojo">github.com/robodojo-benchmark/RoboDojo</a> (<code>src/eval_client/eval_env.py</code>).</p>
+<p id="r5" class="rua-ref">[5] The World Won't Wait. <a href="https://arxiv.org/abs/2610.20665">arXiv:2610.20665</a></p>
+<p id="r6" class="rua-ref">[6] Fewer Tokens, Better Action: GPT-6 Astra Robot Agents with 14% Higher Success Rate but 65% Fewer Tokens (PyRUA-Lean). <a href="https://arxiv.org/abs/2610.01939">arXiv:2610.01939</a></p>
+<p id="r7" class="rua-ref">[7] OpenAI, Latency optimization guide. <a href="https://developers.openai.com/api/docs/guides/latency-optimization">developers.openai.com</a></p>
+
+<h2>Acknowledgement</h2>
+<p><em>To be added.</em></p>
+<h2>Contributors</h2>
+<p><a href="https://github.com/shaoxiongduan">Shaoxiong Duan</a>, Yang Yuanbo, <a href="https://github.com/GindaChen">Junda Chen</a>, Yulun Wu, <a href="https://haozhang.ai">Hao Zhang</a></p>
+<h2>Citation</h2>
+<pre><code class="language-bibtex">@misc{realtimerua2026,
+  title        = {Getting Robot-Use Agents to Run in Real Time},
+  author       = {Duan, Shaoxiong and Yang, Yuanbo and Chen, Junda and Wu, Yulun and Zhang, Hao},
+  year         = {2026},
+  month        = nov,
+  howpublished = {Hao AI Lab Blog},
+  url          = {https://haoailab.com/blogs/realtime-rua/}
+}
+</code></pre>
+<script id="lanes" type="application/json">{"stages":[{"id":0,"title":"Vanilla agent loop","wall":673.8,"robot":[[44.95,44.95],[44.96,49.47],[49.47,52.97],[52.97,54.71],[54.71,59.22],[82.18,82.21],[82.21,86.72],[86.72,90.22],[90.22,92.09],[92.09,96.6],[126.47,130.98],[130.98,132.06],[132.06,135.56],[157.81,162.32],[162.33,165.83],[165.83,167.63],[167.63,172.13],[194.1,198.6],[198.6,203.4],[203.4,204.51],[204.51,208.02],[241.43,245.94],[245.94,250.44],[250.44,251.95],[251.95,255.45],[279.81,284.32],[326.58,327.14],[327.14,331.65],[331.65,334.37],[334.37,338.89],[410.54,415.04],[415.04,416.91],[416.91,421.41],[449.04,455.56],[455.56,460.06],[460.06,461.06],[461.06,465.56],[465.56,470.07],[495.84,501.35],[558.6,563.11],[593.81,598.31],[622.32,623.44],[623.44,627.95],[627.95,632.45]],"agent":[[1.66,5.0,"w"],[5.0,5.3,"g"],[5.3,5.35,"t"],[5.35,6.64,"w"],[6.64,6.91,"g"],[6.91,6.96,"t"],[6.96,7.94,"w"],[7.94,8.5,"g"],[8.5,9.15,"t"],[9.15,10.12,"w"],[10.12,10.39,"g"],[10.39,10.46,"t"],[10.46,12.04,"w"],[12.04,12.5,"g"],[12.5,13.07,"t"],[13.07,15.11,"w"],[15.11,15.79,"g"],[15.79,15.84,"i"],[15.84,17.88,"w"],[17.88,18.56,"g"],[18.56,18.61,"i"],[18.61,20.65,"w"],[20.65,21.33,"g"],[21.33,21.38,"i"],[21.38,23.42,"w"],[23.42,24.1,"g"],[24.1,24.15,"i"],[24.15,25.6,"w"],[25.6,26.49,"g"],[26.49,26.68,"t"],[26.68,27.98,"w"],[27.98,29.28,"g"],[29.28,29.49,"t"],[29.49,30.39,"w"],[30.39,31.52,"g"],[31.52,33.87,"t"],[33.87,35.91,"w"],[35.91,36.59,"g"],[36.59,36.64,"i"],[36.64,38.14,"w"],[38.14,38.89,"g"],[38.89,39.9,"t"],[39.9,41.94,"w"],[41.94,42.62,"g"],[42.62,42.67,"i"],[42.67,44.44,"w"],[44.44,44.94,"g"],[44.94,59.22,"t"],[59.22,61.25,"w"],[61.25,61.94,"g"],[61.94,62.59,"t"],[62.59,64.63,"w"],[64.63,65.31,"g"],[65.31,65.36,"i"],[65.36,67.41,"w"],[67.41,68.09,"g"],[68.09,68.14,"i"],[68.14,70.17,"w"],[70.17,70.86,"g"],[70.86,70.91,"i"],[70.91,72.95,"w"],[72.95,73.63,"g"],[73.63,73.68,"i"],[73.68,76.33,"w"],[76.33,77.02,"g"],[77.02,77.66,"t"],[77.66,79.7,"w"],[79.7,80.38,"g"],[80.38,80.43,"i"],[80.43,81.68,"w"],[81.68,82.18,"g"],[82.18,96.6,"t"],[96.6,98.64,"w"],[98.64,99.32,"g"],[99.32,99.98,"t"],[99.98,102.02,"w"],[102.02,102.7,"g"],[102.7,102.75,"i"],[102.75,104.79,"w"],[104.79,105.47,"g"],[105.47,105.52,"i"],[105.52,107.56,"w"],[107.56,108.24,"g"],[108.24,108.29,"i"],[108.29,110.33,"w"],[110.33,111.01,"g"],[111.01,111.06,"i"],[111.06,112.41,"w"],[112.41,112.92,"g"],[112.92,113.05,"t"],[113.05,114.39,"w"],[114.39,115.59,"g"],[115.59,116.59,"t"],[116.59,118.63,"w"],[118.63,119.31,"g"],[119.31,119.36,"i"],[119.36,120.98,"w"],[120.98,121.57,"g"],[121.57,121.64,"t"],[121.64,125.73,"w"],[125.73,126.47,"g"],[126.47,135.56,"t"],[135.56,137.6,"w"],[137.6,138.28,"g"],[138.28,138.94,"t"],[138.94,140.98,"w"],[140.98,141.66,"g"],[141.66,141.71,"i"],[141.71,143.75,"w"],[143.75,144.43,"g"],[144.43,144.48,"i"],[144.48,146.52,"w"],[146.52,147.2,"g"],[147.2,147.25,"i"],[147.25,149.29,"w"],[149.29,149.97,"g"],[149.97,150.02,"i"],[150.02,151.22,"w"],[151.22,151.95,"g"],[151.95,152.69,"t"],[152.69,154.73,"w"],[154.73,155.41,"g"],[155.41,155.46,"i"],[155.46,157.35,"w"],[157.35,157.81,"g"],[157.81,172.13,"t"],[172.13,174.17,"w"],[174.17,174.85,"g"],[174.85,175.51,"t"],[175.51,177.55,"w"],[177.55,178.23,"g"],[178.23,178.28,"i"],[178.28,180.32,"w"],[180.32,181.0,"g"],[181.0,181.05,"i"],[181.05,183.09,"w"],[183.09,183.77,"g"],[183.77,183.82,"i"],[183.82,185.86,"w"],[185.86,186.54,"g"],[186.54,186.59,"i"],[186.59,187.72,"w"],[187.72,188.74,"g"],[188.74,189.36,"t"],[189.36,191.4,"w"],[191.4,192.08,"g"],[192.08,192.13,"i"],[192.13,193.77,"w"],[193.77,194.1,"g"],[194.1,208.02,"t"],[208.02,210.06,"w"],[210.06,210.74,"g"],[210.74,211.4,"t"],[211.4,213.44,"w"],[213.44,214.12,"g"],[214.12,214.17,"i"],[214.17,216.21,"w"],[216.21,216.89,"g"],[216.89,216.94,"i"],[216.94,218.98,"w"],[218.98,219.66,"g"],[219.66,219.71,"i"],[219.71,221.75,"w"],[221.75,222.43,"g"],[222.43,222.48,"i"],[222.48,225.66,"w"],[225.66,226.49,"g"],[226.49,226.75,"t"],[226.75,228.79,"w"],[228.79,229.47,"g"],[229.47,229.52,"i"],[229.52,231.74,"w"],[231.74,233.37,"g"],[233.37,234.14,"t"],[234.14,236.18,"w"],[236.18,236.86,"g"],[236.86,236.91,"i"],[236.91,241.03,"w"],[241.03,241.43,"g"],[241.43,255.45,"t"],[255.45,257.49,"w"],[257.49,258.17,"g"],[258.17,258.83,"t"],[258.83,260.87,"w"],[260.87,261.55,"g"],[261.55,261.6,"i"],[261.6,263.64,"w"],[263.64,264.32,"g"],[264.32,264.37,"i"],[264.37,266.41,"w"],[266.41,267.1,"g"],[267.1,267.14,"i"],[267.14,269.19,"w"],[269.19,269.87,"g"],[269.87,269.92,"i"],[269.92,271.98,"w"],[271.98,273.04,"g"],[273.04,273.21,"t"],[273.21,275.25,"w"],[275.25,275.94,"g"],[275.94,275.99,"i"],[275.99,278.42,"w"],[278.42,279.8,"g"],[279.8,284.32,"t"],[284.32,286.36,"w"],[286.36,287.04,"g"],[287.04,287.7,"t"],[287.7,289.74,"w"],[289.74,290.42,"g"],[290.42,290.47,"i"],[290.47,292.51,"w"],[292.51,293.19,"g"],[293.19,293.24,"i"],[293.24,295.28,"w"],[295.28,295.96,"g"],[295.96,296.01,"i"],[296.01,298.05,"w"],[298.05,298.73,"g"],[298.73,298.78,"i"],[298.78,301.13,"w"],[301.13,301.3,"g"],[301.3,305.57,"w"],[305.57,306.69,"g"],[306.69,307.05,"t"],[307.05,309.92,"w"],[309.92,311.88,"g"],[311.88,312.13,"t"],[312.13,314.17,"w"],[314.17,314.85,"g"],[314.85,314.9,"i"],[314.9,317.06,"w"],[317.06,318.44,"g"],[318.44,319.1,"t"],[319.1,321.13,"w"],[321.13,321.81,"g"],[321.81,321.87,"i"],[321.87,325.89,"w"],[325.89,326.57,"g"],[326.57,338.89,"t"],[338.89,340.93,"w"],[340.93,341.61,"g"],[341.61,342.27,"t"],[342.27,344.31,"w"],[344.31,344.99,"g"],[344.99,345.04,"i"],[345.04,347.08,"w"],[347.08,347.76,"g"],[347.76,347.81,"i"],[347.81,349.85,"w"],[349.85,350.53,"g"],[350.53,350.58,"i"],[350.58,352.62,"w"],[352.62,353.3,"g"],[353.3,353.35,"i"],[353.35,355.33,"w"],[355.33,356.11,"g"],[356.11,359.04,"t"],[359.04,361.08,"w"],[361.08,361.76,"g"],[361.76,362.5,"t"],[362.5,364.54,"w"],[364.54,365.22,"g"],[365.22,365.95,"t"],[365.95,368.0,"w"],[368.0,368.68,"g"],[368.68,369.41,"t"],[369.41,371.45,"w"],[371.45,372.13,"g"],[372.13,372.87,"t"],[372.87,374.91,"w"],[374.91,375.59,"g"],[375.59,376.32,"t"],[376.32,378.36,"w"],[378.36,379.04,"g"],[379.04,379.78,"t"],[379.78,381.82,"w"],[381.82,382.5,"g"],[382.5,383.24,"t"],[383.24,385.28,"w"],[385.28,385.96,"g"],[385.96,386.69,"t"],[386.69,388.73,"w"],[388.73,389.41,"g"],[389.41,390.15,"t"],[390.15,391.67,"w"],[391.67,392.54,"g"],[392.54,393.14,"t"],[393.14,395.18,"w"],[395.18,395.86,"g"],[395.86,395.91,"i"],[395.91,396.07,"w"],[396.07,396.08,"g"],[396.08,403.75,"w"],[403.75,404.97,"g"],[404.97,405.86,"t"],[405.86,407.9,"w"],[407.9,408.58,"g"],[408.58,408.63,"i"],[408.63,409.86,"w"],[409.86,410.53,"g"],[410.53,421.41,"t"],[421.41,423.45,"w"],[423.45,424.13,"g"],[424.13,424.79,"t"],[424.79,426.83,"w"],[426.83,427.51,"g"],[427.51,427.56,"i"],[427.56,429.6,"w"],[429.6,430.29,"g"],[430.29,430.33,"i"],[430.33,432.37,"w"],[432.37,433.06,"g"],[433.06,433.11,"i"],[433.11,435.14,"w"],[435.14,435.83,"g"],[435.83,435.88,"i"],[435.88,437.2,"w"],[437.2,437.92,"g"],[437.92,438.09,"t"],[438.09,439.21,"w"],[439.21,439.79,"g"],[439.79,439.93,"t"],[439.93,441.97,"w"],[441.97,442.65,"g"],[442.65,442.7,"i"],[442.7,448.84,"w"],[448.84,449.04,"g"],[449.04,470.07,"t"],[470.07,472.11,"w"],[472.11,472.79,"g"],[472.79,473.45,"t"],[473.45,475.49,"w"],[475.49,476.17,"g"],[476.17,476.22,"i"],[476.22,478.26,"w"],[478.26,478.94,"g"],[478.94,478.99,"i"],[478.99,481.03,"w"],[481.03,481.71,"g"],[481.71,481.76,"i"],[481.76,483.8,"w"],[483.8,484.48,"g"],[484.48,484.53,"i"],[484.53,486.56,"w"],[486.56,488.23,"g"],[488.23,488.95,"t"],[488.95,490.99,"w"],[490.99,491.67,"g"],[491.67,491.72,"i"],[491.72,495.63,"w"],[495.63,495.84,"g"],[495.84,501.35,"t"],[501.35,503.39,"w"],[503.39,504.07,"g"],[504.07,504.73,"t"],[504.73,506.77,"w"],[506.77,507.45,"g"],[507.45,507.5,"i"],[507.5,509.54,"w"],[509.54,510.22,"g"],[510.22,510.27,"i"],[510.27,512.31,"w"],[512.31,512.99,"g"],[512.99,513.04,"i"],[513.04,515.08,"w"],[515.08,515.76,"g"],[515.76,515.81,"i"],[515.81,517.69,"w"],[517.69,519.1,"g"],[519.1,519.19,"t"],[519.19,521.98,"w"],[521.98,524.43,"g"],[524.43,524.56,"t"],[524.56,526.31,"w"],[526.31,527.33,"g"],[527.33,527.4,"t"],[527.4,528.92,"w"],[528.92,529.1,"g"],[529.1,531.07,"w"],[531.07,531.79,"g"],[531.79,531.98,"t"],[531.98,534.02,"w"],[534.02,534.7,"g"],[534.7,534.75,"i"],[534.75,537.01,"w"],[537.01,537.98,"g"],[537.98,538.06,"t"],[538.06,542.21,"w"],[542.21,543.66,"g"],[543.66,544.41,"t"],[544.41,546.45,"w"],[546.45,547.13,"g"],[547.13,547.18,"i"],[547.18,550.4,"w"],[550.4,551.76,"g"],[551.76,551.93,"t"],[551.93,553.67,"w"],[553.67,554.82,"g"],[554.82,554.92,"t"],[554.92,557.33,"w"],[557.33,558.6,"g"],[558.6,563.11,"t"],[563.11,565.15,"w"],[565.15,565.83,"g"],[565.83,566.49,"t"],[566.49,568.53,"w"],[568.53,569.21,"g"],[569.21,569.26,"i"],[569.26,571.3,"w"],[571.3,571.98,"g"],[571.98,572.03,"i"],[572.03,574.07,"w"],[574.07,574.75,"g"],[574.75,574.8,"i"],[574.8,576.84,"w"],[576.84,577.52,"g"],[577.52,577.57,"i"],[577.57,579.12,"w"],[579.12,579.23,"g"],[579.23,579.28,"t"],[579.28,581.48,"w"],[581.48,582.2,"g"],[582.2,582.35,"t"],[582.35,584.39,"w"],[584.39,585.07,"g"],[585.07,585.12,"i"],[585.12,589.31,"w"],[589.31,590.56,"g"],[590.56,590.67,"t"],[590.67,592.86,"w"],[592.86,593.8,"g"],[593.8,598.31,"t"],[598.31,600.35,"w"],[600.35,601.03,"g"],[601.03,601.69,"t"],[601.69,603.73,"w"],[603.73,604.41,"g"],[604.41,604.46,"i"],[604.46,606.5,"w"],[606.5,607.18,"g"],[607.18,607.24,"i"],[607.24,609.27,"w"],[609.27,609.96,"g"],[609.96,610.01,"i"],[610.01,612.04,"w"],[612.04,612.73,"g"],[612.73,612.78,"i"],[612.78,616.62,"w"],[616.62,617.69,"g"],[617.69,617.89,"t"],[617.89,620.14,"w"],[620.14,620.25,"g"],[620.25,620.32,"t"],[620.32,621.93,"w"],[621.93,622.32,"g"],[622.32,632.45,"t"],[632.45,634.49,"w"],[634.49,635.17,"g"],[635.17,635.83,"t"],[635.83,637.87,"w"],[637.87,638.55,"g"],[638.55,638.61,"i"],[638.61,640.64,"w"],[640.64,641.33,"g"],[641.33,641.38,"i"],[641.38,643.41,"w"],[643.41,644.1,"g"],[644.1,644.15,"i"],[644.15,646.18,"w"],[646.18,646.87,"g"],[646.87,646.92,"i"],[646.92,650.73,"w"],[650.73,651.61,"g"],[651.61,651.69,"t"],[651.69,653.33,"w"],[653.33,653.99,"g"],[653.99,654.19,"t"],[654.19,656.23,"w"],[656.23,656.91,"g"],[656.91,656.96,"i"],[656.96,659.0,"w"],[659.0,659.68,"g"],[659.68,659.73,"i"],[659.73,661.77,"w"],[661.77,662.45,"g"],[662.45,662.5,"i"],[662.5,664.54,"w"],[664.54,665.22,"g"],[665.22,665.27,"i"],[665.27,665.41,"w"],[665.41,665.41,"g"],[665.41,673.25,"w"],[673.25,673.74,"g"],[673.74,673.81,"t"]]},{"id":4,"title":"+ Pushed reports","wall":374.0,"robot":[[28.18,28.18],[28.18,32.69],[32.69,36.2],[36.2,37.93],[37.93,42.44],[49.15,49.18],[49.18,53.69],[53.69,57.19],[57.2,59.06],[59.06,63.57],[77.09,81.6],[81.6,82.68],[82.68,86.18],[92.12,96.63],[96.63,100.13],[100.14,101.94],[101.94,106.44],[112.09,116.59],[116.6,121.39],[121.39,122.5],[122.5,126.01],[140.16,144.66],[144.66,149.16],[149.17,150.67],[150.67,154.18],[162.09,166.6],[189.03,189.59],[189.6,194.1],[194.1,196.82],[196.83,201.34],[222.14,226.64],[226.64,228.51],[228.51,233.01],[244.06,250.57],[250.57,255.07],[255.07,256.07],[256.07,260.58],[260.58,265.08],[274.33,279.84],[315.94,320.44],[333.81,338.32],[347.94,349.06],[349.06,353.56],[353.57,358.07]],"agent":[[1.66,5.0,"w"],[5.0,5.3,"g"],[5.3,5.35,"t"],[5.35,6.64,"w"],[6.64,6.91,"g"],[6.91,6.96,"t"],[6.96,7.94,"w"],[7.94,8.5,"g"],[8.5,9.15,"t"],[9.15,10.12,"w"],[10.12,10.39,"g"],[10.39,10.46,"t"],[10.46,12.04,"w"],[12.04,12.5,"g"],[12.5,13.07,"t"],[13.07,14.49,"w"],[14.49,15.38,"g"],[15.38,15.57,"t"],[15.57,16.84,"w"],[16.84,18.14,"g"],[18.14,18.34,"t"],[18.34,19.22,"w"],[19.22,20.35,"g"],[20.35,22.69,"t"],[22.69,24.17,"w"],[24.17,24.91,"g"],[24.91,25.93,"t"],[25.93,27.67,"w"],[27.67,28.17,"g"],[28.17,42.44,"t"],[42.44,43.48,"r"],[43.48,46.1,"w"],[46.1,46.79,"g"],[46.79,47.43,"t"],[47.43,48.65,"w"],[48.65,49.15,"g"],[49.15,63.57,"t"],[63.57,64.6,"r"],[64.6,65.92,"w"],[65.92,66.44,"g"],[66.44,66.56,"t"],[66.56,67.88,"w"],[67.88,69.07,"g"],[69.07,70.08,"t"],[70.08,71.66,"w"],[71.66,72.25,"g"],[72.25,72.33,"t"],[72.33,76.36,"w"],[76.36,77.09,"g"],[77.09,86.18,"t"],[86.18,87.22,"r"],[87.22,88.36,"w"],[88.36,89.08,"g"],[89.08,89.83,"t"],[89.83,91.66,"w"],[91.66,92.12,"g"],[92.12,106.44,"t"],[106.44,107.47,"r"],[107.47,108.54,"w"],[108.54,109.56,"g"],[109.56,110.18,"t"],[110.18,111.76,"w"],[111.76,112.09,"g"],[112.09,126.01,"t"],[126.01,127.04,"r"],[127.04,130.14,"w"],[130.14,130.97,"g"],[130.97,131.23,"t"],[131.23,133.35,"w"],[133.35,134.99,"g"],[134.99,135.75,"t"],[135.75,139.76,"w"],[139.76,140.16,"g"],[140.16,154.18,"t"],[154.18,155.21,"r"],[155.21,157.15,"w"],[157.15,158.21,"g"],[158.21,158.39,"t"],[158.39,160.71,"w"],[160.71,162.09,"g"],[162.09,166.6,"t"],[166.6,167.64,"r"],[167.64,169.87,"w"],[169.87,170.04,"g"],[170.04,174.14,"w"],[174.14,175.25,"g"],[175.25,175.61,"t"],[175.61,178.31,"w"],[178.31,180.27,"g"],[180.27,180.52,"t"],[180.52,182.5,"w"],[182.5,183.87,"g"],[183.87,184.53,"t"],[184.53,188.34,"w"],[188.34,189.03,"g"],[189.03,201.34,"t"],[201.34,202.38,"r"],[202.38,204.15,"w"],[204.15,204.93,"g"],[204.93,207.86,"t"],[207.86,209.17,"w"],[209.17,210.04,"g"],[210.04,210.64,"t"],[210.64,210.68,"w"],[210.68,210.7,"g"],[210.7,218.24,"w"],[218.24,219.46,"g"],[219.46,220.35,"t"],[220.35,221.46,"w"],[221.46,222.13,"g"],[222.13,233.01,"t"],[233.01,234.05,"r"],[234.05,235.25,"w"],[235.25,235.98,"g"],[235.98,236.14,"t"],[236.14,237.15,"w"],[237.15,237.72,"g"],[237.72,237.87,"t"],[237.87,243.86,"w"],[243.86,244.06,"g"],[244.06,265.08,"t"],[265.08,266.12,"r"],[266.12,268.0,"w"],[268.0,269.67,"g"],[269.67,270.39,"t"],[270.39,274.12,"w"],[274.12,274.33,"g"],[274.33,279.84,"t"],[279.84,280.87,"r"],[280.87,282.57,"w"],[282.57,283.98,"g"],[283.98,284.08,"t"],[284.08,286.69,"w"],[286.69,289.13,"g"],[289.13,289.26,"t"],[289.26,290.83,"w"],[290.83,291.86,"g"],[291.86,291.93,"t"],[291.93,293.26,"w"],[293.26,293.44,"g"],[293.44,295.2,"w"],[295.2,295.93,"g"],[295.93,296.12,"t"],[296.12,298.17,"w"],[298.17,299.14,"g"],[299.14,299.22,"t"],[299.22,303.12,"w"],[303.12,304.57,"g"],[304.57,305.32,"t"],[305.32,308.27,"w"],[308.27,309.64,"g"],[309.64,309.8,"t"],[309.8,311.28,"w"],[311.28,312.42,"g"],[312.42,312.53,"t"],[312.53,314.67,"w"],[314.67,315.94,"g"],[315.94,320.44,"t"],[320.44,321.48,"r"],[321.48,322.76,"w"],[322.76,322.87,"g"],[322.87,322.92,"t"],[322.92,324.85,"w"],[324.85,325.57,"g"],[325.57,325.72,"t"],[325.72,329.62,"w"],[329.62,330.86,"g"],[330.86,330.98,"t"],[330.98,332.86,"w"],[332.86,333.81,"g"],[333.81,338.32,"t"],[338.32,339.35,"r"],[339.35,342.9,"w"],[342.9,343.97,"g"],[343.97,344.17,"t"],[344.17,346.09,"w"],[346.09,346.2,"g"],[346.2,346.27,"t"],[346.27,347.55,"w"],[347.55,347.94,"g"],[347.94,358.07,"t"],[358.07,359.11,"r"],[359.11,362.59,"w"],[362.59,363.47,"g"],[363.47,363.56,"t"],[363.56,364.87,"w"],[364.87,365.53,"g"],[365.53,365.72,"t"],[365.72,365.74,"w"],[365.74,365.75,"g"],[365.75,373.46,"w"],[373.46,373.95,"g"],[373.95,374.02,"t"]]},{"id":5,"title":"+ The queue","wall":211.4,"robot":[[28.23,28.23],[28.23,32.75],[32.75,36.25],[36.25,37.99],[37.99,42.49],[42.49,42.53],[42.53,47.04],[47.04,50.54],[50.54,52.41],[52.41,56.91],[56.92,61.43],[61.43,62.51],[62.51,66.01],[66.01,70.52],[70.52,74.02],[74.02,75.83],[75.83,80.33],[80.33,84.83],[84.83,89.63],[89.63,90.74],[90.74,94.25],[94.25,98.75],[98.75,103.25],[103.26,104.76],[104.76,108.27],[108.27,112.78],[112.78,113.35],[113.35,117.85],[117.85,120.58],[120.58,125.09],[125.09,129.6],[129.6,131.47],[131.47,135.97],[135.97,142.49],[142.49,146.99],[146.99,147.99],[147.99,152.49],[152.5,157.0],[157.0,162.51],[173.86,178.37],[186.93,191.43],[195.59,196.71],[196.71,201.21],[201.21,205.72]],"agent":[[1.66,5.0,"w"],[5.0,5.3,"g"],[5.3,5.35,"t"],[5.35,6.64,"w"],[6.64,6.91,"g"],[6.91,6.96,"t"],[6.96,7.94,"w"],[7.94,8.5,"g"],[8.5,9.15,"t"],[9.15,10.12,"w"],[10.12,10.39,"g"],[10.39,10.46,"t"],[10.46,12.04,"w"],[12.04,12.5,"g"],[12.5,13.07,"t"],[13.07,14.49,"w"],[14.49,15.38,"g"],[15.38,15.57,"t"],[15.57,16.84,"w"],[16.84,18.14,"g"],[18.14,18.34,"t"],[18.34,19.22,"w"],[19.22,20.35,"g"],[20.35,22.69,"t"],[22.69,24.17,"w"],[24.17,24.91,"g"],[24.91,25.93,"t"],[25.93,27.67,"w"],[27.67,28.17,"g"],[28.17,28.25,"t"],[28.25,30.88,"w"],[29.69,30.04,"r"],[30.88,31.56,"g"],[31.56,32.21,"t"],[32.21,33.43,"w"],[33.43,33.92,"g"],[33.92,34.0,"t"],[34.0,35.32,"w"],[35.32,35.83,"g"],[35.83,35.96,"t"],[35.96,37.27,"w"],[37.27,38.47,"g"],[38.47,39.47,"t"],[39.47,41.05,"w"],[41.05,41.65,"g"],[41.65,41.72,"t"],[41.72,45.75,"w"],[43.24,43.59,"r"],[45.75,46.48,"g"],[46.48,46.56,"t"],[46.56,47.69,"w"],[47.69,48.42,"g"],[48.42,49.16,"t"],[49.16,51.0,"w"],[51.0,51.46,"g"],[51.46,51.53,"t"],[51.53,52.6,"w"],[52.6,53.63,"g"],[53.63,54.24,"t"],[54.24,55.82,"w"],[55.82,56.15,"g"],[56.15,56.23,"t"],[56.23,59.32,"w"],[57.65,58.0,"r"],[59.32,60.15,"g"],[60.15,60.41,"t"],[60.41,62.54,"w"],[62.54,64.17,"g"],[64.17,64.94,"t"],[64.94,68.94,"w"],[66.89,67.24,"r"],[68.94,69.34,"g"],[69.34,69.42,"t"],[69.42,71.36,"w"],[71.36,72.42,"g"],[72.42,72.6,"t"],[72.6,74.91,"w"],[74.91,76.29,"g"],[76.29,76.97,"t"],[76.97,79.2,"w"],[79.2,79.37,"g"],[79.57,83.66,"w"],[79.58,79.93,"r"],[81.52,81.86,"r"],[83.66,84.77,"g"],[84.77,85.13,"t"],[85.13,87.83,"w"],[87.83,89.79,"g"],[89.79,90.04,"t"],[90.04,92.02,"w"],[92.02,93.39,"g"],[93.39,94.05,"t"],[94.05,97.86,"w"],[95.61,95.96,"r"],[97.86,98.55,"g"],[98.55,98.64,"t"],[98.64,100.41,"w"],[100.41,101.18,"g"],[101.18,104.12,"t"],[104.12,105.43,"w"],[105.43,106.3,"g"],[106.3,106.9,"t"],[106.9,106.94,"w"],[106.94,106.96,"g"],[108.06,115.6,"w"],[108.9,109.25,"r"],[112.99,113.34,"r"],[113.0,113.35,"r"],[113.01,113.36,"r"],[115.6,116.82,"g"],[116.82,117.71,"t"],[117.71,118.82,"w"],[118.82,119.5,"g"],[119.5,119.57,"t"],[119.57,120.77,"w"],[120.77,121.5,"g"],[121.5,121.67,"t"],[121.67,122.67,"w"],[122.67,123.24,"g"],[123.24,123.39,"t"],[123.39,129.38,"w"],[127.65,128.0,"r"],[129.38,129.58,"g"],[129.58,129.66,"t"],[129.66,131.54,"w"],[131.54,133.21,"g"],[133.21,133.93,"t"],[133.93,137.66,"w"],[136.11,136.46,"r"],[137.66,137.87,"g"],[137.87,137.95,"t"],[137.95,139.65,"w"],[139.65,141.06,"g"],[141.06,141.16,"t"],[141.16,143.77,"w"],[143.77,146.21,"g"],[146.21,146.34,"t"],[146.34,147.91,"w"],[147.91,148.94,"g"],[148.94,149.01,"t"],[149.01,150.34,"w"],[150.34,150.52,"g"],[150.71,152.47,"w"],[150.72,151.07,"r"],[152.47,153.19,"g"],[153.19,153.38,"t"],[153.38,155.43,"w"],[155.43,156.4,"g"],[156.4,156.48,"t"],[156.48,160.39,"w"],[157.81,158.16,"r"],[160.39,161.84,"g"],[161.84,162.59,"t"],[162.59,165.54,"w"],[163.79,164.14,"r"],[165.54,166.9,"g"],[166.9,167.07,"t"],[167.07,168.54,"w"],[168.54,169.69,"g"],[169.69,169.79,"t"],[169.79,171.93,"w"],[171.93,173.2,"g"],[173.2,173.87,"t"],[173.87,175.15,"w"],[173.87,174.22,"r"],[175.15,175.26,"g"],[175.26,175.31,"t"],[175.31,177.24,"w"],[177.24,177.96,"g"],[177.96,178.11,"t"],[178.11,182.0,"w"],[179.75,180.1,"r"],[182.0,183.25,"g"],[183.25,183.37,"t"],[183.37,185.25,"w"],[185.25,186.2,"g"],[186.2,186.96,"t"],[186.96,190.5,"w"],[188.62,188.97,"r"],[190.5,191.57,"g"],[191.57,191.77,"t"],[191.77,193.69,"w"],[191.8,192.15,"r"],[193.69,193.8,"g"],[193.8,193.87,"t"],[193.87,195.16,"w"],[195.16,195.54,"g"],[195.54,195.62,"t"],[195.62,199.1,"w"],[197.42,197.77,"r"],[199.1,199.98,"g"],[199.98,200.06,"t"],[200.06,201.37,"w"],[201.37,202.03,"g"],[202.03,202.23,"t"],[202.23,202.25,"w"],[202.25,202.25,"g"],[203.12,210.83,"w"],[203.47,203.81,"r"],[207.17,207.52,"r"],[207.18,207.53,"r"],[210.83,211.33,"g"],[211.33,211.37,"t"]]}],"towel23":{"wall":502.5,"robot":[[40.21,43.72,"smooth_first",false],[46.22,61.28,"smooth_first",true],[61.28,76.39,"smooth_far",true],[76.39,92.5,"smooth_outer",true],[92.5,107.55,"smooth_near",true],[107.55,123.59,"smooth_center",true],[123.59,131.9,"prepare_corners",true],[138.07,157.85,"recenter",true],[157.85,170.38,"restore_center",true],[170.38,178.13,"corner_approach",true],[178.13,182.65,"lower_outside",true],[189.29,194.8,"insert_corners",true],[200.28,216.97,"grip_and_test",true],[221.32,228.35,"spread_held_edge",true],[228.35,234.86,"lay_flat_held",true],[258.92,267.95,"fold_lift",true],[267.95,273.46,"fold_over",true],[273.46,277.98,"fold_lower",true],[284.21,296.75,"release_fold",true],[296.75,317.8,"smooth_fold_center",true],[325.69,346.29,"sweep_upper_layer",true],[366.74,377.87,"approach_hem",true],[377.87,390.52,"pinch_hem",true],[390.52,400.54,"align_hem",true],[400.54,413.0,"release_hem",true],[420.64,435.91,"approach_folded_corners",true],[435.91,449.84,"grip_folded_corners",true],[456.66,463.18,"lift_fold_evenly",true],[463.18,467.69,"move_settle_forward",true],[468.08,472.59,"tension_fold",true],[472.59,487.13,"lower_settled_fold",true],[487.13,499.97,"release_settled_fold",true]],"agent":[[2.04,4.72,"w"],[4.72,4.82,"t"],[4.82,6.23,"w"],[6.23,6.31,"t"],[6.31,8.06,"w"],[8.06,8.11,"t"],[8.11,9.51,"w"],[9.51,9.56,"t"],[9.56,10.81,"w"],[10.81,10.88,"t"],[10.88,12.55,"w"],[12.55,12.6,"t"],[12.6,14.49,"w"],[14.49,14.53,"t"],[14.53,15.92,"w"],[15.92,15.97,"t"],[15.97,17.14,"w"],[17.14,17.19,"t"],[17.19,18.8,"w"],[18.8,18.84,"t"],[18.84,21.0,"w"],[21.0,21.65,"t"],[21.65,23.45,"w"],[23.45,23.5,"t"],[23.5,25.44,"w"],[25.44,25.66,"t"],[25.66,27.49,"w"],[27.49,27.54,"t"],[27.54,31.36,"w"],[31.36,32.31,"t"],[32.31,34.51,"w"],[34.51,34.77,"t"],[34.77,36.63,"w"],[36.63,38.09,"t"],[38.09,40.13,"w"],[40.13,40.24,"t"],[40.24,46.15,"w"],[46.15,46.22,"t"],[46.22,47.92,"w"],[47.92,47.93,"t"],[47.93,50.34,"w"],[50.34,50.63,"t"],[50.63,53.32,"w"],[53.32,53.4,"t"],[53.4,55.69,"w"],[55.69,55.87,"t"],[55.87,57.45,"w"],[57.45,57.53,"t"],[57.53,59.71,"w"],[59.71,60.19,"t"],[60.19,64.28,"w"],[64.28,64.35,"t"],[64.35,68.36,"w"],[68.36,68.43,"t"],[68.43,73.55,"w"],[73.55,74.25,"t"],[74.25,81.17,"w"],[81.17,81.38,"t"],[81.38,83.56,"w"],[83.56,84.43,"t"],[84.43,87.32,"w"],[87.32,89.34,"t"],[89.34,91.55,"w"],[91.55,92.07,"t"],[92.07,98.16,"w"],[98.16,98.25,"t"],[98.25,102.35,"w"],[102.35,102.45,"t"],[102.45,104.88,"w"],[104.88,104.95,"t"],[104.95,113.09,"w"],[113.09,113.24,"t"],[113.24,117.58,"w"],[117.58,117.66,"t"],[117.66,119.6,"w"],[119.6,119.68,"t"],[119.68,122.07,"w"],[122.07,122.27,"t"],[122.27,131.17,"w"],[131.17,132.09,"t"],[132.09,134.11,"w"],[134.11,134.15,"t"],[134.15,138.02,"w"],[138.02,138.1,"t"],[138.1,145.71,"w"],[145.71,149.16,"t"],[149.16,153.57,"w"],[153.57,153.65,"t"],[153.65,156.53,"w"],[156.53,156.75,"t"],[156.75,161.9,"w"],[161.9,162.85,"t"],[162.85,168.32,"w"],[168.32,168.4,"t"],[168.4,170.53,"w"],[170.53,170.58,"t"],[170.58,172.8,"w"],[172.8,172.83,"t"],[172.83,177.25,"w"],[177.25,178.37,"t"],[178.37,178.4,"w"],[179.3,189.24,"w"],[189.24,189.32,"t"],[189.32,199.94,"w"],[199.94,200.3,"t"],[200.3,206.23,"w"],[206.23,206.57,"t"],[206.57,211.79,"w"],[211.79,212.74,"t"],[212.74,215.31,"w"],[215.31,215.47,"t"],[215.47,221.28,"w"],[221.28,221.4,"t"],[221.4,251.41,"w"],[251.41,252.31,"t"],[252.31,258.87,"w"],[258.87,259.04,"t"],[259.04,265.12,"w"],[265.12,265.2,"t"],[265.2,267.59,"w"],[267.59,267.73,"t"],[267.73,284.17,"w"],[284.17,284.25,"t"],[284.25,292.44,"w"],[292.44,292.78,"t"],[292.78,296.23,"w"],[296.23,296.55,"t"],[296.55,303.81,"w"],[303.81,303.96,"t"],[303.96,310.45,"w"],[310.45,310.55,"t"],[310.55,313.02,"w"],[313.02,313.13,"t"],[313.13,325.64,"w"],[325.64,325.72,"t"],[325.72,334.51,"w"],[334.51,335.9,"t"],[335.9,338.86,"w"],[338.86,339.05,"t"],[339.05,339.08,"w"],[339.87,353.54,"w"],[353.54,354.47,"t"],[354.47,362.39,"w"],[362.39,363.23,"t"],[363.23,366.69,"w"],[366.69,366.76,"t"],[366.76,368.12,"w"],[368.12,368.14,"t"],[368.14,371.32,"w"],[371.32,371.39,"t"],[371.39,375.77,"w"],[375.77,375.85,"t"],[375.85,377.93,"w"],[377.93,378.31,"t"],[378.31,380.58,"w"],[380.58,380.66,"t"],[380.66,384.09,"w"],[384.09,385.03,"t"],[385.03,387.64,"w"],[387.64,387.82,"t"],[387.82,389.5,"w"],[389.5,389.57,"t"],[389.57,395.03,"w"],[395.03,395.11,"t"],[395.11,397.35,"w"],[397.35,397.53,"t"],[397.53,399.38,"w"],[399.38,399.48,"t"],[399.48,408.2,"w"],[408.2,408.32,"t"],[408.32,413.18,"w"],[413.18,413.23,"t"],[413.23,415.24,"w"],[415.24,415.27,"t"],[415.27,419.82,"w"],[419.82,420.65,"t"],[420.65,422.31,"w"],[422.31,422.36,"t"],[422.36,426.05,"w"],[426.05,426.16,"t"],[426.16,430.82,"w"],[430.82,432.17,"t"],[432.17,435.96,"w"],[435.96,436.17,"t"],[436.17,443.94,"w"],[443.94,444.1,"t"],[444.1,446.65,"w"],[446.65,446.75,"t"],[446.75,448.62,"w"],[448.62,448.78,"t"],[448.78,450.07,"w"],[450.85,456.61,"w"],[456.61,456.67,"t"],[456.67,458.74,"w"],[458.74,458.76,"t"],[458.76,461.14,"w"],[461.14,461.21,"t"],[461.21,468.03,"w"],[468.03,468.04,"t"],[468.04,471.78,"w"],[471.78,471.91,"t"],[471.91,477.01,"w"],[477.01,477.09,"t"],[477.09,481.12,"w"],[481.12,481.23,"t"],[481.23,485.46,"w"],[485.46,485.54,"t"],[485.54,491.9,"w"],[491.9,492.04,"t"],[492.04,497.89,"w"],[497.89,498.13,"t"],[498.13,502.43,"w"],[502.43,502.51,"t"],[502.51,505.09,"w"]],"queue":[[0.0,0],[53.367,1],[61.276,0],[64.32,1],[76.39,0],[81.343,1],[92.505,0],[98.216,1],[104.925,2],[107.548,1],[123.592,0],[138.07,1],[157.855,0],[162.818,1],[168.366,2],[170.384,1],[178.133,0],[221.326,1],[228.348,0],[258.919,2],[267.946,1],[273.46,0],[296.54,1],[296.748,0],[371.366,1],[377.868,0],[389.546,1],[390.52,0],[399.446,1],[400.536,0],[426.101,1],[435.914,0],[461.185,1],[463.176,0],[468.081,1],[472.593,0],[477.064,1],[487.132,0]]}}</script>
+<script>
+(function(){
+const NS="http://www.w3.org/2000/svg";
+function el(tag,attrs,parent,text){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;if(parent)parent.appendChild(e);return e;}
+const D=JSON.parse(document.getElementById("lanes").textContent);
+const C={w:"var(--r-think-soft)",g:"var(--r-think)",i:"var(--r-tool)",t:"var(--r-tool)",r:"var(--r-muted)"};
+
+/* Figure 3: towel-fold-11 breakdown */
+(function(){
+  const s=document.getElementById("f3"),L=170,W=640,T=2137,sc=W/T;
+  const segs=[["TTFT (est.)",1092,"var(--r-think-soft)"],["Decoding",187,"var(--r-think)"],["Summary hold",382,"var(--r-bad)"],["Tools",458,"var(--r-tool)"]];
+  el("text",{x:0,y:34,class:"lbb"},s,"Agent");
+  el("text",{x:0,y:50,class:"sm"},s,"model + tools");
+  let x=L;
+  segs.forEach(([n,v,c],i)=>{const w=v*sc;el("rect",{x:x,y:18,width:w-1,height:34,fill:c,rx:2},s);
+    el("text",{x:x+4,y:70+(i%2)*14,class:"sm"},s,n+" "+v.toLocaleString()+" s");x+=w;});
+  el("text",{x:0,y:124,class:"lbb"},s,"Robot");
+  el("text",{x:0,y:140,class:"sm"},s,"moving");
+  el("rect",{x:L,y:108,width:W,height:24,fill:"var(--r-idle)",rx:2},s);
+  el("rect",{x:L,y:108,width:532*sc,height:24,fill:"var(--r-robot)",rx:2},s);
+  el("text",{x:L+532*sc+6,y:125,class:"sm"},s,"532 s moving");
+  el("text",{x:L,y:160,class:"xs"},s,"0");
+  el("text",{x:L+W,y:160,class:"xs","text-anchor":"end"},s,"2,137 s");
+})();
+
+/* Figure 4: round trips before/after */
+(function(){
+  const s=document.getElementById("f4"),sc=26,x0=120;
+  function row(y,label,sub,items){
+    el("text",{x:0,y:y+16,class:"lbb"},s,label);el("text",{x:0,y:y+32,class:"sm"},s,sub);
+    let x=x0;items.forEach(([k,d,t,a])=>{const w=d*sc;el("rect",{x:x,y:y,width:Math.max(w-2,3),height:28,rx:3,fill:k=="m"?"var(--r-think)":k=="r"?"var(--r-robot)":"var(--r-tool)"},s);
+      if(t)el("text",{x:a?x:x+w/2-1,y:y+46,class:"xs","text-anchor":a||"middle"},s,t);x+=w;});
+    return x;}
+  const m=2.6;
+  const xa=row(20,"Before","8 model steps",[["m",m,"write action"],["r",4.5,"blocking motion"],["m",m,"poll"],["t",.66,""],["m",m,"read cam 1"],["m",m,"cam 2"],["m",m,"cam 3"],["m",m,"cam 4"],["m",m,"read state"],["m",m,"next"]]);
+  el("text",{x:xa+6,y:39,class:"sm"},s,Math.round((xa-x0)/sc)+" s");
+  const xb=row(110,"After","2 model steps",[["m",m,"write action"],["r",4.5,"motion"],["t",.2,""],["m",m,"report: result + state + grid → next","start"]]);
+  el("text",{x:xb+6,y:129,class:"sm"},s,Math.round((xb-x0)/sc)+" s");
+})();
+
+/* Figure 5: image cost bars */
+(function(){
+  const s=document.getElementById("f5"),x0=210,W=360,mx=4.5,sc=W/mx;
+  const rows=[["4 separate images","640×480 each, 180 images",3.95,"var(--r-bad)"],["One grid","1280×960, 45 images, same tokens",2.92,"var(--r-tool)"],["One small grid","640×480, 45 images",1.80,"var(--r-robot)"]];
+  rows.forEach(([a,b,v,c],i)=>{const y=20+i*58;el("text",{x:0,y:y+14,class:"lbb"},s,a);el("text",{x:0,y:y+30,class:"sm"},s,b);
+    el("rect",{x:x0,y:y,width:v*sc,height:30,rx:3,fill:c},s);el("text",{x:x0+v*sc+8,y:y+20,class:"lbb"},s,v.toFixed(2)+" s");});
+  [0,1,2,3,4].forEach(t=>{el("line",{x1:x0+t*sc,y1:186,x2:x0+t*sc,y2:192,stroke:"var(--r-faint)"},s);el("text",{x:x0+t*sc,y:206,class:"xs","text-anchor":"middle"},s,t+" s");});
+  el("line",{x1:x0,y1:186,x2:x0+W,y2:186,stroke:"var(--r-rule)"},s);
+})();
+
+/* Figure 6: lanes */
+(function(){
+  const s=document.getElementById("f6"),x0=150,W=650,T=680,sc=W/T;
+  const st={};D.stages.forEach(z=>st[z.id]=z);
+  const rows=[[0,"Vanilla loop","replay"],[4,"No queue","replay"],[5,"With the queue","real run"]];
+  rows.forEach(([id,a,b],i)=>{const z=st[id],y=14+i*88;
+    el("text",{x:0,y:y+18,class:"lbb"},s,a);el("text",{x:0,y:y+34,class:"sm"},s,b);
+    el("text",{x:x0-8,y:y+14,class:"xs","text-anchor":"end"},s,"agent");el("text",{x:x0-8,y:y+42,class:"xs","text-anchor":"end"},s,"robot");
+    el("rect",{x:x0,y:y+3,width:z.wall*sc,height:16,fill:"var(--r-idle)"},s);
+    el("rect",{x:x0,y:y+31,width:z.wall*sc,height:16,fill:"var(--r-idle)"},s);
+    z.agent.forEach(([t0,t1,k])=>{if(k=="r")return;el("rect",{x:x0+t0*sc,y:y+3,width:Math.max((t1-t0)*sc,.4),height:16,fill:C[k]},s);});
+    z.robot.forEach(([t0,t1])=>{el("rect",{x:x0+t0*sc,y:y+31,width:Math.max((t1-t0)*sc,.4),height:16,fill:"var(--r-robot)"},s);});
+    el("text",{x:x0+z.wall*sc+6,y:y+30,class:"lbb"},s,Math.round(z.wall)+" s");
+  });
+  [0,100,200,300,400,500,600].forEach(t=>{el("line",{x1:x0+t*sc,y1:274,x2:x0+t*sc,y2:279,stroke:"var(--r-faint)"},s);el("text",{x:x0+t*sc,y:293,class:"xs","text-anchor":"middle"},s,t+" s");});
+  el("line",{x1:x0,y1:274,x2:x0+W,y2:274,stroke:"var(--r-rule)"},s);
+})();
+
+/* Figure 7: stage waterfall */
+(function(){
+  const s=document.getElementById("f7"),x0=190,W=380,mx=700,sc=W/mx;
+  const rows=[["Vanilla agent loop",673.8,166,0],["+ Batched checks",642.7,157,0],["+ Camera grid",494.2,109,0],["+ Same-step images",404.8,75,0],["+ Pushed reports",374.0,61,0],["+ The queue",211.4,61,1]];
+  rows.forEach(([a,v,n,meas],i)=>{const y=12+i*42;el("text",{x:0,y:y+15,class:meas?"lbb":"lb"},s,a);el("text",{x:0,y:y+30,class:"xs"},s,n+" model requests");
+    el("rect",{x:x0,y:y,width:v*sc,height:26,rx:3,fill:meas?"var(--r-robot)":"var(--r-think)",opacity:meas?1:(.45+i*.1)},s);
+    el("text",{x:x0+v*sc+8,y:y+18,class:"lbb"},s,Math.round(v)+" s");});
+  [0,200,400,600].forEach(t=>{el("line",{x1:x0+t*sc,y1:268,x2:x0+t*sc,y2:274,stroke:"var(--r-faint)"},s);el("text",{x:x0+t*sc,y:288,class:"xs","text-anchor":"middle"},s,t+" s");});
+  el("line",{x1:x0,y1:268,x2:x0+W,y2:268,stroke:"var(--r-rule)"},s);
+})();
+
+/* Figure 8: towel-fold-23 excerpt */
+(function(){
+  const s=document.getElementById("f8"),a=200,b=380,x0=70,W=770,sc=W/(b-a),z=D.towel23;
+  const X=t=>x0+(Math.min(Math.max(t,a),b)-a)*sc;
+  el("text",{x:0,y:44,class:"xs"},s,"agent");el("text",{x:0,y:76,class:"xs"},s,"robot");
+  el("rect",{x:x0,y:30,width:W,height:18,fill:"var(--r-idle)"},s);el("rect",{x:x0,y:62,width:W,height:18,fill:"var(--r-idle)"},s);
+  z.agent.forEach(([t0,t1,k])=>{if(t1<a||t0>b)return;el("rect",{x:X(t0),y:30,width:Math.max(X(t1)-X(t0),.5),height:18,fill:k=="w"?"var(--r-think)":"var(--r-tool)"},s);});
+  z.robot.forEach(([t0,t1,n])=>{if(t1<a||t0>b)return;el("rect",{x:X(t0),y:62,width:Math.max(X(t1)-X(t0)-1,.5),height:18,fill:"var(--r-robot)"},s);});
+  [[234.86,258.92,"24 s: look before folding"],[346.29,366.74,"20 s: re-plan after a bad sweep"]].forEach(([t0,t1,l])=>{
+    el("rect",{x:X(t0),y:58,width:X(t1)-X(t0),height:26,fill:"none",stroke:"var(--r-bad)","stroke-width":1.5,rx:2},s);
+    el("text",{x:(X(t0)+X(t1))/2,y:104,class:"sm","text-anchor":"middle",style:"fill:var(--r-bad)"},s,l);});
+  [["lay flat",228.35],["fold",258.92],["sweep",325.69],["next grasp",366.74]].forEach(([n,t])=>{el("text",{x:X(t)+2,y:20,class:"xs"},s,n);el("line",{x1:X(t),y1:23,x2:X(t),y2:84,stroke:"var(--r-faint)","stroke-dasharray":"2 2"},s);});
+  [200,240,280,320,360].forEach(t=>{el("line",{x1:X(t),y1:130,x2:X(t),y2:135,stroke:"var(--r-faint)"},s);el("text",{x:X(t),y:150,class:"xs","text-anchor":"middle"},s,t+" s");});
+  el("line",{x1:x0,y1:130,x2:x0+W,y2:130,stroke:"var(--r-rule)"},s);
+})();
+
+/* Figure 6: pruning */
+(function(){
+  function draw(g,after){
+    let x=118;
+    for(let k=0;k<22;k++){
+      const isImg=k%2==1; const keep=k>=14;
+      const w=isImg?26:22;
+      if(isImg){
+        if(after&&!keep){el("rect",{x:x,y:0,width:w,height:30,rx:2,fill:"var(--r-panel)",stroke:"var(--r-faint)","stroke-dasharray":"2 2"},g);}
+        else el("rect",{x:x,y:0,width:w,height:30,rx:2,fill:"var(--r-tool-soft)"},g);
+      } else el("rect",{x:x,y:0,width:w,height:30,rx:2,fill:"var(--r-idle)"},g);
+      x+=w+3;
+    }
+    if(after)el("text",{x:x-4*29-20,y:48,class:"xs"},g,"newest images kept");
+  }
+  draw(document.getElementById("imgs"),false);draw(document.getElementById("imgs2"),true);
+})();
+
+/* Figure 10: real towel runs by harness version */
+(function(){
+  const s=document.getElementById("f9");
+  const A=[[0,0,29,15.8],[1,741,55,30.5],[1,133,59,33.3],[1,710,29,14.4],[0,0,4,2.9],[1,1368,5,3.8],[1,1932,30,8.5],[1,2125,26,14.7]];
+  const B=[[0,0,23,0],[1,893,51,0.3],[0,0,53,0],[1,1091,64,25.9]];
+  const Cq=[[1,353,65,62.4],[0,0,46,43],[1,151,67,46.6],[0,0,42,48.7],[0,0,47,42.2],[1,501,77,71.7],[0,0,59,63.9]];
+  const med=a=>{const b=[...a].sort((x,y)=>x-y),n=b.length;return n%2?b[(n-1)/2]:(b[n/2-1]+b[n/2])/2;};
+  const rows=[["Original","8 runs",A,"var(--r-faint)"],["Fewer round trips","4 runs, no queue",B,"var(--r-think)"],["With the queue","7 runs",Cq,"var(--r-robot)"]];
+  const y0=54,dy=52,yax=y0+dy*2+30;
+  rows.forEach(([a,b],i)=>{const y=y0+i*dy;el("text",{x:0,y:y,class:"lbb"},s,a);el("text",{x:0,y:y+15,class:"xs"},s,b);});
+  function panel(x0,W,mx,idx,ticks,fmt,title,onlyDone){
+    el("text",{x:x0,y:18,class:"lbb"},s,title);
+    rows.forEach(([a,b,pts,c],i)=>{const y=y0+i*dy;
+      el("line",{x1:x0,y1:y,x2:x0+W,y2:y,stroke:"var(--r-rule)"},s);
+      const use=pts.filter(p=>!onlyDone||p[0]);
+      use.forEach(p=>el("circle",{cx:x0+p[idx]/mx*W,cy:y,r:5.5,fill:p[0]?c:"var(--r-bg)",stroke:c,"stroke-width":2},s));
+      const m=med(use.map(p=>p[idx]));const xm=x0+m/mx*W;
+      el("line",{x1:xm,y1:y-13,x2:xm,y2:y+13,stroke:"var(--r-fg)","stroke-width":2},s);
+      el("text",{x:xm,y:y-17,class:"xs","text-anchor":"middle"},s,fmt(m));});
+    ticks.forEach(t=>{const x=x0+t/mx*W;el("line",{x1:x,y1:yax,x2:x,y2:yax+5,stroke:"var(--r-faint)"},s);el("text",{x:x,y:yax+19,class:"xs","text-anchor":"middle"},s,fmt(t));});
+    el("line",{x1:x0,y1:yax,x2:x0+W,y2:yax,stroke:"var(--r-rule)"},s);
+  }
+  panel(170,200,2200,1,[0,1200],v=>Math.round(v/60)+" min","Time to finish",true);
+  panel(410,190,100,2,[0,50,100],v=>Math.round(v)+"%","Robot moving",false);
+  panel(640,190,100,3,[0,50,100],v=>Math.round(v)+"%","Model time hidden",false);
+})();
+})();
+</script></article>
+  </div>
+</main>
+
+<footer class="foot root"><div class="wrap"><div class="fb"><a class="brand" href="../../index.html"><img src="../../assets/brand/fastrua-mark-96.png" alt="" width="40" height="40">FastRUA</a><p>Open and fast robot-use agents: language models that operate robots through tools and programs.</p></div><nav class="fcols" aria-label="Footer"><div><p>Projects</p><a href="../../ora/index.html">ORA</a><a href="../../ora/gallery/index.html">ORA gallery</a><a href="../../ora/docs/index.html">ORA docs</a></div><div><p>Blog</p><a href="../../blog/index.html">All posts</a><a href="../../blog/2026-11-realtime-rua/index.html">Real-time robot-use agents</a><a href="../../blog/2026-11-code-mode/index.html">ORA in code mode</a><a href="../../blog/2026-10-ora/index.html">ORA: Open Robot-Use Agents</a></div><div><p>Elsewhere</p><a class="ext" href="https://github.com/fast-rua" target="_blank" rel="noopener">GitHub</a><a class="ext" href="https://haoailab.com/blogs/" target="_blank" rel="noopener">Hao AI Lab blog</a></div></nav><p class="fbase">© 2026 FastRUA contributors · Hao AI Lab, UC San Diego</p></div></footer>
+<script>
+document.querySelectorAll('[data-tabs]').forEach(function(box){
+  var tabs=box.querySelectorAll('.tabs button'), panes=box.querySelectorAll('[data-pane]');
+  tabs.forEach(function(t){t.addEventListener('click',function(){
+    tabs.forEach(function(x){x.setAttribute('aria-selected',x===t?'true':'false')});
+    panes.forEach(function(p){p.hidden=p.dataset.pane!==t.dataset.tab});
+  })});
+});
+document.querySelectorAll('.copy').forEach(function(b){b.addEventListener('click',function(){
+  var pane=b.closest('.code').querySelector('pre:not([hidden])');
+  var txt=pane.innerText.split('\n').map(function(l){return l.replace(/\s+#.*$/,'')}).join('\n');
+  var done=function(){b.textContent='copied';setTimeout(function(){b.textContent='copy'},1200)};
+  try{navigator.clipboard.writeText(txt).then(done,function(){})}catch(e){}
+})});
+document.querySelectorAll('.audit-btn').forEach(function(b){b.addEventListener('click',function(){
+  var on=document.body.classList.toggle('show-audits');
+  b.textContent=on?'Hide inline audit notes':'Expand all audit notes ('+b.dataset.count+')';
+})});
+</script>
+</body>
+</html>

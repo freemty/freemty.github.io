@@ -1,0 +1,1295 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Free play · ORA docs</title>
+<link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAALS0lEQVR42u1bTWhkV3b+zr33vaqS5FbL3RK07Q7d6cG40wTcJJBFNvEiCyeLgRlbQzbZeDEEvM0iDEx14WSRzDBDks3sEkPwQA+GrEwgEJuE9CoJE7fljgOhhbtVmulqtaT6U1W9e8+XxXuv6tWP/loyVogOiPek996995x7znf+roBzOqdzOqdzOqf/tySHvUDSnNJcFBGei/z/kgZ89NFHpZWVlVdOMkGsMcsXy9LpdLZu3769k815ZjTB7af2IqI3b968ubCw8G8hBJIUAQARgNn6pSg/7idTv3TxonvSaHwPwJ+TtCLiz7QAihoSR5ENxsxg+IiGr4q4VLIA7Fk0gcMEgKCBqkqSsp8AZGL/Of5MVdUYgzMJgGZS9Uk6AI6kCyHYjCeBiEjGn4gEgCqCICIBIkFEgsnvAZWM8u9FZGzs7EfOlAaIiALQ/PfP/v2zHbkkBSsnKpWKiaOSEZmwegFIQiBQVbTbbTDTBiOCENjObN+fORO4e/euXV1dDWv3779zeWXld9rtdgCAKIqWVJnzGBYWXrC/2Nz8EE4+dOIsyTDLGowxL5VLpR+KCAiYbrcLa8w3NzY2LjMEK9b6crlstra2/ubVV1/9n2q1amq1mn5tUshUE48fP75Lkv1ej9579vt9Pm00uPX0KRuNJ4kG5f379//4sPEePHjwUuPJE25tbfFpo8HGkyfsdjrUEBi8p08SkuQXX3zxe9n89kyYAMmW9963Wi3P9JmIiGUKAiAI59z8xx9/7K5du+bW19fH1Hl5edk0Gg2dm5tbygZMgcYYdDod7XS7mhmUlisVA2Bw1ryAERHHlHOHoRXLSL9JfeONNzxJXL9+3c+KHx4+fBimPIUxRgCTyoQqIkZCMBkQylcBiEcJvWe4Qc4MFEd/1aMtVGaPmPtJEUHCJGSL9GdCA0JIRisnxwKf09iegiCk3+thZeWlnzR++ctdGDMKH1QBM55/qU7j42AwgKpCRCBpdErmgiTEWCOtVusPb968+UWumYcKIJ2nEOZOhLwEkEfER+LWyMyASUQkhIBKufwNa+3sIDqbfjLYLowxfDY00sKarbVot9sXjqUBZsTlTH4k3Y2jp8fkUJOkyEDKAXq9niK302zOnLnJNRDTwiApIsL8mo8jYmisEZJ6LAGINczzdmaqIBAZMjICu/2AS0hKvV6f2nlNXyYn4mUWVIqj8fcNtwtXEWMEJCQ3maHZphI5vhdQOuucQCRy1oAENIShGWS7k2TSTmalDgCwtrYWlpcvF4Yl4iiWKI5kuEhytNvAgTs++UTEoN/rwYeQacvordF3RBRFRxZAAIBnOzvfjzY3/2pvb08Gg4HGcfza0tLS32kIBGlbzSYuXbr0R7/Y3PwWihMXhZ3uSMkYA6ZMhhdeWLD1jfo/RHH8gyRJIpLBWssQggCAcw7ee1hrR7x6D589K8oghGAAoFwu/2jp4sVf73S6KkaGqVaOBapEp9M5mhvM7ef27dvrANbzhw8fPuzIaOfFe4/5+bkrkYuu8ADPoKrY6/WGgUMcxRgkgy9/9caNfzot97WxsdFwzgGSsS6ZcRRY7vf7x4sDqtWquXXrlrz99tsCQL/88st51UAAVBIign5/wH6vP0Lc/UwtxwcRqiqNsXEW8roT+n0DQOv1DcepDHs8GY/j+HgYkCckud9cX19nKS6Jqkq+4yEECSGkjB9QH4jiGBCB9z6yzsGIOBEJGWKHE+QtFBF99OjRqVQYDiyI9Ho93+50tpNkkBkB6Kybi0ulkuZCmMG8ktpstZpZeBJKcWy7e3u7p1zM5Ji7zXJyHjNoc/vE0AoAn3766dru7u43ms0mlpeXXaPR8G+99dZfXF5efmd7e9tL8fsUxTUul83Ozs6T999//zcrlcpeHMdSLpf5+PHjXja2PyUJcFb0JYX1DAaDk2nA6upqAPAsWzhI4g++851uMQob879MF8BA/eCDDxqff/75V5jtSXHH9sllTqEmWAh2HABfr9fNDJUZj4Ct4M0334zW1tby5IKZv38+q61Wh3Pe+eQTg2oVJIXkzKBp6EmNEVSrJv8mAzoW13GoAHIXmYEP6/U6D90XEbRaLWZhKk7cESpUi97L7kvf/a6PnUNs7XATZCKJu16p9FGr6XsHVJvcaSolx/HgdKhadYveXYXzAud4ASXT7PX1Ubs9HyoVNDsdjEW9BRT86dp/XVv83nvdF+atbXU6AW5B2OztNH9ce5Zr5vEFoKDMSE7GMjMRXLly5aSMG9Rquuj9VbFuzWgUMYG2tWesEX7zpx+6yFqoiC0kFgWbJDq9wd8bUXY7FCMlb0qRY9yrAfhTVKsWtZp3x+df8yLwVIJSFMQmNk9HAzpBzLyWrHOGJGANBEDXJ6BPDlQ4a8RZmtxnihGxniE6kQkYM10zmjn/5inalkkDqLQyTwGEVowClGLtYLT3hWwcMFnipSCMseN49BwYYGbm58McfcotnZDKJUjabpA8maYRMXFsOMwAMxc84Q1FFcxjgfQlgZ4CCE6q/+T9qYJgrw/MV/JCCmGNMPit0B38MwEDCEEFJK8JaMqsGELMVePMbzDovnUsdxKwn5Wv5xpwYhCcEfgRUIkiIz75eePPat867JvFP6m+ZePKz9DdCxy2r8ZFcXwQVE1bhDKtAV9h5ybzLsO5HO7etdjeNlhamvbxm5sOV654+Y/P5jmZsZpZBn2gN6qa7JiMybJEYSHvHtr9hASWl5fHvnv+un9vXN9EQBjF6mpAvR6wujr98+xZeg1Bx/Z7hh0cKoBaraYioiIyyK7JrB0fByDy3Xff7Wbvh+z6nEpSHhnXsGCrx1Ge4WrluBhQrVbNt3//29fsi9Zab6211pO87ENICx4y3TjJVC66d+/ercXFxR4AlEoltNvt3ddff/3JWAX3mHkPnxOwUycyG5z3OyIjIsKrV6/Ov/jSi/86Nze3MhgMmDUhTLPZhIjMamiaZDBAHMcrN27c+Hk2oV9cXHTrDx/+LYB3kJ4UOXpK3O8Bc+VhbzLj6kjmFABEUiyYcqrkfKAGXLhwgXEUSeSc0RDS8nOegc3yK6P6ISLnTAaaNi6VjI3s82FACSAVxRL/EflPz+QQB3a3Djwhsry87EIIVJIkNTsqc6A+yshbpEdrAGoIWUA2dULk8CaLtQTpqfAkfHqvRyuppSv3IDyVnqpeJgDkwBMiAHY263WaNK+FSW3gwECHhcFyFDLGSpIkg+c5IUJVK6Vy2UQRGIIz5QpCt3vxaN9K2VTmHFUdqJByBdzdmZ8SQF4EvXfv3m9fv379d1utFoUUBUrW2gvee0iBoVEJWvbXrYKW7e11sbCw8FuNRuOOqrchBH9p6ZJ9+uzZP7788sv/MrN5eecOUauBg9I29rp/qX0xBJWaGBX8d/GdmTkbABfb/9RO66/ZaSuMhYqYoP6T4jsZONKJiH+w9qD22q+99v1Bvw/rHATAzu4uivaPg2L9IjYU7qmKcqWCubkKQMCHgDiOsbHx6M4rr/xKLZ8fXwNNgmA7BD9otppBIFbTvp0FIKo6ivk5o4M87XzHnvX2etrv9QIBAekvLi05Z1z7SJ6sWh33OJ/fIn62ejgOkII7d+yUdhQqRG4CEmNrXWyMzVtSh4a5+7WvZ1iGZQbMwfvIOYdAxkcxZdRqz6cdRzh8MXE+QFv9Xq+RJIlPksSlwQ4gaUKKzI1KXoMv1ubHm5kUEcP8r1kiP1IM1dDv9Zwhm/iayRVr9Wtraz+p1+vvJ0lCAGi327IEIFlYYLvdloWFBUZRW7ANbGcDLBSeDe0o+714zd/N34miSLa3t/dOtVdwTifqLkz1Ab76yc//geKczumczumczunrpP8FNN95Ns+85cEAAAAASUVORK5CYII=">
+<meta name="description" content="ORA documentation: Free play.">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  /* Swiss neutrals plus one deep accent: the personal homepage's scheme, its red #C6011F swapped for the teal of the
+     same OKLCH lightness (0.52). --teal-hi only for small accent text on dark. No gradients or glows on the accent. */
+  --bg:#0A0A0A; --bg-2:#0E0E0E; --panel:#111111; --panel-2:#161616; --line:#1A1A1A; --line-2:#222222;
+  --text:#F0F0F0; --text-2:#B0B0B0; --text-3:#777777; --text-body:#D4D4D4;
+  --teal:#11787B; --teal-hi:#48B0B4; --teal-deep:#05585B; --teal-ink:#012526;
+  --amber:#E8596B; --amber-bg:#2A0A0E;
+  --sans:"Geist",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:"Geist Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --label:var(--mono);   /* small data labels; the design preview bar can switch them to a pixel face */
+  --max:1120px; --max-wide:1360px; --read:700px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font:400 16px/1.65 var(--sans);-webkit-font-smoothing:antialiased;letter-spacing:-.005em}
+a{color:var(--teal-hi);text-decoration:none}a:hover{text-decoration:underline;text-underline-offset:3px}
+:focus-visible{outline:2px solid var(--teal);outline-offset:3px;border-radius:4px}
+.wrap{max-width:var(--max);margin:0 auto;padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px))}
+.read{max-width:var(--read);margin:0 auto;padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px))}
+/* nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(10,10,10,.82);backdrop-filter:saturate(140%) blur(14px);-webkit-backdrop-filter:saturate(140%) blur(14px);border-bottom:1px solid var(--line-2)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+.nav .wrap{display:flex;align-items:center;gap:16px;height:64px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--text);font:600 18px/1 var(--sans);letter-spacing:.02em;flex:none}
+.brand:hover{text-decoration:none}
+/* left: where you are (FastRUA, then "/ ORA" and its sections inside the project); right: the group's destinations */
+.nav .sep{color:var(--text-3);font-size:18px;flex:none}
+.nav .proj{color:var(--text);font:600 16px/1 var(--sans);letter-spacing:.02em;flex:none}
+.nav .proj:hover{text-decoration:none}
+.nav nav{display:flex;gap:26px;font-size:15px;white-space:nowrap}
+.nav .sub{margin-left:14px;min-width:0;overflow-x:auto;scrollbar-width:none}
+.nav .sub::-webkit-scrollbar{display:none}
+.nav .glob{margin-left:auto;flex:none}
+.nav .sub+.glob{border-left:1px solid var(--line-2);padding-left:22px}
+.nav nav a{color:var(--text-2)}
+.nav nav a:hover,.nav nav a[aria-current="page"]{color:var(--text);text-decoration:none}
+.ext::after{content:" \2197";font-size:.85em;color:var(--text-3)}
+.nav .wrap,.foot .wrap,.wide .wrap{max-width:var(--max-wide)}
+.nav.root .wrap,.foot.root .wrap{max-width:var(--max)}
+@media (max-width:760px){.nav .proj~.glob .ext,.nav .sub .ext{display:none}.nav nav{gap:18px}}
+@media (max-width:560px){.nav nav{gap:14px;font-size:13.5px}.brand{font-size:16px;gap:8px}.nav nav .ext::after{content:none}
+  .nav.in-proj .brand span{display:none}.nav .wrap{gap:10px}.nav .sub{margin-left:6px}.nav .sub+.glob{padding-left:12px}}
+/* blog cards */
+.posts{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+.post{display:block;border:1px solid var(--line-2);border-radius:16px;overflow:hidden;background:var(--bg-2);color:inherit;transition:border-color .2s,transform .2s}
+.post:hover{text-decoration:none;border-color:var(--teal-deep);transform:translateY(-2px)}
+.post img{display:block;width:100%;aspect-ratio:16/8;object-fit:cover;border-bottom:1px solid var(--line)}
+.post .body{padding:20px 22px 22px}
+.post .meta{display:flex;gap:10px;align-items:center;font:400 12.5px/1 var(--label);color:var(--text-3);margin:0 0 12px}
+.post h3{font:600 1.25rem/1.25 var(--sans);letter-spacing:-.02em;margin:0 0 10px;color:var(--text)}
+.post p{margin:0;color:var(--text-2);font-size:14.5px}
+.draft{font:500 11px/1 var(--label);letter-spacing:.06em;color:var(--amber);background:var(--amber-bg);padding:4px 7px;border-radius:999px}
+.sechead{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin:0 0 24px}
+.sechead h2{text-align:left;margin:0}
+.sechead a{font-size:14px}
+/* footer */
+.foot{border-top:1px solid var(--line);margin-top:112px;background:var(--bg-2)}
+.foot .wrap{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,2fr);gap:32px 48px;padding-top:48px;padding-bottom:40px}
+.foot .fb p{margin:14px 0 0;max-width:22em;color:var(--text-3);font-size:14px;line-height:1.6}
+.fcols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.fcols p{margin:0 0 12px;font:500 11.5px/1 var(--label);letter-spacing:.1em;text-transform:uppercase;color:var(--text-3)}
+.fcols a{display:block;color:var(--text-2);font-size:14px;padding:4px 0}
+.fcols a:hover{color:var(--text)}
+.fbase{grid-column:1 / -1;margin:8px 0 0;padding-top:22px;border-top:1px solid var(--line);color:var(--text-3);font-size:13px}
+@media (max-width:760px){.foot .wrap{grid-template-columns:1fr}.fcols{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* article: blog posts and docs pages share these */
+.posthead{padding:72px 0 28px;text-align:center}
+.posthead .meta{font:400 13px/1 var(--label);color:var(--text-3);display:flex;gap:12px;justify-content:center;align-items:center;flex-wrap:wrap;margin:0}
+.posthead h1{font:600 clamp(2.2rem,5vw,3.6rem)/1.06 var(--sans);letter-spacing:-.035em;margin:20px auto 0;max-width:15em;text-wrap:balance}
+.prose{font-size:17px;line-height:1.75;color:var(--text-body);overflow-wrap:break-word}
+.prose h1{display:none}
+.prose h2{font:600 1.75rem/1.2 var(--sans);letter-spacing:-.025em;color:var(--text);margin:64px 0 16px;text-wrap:balance}
+.prose h3{font:600 1.22rem/1.3 var(--sans);letter-spacing:-.015em;color:var(--text);margin:40px 0 10px}
+.prose h4{font:600 1.02rem/1.4 var(--sans);color:var(--text);margin:28px 0 8px}
+.prose h2 small,.prose h3 small{font:500 11.5px/1 var(--label);color:var(--text-3);margin-left:8px;letter-spacing:.04em}
+.prose [id]{scroll-margin-top:84px}
+.prose p{margin:0 0 18px}
+.prose a,.lede a,.callout a{color:var(--text);text-decoration:underline;text-decoration-color:var(--teal);text-decoration-thickness:1px;text-underline-offset:3px;overflow-wrap:break-word}
+.prose a:hover,.lede a:hover,.callout a:hover{color:var(--teal-hi);text-decoration-color:var(--teal-hi)}
+.prose a.md-button{text-decoration:none}
+.prose strong{color:var(--text);font-weight:600}
+.prose ul,.prose ol{padding-left:1.2em;margin:0 0 18px}
+.prose li{margin:0 0 6px}
+.prose li>ul,.prose li>ol{margin:6px 0 0}
+.prose li>p{margin:0 0 8px}
+.prose li::marker{color:var(--teal)}
+.prose code{font:400 .86em var(--mono);background:var(--panel-2);border:1px solid var(--line);padding:1px 6px;border-radius:5px;color:var(--text);overflow-wrap:break-word}
+.prose a code{color:inherit}
+.prose pre{margin:0 0 22px;padding:15px 18px;border:1px solid var(--line-2);border-radius:12px;background:var(--panel);overflow-x:auto;font:400 13.5px/1.65 var(--mono);color:var(--text);tab-size:4}
+.prose pre code{font:inherit;background:none;border:0;padding:0;border-radius:0;overflow-wrap:normal;color:inherit}
+.prose pre.mermaid{background:var(--bg-2);text-align:center;color:var(--text-3)}
+.prose pre.mermaid svg{max-width:100%;height:auto}
+.codewrap{position:relative}
+.cbtn{position:absolute;top:9px;right:9px;height:26px;padding:0 9px;border:1px solid var(--line-2);border-radius:7px;background:var(--panel);color:var(--text-2);font:500 11.5px var(--label);cursor:pointer;opacity:0;transition:opacity .15s}
+.codewrap:hover .cbtn,.cbtn:focus-visible{opacity:1}
+@media (hover:none){.cbtn{opacity:.85}}
+.prose kbd{font:500 .82em var(--mono);border:1px solid var(--line-2);border-bottom-width:2px;border-radius:5px;padding:0 5px;color:var(--text)}
+.prose img{max-width:100%;height:auto;border-radius:12px;border:1px solid var(--line-2)}
+.prose blockquote{margin:0 0 36px;border:1px solid var(--line-2);border-left:3px solid var(--teal);border-radius:12px;background:var(--panel);padding:18px 22px;color:var(--text)}
+.prose blockquote p{margin:0 0 8px}.prose blockquote ol{margin:0;padding-left:1.2em}
+.prose .admonition{margin:24px 0;border:1px solid var(--line-2);border-left:3px solid var(--teal);border-radius:10px;background:var(--bg-2);padding:14px 18px;font-size:15.5px}
+.prose .admonition>:last-child{margin-bottom:0}
+.prose .admonition-title{font:600 13.5px/1.3 var(--sans);color:var(--teal-hi);margin:0 0 8px}
+.prose .admonition.warning,.prose .admonition.caution,.prose .admonition.danger{border-left-color:var(--amber)}
+.prose .admonition.warning .admonition-title,.prose .admonition.caution .admonition-title,.prose .admonition.danger .admonition-title{color:var(--amber)}
+.prose .tbl{overflow-x:auto;margin:22px 0 26px}
+@media (min-width:720px){.prose .tbl{overflow:visible}}
+.prose table{border-collapse:collapse;width:100%;font-size:14.5px;line-height:1.55}
+.prose th,.prose td{text-align:left;vertical-align:top;padding:9px 16px 9px 0;border-bottom:1px solid var(--line)}
+.prose th{font:500 12.5px/1.4 var(--label);color:var(--text-3);white-space:nowrap}
+.prose td code{font-size:.82em}
+@media (max-width:620px){.prose table:has(th:nth-child(4)){min-width:620px}}
+.prose hr{border:0;border-top:1px solid var(--line);margin:56px 0}
+.prose figure{margin:30px 0}
+.prose figure img{display:block;width:100%;border-radius:12px;border:1px solid var(--line-2)}
+.prose figcaption{font-size:13.5px;color:var(--text-3);margin-top:10px}
+/* code colours (Pygments classes) */
+.hl .c,.hl .c1,.hl .cm,.hl .ch,.hl .cs,.hl .cp,.hl .cpf{color:var(--text-3)}
+.hl .k,.hl .kn,.hl .kd,.hl .kc,.hl .kr,.hl .kt,.hl .kp,.hl .ow{color:var(--teal-hi)}
+.hl .s,.hl .s1,.hl .s2,.hl .sb,.hl .sd,.hl .se,.hl .sh,.hl .si,.hl .sx,.hl .sa,.hl .sc,.hl .ss,.hl .dl{color:var(--text-2)}
+.hl .nf,.hl .fm,.hl .nc,.hl .nn,.hl .nd,.hl .nt,.hl .na{color:var(--text)}
+.hl .o,.hl .p{color:var(--text-3)}
+.hl .gp{color:var(--text-3);user-select:none}
+.hl .go{color:var(--text-2)}
+.hl .err{color:inherit;background:none}
+.slot{font:500 11px/1 var(--label);letter-spacing:.1em;text-transform:uppercase;color:var(--teal-hi)}
+.callout{border:1px solid var(--line-2);border-radius:12px;padding:16px 18px;margin:26px 0;background:var(--bg-2)}
+.callout a{font-weight:600}
+.tbd{background:var(--amber-bg);color:var(--amber);border-radius:5px;padding:1px 7px;font-size:.88em}
+.postvid{margin:8px auto 48px;max-width:1008px}
+.postvid .frame{border-radius:14px;overflow:hidden;border:1px solid var(--line-2)}
+.postvid video{display:block;width:100%;aspect-ratio:1600/750}
+.postvid .cap{font-size:12.5px;color:var(--text-3);margin-top:12px;text-align:center}
+.draftbar{font:400 12.5px/1.6 var(--label);color:var(--amber);background:var(--amber-bg);border-radius:10px;padding:10px 14px;margin:0 0 36px;display:flex;flex-wrap:wrap;align-items:center;gap:6px 18px}
+.draftbar a{color:inherit;text-decoration:underline}
+.audit-btn{margin-left:auto;font:500 11.5px/1.2 var(--label);color:var(--teal-hi);background:var(--teal-ink);border:1px solid var(--teal);border-radius:6px;padding:5px 10px;cursor:pointer;transition:background .15s}
+.audit-btn:hover{background:#05393B}
+.audit-mark{position:relative;display:inline;background:rgba(17,120,123,.14);color:var(--text);border-bottom:1.5px dashed var(--teal-hi);padding:1px 6px;border-radius:5px;cursor:help;transition:background .15s}
+.audit-mark:hover,.audit-mark:focus-within{background:rgba(17,120,123,.26);z-index:40}
+.audit-tag{font:600 9.5px/1 var(--label);letter-spacing:.06em;color:#F0F0F0;background:var(--teal);padding:2px 5px;border-radius:4px;margin-left:5px;vertical-align:middle;display:inline-block}
+.audit-pop{display:none;position:absolute;left:0;bottom:calc(100% + 8px);width:min(420px,86vw);background:var(--panel-2);color:var(--text-2);border:1px solid var(--teal);border-radius:10px;padding:11px 14px;font:400 13px/1.55 var(--sans);box-shadow:0 12px 32px rgba(0,0,0,.65);z-index:60;white-space:normal;text-align:left;pointer-events:none}
+.audit-pop strong{color:var(--teal-hi);display:block;font:600 11.5px/1.3 var(--label);letter-spacing:.04em;text-transform:uppercase;margin-bottom:4px}
+.audit-pop code{background:rgba(255,255,255,.06);color:var(--text);border-color:var(--line-2);font-size:.85em;padding:1px 4px}
+.audit-mark:hover .audit-pop,.audit-mark:focus .audit-pop,.audit-mark:focus-within .audit-pop{display:block}
+body.show-audits .audit-pop{display:block;position:static;width:auto;margin:8px 0 6px;pointer-events:auto;box-shadow:none}
+.brand img{width:40px;height:40px;display:block;object-fit:contain}</style>
+<style>
+/* docs layout: sidebar, content, on-page contents */
+.docs{display:grid;grid-template-columns:240px minmax(0,1fr) 200px;gap:0 52px;max-width:var(--max-wide);margin:0 auto;padding:0 max(24px,env(safe-area-inset-right,0px)) 0 max(24px,env(safe-area-inset-left,0px))}
+.docs>main{grid-column:2;grid-row:1;min-width:0;padding:44px 0 0;max-width:760px}
+.docs.home>main{grid-column:2 / 4;max-width:none}
+.side{grid-column:1;grid-row:1;position:sticky;top:64px;align-self:start;max-height:calc(100vh - 64px);overflow-y:auto;padding:36px 8px 48px 0;font-size:14px;scrollbar-width:thin;scrollbar-color:var(--line-2) transparent}
+.side a{display:block;color:var(--text-2);padding:5px 10px;border-radius:7px;line-height:1.4}
+.side a:hover{color:var(--text);background:var(--panel);text-decoration:none}
+.side a[aria-current="page"]{color:var(--teal-hi);background:var(--teal-ink)}
+.side .top{font-weight:500;color:var(--text)}
+.side .grp{margin:22px 0 0}
+.side .grp>p{margin:0 0 6px;padding:0 10px;font:500 11.5px/1 var(--label);letter-spacing:.1em;text-transform:uppercase;color:var(--text-3)}
+.side ul{list-style:none;margin:0;padding:0}
+.side details{margin:2px 0}
+.side summary{cursor:pointer;color:var(--text-2);padding:5px 10px;border-radius:7px;list-style:none}
+.side summary::-webkit-details-marker{display:none}
+.side summary::before{content:"\203A";display:inline-block;width:14px;color:var(--text-3);transition:transform .15s}
+.side details[open]>summary::before{transform:rotate(90deg)}
+.side summary:hover{color:var(--text);background:var(--panel)}
+.side details ul{margin-left:14px;border-left:1px solid var(--line);padding-left:4px}
+.toc{grid-column:3;grid-row:1;position:sticky;top:64px;align-self:start;max-height:calc(100vh - 64px);overflow-y:auto;padding:52px 0 40px;font-size:13px;scrollbar-width:thin}
+.toc p{margin:0 0 10px;font:500 11.5px/1 var(--label);letter-spacing:.1em;text-transform:uppercase;color:var(--text-3)}
+.toc a{display:block;color:var(--text-3);padding:4px 0 4px 12px;border-left:1px solid var(--line);line-height:1.4}
+.toc a.h3{padding-left:24px}
+.toc a:hover{color:var(--text);text-decoration:none}
+.toc a[aria-current="true"]{color:var(--teal-hi);border-left-color:var(--teal-hi)}
+.toc code{font:400 .92em var(--mono)}
+.menu{display:none}
+.crumb{margin:0 0 14px;font:500 12px/1 var(--label);letter-spacing:.1em;text-transform:uppercase;color:var(--teal-hi)}
+.doctitle{font:600 clamp(2rem,4vw,2.75rem)/1.1 var(--sans);letter-spacing:-.03em;margin:0 0 28px;text-wrap:balance;overflow-wrap:break-word}
+.doctitle code{font-size:.85em}
+.docs .prose>:first-child{margin-top:0}
+.docs .prose h2{margin-top:52px}
+.pager{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:64px 0 0;padding-top:28px;border-top:1px solid var(--line)}
+.pager a{display:block;border:1px solid var(--line-2);border-radius:12px;padding:14px 16px;color:var(--text);background:var(--bg-2)}
+.pager a:hover{border-color:var(--teal-deep);text-decoration:none}
+.pager small{display:block;font:400 12px/1 var(--label);color:var(--text-3);margin-bottom:8px}
+.pager .next{text-align:right;grid-column:2}
+.srcline{margin:22px 0 0;font-size:13px;color:var(--text-3)}
+.srcline a{color:var(--text-2)}
+/* the Docs landing */
+.dochero{padding:24px 0 8px;max-width:760px}
+.dochero h1{font:600 clamp(2.4rem,5vw,3.4rem)/1.05 var(--sans);letter-spacing:-.035em;margin:0 0 18px}
+.dochero .ora-intro{font-size:clamp(1.05rem,1.8vw,1.18rem);color:var(--text-2);font-weight:300;margin:0 0 12px;line-height:1.6}
+.dochero .ora-meta{font:400 13px/1.5 var(--label);color:var(--text-3);margin:0 0 26px}
+.btns p{display:flex;flex-wrap:wrap;gap:10px;margin:0}
+.md-button{display:inline-flex;align-items:center;height:40px;padding:0 16px;border:1px solid var(--line-2);border-radius:10px;color:var(--text);background:var(--panel);font-size:14.5px;font-weight:500}
+.md-button:hover{text-decoration:none;border-color:var(--teal-deep)}
+.md-button--primary{background:var(--teal);border-color:var(--teal);color:var(--text)}
+.md-button--primary:hover{background:var(--teal-deep);border-color:var(--teal-deep)}
+.groups{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:44px 0 12px}
+@media (max-width:1180px){.groups{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:620px){.groups{grid-template-columns:1fr}}
+.gcard{border:1px solid var(--line-2);border-radius:14px;background:var(--bg-2);padding:20px 20px 18px;display:flex;flex-direction:column}
+.gcard:hover{border-color:var(--teal-deep)}
+.gcard h3{margin:0 0 8px;font:600 1.08rem/1.3 var(--sans);letter-spacing:-.01em}
+.gcard h3 a{color:var(--text)}
+.gcard>p{margin:0 0 14px;color:var(--text-2);font-size:14px;line-height:1.55}
+.gcard ul{list-style:none;margin:auto 0 0;padding:12px 0 0;border-top:1px solid var(--line);display:grid;gap:5px;font-size:13.5px}
+.gcard li a{color:var(--text-2)}
+.gcard li a:hover{color:var(--teal-hi)}
+.gcard .more{color:var(--text-3);font:400 12.5px var(--label)}
+.home .prose{max-width:760px;margin-top:40px}
+@media (max-width:1240px){.docs{grid-template-columns:232px minmax(0,1fr);gap:0 44px}.toc{display:none}.docs.home>main{grid-column:2}}
+@media (max-width:900px){
+  .docs{grid-template-columns:minmax(0,1fr);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  .docs>main,.docs.home>main,.side{grid-column:1;grid-row:auto}
+  .docs>main{padding-top:6px}
+  .menu{display:flex;align-items:center;gap:8px;width:100%;margin:20px 0 16px;height:42px;padding:0 14px;border:1px solid var(--line-2);border-radius:10px;background:var(--bg-2);color:var(--text-2);font:500 14px var(--sans);cursor:pointer}
+  .menu b{color:var(--text);font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .menu::after{content:"\203A";margin-left:auto;transform:rotate(90deg);color:var(--text-3)}
+  .side{display:none;position:static;max-height:none;padding:0 0 18px;margin:0 0 18px;border-bottom:1px solid var(--line)}
+  .docs.open .side{display:block}
+  .pager{grid-template-columns:1fr}.pager .next{grid-column:1}
+}
+</style>
+<script src="../../../../assets/design/design-bar.js" data-labels=".post .meta,.draft,.fcols p,.posthead .meta,.prose h2 small,.prose h3 small,.cbtn,.prose th,.slot,.draftbar,.audit-btn,.audit-tag,.audit-pop strong,.pill b,.scene-hud,.copy,.feat .k,.card h3,.side .grp&gt;p,.toc p,.crumb,.pager small,.dochero .ora-meta,.gcard .more"></script>
+</head>
+<body class="wide">
+<header class="nav in-proj"><div class="wrap"><a class="brand" href="../../../../index.html"><img src="../../../../assets/brand/fastrua-mark-96.png" alt="" width="40" height="40"><span>FastRUA</span></a><span class="sep" aria-hidden="true">/</span><a class="proj" href="../../../index.html">ORA</a><nav class="sub" aria-label="ORA"><a href="../../../index.html">Overview</a><a href="../../../gallery/index.html">Gallery</a><a href="../../../docs/index.html" aria-current="page">Docs</a><a class="ext" href="../../../paper/ora-two-page.pdf" target="_blank" rel="noopener">Paper</a><a class="ext" href="https://github.com/hao-ai-lab/ORA" target="_blank" rel="noopener">Code</a></nav><nav class="glob" aria-label="FastRUA"><a href="../../../../blog/index.html">Blog</a><a class="ext" href="https://github.com/fast-rua" target="_blank" rel="noopener">GitHub</a></nav></div></header>
+<div class="docs"><button class="menu" type="button" aria-controls="docnav" aria-expanded="false">Menu · <b>Free play</b></button><aside class="side" id="docnav" aria-label="Documentation"><a class="top" href="../../index.html">Welcome</a><a class="top" href="../../how-ora-works/index.html">How ORA works</a><div class="grp"><p>Get started</p><ul><li><a href="../../getting-started/installation/index.html">Installation</a></li><li><a href="../../quickstart/index.html">First episode</a></li><li><a href="../../getting-started/model-apis/index.html">Model APIs</a></li><li><a href="../../getting-started/single-gpu/index.html">Run on one GPU</a></li><li><a href="../../getting-started/local/index.html">Run on your computer (CPU)</a></li><li><a href="../../getting-started/libero/index.html">LIBERO / LIBERO-Pro quick run</a></li><li><a href="../../getting-started/robotwin/index.html">RoboTwin quick run</a></li><li><a href="../../getting-started/robodojo/index.html">RoboDojo quick run</a></li><li><a href="../../getting-started/robocasa/index.html">RoboCasa365 quick run</a></li><li><a href="../../getting-started/robolab/index.html">RoboLab quick run</a></li><li><a href="../../getting-started/official-suite/index.html">Official suites on a cluster</a></li><li><a href="../../support/index.html">Supported setups</a></li><li><a href="../../getting-started/troubleshooting/index.html">Troubleshooting</a></li></ul></div><div class="grp"><p>Use ORA</p><ul><li><a href="../runs/index.html">Run and inspect</a></li><li><a href="index.html" aria-current="page">Free play</a></li><li><a href="../real-cells/index.html">Run a real robot cell</a></li><li><a href="../interactive/index.html">Interactive sessions</a></li><li><a href="../remote/index.html">Remote GPU server and web view</a></li><li><a href="../safety/index.html">Run ORA safely</a></li><li><a href="../rl-interface/index.html">Connect a training loop</a></li><li><a href="../viewer/index.html">Evidence viewer</a></li><li><a href="../examples/index.html">Examples</a></li><li><a href="../official-suite/index.html">Official-suite cookbook</a></li><li><a href="../compute-usage/index.html">Compute tool</a></li><li><a href="../commands/index.html">Commands and what they write</a></li><li><a href="../cli-reference/index.html">Command-line reference</a></li></ul></div><div class="grp"><p>Environments</p><ul><li><a href="../../environments/index.html">Overview</a></li><li><a href="../../environments/common/index.html">Host and perception setup</a></li><li><a href="../../environments/libero/index.html">LIBERO / LIBERO-Pro</a></li><li><a href="../../environments/robotwin/index.html">RoboTwin</a></li><li><a href="../../environments/robodojo/index.html">RoboDojo</a></li><li><a href="../../environments/robodojo-installation/index.html">RoboDojo installation reference</a></li><li><a href="../../environments/robocasa/index.html">RoboCasa365</a></li><li><a href="../../environments/robolab/index.html">RoboLab</a></li></ul></div><div class="grp"><p>Robots and tasks</p><ul><li><a href="../../robots/frames-and-units/index.html">Frames and units</a></li><li><a href="../../robots/embodiments/franka-panda/index.html">Franka Panda (LIBERO)</a></li><li><a href="../../robots/embodiments/aloha-agilex/index.html">ALOHA-AgileX (RoboTwin)</a></li><li><a href="../../robots/embodiments/arx-x5/index.html">ARX X5 (RoboDojo)</a></li><li><a href="../../robots/embodiments/panda-omron/index.html">PandaOmron (RoboCasa365)</a></li><li><a href="../../robots/embodiments/droid-franka-robotiq/index.html">DROID Franka with Robotiq (RoboLab)</a></li><li><a href="../../robots/embodiments/yam-station/index.html">Dual I2RT YAM (real cell)</a></li><li><a href="../../robots/tasks/libero/index.html">LIBERO / LIBERO-Pro tasks</a></li><li><a href="../../robots/tasks/robotwin/index.html">RoboTwin tasks</a></li><li><a href="../../robots/tasks/robodojo/index.html">RoboDojo tasks</a></li><li><a href="../../robots/tasks/robocasa/index.html">RoboCasa365 tasks</a></li><li><a href="../../robots/tasks/robolab/index.html">RoboLab tasks</a></li></ul></div><div class="grp"><p>Evaluation</p><ul><li><a href="../../evaluation/protocol/index.html">Evaluation protocol</a></li></ul></div><div class="grp"><p>Concepts</p><ul><li><a href="../../architecture/index.html">Architecture</a></li><li><a href="../../context-assembly/index.html">Context assembly</a></li><li><a href="../../reference/runtime-lifecycle/index.html">Runtime lifecycle</a></li><li><a href="../../glossary/index.html">Glossary</a></li></ul></div><div class="grp"><p>Reference</p><ul><li><a href="../../reference/index.html">Overview</a></li><li><a href="../../reference/public-interfaces/index.html">Public interfaces</a></li><li><a href="../../reference/toolkit-io/index.html">Toolkit I/O evidence</a></li><li><a href="../../reference/toolkit-protocol/index.html">Toolkit protocol and replay compatibility</a></li><li><a href="../../reference/toolkit-data/index.html">Toolkit data API</a></li><li><a href="../../reference/toolkit-execution/index.html">Toolkit synchronous execution</a></li><li><a href="../../reference/toolkit-state/index.html">Toolkit state and admission</a></li><li><a href="../../reference/toolkit-surface/index.html">File-backed toolkit surfaces</a></li><li><a href="../../reference/context-schemes/index.html">Context schemes and policy selection</a></li><li><a href="../../reference/append-only-context/index.html">Append-only context (management v8)</a></li><li><a href="../../reference/exchange-aging-context/index.html">Exchange aging (management v9)</a></li><li><a href="../../reference/keep-written-context/index.html">Keep what the model wrote (management v10)</a></li><li><a href="../../reference/tasks/index.html">Task files</a></li><li><a href="../../reference/source-overlay/index.html">Source overlays</a></li><li><a href="../../reference/policy-io/index.html">Policy I/O</a></li><li><a href="../../reference/configuration-and-evidence/index.html">Configuration and evidence</a></li><li><a href="../../reference/context-packs/index.html">Context packs</a></li><li><a href="../../reference/experiment-identity/index.html">Experiment identity</a></li><li><a href="../../reference/robotwin-contact-recovery/index.html">RoboTwin contact recovery</a></li><li><a href="../../reference/robotwin-qualification/index.html">RoboTwin seed and scene qualification</a></li><li><a href="../../reference/motion-speed/index.html">Motion speed and wrist checks</a></li><li><a href="../../reference/latency-profile/index.html">Latency profile</a></li><li><a href="../../reference/robodojo-motion-qualification/index.html">RoboDojo motion qualification</a></li><li><a href="../../reference/provider-replay/index.html">Recorded-provider tape replay</a></li><li><a href="../../reference/robodojo-reset-diagnostics/index.html">RoboDojo reset crash diagnostics</a></li><li><a href="../../reference/ora-local-cpu-compatibility/index.html">Local CPU compatibility</a></li><li><a href="../../reference/robocasa-robolab-backends/index.html">RoboCasa365 and RoboLab</a></li><li><a href="../../reference/robolab-tasks/index.html">RoboLab tasks and contracts</a></li></ul></div><div class="grp"><p>Python API</p><ul><li><a href="../../api/index.html">Overview</a></li><li><a href="../../api/plans/index.html">Plans and benchmark cells</a></li><li><a href="../../api/policy/index.html">Policy sessions</a></li><li><a href="../../api/environment/index.html">Environment sessions</a></li><li><a href="../../api/actions/index.html">Action contracts</a></li></ul></div><div class="grp"><p>Contribute</p><ul><li><a href="../../developer/onboarding/index.html">Start contributing</a></li><li><a href="../../developer/contributing/index.html">Contributing</a></li><li><a href="../../code-map/index.html">Code map</a></li><li><a href="../../developer/repository-structure/index.html">Repository structure</a></li><li><a href="../../developer/documentation/index.html">Documentation</a></li><li><a href="../../developer/docs-style/index.html">Docs style guide</a></li><li><a href="../../developer/testing/index.html">Testing</a></li><li><details><summary>Authoring guides</summary><ul><li><a href="../../developer/add-backend/index.html">Add an environment</a></li><li><a href="../../developer/authoring/environment-compatibility/index.html">Environment compatibility</a></li><li><a href="../../developer/authoring/tool-surface/index.html">Tool surfaces</a></li><li><a href="../../developer/authoring/prompt-bundle/index.html">Prompt bundles</a></li><li><a href="../../developer/authoring/task-contract/index.html">Task contracts</a></li><li><a href="../../developer/authoring/qualification/index.html">Qualification</a></li><li><a href="../../developer/authoring/trajectory-capture/index.html">Trajectory and viewer integration</a></li><li><a href="../../developer/authoring/frontend-style/index.html">Viewer style</a></li></ul></details></li><li><details><summary>Templates</summary><ul><li><a href="../../templates/environment-compatibility-record/index.html">Environment compatibility record</a></li><li><a href="../../templates/task-contract-review/index.html">Task contract review</a></li></ul></details></li></ul></div></aside><main id="content"><p class="crumb">Use ORA</p><h1 class="doctitle">Free play</h1><article class="prose"><p><code>ora play</code> loads one random scene that this host has qualified, with no task,
+and opens the run's terminal UI. You give the robot instructions one at a time;
+the agent carries out each one, reports what it did and what it sees, and waits
+for the next. You can also talk to it while it works: ask what it is doing, or
+change your mind, and it answers or switches without stopping. The episode does
+not end after an instruction.</p>
+<p>In free play the agent is Pi itself, working as a coding agent with the robot
+as a device. It has Pi's own conversation, compaction and model registry, Pi's
+coding tools (read, write, edit, bash) and its <code>codemode</code> tool in the run's
+workspace, and your Pi skills, prompt templates, <code>AGENTS.md</code> context files and
+extensions. ORA adds the robot tools, the scene and the Supervisor, which keeps
+authority over the world: one robot action at a time, each with its receipt and
+evidence, whether the model calls a robot tool or a script does
+(<a href="#scripting-the-robot">scripting the robot</a>).</p>
+<pre class="hl" data-lang="bash"><code>./scripts/ora<span class="w"> </span>play<span class="w"> </span>--env<span class="w"> </span>synthetic<span class="w">                         </span><span class="c1"># choose a provider profile, then play</span>
+./scripts/ora<span class="w"> </span>play<span class="w"> </span>--env<span class="w"> </span>synthetic<span class="w"> </span>--provider<span class="w"> </span>env<span class="w">          </span><span class="c1"># Synthetic only: ORA_BASE_URL, ORA_MODEL, ORA_API_KEY</span>
+./scripts/ora<span class="w"> </span>play<span class="w"> </span>--env<span class="w"> </span>libero<span class="w"> </span>--provider<span class="w"> </span>PROFILE<span class="w"> </span>--service-report<span class="w"> </span>REPORT<span class="w"> </span>--confirm-launch
+./scripts/ora<span class="w"> </span>play<span class="w"> </span>--env<span class="w"> </span>robotwin<span class="w"> </span>--prepare-only<span class="w">           </span><span class="c1"># write the RunSpec, launch it later with --spec</span>
+./scripts/ora<span class="w"> </span>play<span class="w"> </span>--env<span class="w"> </span>robotwin<span class="w"> </span>--scene-set<span class="w"> </span>tabletop-v1<span class="w"> </span>--provider<span class="w"> </span>PROFILE<span class="w"> </span>--service-report<span class="w"> </span>REPORT<span class="w"> </span>--confirm-launch
+./scripts/ora<span class="w"> </span>play<span class="w"> </span>--env<span class="w"> </span>robotwin<span class="w"> </span>--scene<span class="w"> </span>shell_game_memory_3<span class="w"> </span>...<span class="w">   </span><span class="c1"># one scene of a scene set (its seeds are drawn)</span>
+./scripts/ora<span class="w"> </span>play<span class="w"> </span>--env<span class="w"> </span>robodojo<span class="w"> </span>--provider<span class="w"> </span>PROFILE<span class="w"> </span>--service-report<span class="w"> </span>REPORT<span class="w"> </span>--confirm-launch<span class="w">   </span><span class="c1"># an Isaac Sim tabletop</span>
+./scripts/ora<span class="w"> </span>play<span class="w"> </span>--env<span class="w"> </span>robodojo<span class="w"> </span>--scene<span class="w"> </span>kitchen_tidy<span class="w"> </span>...<span class="w">           </span><span class="c1"># one RoboDojo scene (its seeds are drawn)</span>
+./scripts/ora<span class="w"> </span>play<span class="w"> </span>--env<span class="w"> </span>robodojo<span class="w"> </span>--code-mode<span class="w"> </span>...<span class="w">                    </span><span class="c1"># ORA&#39;s code mode ([code mode](#code-mode))</span>
+./scripts/ora<span class="w"> </span>play<span class="w"> </span>--env<span class="w"> </span>yam<span class="w"> </span>--rig-mode<span class="w"> </span>sim<span class="w"> </span>--provider<span class="w"> </span>PROFILE<span class="w">      </span><span class="c1"># the YAM station&#39;s model ([the YAM station](#the-yam-station))</span>
+./scripts/ora<span class="w"> </span>play<span class="w"> </span>--env<span class="w"> </span>yam<span class="w"> </span>--rig-mode<span class="w"> </span><span class="nb">read</span><span class="w"> </span>--provider<span class="w"> </span>PROFILE<span class="w"> </span>--confirm-launch<span class="w">    </span><span class="c1"># the real cell, nothing moves</span>
+./scripts/ora<span class="w"> </span>play<span class="w"> </span>--env<span class="w"> </span>yam<span class="w"> </span>--rig-mode<span class="w"> </span>on<span class="w"> </span>--operator-present<span class="w"> </span>--provider<span class="w"> </span>PROFILE<span class="w"> </span>--confirm-launch
+./scripts/ora<span class="w"> </span>play<span class="w"> </span>--env<span class="w"> </span>yam<span class="w"> </span>--rig-mode<span class="w"> </span>on<span class="w"> </span>--operator-present<span class="w"> </span>--auto-approve<span class="w"> </span>...<span class="w">   </span><span class="c1"># motions run without asking</span>
+</code></pre>
+<h2 id="the-cameras-beside-the-terminal">The cameras beside the terminal</h2>
+<p>Pi's terminal shows the conversation; <code>ora cameras</code> shows the run's cameras
+in the pane beside it, two by two, redrawn at every captured frame (each
+observation and each action's end), with how old the frame is and the
+observation step the agent last read:</p>
+<pre class="hl" data-lang="bash"><code>ora<span class="w"> </span>cameras<span class="w"> </span>--last<span class="w">          </span><span class="c1"># in a second pane or split of the same terminal</span>
+</code></pre>
+<p>It draws through the terminal's own image protocol: kitty's (kitty, Ghostty)
+or iTerm2's (iTerm2, WezTerm). Another terminal, macOS Terminal among them, is
+refused with that reason; over SSH, where the terminal cannot be recognised,
+<code>--protocol kitty|iterm2</code> names it. Inside tmux the picture passes through to
+the terminal outside: <code>tmux set -g allow-passthrough on</code> first. The command
+reads the run's capture and writes nothing; <code>q</code> ends it.</p>
+<h2 id="keys-and-commands">Keys and commands</h2>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Key or command</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Enter</td>
+<td>Sends the line. Between instructions it starts the next one. While an instruction runs, the message joins it: the agent reads it before its next step, answers a question and keeps working, or takes a changed request as the new objective.</td>
+</tr>
+<tr>
+<td>Alt+Enter</td>
+<td>While an instruction runs, queues the line instead: the Supervisor holds it (a <code>queued_instruction</code>) until the running instruction ends, then it opens the next one. A notice says so, and the footer counts the queued ones (<em>1 queued</em>) until each starts. Between instructions it is Enter.</td>
+</tr>
+<tr>
+<td>Esc</td>
+<td>Stops the running instruction at its next boundary. A model reply already in flight is recorded and any motion it proposed still runs; after that, no further model call is made. The session then waits for the next instruction. On a real cell, Esc while the robot moves first ends that motion where the arms are (<code>/halt</code>), so the stop takes effect at once; Esc while the agent is still planning sends the same stop first, and the worker refuses the motion that reply proposes before anything moves (<code>operator_declined</code>, telling the agent to read your latest message). When the reply proposes no motion, the stop is withdrawn as the instruction ends (<code>ora cell stop-motion --withdraw</code>), so it never refuses a later motion.</td>
+</tr>
+<tr>
+<td><code>/reset</code></td>
+<td>Loads another of the scenes drawn for this session.</td>
+</tr>
+<tr>
+<td><code>/view</code></td>
+<td>Shows the operator view in the conversation: the environment's camera for you (a RoboTwin scene set's <code>operator_camera</code>, else RoboTwin's observer camera; a RoboDojo scene's third-person <code>operator_camera</code>; Synthetic's drawn front view), which the agent never receives.</td>
+</tr>
+<tr>
+<td><code>/quit</code></td>
+<td>Ends the session. ORA evaluates and seals the run.</td>
+</tr>
+<tr>
+<td><code>/stop</code></td>
+<td>Stops the run as an operator stop. The run stays incomplete, as any stopped run does.</td>
+</tr>
+<tr>
+<td><code>!command</code></td>
+<td>Runs a shell command in the run's workspace. The agent sees the command and its output (<code>!!</code> keeps both out of the conversation).</td>
+</tr>
+<tr>
+<td><code>@path</code></td>
+<td>Refers to a file. The agent reads it with its read tool.</td>
+</tr>
+<tr>
+<td><code>/model</code>, Ctrl+P</td>
+<td>Chooses or cycles the model. ORA's provider profile is listed as provider <code>ora</code>; providers you have logged in to are listed beside it. Every request to the <code>ora</code> model carries the profile's <code>request_options</code> (<a href="../../getting-started/model-apis/index.html">model APIs</a>), as a benchmark run's requests do; a model of another provider gets none.</td>
+</tr>
+<tr>
+<td><code>/thinking</code></td>
+<td>Sets the reasoning effort.</td>
+</tr>
+<tr>
+<td><code>/login</code>, <code>/logout</code></td>
+<td>Manages provider credentials. They are stored in your user-level ORA config (<code>~/.config/ora/pi-auth.json</code>, or <code>$ORA_CONFIG_HOME</code>), never in the run.</td>
+</tr>
+<tr>
+<td><code>/compact</code></td>
+<td>Compacts the conversation with Pi's own compaction. Pi also compacts automatically, as your Pi settings say.</td>
+</tr>
+<tr>
+<td><code>/tree</code>, <code>/fork</code>, <code>/new</code>, <code>/resume</code>, <code>/clone</code>, <code>/import</code></td>
+<td>Move the conversation. The robot and the scene stay as they are, and the terminal says so. These are allowed only between instructions.</td>
+</tr>
+<tr>
+<td><code>/skill:name</code>, <code>/template args</code></td>
+<td>Your Pi skills and prompt templates, expanded when the instruction is delivered.</td>
+</tr>
+<tr>
+<td><code>/reload</code>, <code>/trust</code>, <code>/debug</code></td>
+<td>As in Pi.</td>
+</tr>
+<tr>
+<td><code>/share</code>, <code>/bug</code></td>
+<td>Upload the conversation, or a bug report about it, after a confirmation that says what is sent and where. Nothing is uploaded without that confirmation.</td>
+</tr>
+<tr>
+<td><code>/status</code>, <code>/help</code>, <code>/export</code>, Ctrl+O</td>
+<td>As in <a href="../interactive/index.html">interactive sessions</a>.</td>
+</tr>
+<tr>
+<td>Ctrl+D, <code>/detach</code></td>
+<td>Leaves the terminal. The session waits, and <code>ora attach</code> returns to it.</td>
+</tr>
+</tbody>
+</table></div>
+<p>When a scene loads, its main camera image (or the operator view, when the
+environment has one) appears before your first instruction. Every new
+instruction starts from a fresh look at the world: before its first model
+call the Supervisor takes a new observation the same way it observes a scene
+it has just loaded (it reads the cameras and the arms' state and moves
+nothing), and the model receives that observation, then your instruction, in
+the same request. On a real cell this matters because people move things
+between instructions. A message that joins a running instruction takes no new
+look, since the model already receives an observation after every action. If
+the look fails (a camera that does not answer, for example), the instruction
+still runs on the last observation. The failure is recorded as an
+<code>auxiliary_failure</code> with stage <code>play:instruction_observation</code>, and the model
+reads a note after that observation: <em>ORA could not take a fresh observation
+at the start of this instruction (…). The observation with it is the latest
+one, step N, captured … ago; the scene may have changed since.</em> The footer shows the
+scene (for example <code>scene 2/8</code>), the instruction count and what the agent does
+now, with the seconds it has taken: <em>thinking… 4s</em>, <em>writing… 6s</em>, <em>running
+vision_ground… 1s</em>, <em>moving… 2s</em> while the robot executes an action, and
+<em>waiting for your instruction</em> between instructions. Once the model has
+answered, a second line under it gives the model's speed and the loop
+between robot actions: <em>45 tok/s · TTFT 0.8 s · loop 6.2 s (target 3 s)</em>,
+the output tokens per second of generation and the time to the first token
+over the last 10 model calls, and the median time from an observation to the
+next one over the last 10 actions. The target is 3 s, or <code>ORA_LOOP_TARGET_S</code>.
+<code>ora web</code>'s page breaks each loop down (<a href="../remote/index.html#web-view">speed</a>).</p>
+<p>A message you send while an instruction runs is announced as queued (<em>joins
+instruction 2; the agent reads it before its next step</em>), and appears in the
+conversation once the Supervisor has delivered it, marked <em>you · joins
+instruction 2 · delivered at step 7</em>; the agent reads it before its next model
+call (a message that arrives while the agent proposes a robot action, or while
+the robot executes one, is read with the observation after that motion), and
+its reply follows. When the agent answers
+your message in words only, that reply is shown as its <em>Answer</em> and the
+instruction keeps running: the agent goes on with the task at its next step.
+Only a reply with no new message of yours to answer is the instruction's
+report. A reply the model's output limit cut off before any tool call (for
+example, all of it spent on reasoning) is never the report: ORA asks the model
+to continue on the same observation, as it does in a benchmark episode, and
+Pi's terminal marks the reply <em>Response was truncated before completion</em>.
+When the session's model calls or time leave no call to continue it, the
+instruction ends <em>the model's reply was cut off at its output limit</em>. The end
+of each instruction is announced, for example <em>done; the agent reported</em>, <em>stopped
+(Esc)</em> or <em>its model calls ran out</em>, and marked in the conversation where it
+happened (<em>■ instruction 2 stopped (Esc) · at step 9</em>).</p>
+<p>The terminal is drawn as the project teaser's terminal pane, as <code>ora web</code>'s page
+is: ORA's theme for Pi (grays, a teal accent for marks only, green for verdicts
+only; truecolor where the terminal has it, the nearest 256-color palette entry
+where it does not), a header with ORA's pixel-arm mark, the model, its effort and
+the environment and task, the model's words after <code>●</code>, each robot tool call as
+<code>● name(arguments)</code> with its result under a <code>⎿</code> corner, the status line above the
+prompt (a teal spinner, <em>Moving on the robot… (12s · esc to interrupt)</em>), the
+prompt after <code>❯</code> between two rules, and the footer <code>▸▸ mode · scene · instruction · queued · context</code> with <code>● effort · model</code> on the right (the
+counts and budget give way on a narrow terminal; <code>/status</code> has them all). The
+theme is set for the session only, never in your Pi settings, and your
+terminal's own background stays; <code>ORA_TUI_THEME=pi</code> keeps Pi's theme and look.</p>
+<p>ORA's own notices, footer, header and help are in Chinese when <code>ORA_UI_LANG=zh</code>
+(or a <code>zh*</code> locale, <code>LANG=zh_CN.UTF-8</code>); <code>ORA_UI_LANG=en</code> keeps English. Pi's
+own interface stays as Pi draws it. The web page (<code>ora web</code>) has its own
+English/Chinese switch (<a href="../remote/index.html#web-view">web view</a>).</p>
+<p>A finished session replays on the same page with <code>ora replay RUN_ID</code> (the
+waiting at 16×, each robot motion in real simulated time; like <code>ora web</code>, it
+needs the page built once with <code>ora web setup</code>), and <code>ora replay RUN_ID --export out.mp4</code> makes it a video at those rates, with Playwright's Chromium
+and ffmpeg installed (<a href="../remote/index.html#replay-a-finished-run">replay a finished run</a>).</p>
+<h3 id="real-cells">Real cells</h3>
+<p>When the plan drives a real robot cell (its <code>runtime.kind</code> is a real-cell
+backend, today <code>yam</code>, and its <code>runtime.rig_mode</code> is <code>read</code> or <code>on</code>), the
+terminal adds commands that act on the arms:</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Runs</th>
+<th>Confirm first</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/home</code></td>
+<td><code>ora cell home</code></td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>/hold</code></td>
+<td><code>ora cell hold</code></td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>/float</code></td>
+<td><code>ora cell float</code></td>
+<td>yes (arms will be guided by hand)</td>
+</tr>
+<tr>
+<td><code>/release</code></td>
+<td><code>ora cell release</code></td>
+<td>yes (arms go limp)</td>
+</tr>
+<tr>
+<td><code>/estop</code></td>
+<td><code>ora cell estop</code></td>
+<td>yes (every motor disabled, arms fall)</td>
+</tr>
+<tr>
+<td><code>/diagnose</code></td>
+<td><code>ora cell diagnose</code></td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>/halt</code></td>
+<td><code>ora cell stop-motion --by &quot;play terminal&quot;</code></td>
+<td>no (the motion in progress ends where the arms are and they stay held; the agent gets a fresh observation)</td>
+</tr>
+<tr>
+<td><code>/approve [value]</code></td>
+<td><code>ora cell approve --id ID [--value V]</code></td>
+<td>yes (shows the robot's waiting question and its id)</td>
+</tr>
+<tr>
+<td><code>/decline [reason]</code></td>
+<td><code>ora cell decline --id ID --reason …</code></td>
+<td>yes (shows the question and the reason)</td>
+</tr>
+<tr>
+<td><code>/yolo on</code> · <code>/yolo off</code> · <code>/yolo</code></td>
+<td><code>ora cell auto-approve on|off|status</code></td>
+<td><code>on</code> only (motions will run without asking)</td>
+</tr>
+<tr>
+<td><code>/mode ask|safe|auto</code> · <code>/mode</code> · Shift+Tab</td>
+<td><code>ora cell mode ask|safe|auto</code> (<code>/mode</code> alone reads the mode, runs nothing)</td>
+<td><code>auto</code> only (every motion will run without asking)</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>/halt</code> is the way to change course mid-motion: without it the Supervisor
+reads a stop (Esc) or a message only once the motion it executes has ended,
+and a motion may take several seconds. The worker reads the stop at every
+control tick and ends the motion within a few milliseconds; between motions it
+does nothing. Esc while the robot moves calls it before it stops the
+instruction. Sent while the agent plans (Esc, or the page's <em>Stop &amp; send</em>), the
+same stop refuses the motion the agent's reply proposes at its approval; when
+the reply proposes none, the front end withdraws it once your message reaches
+the agent (or the instruction ends) with no motion started in between.</p>
+<p>They act at once, also while the robot executes a motion: the terminal runs
+<code>scripts/ora cell &lt;verb&gt; --json</code> itself (with <code>--cell</code> when the plan has
+<code>runtime.cell_config</code>), the same command the cell board's buttons and the shell
+use, instead of putting them in the play inbox, which the Supervisor reads only
+between model decisions. A command never reaches the agent. A command that
+asks first runs only after <code>y</code> (any other key cancels it) and then passes
+<code>--yes</code>. The terminal says <em>running…</em>, then shows the result or the error in
+the conversation as an operator entry (<em>✓ /home · ora cell home · done in 38s</em>),
+and another command can start meanwhile (<code>/estop</code> while <code>/home</code> runs). The
+agent trace records each one as an operator shell command and its output, kept
+out of the conversation, as a <code>!!</code> line is. In a run that drives no real cell
+(<code>sim</code>, or a simulator) they are not offered: typed, they are answered that
+they apply to real cells only.</p>
+<p><code>/approve</code> and <code>/decline</code> answer the question the worker waits on (enable the
+arms, a motion, release arms that could not get home): the terminal reads the
+cell's approval broker itself, shows the oldest waiting question with its id,
+plain words and seconds left, and after <code>y</code> answers that id; approving is the
+confirmation, nothing asks again. A guided calibration's questions are
+answered the same way: <code>/approve</code> when a <code>task</code> is done, <code>/approve &lt;value&gt;</code> for a
+<code>value</code> (a value is refused for any other question, and a <code>value</code> question
+without one), <code>/approve</code> or <code>/decline</code> to save a <code>write</code> result or not. On rig
+mode <code>on</code> it also says once, as soon as
+a question appears, <em>左臂动作等待批准（id）· 输入 /approve 或 /decline 答复</em>. A
+question the board or the shell answered first is refused by id
+(<a href="../real-cells/index.html">real cells</a>).</p>
+<p><code>/yolo on</code> turns on auto-approve for the worker driving the arms: after one
+<code>y</code>, each motion it plans runs at once instead of waiting for <code>/approve</code>.
+Enabling the arms and releasing them are still asked. <code>/yolo off</code> turns it off
+again, and <code>/yolo</code> alone says whether it is on. Starting the session with
+<code>--auto-approve</code> turns it on from the first motion. Each auto-approved motion
+is still recorded in the broker as an answer (<code>by: &quot;auto-approve (play terminal)&quot;</code>), and the agent gets the same receipt it gets for a motion you
+approved (<a href="../real-cells/index.html#auto-approve">real cells</a>).</p>
+<p>The footer starts with the cell's permission mode: <em>▸▸ ask · every motion
+asked</em> (每个动作都问), <em>safe · small motions run</em> (小动作自动: a motion inside the
+safe limits runs without asking, any other waits) or <em>auto · every motion runs</em>
+(全部自动, in bold red; the same as <code>/yolo on</code>). <code>/mode</code> says it in full, with
+<code>safe</code>'s limits and who set it; <code>/mode ask|safe|auto</code> switches it; Shift+Tab
+cycles ask → safe → auto → ask (on rig mode <code>read</code>, ask ↔ safe), and switching
+to <code>auto</code> asks y/N either way. On a real cell Shift+Tab is taken for the mode,
+not Pi's thinking-level cycle; <code>/thinking</code> still sets the reasoning effort.
+Each motion that answered itself is said once as a notice, with the numbers
+safe mode checked (<a href="../real-cells/index.html">real cells</a>).</p>
+<h4 id="on-the-web-page">On the web page</h4>
+<p><code>ora web</code> has the same controls for a run on a real cell, and none for any
+other run (<a href="../remote/index.html#web-view">web view</a>). Its gateway reads the cell's
+own files for the state, as the board and the terminal do, and runs the
+terminal's own command lines for the actions (<code>scripts/ora cell &lt;verb&gt; --json</code>, with <code>--by &quot;web page&quot;</code> for an answer, the switch, the mode or a stop), so a command
+from either front end does the same thing:</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Real-cell feature</th>
+<th>Play terminal</th>
+<th>Web page</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A waiting question appears: its title, plan in plain words, id and seconds left</td>
+<td>✓ a notice (rig mode <code>on</code>), then the y/N prompt of <code>/approve</code></td>
+<td>✓ a card above the box you type in, for as long as it waits</td>
+</tr>
+<tr>
+<td>Approve or decline it, by its id, after a confirmation; a decline carries a reason</td>
+<td>✓ <code>/approve</code>, <code>/decline [reason]</code></td>
+<td>✓ the card's <em>Approve…</em> and <em>Decline…</em> (reason field), or typed <code>/approve</code>, <code>/decline [reason]</code></td>
+</tr>
+<tr>
+<td>Auto-approve: its state, on after a confirmation, off at once</td>
+<td>✓ <code>/yolo</code>, <code>/yolo on</code>, <code>/yolo off</code></td>
+<td>✓ the switch in the cell bar (rig mode <code>on</code>), or typed <code>/yolo …</code></td>
+</tr>
+<tr>
+<td>The permission mode: shown always, <code>auto</code> after a confirmation</td>
+<td>✓ the footer, <code>/mode …</code>, Shift+Tab</td>
+<td>✓ the footer: a click opens its menu (<code>safe</code>'s limits shown), or typed <code>/mode …</code></td>
+</tr>
+<tr>
+<td>A motion that ran without asking (safe mode or auto-approve)</td>
+<td>✓ a notice, once each</td>
+<td>✓ the latest, in the cell bar</td>
+</tr>
+<tr>
+<td>Home, Hold, Diagnose at once</td>
+<td>✓ <code>/home</code>, <code>/hold</code>, <code>/diagnose</code></td>
+<td>✓ the cell bar's buttons (Home first), or typed</td>
+</tr>
+<tr>
+<td>End the motion in progress where the arms are, at once</td>
+<td>✓ <code>/halt</code>; Esc while the robot moves</td>
+<td>✓ the cell bar's <em>Stop here</em>, typed <code>/halt</code>, <em>Stop &amp; send</em>; Esc and <em>Stop instruction</em> while the robot moves</td>
+</tr>
+<tr>
+<td>Refuse the motion the agent is still planning, before it moves (withdrawn when none comes)</td>
+<td>✓ Esc while the agent plans</td>
+<td>✓ <em>Stop &amp; send</em>, Esc and <em>Stop instruction</em> while the agent plans</td>
+</tr>
+<tr>
+<td>Float, Release, E-stop after a confirmation</td>
+<td>✓ y/N (only <code>y</code> confirms)</td>
+<td>✓ a dialog (only its <em>Yes</em> button confirms; Enter and Esc say no), or typed</td>
+</tr>
+<tr>
+<td>A command runs while another one does (<code>/estop</code> while <code>/home</code> runs)</td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Each outcome, the other front end's too</td>
+<td>✓ an entry in the conversation; the page's is marked <em>from the web page</em></td>
+<td>✓ the cell bar's list, marked <em>terminal</em> or <em>web page</em></td>
+</tr>
+<tr>
+<td>Recorded in the agent trace as an operator shell command and its output</td>
+<td>✓</td>
+<td>✓ the gateway hands each outcome to the run's agent process, which records it the same way (<code>via: &quot;web page&quot;</code>)</td>
+</tr>
+<tr>
+<td>The held arms' alerts</td>
+<td>✓ once each as a notice, critical ones as errors (rig mode <code>on</code>)</td>
+<td>✓ a banner each while it lasts, critical ones as errors</td>
+</tr>
+<tr>
+<td>The worker that held the arms has ended</td>
+<td>✓ an error notice (rig mode <code>on</code>)</td>
+<td>✓ an error banner, until another worker holds the arms</td>
+</tr>
+<tr>
+<td>Not offered without a real cell; typed, answered that they apply to real cells only</td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+</tbody>
+</table></div>
+<p>The page asks first exactly where the terminal asks y/N, and its request must
+say so (<code>confirmed: true</code>): the gateway refuses an unconfirmed E-stop, Float,
+Release, answer, <em>auto-approve on</em> or <em>mode auto</em>. The page's controls keep working after
+the run's agent process has ended, as long as <code>ora web</code> runs: the cell
+outlives the run. Two tests keep the front ends together: a command added to
+the terminal's table (<code>ora-pi/src/play/cell.ts</code>) without the page's
+counterpart fails <code>ora-pi/web/test/cell.test.ts</code>, and without the gateway's
+route fails <code>tests/ora/app/test_web_cell.py</code>.</p>
+<h2 id="free-play-and-benchmark-runs-compared">Free play and benchmark runs compared</h2>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Command or capability</th>
+<th>Free play</th>
+<th>Benchmark and scored runs</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Typed text</td>
+<td>the next instruction, or a message to the running one</td>
+<td>a steer, marked as human intervention</td>
+<td>Free play has no task; a benchmark run's task is fixed by its plan.</td>
+</tr>
+<tr>
+<td><code>/model</code>, Ctrl+P, <code>/scoped-models</code></td>
+<td>available</td>
+<td>refused: the plan binds the model</td>
+<td>Switching changes what produces every decision.</td>
+</tr>
+<tr>
+<td><code>/thinking</code></td>
+<td>available</td>
+<td>refused: the plan binds the reasoning effort</td>
+<td>It changes what the model is asked to do.</td>
+</tr>
+<tr>
+<td><code>/login</code>, <code>/logout</code></td>
+<td>available</td>
+<td>available</td>
+<td>Credentials live in the user-level ORA store, outside every run and its evidence.</td>
+</tr>
+<tr>
+<td><code>/compact</code></td>
+<td>Pi's own compaction, plus automatic compaction</td>
+<td>refused</td>
+<td>ORA's context policy owns a benchmark run's context.</td>
+</tr>
+<tr>
+<td><code>/tree</code>, <code>/fork</code>, <code>/new</code>, <code>/resume</code>, <code>/clone</code>, <code>/import</code></td>
+<td>available between instructions; the conversation moves, the world does not</td>
+<td>refused</td>
+<td>A benchmark run's history must be the one the robot lived.</td>
+</tr>
+<tr>
+<td><code>!</code> shell, <code>@path</code></td>
+<td>available</td>
+<td>refused</td>
+<td>The agent's inputs are fixed by the plan.</td>
+</tr>
+<tr>
+<td>Pi's coding tools (read, write, edit, bash)</td>
+<td>available, in the run's workspace</td>
+<td>not advertised</td>
+<td>The ToolSurface is part of the plan's identity.</td>
+</tr>
+<tr>
+<td>Pi's <code>codemode</code>, <code>ora-robot</code> from the shell</td>
+<td>available; a script's robot calls go through the Supervisor (with <code>--code-mode</code>, ORA's own code mode instead)</td>
+<td>not available</td>
+<td>A benchmark run's actions are the model's own tool calls.</td>
+</tr>
+<tr>
+<td>Skills, prompt templates, <code>AGENTS.md</code>, your extensions</td>
+<td>loaded from your Pi config</td>
+<td>not loaded</td>
+<td>They would change what the model sees.</td>
+</tr>
+<tr>
+<td><code>/reload</code>, <code>/trust</code>, <code>/debug</code></td>
+<td>available</td>
+<td>refused</td>
+<td>They reload or reveal resources a benchmark run does not use.</td>
+</tr>
+<tr>
+<td><code>/share</code>, <code>/bug</code></td>
+<td>after a confirmation</td>
+<td>refused</td>
+<td>They upload the session outside the run.</td>
+</tr>
+<tr>
+<td>Esc</td>
+<td>stops the running instruction</td>
+<td>stops the run (operator stop)</td>
+<td>A free-play session continues; a benchmark episode does not.</td>
+</tr>
+<tr>
+<td><code>/quit</code></td>
+<td>ends the session; ORA evaluates and seals it</td>
+<td>detaches the terminal</td>
+<td>The session is the operator's to end.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="scenes">Scenes</h2>
+<p>A scene is one reset of one environment task. <code>ora play</code> never loads a scene
+this host has not qualified.</p>
+<ul>
+<li><strong>Synthetic</strong> composes the quickstart's world.</li>
+<li><strong>LIBERO and RoboTwin</strong> take their scene from
+<code>ora.orchestrator.play.scenes</code>, which draws a scene at random from what this
+host has qualified and loads it without its task, with the backend's play
+binding: the official success check is withheld, so nothing ends a scene as
+a success. The scenes <code>/reset</code> may load are drawn from the same task's (and
+RoboTwin scene configuration's) scenes that the same qualification record
+admits. <code>--service-report</code> binds the perception services, as <code>ora run</code>
+does.</li>
+<li><strong>RoboDojo</strong> offers only ORA's own Isaac Sim tabletops
+(<a href="#isaac-sim-tabletops-robodojo-scene-sets">below</a>); its official tasks are
+not loaded in free play.</li>
+</ul>
+<p>A worker cannot change task, so every scene of one session is the same task,
+with another seed or initial state. <code>--scenes N</code> (default 8, at most 32) sets
+how many are drawn, and <code>--draw-seed</code> repeats a draw. The plan records the
+current scene (<code>play.scene</code>), the scenes (<code>play.scenes</code>) and the draw
+(<code>play.draw</code>). A real environment's RunSpec is written under
+<code>outputs/ora-play/specs/</code> (with the RoboTwin seed manifest it names);
+<code>--prepare-only</code> stops there, and <code>ora play --env ENV --spec FILE --confirm-launch</code> launches it as it is.</p>
+<p><code>--scene NAME</code> plays one task (a LIBERO or RoboTwin task name, or a scene of
+a scene set) and still draws its seeds or initial states.</p>
+<p>No success condition is latched in free play, and no verdict is recorded. If
+the environment still ends a scene (its step limit), the running instruction
+ends, and only <code>/reset</code> or <code>/quit</code> can follow.</p>
+<h3 id="tables-with-many-objects-robotwin-scene-sets">Tables with many objects (RoboTwin scene sets)</h3>
+<p>A benchmark task's scene holds the few objects its task needs. For open-ended
+instructions (&quot;pick up the cup and put it on the plate, then put the plate
+where the cup was&quot;), ORA also has its own RoboTwin scenes: tables with many
+objects and no task at all. <code>--scene-set tabletop-v1</code> (or <code>household-v1</code>) draws
+among a set's scenes instead of the 50 official tasks, and <code>--scene NAME</code> names
+one (it implies its set).</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Set</th>
+<th>Scene</th>
+<th>What is on the table</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>tabletop-v1</code></td>
+<td><code>table_setting_sequence</code></td>
+<td>a plate, a bowl and a cup in a row near the robot; a fork, a knife and a coaster beyond them</td>
+</tr>
+<tr>
+<td><code>tabletop-v1</code></td>
+<td><code>shell_game_memory_3</code></td>
+<td>three upright cups in a row and an orange table-tennis ball in front of one of them</td>
+</tr>
+<tr>
+<td><code>tabletop-v1</code></td>
+<td><code>obstacle_rearrangement_6</code></td>
+<td>six coloured blocks near the robot, two low walls with a gap and a divider, and six matching flat pads beyond the walls (the seed shuffles the blocks' colours)</td>
+</tr>
+<tr>
+<td><code>household-v1</code></td>
+<td><code>breakfast</code></td>
+<td>a plate, a bread basket and a bowl at the back; a loaf of bread, a mug, a bottle of juice and a box of coffee in front; a jar of jam on the robot's left and an apple on its right</td>
+</tr>
+<tr>
+<td><code>household-v1</code></td>
+<td><code>kitchen</code></td>
+<td>a cutting board, a bamboo steamer and a red kettle at the back; a tomato, a bottle of soy sauce, an onion and a blue tub in front; a jar of sauce on the robot's left</td>
+</tr>
+</tbody>
+</table></div>
+<p>The scenes are rebuilt from the asset lists and camera images of three of the
+six <code>robotwin-long-horizon-v1</code> prototypes, whose source was lost; they look
+like the prototypes, not identical to them, and each seed moves every object a
+little. They use objects from RoboTwin's asset library (plate, bowl, cups,
+fork, knife, coaster, ball) and RoboTwin's box primitive for the blocks, walls
+and pads; the walls, divider and pads are fixed to the table. The embodiment,
+cameras, table and scene configuration (<code>demo_clean</code>) are RoboTwin's own, and
+the RoboTwin checkout and its pinned revision are not changed: the worker loads
+the scene from ORA (<code>ora/environment/backends/robotwin/play_scenes/</code>) instead
+of from RoboTwin's <code>envs/</code>. A scene has no instruction, success check or
+expert, and the agent is told nothing about it.</p>
+<p><code>household-v1</code> is ORA's own: a breakfast table and a kitchen counter, each with
+containers to put things in or on (the plate, basket and bowl; the cutting
+board, steamer and tub) and eight or nine objects in all. The big ones stand at
+the back, the small ones (at most 8 cm across where a gripper closes, nothing
+thin or flat) in front and at both sides, 15 cm or more apart, all where an arm
+reaches them from above, so both arms are used and an arm carrying something
+has a lane. Its objects weigh what they would (a mug 300 g, an apple 180 g, the
+kettle 600 g) with the inertia of that mass and a friction of 0.6/0.5:
+RoboTwin builds every library object at 10 g with the rotational inertia of a
+solid body at 1000 kg/m³ and a friction of 0.3, so pushed it slides and spins slowly instead
+of tipping, and pinched it can be thrown across the room. Nothing global
+changes: the robot, the table and every other scene keep RoboTwin's physics.
+Jaws that close on a thin part and open again can still throw an object (no
+mass prevents a deep penetration from resolving fast): in the first breakfast
+session they closed on the milk carton's sealed top fin and threw the carton
+off the table, so a bottle of juice replaced it. Each scene frames the operator
+camera on its whole table and both arms.</p>
+<p>As with every scene, <code>ora play</code> loads a scene of a set only at a seed this host
+has qualified: a play-scene audit must admit it. The audit builds each scene
+in the RoboTwin worker on the host's RoboTwin slot and records, for each seed,
+that the scene builds, settles (every object at rest, on the table, inside the
+arms' workspace and not interpenetrating anything) and renders every camera.
+Run it once per host, and again after a change to the scene modules:</p>
+<pre class="hl" data-lang="bash"><code>./scripts/ora<span class="w"> </span>play<span class="w"> </span>audit<span class="w"> </span>--env<span class="w"> </span>robotwin<span class="w"> </span>--scene-set<span class="w"> </span>tabletop-v1<span class="w">            </span><span class="c1"># seeds 0, 1, 2</span>
+./scripts/ora<span class="w"> </span>play<span class="w"> </span>audit<span class="w"> </span>--env<span class="w"> </span>robotwin<span class="w"> </span>--scene-set<span class="w"> </span>tabletop-v1<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--scene<span class="w"> </span>shell_game_memory_3<span class="w"> </span>--seed-list<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="m">4</span><span class="w"> </span><span class="m">5</span><span class="w"> </span>--resource-profile<span class="w"> </span>SLOT
+</code></pre>
+<p>It needs <code>ROBOTWIN_ROOT</code> and <code>ROBOTWIN_PYTHON</code> (the RoboTwin checkout at its
+pinned revision, clean) and a registered execution host, holds the slot's
+resource lease while it runs, and builds one scene at a time. Records and
+camera images land under
+<code>outputs/ora-play/qualification/play-scene-audits/&lt;UTC time&gt;/tabletop-v1/</code>. A
+record stops admitting its seeds when the scene modules change, so <code>ora play</code>
+then asks for a new audit. The scenes <code>/reset</code> may load are other audited seeds
+of the same scene.</p>
+<p><strong>Operator camera.</strong> A scene of a set has ORA's own camera for you,
+<code>operator_camera</code>: 1280 × 720, ray-traced like RoboTwin's cameras (8 samples
+per pixel), from your side of the table at three quarters, with both arms and
+both rows of objects in frame (<code>play_scenes/base.py</code>, <code>OPERATOR_VIEW</code>). <code>/view</code>
+and the web page show it instead of RoboTwin's 320 × 240 observer camera, and
+the page plays the robot's motion through it. It is added to the SAPIEN scene
+after the objects and never to RoboTwin's camera manager, so the agent's
+cameras, observations and point clouds are unchanged (the four policy cameras'
+images and depth stay byte for byte what they were without it). The play-scene
+audit renders it with the other cameras.</p>
+<p><strong>Recorded motion.</strong> A scene-set plan records its execution capture at
+30 fps of simulated time (<code>runtime.execution_capture</code> <code>{enabled: true, fps: 30}</code>,
+<code>robotwin_play_scenes.PLAY_EXECUTION_CAPTURE</code>): a frame every ninth 4 ms
+physics step, each with the head and front cameras (320 × 240) and the
+operator camera (1280 × 720). Only those three cameras are rendered for a frame
+(RoboTwin's <code>update_picture</code> also renders both wrist cameras), and a frame is
+rendered only once the capture's writer has caught up, so no frame is dropped.
+Benchmark plans, and play on an official RoboTwin task, keep 10 fps and the
+head and front cameras.</p>
+<p><strong>Settling after each action.</strong> RoboTwin advances physics only inside an
+action, so an object the arm knocked over used to hang in mid-fall while the
+model thought (in a recorded session a knife and a plate thrown off the table
+stayed in the air for 11 s). After each action of a scene-set scene the world
+keeps running with every arm and gripper holding its last command, 10 physics
+steps at a time, until over one such window no object moved more than 1 mm or
+turned more than 1°, at most 2 s of simulated time
+(<code>robotwin_play_scenes.PLAY_POST_ACTION_SETTLE</code>); an object that fell to the
+floor no longer keeps it going. The settle is part of the action's recorded
+motion (its frames carry the action's id), changes no receipt, does not count
+toward the scene's step limit, and is logged per action in
+<code>native/post-action-settle.jsonl</code>.</p>
+<p>What it costs, measured on an H200 with a scripted sweep through the cup of
+<code>table_setting_sequence</code> (four arm moves, about 5 s of simulated time): a frame
+takes about 0.39 s of wall time (0.26 s to ray-trace the three cameras, the
+rest the writer's PNG encoding, which shares the interpreter with the
+simulation), so the moves took 102 s instead of 57 s at 10 fps; the capture
+holds 25.6 MB per simulated second instead of 1.7 MB (the operator camera's
+frames are about 0.7 MB each). In a live session (65 actions, 75 s of simulated
+motion) an action took 12.5 s of wall time at the median, against 5.1 s in one
+recorded before the change (83 actions, 85 s), and the capture held 2.0 GB
+against 0.16 GB. The replay and its video play that motion by simulated time,
+so only a live session's waiting grows.</p>
+<h3 id="isaac-sim-tabletops-robodojo-scene-sets">Isaac Sim tabletops (RoboDojo scene sets)</h3>
+<p>RoboDojo's free play is ORA's own scene set <code>isaac-tabletop-v1</code>, the default
+of <code>ora play --env robodojo</code> (<code>--scene-set isaac-tabletop-v1</code> names it, and
+<code>--scene NAME</code> names one scene, which implies its set). Each scene is
+RoboDojo's standard table, with its two ARX X5 arms and three cameras, set with
+objects from RoboDojo's asset library. There is no task, instruction, reward or
+success check, and the agent is told nothing about the scene.</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Scene</th>
+<th>What is on the table</th>
+<th>Physics</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>breakfast</code></td>
+<td>a toaster and an egg carton with two eggs at the back, a plate with two slices of bread, a mug, a juice carton, a yogurt and a bowl of grapes</td>
+<td>CPU</td>
+</tr>
+<tr>
+<td><code>desk</code></td>
+<td>a keyboard, a mouse, a mug, a pen holder with a pen, a stapler, a tape dispenser, a phone and a book</td>
+<td>CUDA</td>
+</tr>
+<tr>
+<td><code>toys</code></td>
+<td>a teddy bear, a chick, a wooden toy, an owl, matryoshka dolls, three building blocks (two stacked), two toy cars and a big toy block</td>
+<td>CUDA</td>
+</tr>
+<tr>
+<td><code>kitchen_tidy</code></td>
+<td>a kettle, a pot and an open box at the back, two bowls, a mug, a pack of noodles, a peeler and an oil bottle, and a small plate on a large plate</td>
+<td>CUDA</td>
+</tr>
+<tr>
+<td><code>blocks</code></td>
+<td>nine blocks in nine colours in a loose 3 x 3 grid: seven 35 mm (red, orange, yellow, green, cyan, blue, magenta) and two small, about 20 mm (white, dark olive)</td>
+<td>CUDA</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>ora play</code> prints the chosen scene's description for you; it is not part of the
+plan and never reaches the agent. The toaster and the egg carton are fixed to
+the table; everything else can be picked up.</p>
+<p><strong>Layouts.</strong> Public RoboDojo replays saved layouts and has no layout sampler,
+so ORA generates them: each scene is a YAML in RoboDojo's task-config format
+(<code>ora/environment/backends/robodojo/play_scenes/scenes/&lt;set&gt;/&lt;scene&gt;.yml</code>;
+the set's <code>index.yml</code> gives each scene's label, physics device, settle time,
+assets and description), and
+<code>ora/environment/benchmarks/robodojo_play_layouts.py</code> turns it and a seed into a saved layout that
+RoboDojo's own scene manager loads. The same YAML, seed and pinned assets give
+the same layout on every host. Objects keep 1.5 cm from each other and the
+<code>gripper_keep_out</code> clearance (8 cm) from the footprints of the two grippers'
+start poses.</p>
+<p><strong>Physics device.</strong> A scene with an articulated object (the toaster and the
+egg carton in <code>breakfast</code>) runs on IsaacLab's <code>cpu</code> physics, as RoboDojo's
+own <code>make_toast</code> does: on <code>cuda:0</code> RoboDojo reads the articulation's joint
+properties through numpy and crashes. Rigid-only scenes run on <code>cuda:0</code>. The
+plan binds the scene's device. After each reset the worker settles the scene
+before the first observation (12 s of simulated time for <code>breakfast</code>, whose
+toaster timer knob relaxes slowly, 6 s otherwise: a pen leaning in its holder
+still turns after 2 s).</p>
+<p><strong>Operator view.</strong> A RoboDojo scene has its own third-person camera for you
+(<code>operator_camera</code>, 1280 × 720: the table at three quarters from its far side,
+both arms in frame). <code>/view</code> and the web page show it after every observation,
+and the page plays the robot's motion through it, recorded at 30 frames per
+simulated second; the agent never receives it.</p>
+<p><strong>Between actions.</strong> After each action the scene runs on, the arms holding
+still, until everything on the table is at rest (at most 2 s of simulated
+time), so a cup the arm knocks over falls and rolls to a stop on camera and in
+the next observation, instead of hanging in mid-air until the next action. The
+recording of an action includes this settle.</p>
+<p><strong>Reset.</strong> <code>/reset</code> loads another audited seed of the same scene. The worker
+closes the simulation and builds the next layout in the same Isaac Sim process,
+on CPU and CUDA physics alike, which takes about a minute (longer for
+<code>breakfast</code>).</p>
+<p><strong>Tools.</strong> The agent gets the default RoboDojo tools without <code>check_task</code> and
+<code>finish_episode</code>, so <code>--service-report</code> (the perception services) is required,
+as for <code>ora run --env robodojo</code>. The moves are planned and timed as in a
+benchmark episode: the worker starts the shared motion planner on its card
+(free moves take its collision-free route in the depth the cameras last saw,
+and the reach notes of <code>move_pose</code>, <code>move_to</code>, <code>rotate_wrist</code>, <code>rotate_pitch</code>
+and <code>grasp_plan</code> come from its IK) and times every move with the timing
+worker, so <code>CUROBO_V2_PYTHON</code>, <code>CUROBO_V2_ROOT</code> and <code>ORA_TIMING_PYTHON</code> must be
+set, and launch preflight checks them. A planner that does not start stops the
+session at its start. The scene runs on its own worker backend
+(<code>robodojo_play</code>) and does not touch the RoboDojo worker that benchmark runs
+and their qualifications use.</p>
+<p><strong>Audit.</strong> <code>ora play</code> loads a scene only at a seed this host has audited. The
+audit starts the play session itself in the RoboDojo worker on the host's
+RoboDojo slot, loads each seed through the same reset <code>/reset</code> uses, and
+records for each seed that:</p>
+<ul>
+<li>every object exists, rests on the table and stayed within 3 cm (and 20° of
+tilt) of its generated pose while the scene settled;</li>
+<li>over a further 2 s nothing moves more than 5 mm or turns more than 2°, and no
+articulation joint drifts;</li>
+<li>every object's centre is in the arms' reach envelope (the official
+RoboDojo layouts' object envelope, within 0.613 m of the nearer arm base); an
+object resting in or on another one (a pen in its holder, grapes in a bowl) is
+checked through the object it rests on;</li>
+<li>each movable object can be approached the way the agent's tools approach
+it: from at least one of <code>align_plan</code>'s sides (top, left, right, front,
+back), either arm reaches <code>align_plan</code>'s own pose for that side (link6 at
+the default 10 cm <code>standoff_m</code> from the object's box centre, the jaw at
+any of 12 rolls every 30°; read-only IK, asked after the seed's
+observation). The record keeps every side's reachable arms and rolls;</li>
+<li>every object on the table keeps 3 cm from the measured footprint of each
+gripper at its start pose;</li>
+<li>no object interpenetrates another or the table by more than 3 mm, and none
+touches the robot (PhysX contact reports, which only CPU physics delivers: a
+CUDA scene gets a second pass on CPU physics);</li>
+<li>the three cameras render.</li>
+</ul>
+<pre class="hl" data-lang="bash"><code>./scripts/ora<span class="w"> </span>play<span class="w"> </span>audit<span class="w"> </span>--env<span class="w"> </span>robodojo<span class="w">                         </span><span class="c1"># every scene, seeds 0-4</span>
+./scripts/ora<span class="w"> </span>play<span class="w"> </span>audit<span class="w"> </span>--env<span class="w"> </span>robodojo<span class="w"> </span>--scene<span class="w"> </span>desk<span class="w"> </span>--seed-list<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--resource-profile<span class="w"> </span>SLOT
+</code></pre>
+<p>It needs <code>ROBODOJO_ROOT</code>, <code>ROBODOJO_ASSET_ROOT</code> and <code>ROBODOJO_PYTHON</code> (the
+pinned, clean RoboDojo installation), <code>CUROBO_V2_PYTHON</code> and <code>CUROBO_V2_ROOT</code>
+(the session starts the shared motion planner, as a play session does), a
+registered execution host with a
+RoboDojo slot, and a committed checkout; it holds the slot's lease and runs one
+Isaac Sim process at a time (about 2 minutes for a scene's first seed and
+1 to 1.5 minutes for each further seed and pass). Records, worker reports and
+camera images land under
+<code>outputs/ora-play/qualification/play-scene-audits/&lt;UTC time&gt;/isaac-tabletop-v1/</code>.
+A record binds the play kernel it ran (the RoboDojo worker code and the play
+code at that commit) and the scene's own sources: its entry in <code>index.yml</code>
+(everything but the description), its YAML and the layout generator. Editing
+the play code or the generator retires every scene's records; editing one
+scene's YAML or index entry retires only that scene's, so after a scene edit
+<code>ora play</code> asks for a new audit of that scene alone
+(<code>--scene NAME</code>). Editing a description retires nothing.</p>
+<h3 id="the-yam-station">The YAM station</h3>
+<p><code>ora play --env yam</code> plays on the bimanual I2RT YAM station. A real cell has no
+scene draw: the scene is whatever stands on the table, and <code>/reset</code> starts a
+new round from the arms' rest pose (the worker's <code>restart_round</code>) rather than
+loading another scene. <code>--rig-mode</code> is required and picks the cell:</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th><code>--rig-mode</code></th>
+<th>What runs</th>
+<th>What a motion does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sim</code></td>
+<td>the station model in MuJoCo (<code>YAM_PYTHON</code>, <code>MUJOCO_GL=egl</code>)</td>
+<td>executes on the model</td>
+</tr>
+<tr>
+<td><code>read</code></td>
+<td>the real cameras and joint encoders; the motors are never enabled</td>
+<td>is answered with its plan and refused as <code>dry_run_read_only</code></td>
+</tr>
+<tr>
+<td><code>on</code></td>
+<td>the real arms</td>
+<td>waits for the operator's approval (board, <code>ora cell approve</code>, <code>/approve</code>); the operator may decline it with a reason. With <code>--auto-approve</code> (or <code>/yolo on</code> during the run) it executes without asking</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>read</code> and <code>on</code> touch the real cell, so they launch only with
+<code>--confirm-launch</code> and name the registered execution host (<code>--host</code>, else
+<code>ORA_EXECUTION_HOST</code>); <code>on</code> also needs <code>--operator-present</code>, declaring a person
+beside the cell with a hand on the stop. <code>--cell CELL.json</code> passes the real
+cell's config (<code>ora.cell-config.v1</code>) to the worker as <code>runtime.cell_config</code>.
+<code>--auto-approve</code> (<code>on</code> only) sets <code>runtime.auto_approve_motions</code>. Motions then
+run without asking, but the operator still approves enabling the arms once, and
+a blocked way home still asks before releasing the arms in place. A person must
+still stand beside the cell with a hand on the stop.</p>
+<p>The station is no baseline instance: the backend composes the whole RunSpec
+(<code>ora/orchestrator/backends/yam/play.py</code>). The policy semantics are the default
+baseline's, the ToolSurface is <code>yam_direct_v1</code> (observe, mark_point,
+geometry_query, compute, set_gripper, move_to, move_pose, recover_pose,
+wait_ticks, report_issue; no perception services, which this cell does not
+host), and the prompt layers are those of
+<code>ora/policy/prompt_bundles/current_v4/yam-station-native_api-v4.yaml</code> with the
+free-play episode task. The agent receives the four cameras (<code>overhead</code>,
+<code>front</code>, <code>wrist_left</code>, <code>wrist_right</code>) and both arms' measured TCP poses with
+each observation; calibration stays query-based (<code>mark_point</code>,
+<code>geometry_query</code>). There is no evaluator: the verdict is null and the operator
+judges each instruction.</p>
+<p>You see the same four cameras in the world view (<code>/live</code>) and on <code>ora web</code>'s
+page: the worker records their original pixels for you, never for the agent
+(<code>native/execution-capture</code>, <code>ora/environment/backends/yam/capture.py</code>). On
+<code>sim</code> the station model renders them at the scene's start, at the start and
+end of each action, ten times a second of control time while the arms move,
+and at the end of each round. On <code>read</code> and <code>on</code> nothing reads the real
+cameras while the arms can move: the frames are the pixels each observation
+read (the agent observes after every action and at every new instruction),
+the scene's start and an action's end are the next observation's, and only
+the end of a round reads the cameras once more. A real cell's camera panel
+therefore changes when the agent looks, not during a motion; the cell board's
+live view streams them.</p>
+<p>Each image the model receives is named in the text right before it:</p>
+<ul>
+<li>An observation's images come in the order <code>overhead</code>, <code>front</code>,
+<code>wrist_left</code>, <code>wrist_right</code>. Each one follows a line such as
+<code>INITIAL ACTUAL · sequence 4 · overhead · latest at this message</code>
+(<code>ACTION RESULT ACTUAL</code> after an action). These are the cameras' raw images,
+with nothing drawn on them.</li>
+<li><code>observe</code> returns one image per requested view, in the order of its <code>views</code>
+(all four in the order above when <code>views</code> is omitted). In free play each
+image follows its label, for example <code>observe image 2 of 4: front camera. Marks: L = left arm TCP, R = right arm TCP, each drawn only where it falls inside this view; names from history_point_ids are drawn the same way.</code>
+<code>L</code> and <code>R</code> are the left and right arms' tool centre points, drawn on every
+view they fall inside, so a wrist camera often shows only its own arm's mark.
+A historical <code>observe</code> (with <code>step</code>) returns the saved images, unmarked, and
+its labels say so (<code>… front camera, the saved image of observation step 7; no marks drawn.</code>).</li>
+</ul>
+<h2 id="scripting-the-robot">Scripting the robot</h2>
+<p>The robot is a device the agent can program, in two ways. Both reach the
+robot through the run's robot socket, so the Supervisor admits and executes
+every call of a script inside the running instruction, one action at a time,
+and returns the receipt and the new observation to the script. Each call is in
+the agent trace with its origin.</p>
+<ul>
+<li><strong>Codemode (recommended).</strong> The model writes a short JavaScript script that
+Pi runs in its QuickJS sandbox, with no file system, network or shell: it
+reaches the world only through <code>tools.&lt;name&gt;(...)</code>, for example
+<code>JSON.parse(await tools.robot_submit_action({...}))</code>. A robot call resolves
+to the Supervisor's answer (its <code>ok</code>, <code>receipt</code> and <code>observation</code>, or the
+refusal). The trace marks these calls <code>origin: codemode</code> with the codemode
+call that made them. Pi's <code>models</code> global (classifiers and image models on
+your credentials) is not offered.</li>
+<li><strong><code>ora-robot</code> from the shell (full capability).</strong> The agent's shell has
+<code>ora-robot</code> on its <code>PATH</code> and the Python client <code>ora.robot_client</code> on its
+<code>PYTHONPATH</code>, so a script in any language can look and act
+(<code>ora-robot call robot.submit_action --json '{...}'</code>). The trace marks these
+calls <code>origin: script</code> with the client and command line.</li>
+</ul>
+<p>Once a script has acted in an instruction, a world-changing call the model
+then makes itself in the same turn is refused (<code>world_changed_by_script</code>): its
+turn began from an observation the world has left. The model can keep acting
+through scripts, or end its turn and act on a fresh observation.</p>
+<h3 id="code-mode">Code mode</h3>
+<p><code>ora play --code-mode</code> plays in ORA's code mode instead: the environment
+baseline's <code>policy.code_mode</code> (RoboDojo's default baseline has one; elsewhere a
+<code>--spec</code> names it), the plan's <code>play.code_mode: true</code>. The model's tools are
+ORA's <code>read</code>, <code>write</code>, <code>edit</code> and <code>bash</code>, and nothing of Pi's: no Pi built-in
+tool, no <code>codemode</code>, no <code>ora-robot</code>, no direct robot tool. A <code>bash</code> command runs
+in ORA's script sandbox, and its Python programs reach the robot through the
+<code>robot</code> library (<code>tools.move_pose(...)</code>, <code>dry_run=True</code> for a plan without
+motion), as in a benchmark episode in code mode. The prompt is the code planner
+with a free-play layer (<code>code-mode-play-v1.md</code>: the operator's instruction is
+the objective, a reply in words ends it, no task check or closing step).</p>
+<ul>
+<li>Every robot call of a program goes through the Supervisor inside the
+command's call, one action at a time, and is in the agent trace with origin
+<code>code_mode</code> under that call; the command's call carries the Supervisor's
+execution ledger.</li>
+<li>A command whose programs executed an action ends the agent's turn, and the
+instruction goes on with the next turn on the new observation (as in an
+episode); such a command is one robot decision of the instruction.</li>
+<li>Esc ends a running command between its calls (<code>stopped</code>: its sandbox is
+killed, its later calls are refused) and then the instruction.</li>
+<li>The terminal and the page draw each command as written, its robot calls as
+they happen (a dry run marked as a plan, with its picture), how it ended and
+the end of what it printed; Ctrl+O (the page: open the call) shows all of it.</li>
+<li>Not on the YAM cell yet: a real cell's Esc stops only the current motion.</li>
+</ul>
+<h2 id="what-the-agent-receives-and-what-it-does-not">What the agent receives, and what it does not</h2>
+<p>The scene's task language, its public completion contract and its success
+predicate are withheld. The system prompt is Pi's own, followed by ORA's
+layers for the environment, with the <code>episode-task-play-v2</code> layer in place of
+the benchmark's episode-task layer. The agent's task is the play framing
+(&quot;carry out the operator's instructions, one at a time; the operator may also
+talk to you while you work&quot;). <code>check_task</code> and the lifecycle tools
+(<code>finish_episode</code>) are not advertised. Each instruction, and each message you
+send while one runs, reaches the agent as your message, delivered before its
+next model call. The layer tells the agent to answer a question or remark in a
+sentence and keep working in the same reply, to take a changed request as the
+new objective, and that a reply without a tool call ends the instruction.
+Sessions planned before this layer bound <code>episode-task-play-v1</code>, in which a
+newer instruction replaced the running one.</p>
+<p>The agent process runs with your environment and privileges, minus every
+credential variable: names containing <code>API_KEY</code>, <code>TOKEN</code>, <code>SECRET</code>,
+<code>PASSWORD</code>, <code>CREDENTIAL</code> or <code>AUTH</code> are removed before Pi or its shell starts.
+ORA's own provider key is passed to the agent process and removed from its
+environment before anything else runs. Its working directory is the run's
+workspace, and nothing gives it the simulator's internal state. Because it
+runs as you, the shell can still read any file you can read, including the
+credential store that <code>/login</code> writes. ORA does not add a sandbox of its own:
+Pi's isolation options run the shell in a local micro-VM (Gondolin), which
+needs hardware virtualization, or run all of Pi in Docker Sandboxes, which
+needs Docker access; where they run, they can be added as Pi extensions.
+Codemode is the sandboxed way to script.</p>
+<h2 id="budgets">Budgets</h2>
+<p>Two layers bound a session. Each instruction may spend at most 24 robot
+decisions, 80 model calls and 20 minutes (<code>play.instruction_budgets</code>). The
+model calls and time are checked before every model call, and the robot
+decisions before every action. When one runs out, that instruction ends and
+the session waits. The whole session may spend 400 robot decisions, 1600
+model calls and 4 hours (<code>budgets</code>); the agent sees the session's remaining
+budget with each observation.</p>
+<p>A model request carries the images of the latest three observations and the
+latest three tool results with images (<code>play.context_images</code>); older images
+stay in the conversation and its evidence but are sent as one line each
+naming their step and camera, so a long session stays under the provider's
+request size limit.</p>
+<h2 id="evidence">Evidence</h2>
+<p>Runs land under <code>outputs/ora-play/</code>. The plan carries <code>episode_mode: &quot;play&quot;</code>.</p>
+<p>A session is one run. <code>/quit</code>, the session budget or running out of scenes
+completes it, and it is evaluated and sealed like any other run. It is never
+scored: <code>official_success</code> is <code>null</code> and <code>behavioral_sample_valid</code> is <code>false</code>.
+Learning eligibility excludes it (<code>free_play_session</code>, and
+<code>human_intervention</code> once an instruction was sent), so it reaches no score,
+Memory or SFT export.</p>
+<p>Robot cameras and the operator view never mix: the agent receives its
+observation cameras only; the operator view is stored beside the evidence for
+you, and the web page and the terminal show it.</p>
+<p>The agent trace records:</p>
+<ul>
+<li>every model call, with the provider and model it used;</li>
+<li>every tool call and result, including the robot tools and Pi's coding tools, and every call a codemode script or an <code>ora-robot</code> script made, with its origin;</li>
+<li>every shell command and its output;</li>
+<li>every change of model or reasoning effort;</li>
+<li>every compaction and every move of the conversation.</li>
+</ul>
+<p>The Supervisor records each instruction as <code>play_instruction_started</code> and
+<code>play_instruction_finished</code> events (the started record's <code>observation</code> says
+whether the instruction's fresh observation was taken: <code>{&quot;fresh&quot;: true, &quot;observation_step&quot;: N}</code>, or <code>fresh: false</code> with the last step and the error;
+the observation's policy-state snapshot has cause <code>instruction_start</code>), operator controls as <code>play_control</code> and
+scene changes as <code>play_scene_reset</code>. When the environment has an operator
+view (a camera for you, never for the agent: a RoboTwin scene set's
+<code>operator_camera</code> or RoboTwin's observer camera, a RoboDojo scene's
+<code>operator_camera</code>, Synthetic's drawn front view), each observation's view is stored under
+<code>native/operator-view/</code> with an <code>operator_view_frame</code> event; the agent never
+receives it. The evaluation checks the play trace for
+integrity and completeness: the hash chain, artifacts, a response for every
+request, a result for every tool call, and a receipt for every action. It does
+not apply the benchmark's context and request checks. <a href="../../reference/configuration-and-evidence/index.html#free-play">Configuration and
+evidence</a> lists the
+fields.</p>
+<p>The GPU environments run on a registered execution host with their simulator
+and perception services, as <code>ora run</code> and <code>ora interactive --spec</code> do.</p>
+</article><nav class="pager" aria-label="Previous and next"><a class="prev" href="../runs/index.html"><small>← Previous</small>Run and inspect</a><a class="next" href="../real-cells/index.html"><small>Next →</small>Run a real robot cell</a></nav></main><aside class="toc" aria-label="On this page"><p>On this page</p><a class="h2" href="#the-cameras-beside-the-terminal">The cameras beside the terminal</a><a class="h2" href="#keys-and-commands">Keys and commands</a><a class="h3" href="#real-cells">Real cells</a><a class="h2" href="#free-play-and-benchmark-runs-compared">Free play and benchmark runs compared</a><a class="h2" href="#scenes">Scenes</a><a class="h3" href="#tables-with-many-objects-robotwin-scene-sets">Tables with many objects (RoboTwin scene sets)</a><a class="h3" href="#isaac-sim-tabletops-robodojo-scene-sets">Isaac Sim tabletops (RoboDojo scene sets)</a><a class="h3" href="#the-yam-station">The YAM station</a><a class="h2" href="#scripting-the-robot">Scripting the robot</a><a class="h3" href="#code-mode">Code mode</a><a class="h2" href="#what-the-agent-receives-and-what-it-does-not">What the agent receives, and what it does not</a><a class="h2" href="#budgets">Budgets</a><a class="h2" href="#evidence">Evidence</a></aside></div><script>
+(function(){
+  var d=document.querySelector('.docs'), b=document.querySelector('.menu');
+  if(b)b.addEventListener('click',function(){var o=d.classList.toggle('open');b.setAttribute('aria-expanded',o?'true':'false')});
+  var side=document.querySelector('.side'), cur=side&&side.querySelector('[aria-current="page"]');
+  if(cur&&getComputedStyle(side).position==='sticky'){var r=cur.offsetTop-side.clientHeight/2;if(r>0)side.scrollTop=r}
+  document.querySelectorAll('.prose pre.hl').forEach(function(pre){
+    if(!navigator.clipboard)return;
+    var w=document.createElement('div');w.className='codewrap';pre.parentNode.insertBefore(w,pre);w.appendChild(pre);
+    var c=document.createElement('button');c.type='button';c.className='cbtn';c.textContent='copy';c.setAttribute('aria-label','Copy the code');
+    c.addEventListener('click',function(){navigator.clipboard.writeText(pre.innerText).then(function(){c.textContent='copied';setTimeout(function(){c.textContent='copy'},1200)},function(){})});
+    w.appendChild(c);
+  });
+  var links=[].slice.call(document.querySelectorAll('.toc a'));
+  if(links.length&&'IntersectionObserver' in window){
+    var map={};links.forEach(function(a){map[decodeURIComponent(a.hash.slice(1))]=a});
+    var hs=[].slice.call(document.querySelectorAll('.prose h2[id],.prose h3[id]')).filter(function(h){return map[h.id]});
+    var on=function(){var y=window.scrollY+120,best=null;hs.forEach(function(h){if(h.offsetTop<=y)best=h});
+      links.forEach(function(a){a.removeAttribute('aria-current')});if(best)map[best.id].setAttribute('aria-current','true')};
+    window.addEventListener('scroll',on,{passive:true});on();
+  }
+})();
+</script>
+<footer class="foot"><div class="wrap"><div class="fb"><a class="brand" href="../../../index.html"><img src="../../../../assets/brand/ora-mark-96.png" alt="" width="40" height="40">ORA</a><p>Open Robot-Use Agents: an open harness that lets language models operate robots. A FastRUA project.</p></div><nav class="fcols" aria-label="Footer"><div><p>ORA</p><a href="../../../index.html">Overview</a><a href="../../../gallery/index.html">Gallery</a><a href="../../../docs/index.html">Docs</a><a href="../../../paper/ora-two-page.pdf" target="_blank" rel="noopener">Paper (PDF)</a></div><div><p>Docs</p><a href="../../../docs/getting-started/installation/index.html">Installation</a><a href="../../../docs/quickstart/index.html">First episode</a><a href="../../../docs/how-ora-works/index.html">How ORA works</a><a href="../../../docs/reference/index.html">Reference</a></div><div><p>FastRUA</p><a href="../../../../index.html">Home</a><a href="../../../../blog/index.html">Blog</a><a class="ext" href="https://github.com/hao-ai-lab/ORA" target="_blank" rel="noopener">GitHub</a><a class="ext" href="https://haoailab.com/blogs/ora/" target="_blank" rel="noopener">Hao AI Lab blog</a></div></nav><p class="fbase">© 2026 ORA contributors · Hao AI Lab, UC San Diego</p></div></footer>
+<script>
+document.querySelectorAll('[data-tabs]').forEach(function(box){
+  var tabs=box.querySelectorAll('.tabs button'), panes=box.querySelectorAll('[data-pane]');
+  tabs.forEach(function(t){t.addEventListener('click',function(){
+    tabs.forEach(function(x){x.setAttribute('aria-selected',x===t?'true':'false')});
+    panes.forEach(function(p){p.hidden=p.dataset.pane!==t.dataset.tab});
+  })});
+});
+document.querySelectorAll('.copy').forEach(function(b){b.addEventListener('click',function(){
+  var pane=b.closest('.code').querySelector('pre:not([hidden])');
+  var txt=pane.innerText.split('\n').map(function(l){return l.replace(/\s+#.*$/,'')}).join('\n');
+  var done=function(){b.textContent='copied';setTimeout(function(){b.textContent='copy'},1200)};
+  try{navigator.clipboard.writeText(txt).then(done,function(){})}catch(e){}
+})});
+document.querySelectorAll('.audit-btn').forEach(function(b){b.addEventListener('click',function(){
+  var on=document.body.classList.toggle('show-audits');
+  b.textContent=on?'Hide inline audit notes':'Expand all audit notes ('+b.dataset.count+')';
+})});
+</script>
+</body>
+</html>
